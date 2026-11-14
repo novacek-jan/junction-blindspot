@@ -1,8 +1,9 @@
 # Blindspot API contract (v2)
 
-**v2 product model.** The market is every European company with a closed funding round since **2022-01-01**
-that has at least one named investor (VC, angel, accelerator, university fund, ...), as found in Cala by
-snowballing the investor network and `knowledge_search` seeds. It is no longer limited to peer funds' deals.
+**v2 product model.** Blindspot is a tool for VC funds, so "investor" means a **VC firm**. The market is every
+European company with a closed **VC-backed** funding round since **2022-01-01** (at least one VC participant, see
+"VC rule" below), as found in Cala by snowballing the VC network and `knowledge_search` seeds. Grants, loans and
+angel-only rounds do not qualify a company.
 A **blind spot** is a market company inside the fund's thesis that never appears in its CRM.
 The period is **since 2022-01-01 everywhere**.
 
@@ -18,6 +19,18 @@ Backend base URL: `http://localhost:8000` locally. Frontend reads it from `NEXT_
 All API keys (Cala, Anthropic, database) live ONLY in the backend `.env` / hosting env vars.
 Any change to this contract must update this file and `frontend/mocks/` in the same commit.
 
+**VC rule** (Cala has no investor-type field; this is our rule, `backend/vc.py`, hand-editable lists in
+`backend/vc_lists.py`, full review list in `data/vc_check.md`). A VC is a round participant with role
+`INVESTOR` (never `GRANTOR`/`LENDER`) that is a VC firm: independent VC, state/regional VC (HTGF, Tesi, Bayern
+Kapital, aws Gründerfonds, BGF), corporate VC arm (BMW i Ventures, Salesforce Ventures, Sanofi Ventures) or
+growth/PE investor (Insight, DST, Lightrock). Not a VC: angels (persons, also persons Cala typed as
+organisations), grant and public bodies (Business Finland, EIC, SPRIND, Bpifrance itself, British Business Bank),
+corporates investing directly (Eli Lilly, Tencent, Deutsche Telekom), banks, insurers, pension funds and asset
+managers (Varma, HSBC, BlackRock, Schroders), accelerators (Y Combinator, Techstars, Plug and Play, Entrepreneur
+First, Antler; Seedcamp counts as VC), universities and research institutes, family offices, holdings and
+syndicates (Kima Ventures counts as VC). Order: hand lists → crawled funds → persons → not-VC name patterns →
+VC name patterns (state VC, growth/PE, corporate VC arm, VC words) → otherwise not a VC.
+
 Common types:
 - `Source = { "name": str, "url": str, "rank": "FILING"|"PRIMARY"|"PRESS"|"AGGREGATOR"|null, "date": "YYYY-MM-DD"|null }`
   (`rank`: FILING = registries/regulators, PRIMARY = the company or its investors, PRESS = independent press,
@@ -29,11 +42,9 @@ Common types:
 ```json
 [{ "id": "uuid", "name": "Lifeline Ventures", "basis_rounds": 12 }]
 ```
-Returns the crawled funds plus **every investor organisation** (not persons) that is a named participant in at
-least **3** rounds since 2022-01-01 of European companies (merged/implausible rounds excluded). Grant bodies
-and public administrations are excluded (name rule: ministries, councils, commissions, agencies such as the
-European Innovation Council, Business Finland, Vinnova, ...; or at least half of their rounds labelled GRANT);
-public investment companies such as Tesi stay. `basis_rounds` is the number of rounds the thesis rests on
+Returns the crawled funds plus **every VC** (VC rule above) that is a named `INVESTOR` participant in at least
+**3** rounds since 2022-01-01 of European companies (merged/implausible rounds excluded). Angels, grant bodies,
+banks, corporates, accelerators etc. are never returned; state VCs such as Tesi are. `basis_rounds` is the number of rounds the thesis rests on
 (same rule as the profile's `investments_since_2022`). A fund's legal entities are merged into the fund.
 Sorted: name prefix match first, then most `basis_rounds`, then name; at most 100. Profile and audit accept
 any returned `id`. Without live data (demo-only deployment) only the demo funds are returned, without
@@ -128,7 +139,7 @@ Same upload, header, limits and optional `mapping` as `POST /api/audit` (`fund_i
     "industries": [{ "code": "SOFTWARE_AND_SERVICES", "name": "Software and services" }],
     "basis_rounds": 9
   },
-  "headline": { "never_seen": 23, "text": "23 companies in your thesis raised since 2022 and never hit your CRM" },
+  "headline": { "never_seen": 23, "text": "23 VC-backed companies in your thesis raised since 2022 and never hit your CRM" },
   "summary": { "market_companies": 41, "in_crm": 18, "invested": 4, "passed": 9, "in_review": 5,
                "never_seen": 23, "coverage_pct": 43.9 },
   "never_seen": [{
@@ -137,11 +148,17 @@ Same upload, header, limits and optional `mapping` as `POST /api/audit` (`fund_i
     "round": {
       "id": "uuid", "label": "SEED", "amount": 4200000, "currency": "EUR",
       "date": "2024-06-14", "date_kind": "announcement",
-      "investors": [{ "id": "uuid", "name": "Creandum", "type": "Organization", "is_lead": true }],
+      "investors": [{ "id": "uuid", "name": "Creandum", "type": "Organization", "is_lead": true, "is_vc": true }],
       "sources": [{ "name": "tech.eu", "url": "https://tech.eu/...", "rank": "PRESS", "date": "2024-06-14" }]
     }
   }],
   "top_investors_in_blind_spots": [{ "id": "uuid", "name": "Creandum", "companies": 4 }],
+  "breakdown": [{ "country": "Finland", "stage": "SEED", "market": 9, "never_seen": 6 }],
+  "patterns": [
+    { "kind": "top_vc", "text": "Lifeline Ventures backed 3 of the 23", "value": 3, "total": 23 },
+    { "kind": "country", "text": "14 of the 23 are in Finland", "value": 14, "total": 23 },
+    { "kind": "stage", "text": "11 of the 23 raised a seed round", "value": 11, "total": 23 }
+  ],
   "market_coverage": { "european_companies_screened": 3100, "qualifying_companies": 260,
                        "investors_explored": 410, "as_of": "2026-11-14",
                        "region": "nordics", "region_countries": ["Denmark", "Finland", "Iceland", "Norway", "Sweden"],
@@ -151,8 +168,9 @@ Same upload, header, limits and optional `mapping` as `POST /api/audit` (`fund_i
 ```
 Semantics:
 - **Market** (`summary.market_companies`): companies headquartered in Europe with a *qualifying round*: closed
-  since 2022-01-01 (announcement date, else event date), at least one named investor of any type, at least one
-  Cala source, and not flagged as merged/implausible (e.g. a 3B Series B). The market is then cut by the
+  since 2022-01-01 (announcement date, else event date), **at least one VC participant** (VC rule), not a
+  grant or loan round (labels GRANT, DEBT_FINANCING, VENTURE_DEBT, LOAN), at least one Cala source, and not
+  flagged as merged/implausible (e.g. a 3B Series B). The market is then cut by the
   fund's `thesis` (stage of the qualifying round, country, industry). Every number is computed in code.
 - **CRM matching**: by website domain, else normalized company name. The fund's own Cala portfolio counts as
   `invested` even if missing from the CRM. Statuses: see the CSV import section (`seen` counts as `in_review`).
@@ -167,7 +185,17 @@ Semantics:
   "source: PRESS · tech.eu · 2024-06-14".
 - `round.date_kind`: `"announcement"` or `"event"` (which Cala field the date came from). `amount`/`currency`
   may be `null`. `investors[].type` is the Cala entity type (Organization, Company, Person, ...).
-- `top_investors_in_blind_spots`: investors appearing in the most blind-spot rounds (max 10).
+- `round.investors`: every named participant of that round (context), each with `is_vc` from the VC rule.
+- `top_investors_in_blind_spots`: **VCs** appearing in the most blind-spot rounds (max 10).
+- `breakdown`: one row per (thesis country × thesis stage) of the thesis market: `market` companies whose
+  qualifying round has that country/stage, of which `never_seen`. Every combination is listed (zeros included),
+  sorted by country, then stage order. Sum of `market` = `summary.market_companies`; sum of `never_seen` =
+  `summary.never_seen`.
+- `patterns`: up to 3 deterministic findings about the blind spots, in this order, each only when `value >= 2`:
+  `top_vc` (the VC that backed the most never-seen companies: "<VC> backed <value> of the <total>"),
+  `country` (the country with most never-seen companies: "<value> of the <total> are in <country>"),
+  `stage` (the stage with most: "<value> of the <total> raised a <stage> round"). `total` = `summary.never_seen`.
+  Ties break alphabetically. No LLM.
 - `market_coverage`: how much of Cala the crawler has explored, for an honest "market as known today" note.
   `region` is the crawl focus (`nordics`); `region_qualifying_companies` / `priority_country_qualifying_companies`
   count qualifying companies headquartered there (Finland is crawled first).
@@ -185,8 +213,9 @@ The precomputed demos. Mock: `docs/mocks/demos_v2.json`.
 
 ## GET /api/audit/demo?fund_id=uuid
 Returns a precomputed audit (same shape as POST /api/audit) for a demo fund and its **simulated** CRM
-(`simulated_crm: true`). Without `fund_id`: the default demo (**Lifeline Ventures**); `fund_id` of another demo
-(Earlybird Venture Capital) returns that one; any other `fund_id` is 404. Must respond in under 1 second.
+(`simulated_crm: true`). Without `fund_id`: the default demo; `fund_id` of another demo returns that one; any
+other `fund_id` is 404. The default is **Lifeline Ventures** once it has at least 10 de-duplicated basis rounds
+since 2022, otherwise **Earlybird Venture Capital** (decided automatically at every hourly refresh). Must respond in under 1 second.
 Mock: `docs/mocks/audit_v2.json`. The simulated CRM holds the fund's real Cala investments as `invested`, about
 40% of its market as `passed`/`in_review`, and fictional out-of-market rows.
 
