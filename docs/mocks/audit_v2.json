@@ -109,7 +109,7 @@
         "label": "SEED",
         "amount": 4200000,
         "currency": "EUR",
-        "date": "2024-06-14",
+        "date": "2025-06-14",
         "date_kind": "announcement",
         "investors": [
           {
@@ -132,7 +132,7 @@
             "name": "kelvingrid.de",
             "url": "https://kelvingrid.de/news/seed",
             "rank": "PRIMARY",
-            "date": "2024-06-14"
+            "date": "2025-06-14"
           }
         ]
       }
@@ -142,7 +142,9 @@
       "name": "Helix Spinout",
       "website": null,
       "country": "Finland",
-      "industries": [],
+      "industries": [
+        "Software and services"
+      ],
       "round": {
         "id": "a1f0c2d3-1111-4a0b-9c1d-0000000000a3",
         "label": "PRE_SEED",
@@ -248,11 +250,43 @@
   "briefing": {
     "insights": [
       {
+        "kind": "coverage",
+        "value": 2,
+        "total": 5,
+        "title": "Software is your weak spot",
+        "line": "You see 67% of renewable energy deals but only 60% of software.",
+        "company_ids": [
+          "0b6f4c1e-1111-4a0b-9c1d-000000000001",
+          "0b6f4c1e-1111-4a0b-9c1d-000000000003"
+        ],
+        "investor_names": [],
+        "best_pct": 67,
+        "worst_pct": 60,
+        "best_industry": "Renewable energy",
+        "worst_industry": "Software and services"
+      },
+      {
+        "kind": "next_round",
+        "value": 2,
+        "total": 3,
+        "title": "Due for their next round",
+        "line": "2 of them last raised over a year ago and may raise soon.",
+        "company_ids": [
+          "0b6f4c1e-1111-4a0b-9c1d-000000000002",
+          "0b6f4c1e-1111-4a0b-9c1d-000000000001"
+        ],
+        "investor_names": [],
+        "best_pct": null,
+        "worst_pct": null,
+        "best_industry": null,
+        "worst_industry": null
+      },
+      {
         "kind": "sourcing",
         "value": 2,
         "total": 3,
-        "title": "Two funds got there first",
-        "line": "Creandum and Voima Ventures backed 2 of them; you never co-invested with either.",
+        "title": "Other funds got there first",
+        "line": "Creandum and Voima Ventures backed 2 of them; you never co-invested.",
         "company_ids": [
           "0b6f4c1e-1111-4a0b-9c1d-000000000001",
           "0b6f4c1e-1111-4a0b-9c1d-000000000002"
@@ -260,19 +294,11 @@
         "investor_names": [
           "Creandum",
           "Voima Ventures"
-        ]
-      },
-      {
-        "kind": "momentum",
-        "value": 2,
-        "total": 3,
-        "title": "They raised again",
-        "line": "2 of them closed another VC round since 2022.",
-        "company_ids": [
-          "0b6f4c1e-1111-4a0b-9c1d-000000000001",
-          "0b6f4c1e-1111-4a0b-9c1d-000000000003"
         ],
-        "investor_names": []
+        "best_pct": null,
+        "worst_pct": null,
+        "best_industry": null,
+        "worst_industry": null
       }
     ],
     "model": "claude-sonnet-5-5",

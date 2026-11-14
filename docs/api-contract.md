@@ -158,15 +158,18 @@ Same upload, header, limits and optional `mapping` as `POST /api/audit` (`fund_i
   "breakdown": [{ "country": "Finland", "stage": "SEED", "market": 9, "never_seen": 6 }],
   "briefing": {
     "insights": [
-      { "kind": "sourcing", "value": 6, "total": 16, "title": "Two seed funds got there first",
+      { "kind": "coverage", "value": 9, "total": 14, "title": "Software deals slip past you",
+        "line": "You see most energy deals but under half of software deals.",
+        "company_ids": ["uuid"], "investor_names": [],
+        "best_pct": 80, "worst_pct": 36, "best_industry": "Renewable energy", "worst_industry": "Software and services" },
+      { "kind": "next_round", "value": 5, "total": 16, "title": "Due for their next round",
+        "line": "5 of them last raised over a year ago and may raise soon.",
+        "company_ids": ["uuid"], "investor_names": [],
+        "best_pct": null, "worst_pct": null, "best_industry": null, "worst_industry": null },
+      { "kind": "sourcing", "value": 6, "total": 16, "title": "Seed funds got there first",
         "line": "Icebreaker.vc and Innovestor backed 6 of them; you never co-invested with either.",
-        "company_ids": ["uuid"], "investor_names": ["Icebreaker.vc", "Innovestor"] },
-      { "kind": "theme", "value": 5, "total": 16, "title": "Vertical AI is your gap",
-        "line": "AI tools for one expert job: patents, M&A, legal and compliance.",
-        "company_ids": ["uuid"], "investor_names": [] },
-      { "kind": "momentum", "value": 4, "total": 16, "title": "They raised again",
-        "line": "4 of them closed another VC round since 2022.",
-        "company_ids": ["uuid"], "investor_names": [] }
+        "company_ids": ["uuid"], "investor_names": ["Icebreaker.vc", "Innovestor"],
+        "best_pct": null, "worst_pct": null, "best_industry": null, "worst_industry": null }
     ],
     "model": "claude-sonnet-5-5",
     "generated_at": "2026-11-14T19:30:00Z"
@@ -213,20 +216,29 @@ Semantics:
   `country` (the country with most never-seen companies: "<value> of the <total> are in <country>"),
   `stage` (the stage with most: "<value> of the <total> raised a <stage> round"). `total` = `summary.never_seen`.
   Ties break alphabetically. No LLM.
-- `briefing` ("Why they slipped through"): `null` or up to 3 insights, always in the order sourcing, theme,
-  momentum, each only when its `value >= 2`. Written by Claude **from public Cala data only**: the CRM never goes
-  to the model, and every number (`value`, `total`) is computed in code. `total` = `summary.never_seen`.
+- `briefing` ("Why they slipped through"): `null` or up to 3 insights, always in the order **coverage,
+  next_round, sourcing**, each only when its `value >= 2`. Every number is computed in code; Claude only writes
+  `title` (max 6 words) and `line` (max 14 words) from the computed facts. **The model gets no CRM rows and no
+  company names at all**: only counts, the two aggregated coverage percentages, thesis industry names and VC names
+  (public Cala data). Every insight has the same keys; `best_pct`, `worst_pct`, `best_industry`, `worst_industry`
+  are `null` except on `coverage`.
+  - `coverage`: for each thesis industry with at least 3 market companies, coverage = market companies in the CRM
+    (invested, passed or in review; the fund's own Cala portfolio counts as invested) / market companies in that
+    industry. A company in several industries counts in each. `best_*` / `worst_*` = the best- and worst-covered
+    industry (percent, rounded to an integer; ties: more market companies first, then name). `value` = never-seen
+    companies in the worst industry, `total` = market companies in it; `company_ids` = those never-seen companies,
+    newest round first. Omitted when fewer than 2 industries qualify or both have the same coverage.
+  - `next_round`: never-seen companies whose latest qualifying (VC-backed) round was 12 to 24 months before the
+    audit date (`period.to`, both ends inclusive), so they are likely to raise again soon. `value` = their count,
+    `total` = `summary.never_seen`, `company_ids` newest round first.
   - `sourcing`: VCs that backed never-seen companies but appear in **none** of the fund's own rounds since 2022;
-    the top 2 by companies; `value` = distinct never-seen companies they backed together; `investor_names` = those
-    VCs; `company_ids` = those companies.
-  - `theme`: Claude picks ONE group of 3+ never-seen companies that do similar things (all are inside the thesis;
-    the briefing explains why they were missed, it never suggests sectors outside the thesis). `company_ids` =
-    the ids that are really in `never_seen`; `value` = their count. Omitted when the call fails or validation fails.
-  - `momentum`: never-seen companies with 2+ qualifying (VC-backed) rounds since 2022; `value` = their count.
-  - `title` (max 6 words) and `line` (max 14 words) are Claude's wording of these facts. A text containing any
-    number other than `value` or `total` (digits or number words) is rejected. On any failure, a 20 s timeout or
-    a rejected text, `sourcing` and `momentum` use a fixed template text and `theme` is omitted.
-  - `model`: the Claude model that wrote the text, or `"template"` when every text is the fallback.
+    the top 2 by companies; `value` = distinct never-seen companies they backed together; `total` =
+    `summary.never_seen`; `investor_names` = those VCs; `company_ids` = those companies.
+  - Validation: a text containing any number other than `value`, `total`, `best_pct` or `worst_pct` (digits or
+    number words) is rejected; "half" is accepted only on `coverage` when `worst_pct < 50 < best_pct`. On any
+    failure, a 20 s timeout or a rejected text, that insight uses a fixed template text (the insight is never
+    dropped because of the model).
+  - `model`: the Claude model that wrote at least one text, or `"template"` when every text is the fallback.
   - Demo audits carry a precomputed briefing (never waits on the API). For `POST /api/audit` it is generated
     during the request (up to 20 s); `briefing` may be `null`.
 - Investor `name`s are cleaned display names: legal suffixes (GmbH, Oy, AB, OÜ, s.r.o., ApS, A/S, LLC, Ltd, Ky,
@@ -236,7 +248,7 @@ Semantics:
 - `market_coverage`: how much of Cala the crawler has explored, for an honest "market as known today" note.
   `region` is the crawl focus (`nordics`); `region_qualifying_companies` / `priority_country_qualifying_companies`
   count qualifying companies headquartered there (Finland is crawled first).
-- No LLM is involved in the audit; `top_blind_spots`, `venn` and `heatmap` are removed in v2.
+- No LLM computes anything in the audit (Claude only words the `briefing`); `top_blind_spots`, `venn` and `heatmap` are removed in v2.
 - Company and investor `name`s are display names: the brand from Cala aliases instead of an upper-case legal
   name (e.g. "FIRSTMINUTE CAPITAL LLP" → "Firstminute Capital"), otherwise the legal name in title case
   without its legal suffix.
