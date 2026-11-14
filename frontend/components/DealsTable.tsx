@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { NeverSeenDeal } from "@/lib/types";
-import { formatAmount, formatDate, stageLabel } from "@/lib/format";
+import { byDateDesc, formatAmount, formatDate, stageLabel } from "@/lib/format";
 import { SourceIcons } from "./Sources";
 import { Icon } from "./Icon";
 
@@ -40,7 +40,7 @@ export function DealsTable({
 
   const sorted = useMemo(() => {
     const d = [...deals];
-    if (sort === "date") d.sort((a, b) => b.date.localeCompare(a.date));
+    if (sort === "date") d.sort(byDateDesc);
     if (sort === "amount") d.sort((a, b) => b.amount - a.amount); // mixed currencies: rough order only
     if (sort === "name") d.sort((a, b) => a.name.localeCompare(b.name));
     return d;
@@ -162,6 +162,11 @@ export function DealsTable({
         >
           Show more ({sorted.length - limit} remaining)
         </button>
+      ) : deals.length > total ? (
+        <p className="border-t border-slate-100 px-5 py-3 text-[11px] text-zinc-400">
+          {deals.length - total} of these {deals.length} rounds may be merged records in Cala, so they are listed but not counted in the {total}{" "}
+          missed.
+        </p>
       ) : deals.length < total ? (
         <p className="border-t border-slate-100 px-5 py-3 text-[11px] text-zinc-400">
           Showing {deals.length} of {total} never-seen deals with verified round data.

@@ -25,7 +25,7 @@ export class ApiError extends Error {
 
 export function errorKindForStatus(status: number): ApiErrorKind {
   if (status === 401 || status === 403) return "auth";
-  if (status === 413 || status === 422) return "invalid_csv";
+  if (status === 413 || status === 415 || status === 422) return "invalid_csv";
   if (status === 429) return "rate_limited";
   if (status === 404) return "not_found";
   if (status >= 500) return "unavailable";
@@ -115,7 +115,8 @@ export async function runAudit(input: {
   const form = new FormData();
   form.append("fund_id", input.fundId);
   form.append("peer_ids", input.peerIds.join(","));
-  form.append("crm_csv", input.crmCsv);
+  // The backend only accepts text/csv; browsers report CSVs as "", text/plain or application/vnd.ms-excel.
+  form.append("crm_csv", new File([input.crmCsv], input.crmCsv.name, { type: "text/csv" }));
   const code = input.accessCode?.trim();
   return http("/api/audit", {
     method: "POST",

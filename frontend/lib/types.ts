@@ -65,7 +65,7 @@ export type Round = {
   label: Stage;
   amount: number;
   currency: string;
-  date: string;
+  date: string | null; // the live backend sends null for some rounds (e.g. EU grants)
   lead_investors: OrgRef[];
   participants: OrgRef[];
   sources: Source[];

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { getDeal } from "@/lib/api";
 import type { DealDetail, NeverSeenDeal } from "@/lib/types";
-import { formatAmount, formatDate, safeUrl, stageLabel, websiteUrl } from "@/lib/format";
+import { byDateDesc, formatAmount, formatDate, safeUrl, stageLabel, websiteUrl } from "@/lib/format";
 import { Icon, type IconName } from "./Icon";
 import { SourceIcons, SourceList } from "./Sources";
 import { ConflatedFlag } from "./DealsTable";
@@ -34,7 +34,7 @@ export function DealPanel({ deal, fundId, onClose }: { deal: NeverSeenDeal; fund
     };
   }, [onClose]);
 
-  const rounds = detail ? [...detail.rounds].sort((a, b) => b.date.localeCompare(a.date)) : [];
+  const rounds = detail ? [...detail.rounds].sort(byDateDesc) : [];
 
   return (
     <div className="fixed inset-0 z-50" role="dialog" aria-modal="true" aria-label={`${deal.name} deal details`}>
@@ -152,7 +152,7 @@ export function DealPanel({ deal, fundId, onClose }: { deal: NeverSeenDeal; fund
                 <Section icon="bank" title="Round timeline">
                   <ol className="ml-2 flex flex-col gap-5 border-l border-zinc-200 py-1 pl-5">
                     {rounds.map((r, i) => (
-                      <li key={`${r.label}-${r.date}`} className="relative flex flex-col gap-1">
+                      <li key={`${i}-${r.label}-${r.date}`} className="relative flex flex-col gap-1">
                         <span className={`absolute -left-[25px] top-1.5 size-2 rounded-full ring-4 ring-white ${i === 0 ? "bg-ink" : "bg-zinc-400"}`} />
                         <div className="flex items-center justify-between gap-2">
                           <span className="flex items-center gap-1.5 text-sm font-semibold text-ink">
