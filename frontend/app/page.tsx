@@ -32,6 +32,7 @@ export default function StartPage() {
   const [preview, setPreview] = useState<CrmPreview | null>(null);
   const [previewing, setPreviewing] = useState(false);
   const previewSeq = useRef(0);
+  const codeRejected = useRef(false); // last preview failed with 401: retry once a new code is entered
   const [dragOver, setDragOver] = useState(false);
   const [running, setRunning] = useState<"audit" | "demo" | null>(null);
   const [error, setErrorState] = useState<{ message: string; offerDemo: boolean } | null>(null);
@@ -88,6 +89,7 @@ export default function StartPage() {
   // Reads the upload on the backend (no Cala calls) so the user can confirm the detected columns.
   async function loadPreview(file: File, mapping: CrmMapping | null) {
     const seq = ++previewSeq.current;
+    codeRejected.current = false;
     setPreviewing(true);
     setError(null);
     try {
@@ -97,7 +99,10 @@ export default function StartPage() {
       if (seq !== previewSeq.current) return;
       setPreview(null);
       setError(e);
-      if (e instanceof ApiError && e.kind === "auth") accessRef.current?.focus();
+      if (e instanceof ApiError && e.kind === "auth") {
+        codeRejected.current = true;
+        accessRef.current?.focus();
+      }
     } finally {
       if (seq === previewSeq.current) setPreviewing(false);
     }
@@ -244,7 +249,7 @@ export default function StartPage() {
               onChange={(e) => setAccessCode(e.target.value)}
               onBlur={() => {
                 // Retry reading the file once a code is entered after a 401.
-                if (csv && !preview && !previewing && accessCode.trim()) void loadPreview(csv, null);
+                if (csv && codeRejected.current && !previewing && accessCode.trim()) void loadPreview(csv, null);
               }}
               placeholder="Enter the code you were given"
               className="h-10 w-full max-w-xs rounded-lg border border-slate-200 bg-white px-3 text-sm text-ink outline-none transition-all placeholder:text-slate-400 focus:border-ink focus:shadow-[0_0_0_2px_rgba(2,132,199,0.15)]"
