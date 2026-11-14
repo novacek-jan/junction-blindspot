@@ -17,6 +17,7 @@ Usage:  backend/.venv/bin/python backend/crawler.py   (CALA_API_KEY from .env)
 from __future__ import annotations
 
 import json
+import os
 import sys
 import time
 from collections import Counter
@@ -24,9 +25,12 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+os.environ["BLINDSPOT_BACKEND"] = "sqlite"   # the crawler always writes the local SQLite store
 
 import db  # noqa: E402
-from cala_client import Cala, sources_of, val  # noqa: E402
+import argparse  # noqa: E402
+
+from cala_client import Cala, PaymentRequired, sources_of, val  # noqa: E402
 from funds import FUNDS  # noqa: E402
 
 WORKERS = 4
@@ -60,7 +64,8 @@ def conflation(label, amount, company_total, same_currency) -> str:
 
 
 class Crawler:
-    def __init__(self):
+    def __init__(self, resume: bool = False):
+        self.resume = resume
         self.cala = Cala()
         if not self.cala.has_key:
             sys.exit("CALA_API_KEY missing: put it in .env (see .env.example)")
@@ -68,6 +73,10 @@ class Crawler:
         self.done_companies: set[str] = set()
         self.done_rounds: dict[str, dict] = {}
         self.failed_companies: list[str] = []
+        # Resume mode: never touch what is already stored (companies are skipped, stored rounds reused).
+        self.stored_rounds: dict[str, str] = db.round_issuers() if resume else {}
+        if resume:
+            self.done_companies |= db.company_ids()
 
     # -- rounds
 
@@ -107,6 +116,8 @@ class Crawler:
         self.done_companies.add(cid)
         try:
             self._company(cid)
+        except PaymentRequired:
+            raise                    # out of Cala credit: stop the whole crawl, not just this company
         except Exception as e:  # noqa: BLE001 - one bad company must not stop the crawl
             self.failed_companies.append(cid)
             log(f"[error] company {cid}: {type(e).__name__}: {e}")
@@ -132,6 +143,8 @@ class Crawler:
         })
         for it in c["_rels"].get("outgoing:PARTICIPATES_IN_FUNDING_ROUND", []):
             if (it.get("properties") or {}).get("role") in ("ISSUER", None):
+                if it["id"] in self.stored_rounds:
+                    continue
                 self.store_round(self.round(it["id"]), cid, c)
 
     # -- funds
@@ -148,7 +161,9 @@ class Crawler:
                 links.append((it["id"], "INVESTED_IN", (it.get("properties") or {}).get("valid_since")))
             for it in ent["_rels"].get("outgoing:PARTICIPATES_IN_FUNDING_ROUND", []):
                 round_ids.add(it["id"])
-        for rnd in self.pool.map(self.round, sorted(round_ids)):
+        for rid in sorted(round_ids & set(self.stored_rounds)):   # resume: issuer already known
+            links.append((self.stored_rounds[rid], "ROUND", None))
+        for rnd in self.pool.map(self.round, sorted(round_ids - set(self.stored_rounds))):
             for p in rnd["_rels"].get("incoming:PARTICIPATES_IN_FUNDING_ROUND", []):
                 if (p.get("properties") or {}).get("role") == "ISSUER":
                     links.append((p["id"], "ROUND", None))
@@ -157,19 +172,26 @@ class Crawler:
         log(f"[fund] {name}: {len(entities)} entities, {len(cids)} portfolio companies, {len(round_ids)} fund rounds")
         return cids
 
-    def run(self) -> None:
+    def run(self, funds: list[str], first: str = "Point Nine") -> int:
         t0 = time.time()
-        # The demo fund (CLI arg, default Point Nine) goes first so its data lands early.
-        for name, spec in FUNDS.items():   # register every fund + entity up front (lead -> fund mapping)
-            db.upsert_fund(spec["id"], name, list(spec["entities"].items()))
-        first = sys.argv[1] if len(sys.argv) > 1 else "Point Nine"
-        order = sorted(FUNDS.items(), key=lambda kv: kv[0] != first)
-        for name, spec in order:
-            cids = self.fund(name, spec)
-            list(self.pool.map(self.company, cids))
-            log(f"[fund] {name}: companies stored ({len(self.done_companies)} total, "
-                f"{self.cala.api_calls} API calls, {self.cala.rate_limited} rate-limited, {len(self.cala.errors)} errors)")
+        known = set(db.list_funds_ids())
+        for name, spec in FUNDS.items():   # register funds + entities up front (lead -> fund mapping)
+            if not (self.resume and spec["id"] in known):
+                db.upsert_fund(spec["id"], name, list(spec["entities"].items()))
+        order = sorted(((n, FUNDS[n]) for n in funds), key=lambda kv: kv[0] != first)
+        status = 0
+        try:
+            for name, spec in order:
+                cids = self.fund(name, spec)
+                list(self.pool.map(self.company, cids))
+                log(f"[fund] {name}: companies stored ({len(self.done_companies)} total, "
+                    f"{self.cala.api_calls} API calls, {self.cala.rate_limited} rate-limited, "
+                    f"{len(self.cala.errors)} errors)")
+        except PaymentRequired as e:
+            log(f"[stop] {e}. Top up Cala credit and re-run with --resume; nothing fetched so far is lost.")
+            status = 2
         self.summary(time.time() - t0)
+        return status
 
     def summary(self, elapsed: float) -> None:
         c = db.conn()
@@ -194,5 +216,19 @@ class Crawler:
         log("\n".join(md))
 
 
+def main() -> None:
+    ap = argparse.ArgumentParser(description="Crawl peer VC funds from Cala into data/cala.db")
+    ap.add_argument("--funds", help="comma-separated fund names (default: all in funds.py)")
+    ap.add_argument("--resume", action="store_true",
+                    help="skip companies and rounds already stored; existing rows are not touched")
+    ap.add_argument("--first", default="Point Nine", help="fund to crawl first")
+    args = ap.parse_args()
+    names = [n.strip() for n in args.funds.split(",")] if args.funds else list(FUNDS)
+    unknown = [n for n in names if n not in FUNDS]
+    if unknown:
+        sys.exit(f"unknown fund(s): {unknown}. Known: {sorted(FUNDS)}")
+    sys.exit(Crawler(resume=args.resume).run(names, args.first))
+
+
 if __name__ == "__main__":
-    Crawler().run()
+    main()

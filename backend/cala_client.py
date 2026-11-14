@@ -23,6 +23,10 @@ MIN_INTERVAL = 0.25   # seconds between request starts, shared by all threads
 MAX_ATTEMPTS = 8
 
 
+class PaymentRequired(Exception):
+    """Cala returned HTTP 402 (insufficient balance). Retrying cannot help: callers must stop."""
+
+
 class Cala:
     def __init__(self, api_key: Optional[str] = None):
         load_env()
@@ -75,6 +79,9 @@ class Cala:
                 with urllib.request.urlopen(req, timeout=120) as resp:
                     raw = resp.read().decode()
             except urllib.error.HTTPError as e:
+                if e.code == 402:
+                    self._err(f"{tool} {what}: HTTP 402 Payment Required")
+                    raise PaymentRequired("Cala returned 402 Payment Required (insufficient balance)")
                 if e.code in (429, 500, 502, 503, 504):
                     self._backoff(attempt)
                     continue
@@ -95,6 +102,9 @@ class Cala:
             res = msg["result"]
             if res.get("isError"):
                 text = " ".join(c.get("text", "") for c in res.get("content", []))[:300]
+                if "402" in text or "Payment Required" in text or "Insufficient bala" in text:
+                    self._err(f"{tool} {what}: HTTP 402 Payment Required")
+                    raise PaymentRequired("Cala returned 402 Payment Required (insufficient balance)")
                 if ("429" in text or "rate limit" in text.lower()) and attempt < MAX_ATTEMPTS - 1:
                     self._backoff(attempt)
                     continue

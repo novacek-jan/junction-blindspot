@@ -1,6 +1,8 @@
+import os
 import sys
 from pathlib import Path
 
+os.environ["BLINDSPOT_BACKEND"] = "sqlite"   # tests never touch Postgres
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import pytest  # noqa: E402
@@ -104,7 +106,9 @@ def test_blind_spot_facts_deterministic():
     status = {"s0": "never_seen", "s1": "never_seen", "s2": "never_seen", "s3": "passed", "d1": "never_seen"}
     facts = blind_spot_facts(counted, status, comps, [{"id": "x", "name": "Creandum", "deals": 3}])
     assert facts[0] == {"title": "Nordic seed",
-                        "detail": "You never saw 3 of 4 Nordic seed rounds your peers did since 2023."}
+                        "detail": "You never saw 3 of 4 Nordic seed rounds your peers did since 2023.",
+                        "keep": ["Nordic", "seed"]}
+    assert facts[1]["keep"] == ["Creandum"]
     assert facts[1]["detail"] == "Creandum led 3 peer deals that never reached your pipeline."
 
 

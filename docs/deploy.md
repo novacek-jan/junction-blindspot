@@ -4,14 +4,16 @@ Status: **prepared, not deployed.** The image is defined in the root `Dockerfile
 
 ## What runs on the server
 
-- The server has **no SQLite database** (`*.db` is never committed). The API serves the demo from the committed JSON files in `data/`, so `GET /api/audit/demo`, the demo fund's profile, `GET /api/funds/search` and `GET /api/deals/{id}` all work for every demo deal.
-- `POST /api/audit` and live profiles for other funds return `503 data_unavailable` until a database is attached. Moving `backend/db.py` to Aiven for PostgreSQL is the planned next step.
-- The container writes nothing at runtime: `/app` is read-only for the `app` user.
+- **With `DATABASE_URL`** pointing at Aiven for PostgreSQL, the API reads the crawled data from Postgres and every endpoint is live, including `POST /api/audit`. The crawler still runs locally into SQLite. `backend/sync_postgres.py` then upserts those rows into Postgres (idempotent; run it after every crawl).
+- **Without `DATABASE_URL`**, or with an empty or unreachable Postgres, the API serves the demo from the committed JSON in `data/`. `GET /api/audit/demo`, the demo fund's profile, `GET /api/funds/search` and `GET /api/deals/{id}` work for every demo deal. `POST /api/audit` returns `503 data_unavailable`.
+- At runtime the API writes only two caches to Postgres: the insight wording and Cala news results. The container file system is read-only for the `app` user.
+- Results are identical on SQLite and Postgres: verified by computing the same audit, deal detail and profile on both backends.
 
 ## Environment variables
 
 | Variable | Required | Kind | Value |
 |---|---|---|---|
+| `DATABASE_URL` | Yes, for live data | **secret** | The Aiven for PostgreSQL service URI (`postgres://avnadmin:…@…aivencloud.com:PORT/defaultdb?sslmode=require`). Aiven Runtime can also inject it through a service integration (see step 6). Keep `sslmode=require`. |
 | `CALA_API_KEY` | Yes, for live news on deal pages | **secret** | Your Cala key. Without it, deal pages show only the cached/precomputed news. |
 | `ANTHROPIC_API_KEY` | No | **secret** | Enables Claude Haiku wording for the blind-spot insights. Without it a template is used. The demo JSON is precomputed either way. |
 | `AUDIT_ACCESS_CODE` | Yes, to enable `POST /api/audit` | **secret** | A long random string, e.g. `python3 -c "import secrets; print(secrets.token_urlsafe(24))"`. If unset, audits are disabled (503). |
@@ -34,14 +36,25 @@ These follow Aiven's [deploy apps](https://aiven.io/docs/products/runtime/deploy
    - Port: `8000`, protocol HTTP. It is detected from `EXPOSE 8000`; confirm it.
    - Cloud/region: an EU region, e.g. `aws-eu-west-1` (the region used in Aiven's examples).
    - Plan: the smallest application plan is enough (e.g. `startup-50-1024` from Aiven's examples).
-6. **Set the environment variables** from the table above. Use the **secret** kind for `CALA_API_KEY`, `ANTHROPIC_API_KEY` and `AUDIT_ACCESS_CODE` (the API supports `kind: "secret"`; *check* the console label).
+6. **Connect the database.** In **Configure** for service integrations, attach your existing Aiven for PostgreSQL service and expose its connection string as `DATABASE_URL`. Aiven's API calls this an `application_service_credential` integration; *check* the console label. If the console can't do that, add `DATABASE_URL` by hand as a secret (step 7), using the service URI from the PostgreSQL service's Overview page.
+7. **Set the environment variables** from the table above. Use the **secret** kind for `DATABASE_URL`, `CALA_API_KEY`, `ANTHROPIC_API_KEY` and `AUDIT_ACCESS_CODE` (the API supports `kind: "secret"`; *check* the console label).
    - Do **not** put secrets in the Dockerfile `ENV` lines: Aiven reads `ENV` from the Dockerfile, and those values are public in the repo.
-7. Click **Deploy**.
-8. **Note the public URL** of the application. *Check:* Aiven's docs don't describe the default URL; it's shown on the application page. Custom domains can be added in step 5.
+8. Click **Deploy**.
+9. **Note the public URL** of the application. *Check:* Aiven's docs don't describe the default URL; it's shown on the application page. Custom domains can be added in step 5.
+
+### Before the first deploy: load the data into Postgres
+
+Run locally, after a crawl. `DATABASE_URL` in your local `.env` must be the same service:
+
+```bash
+backend/.venv/bin/python backend/sync_postgres.py      # prints row counts per table
+```
+
+The Aiven PostgreSQL service must allow connections from your machine (*check* **IP filter** / allowed IP addresses on the service if the sync can't connect).
 
 ### After the first deploy
 
-- `curl https://<app-url>/api/health` should return `{"ok":true,"live_data":false}`.
+- `curl https://<app-url>/api/health` should return `{"ok":true,"live_data":true}` with Postgres attached (`false` means the API is serving only the precomputed demo).
 - `curl https://<app-url>/api/audit/demo` should return in well under 1 s. Then open one deal via `/api/deals/<company_id>`.
 - **`TRUSTED_PROXY_HOPS` check:** open the application logs and look at the client address in the uvicorn access log lines.
   - If every request shows the same private address (10.x, 172.16–31.x, 192.168.x), there is a proxy in front: set `TRUSTED_PROXY_HOPS=1` and redeploy.

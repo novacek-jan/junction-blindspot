@@ -141,7 +141,8 @@ def profile(fund_id: str) -> dict:
 
 def _profile(fund_id: str) -> dict:
     fund = _fund_or_404(fund_id)
-    portfolio = db.fund_portfolio(fund_id)
+    portfolios = db.all_fund_portfolios()
+    portfolio = portfolios.get(fund_id, set())
     comps = db.companies(portfolio)
     rounds = [r for r in db.rounds_for_companies(portfolio)
               if r["date"] and r["date"] >= PROFILE_FROM and not is_conflated(r)]
@@ -159,7 +160,7 @@ def _profile(fund_id: str) -> dict:
     for f in db.list_funds():
         if f["id"] == fund_id:
             continue
-        n = len(portfolio & db.fund_portfolio(f["id"]))
+        n = len(portfolio & portfolios.get(f["id"], set()))
         peers.append({"id": f["id"], "name": f["name"], "co_investments": n})
     peers.sort(key=lambda p: (-p["co_investments"], p["name"]))
 
@@ -191,6 +192,7 @@ def _profile(fund_id: str) -> dict:
         "suggested_peers": peers[:5],
         "sources": sources,
         "_portfolio": portfolio,
+        "_portfolios": portfolios,
         "_thesis_stages": thesis_stages,
         "_thesis_regions": thesis_regions,
         "_top_countries": [k for k, _ in sorted(countries.items(), key=lambda kv: (-kv[1], kv[0]))[:3]],
@@ -217,11 +219,12 @@ def run_audit(fund_id: str, peer_ids: list[str], crm_text: str) -> dict:
     prof = _profile(fund_id)
     funds, ent2fund = _fund_names()
     peer_ids = [p for p in dict.fromkeys(peer_ids) if p and p != fund_id]
-    for p in peer_ids:
-        _fund_or_404(p)
+    unknown = [p for p in peer_ids if p not in funds]      # one lookup instead of a query per peer
+    if unknown:
+        raise NotFound(f"fund {unknown[0]} not found")
     crm_rows, simulated = parse_crm(crm_text)
 
-    peer_portfolio = set().union(*(db.fund_portfolio(p) for p in peer_ids)) if peer_ids else set()
+    peer_portfolio = set().union(*(prof["_portfolios"].get(p, set()) for p in peer_ids)) if peer_ids else set()
     comps = db.companies(peer_portfolio)
     regions = prof["_thesis_regions"]
     stages = prof["_thesis_stages"]
@@ -325,17 +328,20 @@ def blind_spot_facts(counted: dict, status: dict, comps: dict, top_leads: list[d
     for reg, stg, t, ns in cells[:2]:
         adj = REGION_ADJ.get(reg, reg)
         facts.append({"title": f"{adj} {stage_human(stg)}",
-                      "detail": f"You never saw {ns} of {t} {adj} {stage_human(stg)} rounds your peers did since 2023."})
+                      "detail": f"You never saw {ns} of {t} {adj} {stage_human(stg)} rounds your peers did since 2023.",
+                      "keep": [adj, stage_human(stg)]})
     if top_leads and top_leads[0]["deals"] >= 2:
         l = top_leads[0]
         facts.append({"title": f"{l['name']} deals",
-                      "detail": f"{l['name']} led {l['deals']} peer deals that never reached your pipeline."})
+                      "detail": f"{l['name']} led {l['deals']} peer deals that never reached your pipeline.",
+                      "keep": [l["name"]]})
     for reg, stg, t, ns in cells[2:]:
         if len(facts) >= 3:
             break
         adj = REGION_ADJ.get(reg, reg)
         facts.append({"title": f"{adj} {stage_human(stg)}",
-                      "detail": f"You never saw {ns} of {t} {adj} {stage_human(stg)} rounds your peers did since 2023."})
+                      "detail": f"You never saw {ns} of {t} {adj} {stage_human(stg)} rounds your peers did since 2023.",
+                      "keep": [adj, stage_human(stg)]})
     return facts[:3]
 
 
@@ -426,7 +432,7 @@ def deal_detail(company_id: str, fund_id: Optional[str], cala=None, news_wait: f
         latest = next((r for r in out_rounds if r["date"] and not r["conflated"]), out_rounds[0] if out_rounds else None)
         if latest:
             for lead in latest["lead_investors"]:
-                lead_companies = (db.fund_portfolio(lead["id"]) if lead["id"] in funds
+                lead_companies = (prof["_portfolios"].get(lead["id"], set()) if lead["id"] in funds
                                   else db.companies_for_entity(lead["id"]))
                 if lead["id"] != fund_id and not (lead_companies & prof["_portfolio"]):
                     why.append({"reason": f"Lead investor {lead['name']} has never co-invested with you"})

@@ -13,12 +13,14 @@ Usage:  backend/.venv/bin/python backend/build_demo.py [--regen-csv]
 from __future__ import annotations
 
 import json
+import os
 import random
 import sys
 from datetime import date, timedelta
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+os.environ.setdefault("BLINDSPOT_BACKEND", "sqlite")   # built from the local crawl
 
 import audit  # noqa: E402
 import db  # noqa: E402

@@ -26,6 +26,7 @@ SCHEMA = {
 
 
 def template(facts: list[dict]) -> list[dict]:
+    """Plain wording straight from the code-built facts."""
     return [{"title": f["title"], "detail": f["detail"]} for f in facts[:3]]
 
 
@@ -67,7 +68,12 @@ def phrase(facts: list[dict]) -> list[dict]:
         return template(facts)
     result = []
     for fact, ins in zip(facts, out):
-        ok = sorted(_numbers(ins.get("detail", ""))) == sorted(_numbers(fact["detail"]))
+        detail = ins.get("detail", "")
+        # Accept the rewording only if every number survives, every required name (region, stage,
+        # investor) appears verbatim, and it stays one short sentence. Otherwise use the template.
+        ok = (sorted(_numbers(detail)) == sorted(_numbers(fact["detail"]))
+              and all(k.casefold() in detail.casefold() for k in fact.get("keep", []))
+              and len(detail) <= 200 and detail.count(".") <= 1)
         result.append({"title": ins["title"].strip(), "detail": ins["detail"].strip()} if ok
                       else {"title": fact["title"], "detail": fact["detail"]})
     if len(result) < len(facts):

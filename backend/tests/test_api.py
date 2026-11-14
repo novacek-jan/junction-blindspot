@@ -13,6 +13,7 @@ import pytest
 BACKEND = Path(__file__).resolve().parent.parent
 ROOT = BACKEND.parent
 MOCKS = ROOT / "frontend" / "mocks"
+os.environ["BLINDSPOT_BACKEND"] = "sqlite"   # tests never touch Postgres
 sys.path.insert(0, str(BACKEND))
 
 os.environ["ALLOWED_ORIGINS"] = "http://localhost:3000,https://blindspot-test.vercel.app"
