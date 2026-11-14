@@ -1,0 +1,149 @@
+{
+ "audit_id": "0b55d4834563",
+ "fund": {
+  "id": "476a73ac-afa2-4713-9f73-188bc7ec0b95",
+  "name": "Lifeline Ventures"
+ },
+ "simulated_crm": true,
+ "period": {
+  "from": "2022-01-01",
+  "to": "2026-11-14"
+ },
+ "thesis": {
+  "stages": [
+   "SERIES_A",
+   "SERIES_B"
+  ],
+  "countries": [
+   "Denmark",
+   "Finland",
+   "Iceland",
+   "Norway",
+   "Sweden"
+  ],
+  "industries": [
+   {
+    "code": "INTERNET_AND_WEB_SERVICES",
+    "name": "Internet and web services"
+   },
+   {
+    "code": "SOFTWARE_AND_SERVICES",
+    "name": "Software and services"
+   }
+  ],
+  "basis_rounds": 3
+ },
+ "headline": {
+  "never_seen": 1,
+  "text": "1 company in your thesis raised since 2022 and never hit your CRM"
+ },
+ "summary": {
+  "market_companies": 2,
+  "in_crm": 1,
+  "invested": 1,
+  "passed": 0,
+  "in_review": 0,
+  "never_seen": 1,
+  "coverage_pct": 50.0
+ },
+ "never_seen": [
+  {
+   "company_id": "41f89a61-54ac-4068-82af-a2d2096efcfc",
+   "name": "Kuva Space",
+   "website": "kuvaspace.com",
+   "country": "Finland",
+   "industries": [
+    "Aerospace and defense",
+    "Hardware and equipment",
+    "Software and services"
+   ],
+   "round": {
+    "id": "85d659c1-127d-5e1e-90c2-430b1f4bf918",
+    "label": "SERIES_A",
+    "amount": 16600000,
+    "currency": "EUR",
+    "date": "2023-11-02",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "697961ad-78c5-4549-8520-561b1982f8a6",
+      "name": "Nordic FoodTech VC",
+      "type": "Company",
+      "is_lead": true
+     },
+     {
+      "id": "8673db97-466e-4e7e-8417-a0ce1207bf9e",
+      "name": "Voima Ventures",
+      "type": "Organization",
+      "is_lead": true
+     },
+     {
+      "id": "d5b41639-eb27-43df-a6ee-a4f03807fbca",
+      "name": "Business Finland",
+      "type": "Organization",
+      "is_lead": false
+     },
+     {
+      "id": "5328ae6c-d4ff-5a30-923d-665aca4ceef6",
+      "name": "Earth VC",
+      "type": "Organization",
+      "is_lead": false
+     }
+    ],
+    "sources": [
+     {
+      "name": "kuvaspace.com",
+      "url": "https://kuvaspace.com/en/resources/kuva-space-raises-e16-6m-funding-round-to-launch-its-microsatellite-constellation-and-observe-the-molecular-composition-of-any-material-on-earth",
+      "rank": "PRIMARY",
+      "date": "2023-11-02"
+     },
+     {
+      "name": "eu-startups.com",
+      "url": "https://www.eu-startups.com/2023/11/espoo-based-kuva-space-raises-e16-6-million-to-launch-microsatellite-constellation-for-earth-observation/",
+      "rank": "PRESS",
+      "date": "2023-11-02"
+     }
+    ]
+   }
+  }
+ ],
+ "top_investors_in_blind_spots": [
+  {
+   "id": "d5b41639-eb27-43df-a6ee-a4f03807fbca",
+   "name": "Business Finland",
+   "companies": 1
+  },
+  {
+   "id": "5328ae6c-d4ff-5a30-923d-665aca4ceef6",
+   "name": "Earth VC",
+   "companies": 1
+  },
+  {
+   "id": "697961ad-78c5-4549-8520-561b1982f8a6",
+   "name": "Nordic FoodTech VC",
+   "companies": 1
+  },
+  {
+   "id": "8673db97-466e-4e7e-8417-a0ce1207bf9e",
+   "name": "Voima Ventures",
+   "companies": 1
+  }
+ ],
+ "market_coverage": {
+  "european_companies_screened": 1018,
+  "qualifying_companies": 78,
+  "investors_explored": 158,
+  "as_of": "2026-11-14",
+  "region": "nordics",
+  "region_countries": [
+   "Denmark",
+   "Finland",
+   "Iceland",
+   "Norway",
+   "Sweden"
+  ],
+  "region_qualifying_companies": 16,
+  "priority_country": "Finland",
+  "priority_country_qualifying_companies": 11
+ }
+}

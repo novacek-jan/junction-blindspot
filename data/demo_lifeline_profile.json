@@ -1,0 +1,215 @@
+{
+ "fund": {
+  "id": "476a73ac-afa2-4713-9f73-188bc7ec0b95",
+  "name": "Lifeline Ventures"
+ },
+ "period": {
+  "from": "2022-01-01",
+  "to": "2026-11-14"
+ },
+ "scope": "Europe",
+ "investments_since_2022": 3,
+ "out_of_scope_deals": 1,
+ "stages": [
+  {
+   "label": "SERIES_A",
+   "share": 0.67
+  },
+  {
+   "label": "SERIES_B",
+   "share": 0.33
+  }
+ ],
+ "countries": [
+  {
+   "name": "Finland",
+   "count": 3
+  }
+ ],
+ "industries": [
+  {
+   "name": "Internet and web services",
+   "count": 3
+  },
+  {
+   "name": "Software and services",
+   "count": 3
+  }
+ ],
+ "thesis": {
+  "stages": [
+   "SERIES_A",
+   "SERIES_B"
+  ],
+  "countries": [
+   "Denmark",
+   "Finland",
+   "Iceland",
+   "Norway",
+   "Sweden"
+  ],
+  "industries": [
+   {
+    "code": "INTERNET_AND_WEB_SERVICES",
+    "name": "Internet and web services"
+   },
+   {
+    "code": "SOFTWARE_AND_SERVICES",
+    "name": "Software and services"
+   }
+  ]
+ },
+ "suggested_peers": [
+  {
+   "id": "14114b32-b79d-4dba-8f6f-356113a4c696",
+   "name": "Project A Ventures",
+   "co_investments": 0,
+   "score": 38.8,
+   "reasons": [
+    "Series A rounds: 50% of your deals, 33% of theirs",
+    "Nordic focus: 100% of your deals, 71% of theirs",
+    "Software and services: 46% of your deals, 38% of theirs"
+   ]
+  },
+  {
+   "id": "9642f867-0904-4954-9dea-aada36b650b9",
+   "name": "Credo Ventures",
+   "co_investments": 0,
+   "score": 35.7,
+   "reasons": [
+    "Software and services: 46% of your deals, 47% of theirs",
+    "Series A rounds: 50% of your deals, 20% of theirs"
+   ]
+  },
+  {
+   "id": "6ba00a20-2cb4-4559-8fe2-f39484a9e5f6",
+   "name": "Creandum",
+   "co_investments": 0,
+   "score": 35.1,
+   "reasons": [
+    "Series A rounds: 50% of your deals, 27% of theirs",
+    "Software and services: 46% of your deals, 36% of theirs",
+    "Nordic focus: 100% of your deals, 44% of theirs"
+   ]
+  },
+  {
+   "id": "94e0ca6a-4e39-4181-bd84-11f264d0aa62",
+   "name": "Speedinvest",
+   "co_investments": 0,
+   "score": 32.8,
+   "reasons": [
+    "Software and services: 46% of your deals, 45% of theirs",
+    "Series A rounds: 50% of your deals, 30% of theirs"
+   ]
+  },
+  {
+   "id": "bbfc25cc-fc30-4d3c-b3f0-1e1f862fc5f8",
+   "name": "Notion Capital",
+   "co_investments": 1,
+   "score": 32.2,
+   "reasons": [
+    "Series A rounds: 50% of your deals, 38% of theirs",
+    "Software and services: 46% of your deals, 92% of theirs",
+    "1 portfolio company in common"
+   ]
+  },
+  {
+   "id": "7de3d7d6-af8f-4e95-a949-2befc86938a0",
+   "name": "Earlybird Venture Capital",
+   "co_investments": 1,
+   "score": 32.0,
+   "reasons": [
+    "Series A rounds: 50% of your deals, 30% of theirs",
+    "Software and services: 46% of your deals, 16% of theirs",
+    "Nordic focus: 100% of your deals, 11% of theirs"
+   ]
+  },
+  {
+   "id": "c96fa533-91c0-5674-bcbe-0d0dc934b7fa",
+   "name": "Balderton Capital",
+   "co_investments": 1,
+   "score": 31.8,
+   "reasons": [
+    "Series A rounds: 50% of your deals, 25% of theirs",
+    "Software and services: 46% of your deals, 24% of theirs",
+    "Nordic focus: 100% of your deals, 33% of theirs"
+   ]
+  },
+  {
+   "id": "32e27d54-3922-407f-aa07-2747d94b210c",
+   "name": "Atomico",
+   "co_investments": 1,
+   "score": 31.6,
+   "reasons": [
+    "Series B rounds: 17% of your deals, 20% of theirs",
+    "Software and services: 46% of your deals, 36% of theirs",
+    "1 portfolio company in common"
+   ]
+  },
+  {
+   "id": "8774eb35-b3d0-4d71-8135-a4fe1187a3b6",
+   "name": "HV Capital",
+   "co_investments": 0,
+   "score": 28.2,
+   "reasons": [
+    "Series A rounds: 50% of your deals, 67% of theirs",
+    "Software and services: 46% of your deals, 50% of theirs"
+   ]
+  },
+  {
+   "id": "c06adc97-e2d8-4590-a329-4462750ee4e6",
+   "name": "Cherry Ventures",
+   "co_investments": 1,
+   "score": 27.6,
+   "reasons": [
+    "Software and services: 46% of your deals, 77% of theirs",
+    "Seed rounds: 17% of your deals, 30% of theirs",
+    "1 portfolio company in common"
+   ]
+  }
+ ],
+ "sources": [
+  {
+   "name": "verda.com",
+   "url": "https://verda.com/blog/verda-raises-189m",
+   "rank": null,
+   "date": "2026-09-22"
+  },
+  {
+   "name": "valueaddvc.com",
+   "url": "https://valueaddvc.com/pulse/verda-189m-series-b-ai-cloud-unicorn-2026",
+   "rank": null,
+   "date": "2026-09-22"
+  },
+  {
+   "name": "verda.com",
+   "url": "https://verda.com/",
+   "rank": null,
+   "date": "2026-09-30"
+  },
+  {
+   "name": "eu-startups.com",
+   "url": "https://www.eu-startups.com/2026/09/helsinkis-verda-becomes-europes-latest-unicorn-after-raising-e164-8-million-to-scale-its-full-stack-ai-cloud/",
+   "rank": null,
+   "date": "2026-09-22"
+  },
+  {
+   "name": "thenextweb.com",
+   "url": "https://thenextweb.com/news/verda-117m-funding-lifeline-ventures-ai-cloud",
+   "rank": "PRESS",
+   "date": "2026-04-24"
+  },
+  {
+   "name": "eu-startups.com",
+   "url": "https://www.eu-startups.com/2026/04/helsinki-based-ai-infrastructure-company-verda-raises-e100-million-plans-to-hire-100-people-by-year-end/",
+   "rank": "PRESS",
+   "date": "2026-04-24"
+  },
+  {
+   "name": "pulse2.com",
+   "url": "https://pulse2.com/verda-117-million-raised-to-scale-ai-cloud-infrastructure-across-europe-the-us-and-asia/",
+   "rank": "PRESS",
+   "date": "2026-04-24"
+  }
+ ]
+}

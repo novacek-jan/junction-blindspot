@@ -262,4 +262,11 @@ FUNDS: dict[str, dict] = {
         "9642f867-0904-4954-9dea-aada36b650b9": 'Credo Ventures',
         "d9f9a9ca-8f83-44ea-97f2-2f4d844dd9f1": 'Credo Ventures a.s.',
     }},
+    "Lifeline Ventures": {"id": "476a73ac-afa2-4713-9f73-188bc7ec0b95", "entities": {
+        "476a73ac-afa2-4713-9f73-188bc7ec0b95": 'Lifeline Ventures',
+        "111aea67-7cea-43ec-b4cd-25b1b9b6140a": 'Lifeline Ventures Fund II Ky',
+        # Cala resolves "Lifeline Ventures" in some press-sourced rounds to this Swedish AB (it only appears in
+        # Finnish rounds next to Lifeline's co-investors, e.g. Verda's Series A/B). Counted as Lifeline.
+        "4d668c75-c7a0-4f5b-baea-ce0fa6a34e31": 'Lifeline Ventures AB',
+    }},
 }

@@ -35,12 +35,21 @@ import db  # noqa: E402
 import market  # noqa: E402
 from audit import is_conflated  # noqa: E402
 from cala_client import Cala, PaymentRequired, sources_of, val  # noqa: E402
-from crawler import CONFLATION_THRESHOLDS, ROUND_FIELDS, ROUND_FIELDS_V1, conflation  # noqa: E402
+from crawler import ROUND_FIELDS, ROUND_FIELDS_V1, conflation  # noqa: E402
+from funds import FUNDS  # noqa: E402
+from nordic_seeds import NORDIC_CRAWLED_FUNDS, NORDIC_SEED_FUNDS  # noqa: E402
 
 COMPANY_FIELDS = ["name", "website", "founding_date", "funding_stage", "total_funding", "total_funding_units"]
 COMPANY_OUT = ["HAS_HEADQUARTERS_IN", "PARTICIPATES_IN_FUNDING_ROUND", "OPERATES_IN_INDUSTRY"]
 COMPANY_IN = ["INVESTED_IN"]
 P_SEED_EXPAND, P_QUERY, P_QUERY_COMPANY, P_QUERY_ORG, P_INVESTOR = 100.0, 50.0, 60.0, 15.0, 10.0
+# Nordic focus: Finnish fund seeds first, then other Nordic funds, then Nordic discovery queries.
+P_FUND_PRIORITY_COUNTRY, P_FUND_REGION = 95.0, 85.0
+P_QUERY_PRIORITY_COUNTRY, P_QUERY_REGION = 75.0, 70.0
+BUMP_PRIORITY_COUNTRY, BUMP_REGION = 3.0, 2.0      # investor bump per qualifying company there
+REPRIORITISE_OLD_QUEUE = -50.0                      # pending items from the Europe-wide crawl go last
+STAGE_WORDS = {"PRE_SEED": "pre-seed startup", "SEED": "seed round", "SERIES_A": "Series A"}
+REGION_YEARS = ["2022", "2023", "2024", "2025", "2026"]
 WORKERS = 4
 
 QUERY_COUNTRIES = ["Germany", "France", "United Kingdom", "Sweden", "Finland", "Denmark", "Norway", "Netherlands",
@@ -52,6 +61,12 @@ QUERY_YEARS = ["2024", "2025", "2023", "2022", "2026"]
 
 def log(msg: str) -> None:
     print(time.strftime("%H:%M:%S"), msg, flush=True)
+
+
+def region_queries() -> list[tuple[str, str]]:
+    """(query, country): every region country x (pre-seed, seed, Series A) x 2022..2026, priority country first."""
+    countries = sorted(market.REGION_COUNTRIES, key=lambda c: (c != market.PRIORITY_COUNTRY, c))
+    return [(f"{STAGE_WORDS[st]} {c} raised {y}", c) for c in countries for st in STAGE_WORDS for y in REGION_YEARS]
 
 
 def queries(n: int) -> list[str]:
@@ -72,6 +87,7 @@ class Snowball:
         self.max_calls = max_calls
         self.lock = threading.Lock()
         self.stats = Counter()
+        self.entity_fund = {eid: spec["id"] for spec in FUNDS.values() for eid in spec["entities"]}
 
     # ---------------------------------------------------------------- one-time backfill (no Cala calls)
 
@@ -126,13 +142,41 @@ class Snowball:
         log(f"[seed] {len(q)} qualifying seed companies, {n_queries} queries, {len(inv)} known investors; "
             f"{added} new queue items")
 
+    def seed_region(self) -> None:
+        """Nordic focus: older pending items go last; region fund seeds and region queries go first."""
+        db._execute("UPDATE crawl_queue SET priority = priority + ? WHERE status='pending' AND priority < ?",
+                    [REPRIORITISE_OLD_QUEUE, P_QUERY_REGION])
+        db.conn().commit()
+        for name, spec in FUNDS.items():
+            db.upsert_fund(spec["id"], name, list(spec["entities"].items()))
+        items = []
+        for name, country in NORDIC_CRAWLED_FUNDS.items():
+            p = P_FUND_PRIORITY_COUNTRY if country == market.PRIORITY_COUNTRY else P_FUND_REGION
+            items += [(eid, "investor", p, f"seed_fund:{name}") for eid in FUNDS[name]["entities"]]
+        for name, (country, ids) in NORDIC_SEED_FUNDS.items():
+            p = P_FUND_PRIORITY_COUNTRY if country == market.PRIORITY_COUNTRY else P_FUND_REGION
+            items += [(eid, "investor", p, f"seed_fund:{name}") for eid in ids]
+        items += [("q:" + q, "query", (P_QUERY_PRIORITY_COUNTRY if c == market.PRIORITY_COUNTRY else P_QUERY_REGION)
+                   - i * 0.001, "knowledge_search") for i, (q, c) in enumerate(region_queries())]
+        # crawled-fund entities already explored by an earlier run must be revisited for their own rounds
+        fund_entities = [it[0] for it in items if it[0] in self.entity_fund]
+        for eid in fund_entities:
+            db._execute("UPDATE crawl_queue SET status='pending', priority=? WHERE entity_id=? AND status!='running'",
+                        [next(it[2] for it in items if it[0] == eid), eid])
+        db.conn().commit()
+        added = db.queue_add(items)
+        log(f"[seed:{market.MARKET_REGION}] {len(NORDIC_CRAWLED_FUNDS)} crawled funds + {len(NORDIC_SEED_FUNDS)} seed "
+            f"funds, {len(region_queries())} queries; {added} new queue items; older pending items deprioritised")
+
     # ---------------------------------------------------------------- task handlers
 
-    def _queue_investors(self, company_id: str, investors: list[dict], source: str) -> None:
+    def _queue_investors(self, company_id: str, investors: list[dict], source: str, country: str = None) -> None:
         ids = sorted({i["id"] for i in investors if i.get("id")})
+        bump = (BUMP_PRIORITY_COUNTRY if country == market.PRIORITY_COUNTRY else
+                BUMP_REGION if country in market.REGION_COUNTRIES else 1.0)
         with self.lock:
-            db.queue_bump(ids, 1.0)
-            db.queue_add([(i, "investor", P_INVESTOR + 1, f"{source}:{company_id}") for i in ids])
+            db.queue_bump(ids, bump)
+            db.queue_add([(i, "investor", P_INVESTOR + bump, f"{source}:{company_id}") for i in ids])
 
     def screen_company(self, cid: str, source: str) -> str:
         known = db._rows("SELECT screened_at FROM companies WHERE id=?", [cid])
@@ -146,7 +190,7 @@ class Snowball:
         country = next((h["name"] for h in hqs if h.get("entity_type") == "Country"), hqs[0]["name"] if hqs else None)
         founded = val(c, "founding_date")
         founded = str(founded)[:4] if founded else None
-        pf = market.prefilter(country, founded)
+        pf = market.crawl_prefilter(country, founded)
         industries = sorted({i["name"] for i in rels.get("outgoing:OPERATES_IN_INDUSTRY", []) if i.get("name")})
         investors = rels.get("incoming:INVESTED_IN", [])
         db.upsert_company({
@@ -185,7 +229,7 @@ class Snowball:
             db.upsert_company_fields(cid, qualifies=1)
             with self.lock:
                 self.stats["qualifying"] += 1
-            self._queue_investors(cid, investors + round_investors, "company")
+            self._queue_investors(cid, investors + round_investors, "company", country)
         return "qualifies" if qualifies else "no qualifying round"
 
     def fetch_round(self, rid: str, cid: str, company: dict) -> list[dict]:
@@ -214,6 +258,9 @@ class Snowball:
         return db._rows("SELECT * FROM rounds WHERE id=?", [rid])
 
     def explore_investor(self, iid: str, priority: float) -> str:
+        fund_id = self.entity_fund.get(iid)
+        if fund_id:
+            return self.explore_fund_entity(iid, fund_id, priority)
         e = self.cala.retrieve(iid, ["name"], out=["INVESTED_IN"])
         if not e.get("_ok"):
             return "not retrievable"
@@ -225,6 +272,41 @@ class Snowball:
             # +0.5: an investor's portfolio is screened before other investors of equal priority are explored
             added = db.queue_add([(p, "company", priority + 0.5, f"investor:{iid}") for p in new])
         return f"{len(port)} portfolio, {added} queued"
+
+    def explore_fund_entity(self, eid: str, fund_id: str, priority: float) -> str:
+        """A crawled fund (funds.py): portfolio (INVESTED_IN) and its own rounds since 2022
+        (PARTICIPATES_IN_FUNDING_ROUND), so its thesis rests on its real deals. Same calls the fund
+        crawler makes (cached), plus one call per own round with a 2022+ (or undated) source."""
+        e = self.cala.retrieve(eid, ["name"], out=["INVESTED_IN", "PARTICIPATES_IN_FUNDING_ROUND"])
+        if not e.get("_ok"):
+            return "not retrievable"
+        links = [(it["id"], "INVESTED_IN", (it.get("properties") or {}).get("valid_since"))
+                 for it in e["_rels"].get("outgoing:INVESTED_IN", []) if it.get("id")]
+        issuers = set()
+        for it in e["_rels"].get("outgoing:PARTICIPATES_IN_FUNDING_ROUND", []):
+            dates = [str(x.get("date"))[:10] for x in (it.get("properties") or {}).get("sources", []) if x.get("date")]
+            if dates and max(dates) < market.PERIOD_FROM:
+                continue
+            stored = db._rows("SELECT company_id FROM rounds WHERE id=?", [it["id"]])
+            if stored:
+                issuers.add(stored[0]["company_id"])
+                continue
+            rnd = self.cala.retrieve(it["id"], ROUND_FIELDS, inc=["PARTICIPATES_IN_FUNDING_ROUND"])
+            for p in rnd["_rels"].get("incoming:PARTICIPATES_IN_FUNDING_ROUND", []) if rnd.get("_ok") else []:
+                if (p.get("properties") or {}).get("role") == "ISSUER":
+                    issuers.add(p["id"])
+        links += [(c, "ROUND", None) for c in sorted(issuers)]
+        db.add_portfolio(fund_id, sorted(set(links), key=lambda l: (l[0], l[1], l[2] or "")))
+        screened = {r["id"] for r in db._rows("SELECT id FROM companies WHERE screened_at IS NOT NULL")}
+        targets = sorted({l[0] for l in links})
+        own_rounds = [c for c in sorted(issuers) if c not in screened]
+        with self.lock:
+            self.stats["investors_explored"] += 1
+            added = db.queue_add([(c, "company", priority + 1.0, f"fund:{fund_id}") for c in own_rounds])
+            added += db.queue_add([(c, "company", priority + 0.5, f"fund:{fund_id}") for c in targets
+                                   if c not in screened])
+            # already screened companies with new own rounds: re-screen their rounds via a refresh task
+        return f"fund {fund_id}: {len(targets)} portfolio, {len(issuers)} own rounds since 2022, {added} queued"
 
     def expand_seed(self, cid: str) -> str:
         e = self.cala.retrieve(cid, ["name"], inc=["INVESTED_IN"])
@@ -342,11 +424,15 @@ def main() -> None:
     ap.add_argument("--max-calls", type=int, default=3000, help="stop after this many Cala calls (incl. retries)")
     ap.add_argument("--resume", action="store_true", help="continue the existing queue (skip backfill and seeding)")
     ap.add_argument("--queries", type=int, default=40, help="knowledge_search seed queries (first run)")
+    ap.add_argument("--seed-region", action="store_true",
+                    help=f"(re)seed the {market.MARKET_REGION} focus: region funds and region queries first")
     args = ap.parse_args()
     s = Snowball(args.max_calls)
     if not args.resume or not db.queue_next(1):
         s.backfill()
         s.seed(args.queries)
+    if args.seed_region:
+        s.seed_region()
     sys.exit(s.run())
 
 

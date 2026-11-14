@@ -111,31 +111,55 @@ async def _unexpected(_: Request, e: Exception):
 # ------------------------------------------------------------------ precomputed demo (works without the DB)
 
 class Demo:
+    """Precomputed demos (backend/build_demo.py): data/demos.json lists them; per demo
+    data/demo_<slug>_{audit,profile,deals}.json. The first/default one is the main demo."""
+
     def __init__(self):
         self._lock = threading.Lock()
         self._loaded = False
-        self.audit_bytes: Optional[bytes] = None
-        self.profile: Optional[dict] = None
-        self.deals: dict = {}
+        self.index: list = []
+        self.audits: dict = {}      # fund id -> raw JSON bytes
+        self.profiles: dict = {}    # fund id -> profile
+        self.deals: dict = {}       # fund id -> {company id -> deal detail}
+        self.default_id: Optional[str] = None
 
     def load(self) -> None:
         with self._lock:
             if self._loaded:
                 return
-            if (DATA / "demo_audit.json").exists():
-                self.audit_bytes = (DATA / "demo_audit.json").read_bytes()
-            if (DATA / "demo_profile.json").exists():
-                self.profile = json.loads((DATA / "demo_profile.json").read_text())
-            if (DATA / "demo_deals.json").exists():
-                self.deals = json.loads((DATA / "demo_deals.json").read_text())
+            index_path = DATA / "demos.json"
+            if index_path.exists():
+                self.index = json.loads(index_path.read_text())
+            elif (DATA / "demo_audit.json").exists():     # older single-demo layout
+                a = json.loads((DATA / "demo_audit.json").read_text())
+                self.index = [{"slug": "main", "fund": a["fund"], "default": True}]
+            for d in self.index:
+                fid, slug = d["fund"]["id"], d["slug"]
+                files = {k: DATA / f"demo_{slug}_{k}.json" for k in ("audit", "profile", "deals")}
+                if slug == "main":
+                    files = {k: DATA / f"demo_{k}.json" for k in ("audit", "profile", "deals")}
+                if files["audit"].exists():
+                    self.audits[fid] = files["audit"].read_bytes()
+                if files["profile"].exists():
+                    self.profiles[fid] = json.loads(files["profile"].read_text())
+                if files["deals"].exists():
+                    self.deals[fid] = json.loads(files["deals"].read_text())
+            default = next((d for d in self.index if d.get("default")), self.index[0] if self.index else None)
+            self.default_id = default["fund"]["id"] if default else None
             self._loaded = True
 
     def funds(self) -> list[dict]:
         self.load()
-        if not self.audit_bytes:
-            return []
-        a = json.loads(self.audit_bytes)
-        return sorted([a["fund"]] + a["peers"], key=lambda f: f["name"])
+        return [{"id": d["fund"]["id"], "name": d["fund"]["name"]} for d in self.index]
+
+    def deal(self, company_id: str, fund_id: Optional[str]):
+        self.load()
+        if fund_id and company_id in self.deals.get(fund_id, {}):
+            return self.deals[fund_id][company_id]
+        for deals in self.deals.values():
+            if company_id in deals:
+                return deals[company_id]
+        return None
 
 
 demo = Demo()
@@ -151,43 +175,56 @@ def funds_search(q: str = ""):
     if db.available():
         return audit.search_funds(q[:100])
     ql = q.strip().lower()[:100]
-    return [f for f in demo.funds() if ql in f["name"].lower()]
+    return [f for f in demo.funds() if ql in f["name"].lower()]   # no basis_rounds without live data
 
 
 @app.get("/api/funds/{fund_id}/profile")
 def fund_profile(fund_id: str):
     demo.load()
     if not db.available():
-        if demo.profile and demo.profile["fund"]["id"] == fund_id:
-            return demo.profile
-        raise ApiError(503, "data_unavailable", "only the demo fund is available on this deployment")
+        if fund_id in demo.profiles:
+            return demo.profiles[fund_id]
+        raise ApiError(503, "data_unavailable", "only the demo funds are available on this deployment")
     try:
         return audit.profile(fund_id)
     except audit.NotFound:
         raise ApiError(404, "not_found", "fund not found")
 
 
-@app.get("/api/audit/demo")
-def audit_demo():
-    """Precomputed by backend/build_demo.py and held in memory: responds in milliseconds."""
+@app.get("/api/audit/demos")
+def audit_demos():
+    """Available precomputed demos; `default` marks the main one."""
     demo.load()
-    if not demo.audit_bytes:
+    return [{"fund": d["fund"], "default": d["fund"]["id"] == demo.default_id} for d in demo.index]
+
+
+@app.get("/api/audit/demo")
+def audit_demo(fund_id: Optional[str] = None):
+    """Precomputed by backend/build_demo.py and held in memory: responds in milliseconds.
+    Without fund_id: the main demo (Lifeline Ventures)."""
+    demo.load()
+    fid = fund_id or demo.default_id
+    if not fid or fid not in demo.audits:
+        if fund_id:
+            raise ApiError(404, "not_found", "no demo for this fund")
         raise ApiError(503, "demo_unavailable", "demo audit has not been built")
-    return Response(content=demo.audit_bytes, media_type="application/json")
+    return Response(content=demo.audits[fid], media_type="application/json")
 
 
 @app.get("/api/deals/{company_id}")
 def deal(company_id: str, fund_id: Optional[str] = None):
     demo.load()
     if not db.available():
-        if company_id in demo.deals:
-            return demo.deals[company_id]
+        hit = demo.deal(company_id, fund_id)
+        if hit is not None:
+            return hit
         raise ApiError(404, "not_found", "deal not found")
     try:
         return audit.deal_detail(company_id, fund_id, _cala)
     except audit.NotFound:
-        if company_id in demo.deals:
-            return demo.deals[company_id]
+        hit = demo.deal(company_id, fund_id)
+        if hit is not None:
+            return hit
         raise ApiError(404, "not_found", "deal not found")
 
 

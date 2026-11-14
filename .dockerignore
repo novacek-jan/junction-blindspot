@@ -2,9 +2,8 @@
 *
 !backend/requirements.txt
 !backend/*.py
-!data/demo_audit.json
-!data/demo_profile.json
-!data/demo_deals.json
+!data/demos.json
+!data/demo_*.json
 
 # Explicit excludes (already covered by the allow-list; kept so they survive any future edit of it).
 .git

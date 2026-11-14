@@ -1,0 +1,185 @@
+{
+ "41f89a61-54ac-4068-82af-a2d2096efcfc": {
+  "id": "41f89a61-54ac-4068-82af-a2d2096efcfc",
+  "name": "Kuva Space",
+  "website": "kuvaspace.com",
+  "description": "Transform how you understand Earth with near real-time intelligence from space. Access actionable insights from our hyperspectral satellite network.",
+  "country": "Finland",
+  "founded": "2016",
+  "rounds": [
+   {
+    "id": "015a1bd3-45b8-5a6e-9707-6c6779a4f4fc",
+    "label": "SERIES_C",
+    "amount": 8000000,
+    "currency": "EUR",
+    "date": "2025-11-27",
+    "date_kind": "announcement",
+    "qualifying": true,
+    "lead_investors": [
+     {
+      "id": "8673db97-466e-4e7e-8417-a0ce1207bf9e",
+      "name": "Voima Ventures"
+     }
+    ],
+    "participants": [],
+    "sources": [
+     {
+      "name": "sttinfo.fi",
+      "url": "https://www.sttinfo.fi/tiedote/71644673/suomalaisfirma-koko-itaraja-alueen-paivittainen-satelliittivalvonta-voisi-onnistua-jo-2027",
+      "rank": "PRIMARY",
+      "date": "2025-11-27"
+     },
+     {
+      "name": "mainsights.io",
+      "url": "https://www.mainsights.io/ma-news/finnish-satellite-tech-firm-kuva-space-raises-eur-8m-in-funding-through-a-rapid-private-placement-and-public-share-issue",
+      "rank": "AGGREGATOR",
+      "date": "2025-11-26"
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "id": "91b4de87-94a6-5542-807b-d8c8fb04829b",
+    "label": "SERIES_B",
+    "amount": 8000000,
+    "currency": "EUR",
+    "date": "2024-11-22",
+    "date_kind": "announcement",
+    "qualifying": false,
+    "lead_investors": [],
+    "participants": [],
+    "sources": [
+     {
+      "name": "sttinfo.fi",
+      "url": "https://www.sttinfo.fi/tiedote/70697863/kuva-space-vahvistaa-suomen-ja-euroopan-turvallisuutta-8-miljoonan-springvest-osakeanti-tayttyi-51-tunnissa",
+      "rank": "PRIMARY",
+      "date": "2024-11-22"
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "id": "85d659c1-127d-5e1e-90c2-430b1f4bf918",
+    "label": "SERIES_A",
+    "amount": 16600000,
+    "currency": "EUR",
+    "date": "2023-11-02",
+    "date_kind": "announcement",
+    "qualifying": true,
+    "lead_investors": [
+     {
+      "id": "697961ad-78c5-4549-8520-561b1982f8a6",
+      "name": "Nordic FoodTech VC"
+     },
+     {
+      "id": "8673db97-466e-4e7e-8417-a0ce1207bf9e",
+      "name": "Voima Ventures"
+     }
+    ],
+    "participants": [
+     {
+      "id": "d5b41639-eb27-43df-a6ee-a4f03807fbca",
+      "name": "Business Finland"
+     },
+     {
+      "id": "5328ae6c-d4ff-5a30-923d-665aca4ceef6",
+      "name": "Earth VC"
+     }
+    ],
+    "sources": [
+     {
+      "name": "eu-startups.com",
+      "url": "https://www.eu-startups.com/2023/11/espoo-based-kuva-space-raises-e16-6-million-to-launch-microsatellite-constellation-for-earth-observation/",
+      "rank": "PRESS",
+      "date": "2023-11-02"
+     },
+     {
+      "name": "kuvaspace.com",
+      "url": "https://kuvaspace.com/en/resources/kuva-space-raises-e16-6m-funding-round-to-launch-its-microsatellite-constellation-and-observe-the-molecular-composition-of-any-material-on-earth",
+      "rank": "PRIMARY",
+      "date": "2023-11-02"
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "id": "e60d53cf-bb87-5b77-9023-2dc5f8517d33",
+    "label": "GRANT",
+    "amount": 234687.5,
+    "currency": "EUR",
+    "date": "2022-11-08",
+    "date_kind": "event",
+    "qualifying": true,
+    "lead_investors": [
+     {
+      "id": "2da620a1-768c-44de-bdfe-89910e347c88",
+      "name": "European Commission"
+     }
+    ],
+    "participants": [],
+    "sources": [
+     {
+      "name": "cordis.europa.eu",
+      "url": "https://cordis.europa.eu/project/id/101086355",
+      "rank": "FILING",
+      "date": "2026-10-30"
+     }
+    ],
+    "conflated": false
+   }
+  ],
+  "why_missed": [
+   {
+    "reason": "Lead investor Voima Ventures has never co-invested with you"
+   },
+   {
+    "reason": "Series C is outside your usual stages"
+   }
+  ],
+  "recent_news": [],
+  "sources": [
+   {
+    "name": "kuvaspace.com",
+    "url": "https://kuvaspace.com/",
+    "rank": "PRIMARY",
+    "date": "2026-10-29"
+   },
+   {
+    "name": "eu-startups.com",
+    "url": "https://www.eu-startups.com/2023/11/espoo-based-kuva-space-raises-e16-6-million-to-launch-microsatellite-constellation-for-earth-observation/",
+    "rank": "PRESS",
+    "date": "2023-11-01"
+   },
+   {
+    "name": "Planetary Intelligence for Informed Decisions | Kuva Space",
+    "url": "https://kuvaspace.com",
+    "rank": null,
+    "date": "2026-07-21"
+   },
+   {
+    "name": "Next-Gen Hyperspectral Satellite Fleet | Kuva Space",
+    "url": "https://kuvaspace.com/en/technology/satellites",
+    "rank": null,
+    "date": "2025-01-03"
+   },
+   {
+    "name": "dns.google",
+    "url": "https://dns.google/query?name=kuvaspace.com&type=A",
+    "rank": "PRIMARY",
+    "date": "2026-10-29"
+   },
+   {
+    "name": "kuvaspace.com",
+    "url": "https://kuvaspace.com/en/resources/kuva-space-to-provide-real-time-precision-agriculture-and-global-carbon-sequestration-from-space",
+    "rank": "PRIMARY",
+    "date": "2026-11-13"
+   },
+   {
+    "name": "kuvaspace.com",
+    "url": "https://kuvaspace.com/en/resources/kuva-space-names-new-chairman",
+    "rank": "PRIMARY",
+    "date": "2026-04-09"
+   }
+  ]
+ }
+}

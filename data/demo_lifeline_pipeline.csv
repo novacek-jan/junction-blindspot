@@ -1,0 +1,22 @@
+# SIMULATED CRM export for the Blind Spot demo. Not real pipeline data of Lifeline Ventures.
+# invested = real portfolio companies from Cala; passed/in_review rows and noise rows are simulated.
+company,website,status,date
+Aiven,aiven.io,invested,2021-12-29
+Lumora Analytics,lumora-analytics.io,in_review,2022-02-15
+Orchard Ledger,orchardledger.com,passed,2022-05-28
+Tidewell Health,tidewell.health,in_review,2022-10-17
+Mosaic Grid,mosaicgrid.energy,passed,2022-12-27
+Velora Pay,velorapay.eu,passed,2023-07-26
+Halvard Security,halvard.no,passed,2023-10-24
+Strata Forms,strataforms.app,in_review,2024-02-07
+Patchbay Audio,patchbay.fm,passed,2024-04-25
+Quillnest,quillnest.ai,passed,2024-06-17
+Nimbus Kitchen,nimbuskitchen.fr,in_review,2024-09-08
+In Parallel,in-parallel.com,invested,2024-10-10
+Kvarn Logistics,kvarn.se,passed,2024-12-09
+Pinecrest Labs,pinecrestlabs.co.uk,passed,2024-12-24
+Fernwerk Robotics,fernwerk.de,passed,2024-12-28
+Brisa Mobility,brisa-mobility.es,in_review,2025-03-18
+Arclight Bio,arclightbio.ch,passed,2025-05-08
+Carbo Culture Oy,carboculture.com,invested,2026-01-18
+Verda,verda.com,invested,2026-06-11

@@ -1,0 +1,35 @@
+# SIMULATED CRM export for the Blind Spot demo. Not real pipeline data of Earlybird Venture Capital.
+# invested = real portfolio companies from Cala; passed/in_review rows and noise rows are simulated.
+company,website,status,date
+Aiven,aiven.io,invested,2022-01-01
+Tidewell Health,tidewell.health,passed,2022-04-25
+Quillnest,quillnest.ai,passed,2022-05-23
+Fernwerk Robotics,fernwerk.de,passed,2022-07-30
+Synera,synera.io,passed,2022-08-05
+Velora Pay,velorapay.eu,passed,2022-10-14
+Pliant GmbH,,passed,2022-11-26
+Patchbay Audio,patchbay.fm,passed,2022-12-04
+Halvard Security,halvard.no,passed,2022-12-21
+Prewave GmbH,prewave.com,in_review,2023-01-21
+Nimbus Kitchen,nimbuskitchen.fr,passed,2023-03-31
+Kuva Space,kuvaspace.com,passed,2023-09-28
+Lumora Analytics,lumora-analytics.io,passed,2023-11-24
+Cardino,cardino.de,passed,2024-03-17
+Kvarn Logistics,kvarn.se,passed,2024-04-06
+Strata Forms,strataforms.app,passed,2024-05-15
+Pinecrest Labs,pinecrestlabs.co.uk,passed,2024-05-27
+ArcanaBio,,in_review,2024-07-05
+Mosaic Grid,mosaicgrid.energy,in_review,2024-10-29
+Brisa Mobility,brisa-mobility.es,in_review,2024-11-09
+Nala Earth,,in_review,2024-12-15
+Haya Therapeutics SA,hayatx.com,invested,2024-12-25
+Cariqa,cariqa.com,in_review,2025-04-01
+Orchard Ledger,orchardledger.com,in_review,2025-06-15
+Arclight Bio,arclightbio.ch,passed,2025-09-27
+Porters,withporters.com,invested,2025-12-04
+Finperks,finperks.com,in_review,2026-01-18
+eleQtron,eleqtron.com,invested,2026-01-20
+Avrea,avrea.com,invested,2026-04-09
+"Gemma Biotherapeutics, Inc.",gemmabiotx.com,invested,2026-05-09
+Marvel Fusion GmbH,marvelfusion.com,invested,2026-08-16
+Comparables.ai,,in_review,2026-09-13

@@ -6,10 +6,12 @@ snowballing the investor network and `knowledge_search` seeds. It is no longer l
 A **blind spot** is a market company inside the fund's thesis that never appears in its CRM.
 The period is **since 2022-01-01 everywhere**.
 
-**Transition.** Until the frontend switches, `POST /api/audit` and `GET /api/audit/demo` return the v2 fields
-below **and** the legacy v1 fields (`peers`, `venn`, `heatmap`, `top_blind_spots`, `never_seen_deals`,
-`top_missed_leads`, `summary.market_deals`, `summary.in_pipeline`). Legacy fields are deprecated and will be
-removed; build against v2 only. v2 mocks: `docs/mocks/`.
+The legacy v1 fields (`peers`, `venn`, `heatmap`, `top_blind_spots`, `never_seen_deals`, `top_missed_leads`,
+`summary.market_deals`, `summary.in_pipeline`) have been **removed**; the frontend reads v2 only. Mocks: `docs/mocks/`.
+
+**Crawl focus.** The market scope is Europe (all data crawled so far counts). The crawler currently spends
+its budget only on the **Nordics** (`MARKET_REGION = "nordics"`: Finland, Sweden, Norway, Denmark, Iceland;
+Finland first). `market_coverage` reports both.
 
 Single source of truth between `/backend` (FastAPI) and `/frontend` (Next.js).
 Backend base URL: `http://localhost:8000` locally. Frontend reads it from `NEXT_PUBLIC_API_URL` (a URL, never a key).
@@ -23,10 +25,19 @@ Common types:
 - Amounts are numbers in the original currency plus a `currency` code. Dates are ISO `YYYY-MM-DD`.
 - Stages use Cala codes: `PRE_SEED, SEED, SERIES_A, SERIES_B, SERIES_C, ...`
 
-## GET /api/funds/search?q=earlybird
+## GET /api/funds/search?q=lifeline
 ```json
-[{ "id": "uuid", "name": "Earlybird Venture Capital" }]
+[{ "id": "uuid", "name": "Lifeline Ventures", "basis_rounds": 12 }]
 ```
+Returns the crawled funds plus **every investor organisation** (not persons) that is a named participant in at
+least **3** rounds since 2022-01-01 of European companies (merged/implausible rounds excluded). Grant bodies
+and public administrations are excluded (name rule: ministries, councils, commissions, agencies such as the
+European Innovation Council, Business Finland, Vinnova, ...; or at least half of their rounds labelled GRANT);
+public investment companies such as Tesi stay. `basis_rounds` is the number of rounds the thesis rests on
+(same rule as the profile's `investments_since_2022`). A fund's legal entities are merged into the fund.
+Sorted: name prefix match first, then most `basis_rounds`, then name; at most 100. Profile and audit accept
+any returned `id`. Without live data (demo-only deployment) only the demo funds are returned, without
+`basis_rounds`. Mock: `docs/mocks/funds_search_v2.json`.
 
 ## GET /api/funds/{fund_id}/profile
 The fund's thesis, inferred from its own investments in Cala. No user input. **Every number uses the same
@@ -132,7 +143,10 @@ Same upload, header, limits and optional `mapping` as `POST /api/audit` (`fund_i
   }],
   "top_investors_in_blind_spots": [{ "id": "uuid", "name": "Creandum", "companies": 4 }],
   "market_coverage": { "european_companies_screened": 3100, "qualifying_companies": 260,
-                       "investors_explored": 410, "as_of": "2026-11-14" }
+                       "investors_explored": 410, "as_of": "2026-11-14",
+                       "region": "nordics", "region_countries": ["Denmark", "Finland", "Iceland", "Norway", "Sweden"],
+                       "region_qualifying_companies": 120,
+                       "priority_country": "Finland", "priority_country_qualifying_companies": 45 }
 }
 ```
 Semantics:
@@ -155,13 +169,26 @@ Semantics:
   may be `null`. `investors[].type` is the Cala entity type (Organization, Company, Person, ...).
 - `top_investors_in_blind_spots`: investors appearing in the most blind-spot rounds (max 10).
 - `market_coverage`: how much of Cala the crawler has explored, for an honest "market as known today" note.
+  `region` is the crawl focus (`nordics`); `region_qualifying_companies` / `priority_country_qualifying_companies`
+  count qualifying companies headquartered there (Finland is crawled first).
 - No LLM is involved in the audit; `top_blind_spots`, `venn` and `heatmap` are removed in v2.
 - Company and investor `name`s are display names: the brand from Cala aliases instead of an upper-case legal
   name (e.g. "FIRSTMINUTE CAPITAL LLP" → "Firstminute Capital"), otherwise the legal name in title case
   without its legal suffix.
 
-## GET /api/audit/demo
-Returns a precomputed audit (same shape as POST /api/audit, v2 + legacy during the transition) for the demo fund (Earlybird Venture Capital) and `data/demo_pipeline.csv`, a **simulated** CRM (`simulated_crm: true`). Must respond in under 1 second. Mock: `docs/mocks/audit_v2.json`.
+## GET /api/audit/demos
+```json
+[{ "fund": { "id": "uuid", "name": "Lifeline Ventures" }, "default": true },
+ { "fund": { "id": "uuid", "name": "Earlybird Venture Capital" }, "default": false }]
+```
+The precomputed demos. Mock: `docs/mocks/demos_v2.json`.
+
+## GET /api/audit/demo?fund_id=uuid
+Returns a precomputed audit (same shape as POST /api/audit) for a demo fund and its **simulated** CRM
+(`simulated_crm: true`). Without `fund_id`: the default demo (**Lifeline Ventures**); `fund_id` of another demo
+(Earlybird Venture Capital) returns that one; any other `fund_id` is 404. Must respond in under 1 second.
+Mock: `docs/mocks/audit_v2.json`. The simulated CRM holds the fund's real Cala investments as `invested`, about
+40% of its market as `passed`/`in_review`, and fictional out-of-market rows.
 
 ## GET /api/deals/{company_id}?fund_id=uuid
 ```json
@@ -182,6 +209,6 @@ Returns a precomputed audit (same shape as POST /api/audit, v2 + legacy during t
 }
 ```
 `rounds[].date` is **nullable** (e.g. EU grants without a date); `rounds[]` is sorted newest first with undated rounds last. `rounds[].amount` and `rounds[].currency` can also be `null`.
-`rounds[].sources` use the v2 `Source` (with `date`). `rounds[].qualifying` marks rounds that count for the market (since 2022-01-01, named investor, sourced, not merged).
+Mock: `docs/mocks/deal_v2.json`. `rounds[].sources` use the v2 `Source` (with `date`). `rounds[].qualifying` marks rounds that count for the market (since 2022-01-01, named investor, sourced, not merged).
 `why_missed` is computed by rules (lead never co-invested with the fund, country outside the fund's top countries, stage outside its stages), max 2 items.
 `recent_news` comes from Cala `knowledge_search`, cached.

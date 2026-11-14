@@ -468,8 +468,33 @@ def market_coverage(qualifying: int) -> dict:
     inv = _rows("SELECT COUNT(*) AS n FROM crawl_queue WHERE kind='investor' AND status='done'")[0]["n"]
     last = _rows("SELECT MAX(fetched_at) AS t FROM companies")[0]["t"]
     as_of = time.strftime("%Y-%m-%d", time.gmtime(last)) if last else None
+    import market
+    reg = sorted(market.REGION_COUNTRIES)
+    ph = ",".join("?" * len(reg))
+    reg_q = _rows(f"SELECT COUNT(*) AS n FROM companies WHERE qualifies=1 AND country IN ({ph})", reg)[0]["n"]
+    prio_q = _rows("SELECT COUNT(*) AS n FROM companies WHERE qualifies=1 AND country=?",
+                   [market.PRIORITY_COUNTRY])[0]["n"]
     return {"european_companies_screened": eu, "qualifying_companies": qualifying, "investors_explored": inv,
-            "as_of": as_of}
+            "as_of": as_of, "region": market.MARKET_REGION, "region_countries": reg,
+            "region_qualifying_companies": reg_q,
+            "priority_country": market.PRIORITY_COUNTRY, "priority_country_qualifying_companies": prio_q}
+
+
+def investor_name(entity_id: str) -> Optional[str]:
+    """Name of an investor entity seen as a round participant or a company investor (None if unknown)."""
+    r = _rows("SELECT name FROM round_participants WHERE entity_id=? AND role != 'ISSUER' LIMIT 1", [entity_id])
+    if not r:
+        r = _rows("SELECT name FROM company_investors WHERE investor_id=? LIMIT 1", [entity_id])
+    return r[0]["name"] if r else None
+
+
+def investor_portfolio(entity_id: str) -> set[str]:
+    """Companies of a (non-crawled) investor: rounds it joined plus INVESTED_IN links seen on companies."""
+    a = {r["company_id"] for r in _rows(
+        "SELECT DISTINCT r.company_id FROM round_participants p JOIN rounds r ON r.id=p.round_id "
+        "WHERE p.entity_id=? AND p.role != 'ISSUER'", [entity_id])}
+    b = {r["company_id"] for r in _rows("SELECT company_id FROM company_investors WHERE investor_id=?", [entity_id])}
+    return a | b
 
 
 def all_company_names() -> list[dict]:

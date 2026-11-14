@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import hashlib
 import re
+import time
 from datetime import date
 from collections import Counter, defaultdict
 from concurrent.futures import Future, ThreadPoolExecutor
@@ -126,21 +127,87 @@ def _amount(v):
 
 # ---------------------------------------------------------------- funds
 
+MIN_SEARCH_ROUNDS = 3
+# Grant bodies and public administrations are not investors to audit (Tesi and similar investment
+# companies stay). Rule: a name matching NON_INVESTOR_NAME, or at least GRANT_SHARE_EXCLUDE of the
+# organisation's rounds labelled GRANT.
+NON_INVESTOR_NAME = re.compile(
+    r"(minist|bundesministerium|ministère|department for|innovation council|\beic\b|european commission|"
+    r"european union|horizon europe|\bcouncil\b|commission|agency|agentur|\bagence\b|business finland|"
+    r"vinnova|innovasjon norge|innovation norway|innovationsfonden|innovation fund denmark|bpifrance|"
+    r"government|regierung|\bstate of\b|\bcity of\b|\bregion\b|forschungs|research council)", re.I)
+GRANT_SHARE_EXCLUDE = 0.5
+
+
+SEARCH_TTL_S = 300
+_search_cache: dict = {"at": 0.0, "items": None}
+
+
 def search_funds(q: str) -> list[dict]:
-    q = (q or "").strip().lower()
-    funds = db.list_funds()
-    if not q:
-        return funds
-    starts = [f for f in funds if f["name"].lower().startswith(q)]
-    contains = [f for f in funds if q in f["name"].lower() and f not in starts]
-    return starts + contains
+    """Crawled funds plus every investor organisation (not persons) with at least MIN_SEARCH_ROUNDS basis
+    rounds (named participant in rounds since 2022 of European companies, conflated rounds excluded).
+    Each result carries basis_rounds; profile and audit use the same logic for both kinds.
+    The full list is cached for SEARCH_TTL_S seconds; the query only filters it."""
+    ql = (q or "").strip().casefold()
+    if _search_cache["items"] is None or time.time() - _search_cache["at"] > SEARCH_TTL_S:
+        _search_cache["items"], _search_cache["at"] = _all_investors(), time.time()
+    out = list(_search_cache["items"])
+    if ql:
+        out = [f for f in out if ql in f["name"].casefold()]
+    out.sort(key=lambda f: (not f["name"].casefold().startswith(ql) if ql else False, -f["basis_rounds"],
+                            f["name"].casefold()))
+    return out[:100]
+
+
+def _all_investors() -> list[dict]:
+    funds, ent2fund, known = _fund_names()
+    rows = db.market_rounds(market.PERIOD_FROM)
+    comps = db.companies({r["company_id"] for r in rows})
+    parts = db.participants([r["id"] for r in rows])
+    count, grants, names, types = Counter(), Counter(), {}, {}
+    for r in rows:
+        c = comps.get(r["company_id"])
+        if not c or c["country"] not in market.EUROPE_COUNTRIES or is_conflated(r):
+            continue
+        for p in {p["entity_id"]: p for p in parts.get(r["id"], []) if p["role"] != "ISSUER"}.values():
+            key = ent2fund.get(p["entity_id"], p["entity_id"])
+            count[key] += 1
+            grants[key] += r["label"] == "GRANT"
+            names.setdefault(key, p["name"])
+            types.setdefault(key, p.get("entity_type"))
+    out = []
+    for fid, name in funds.items():                         # crawled funds: always listed
+        out.append({"id": fid, "name": name, "basis_rounds": len(_basis_rounds_quick(fid))})
+    for key, n in count.items():
+        if key in funds or n < MIN_SEARCH_ROUNDS or (types.get(key) or "") == "Person":
+            continue
+        if NON_INVESTOR_NAME.search(names[key] or "") or grants[key] / n >= GRANT_SHARE_EXCLUDE:
+            continue
+        out.append({"id": key, "name": display(names[key], known, key), "basis_rounds": n})
+    return out
+
+
+def _basis_rounds_quick(fund_id: str) -> list:
+    """Basis rounds of a crawled fund (same rule as the profile)."""
+    portfolio = db.fund_portfolio(fund_id)
+    comps = db.companies(portfolio)
+    return [r for r in _basis_rounds(fund_id, portfolio)
+            if comps.get(r["company_id"], {}).get("country") in market.EUROPE_COUNTRIES]
 
 
 def _fund_or_404(fund_id: str) -> dict:
+    """A crawled fund (funds.py) or any investor organisation found in Cala rounds/portfolios."""
     f = db.get_fund(fund_id)
-    if not f:
+    if f:
+        return f
+    name = db.investor_name(fund_id)
+    if not name:
         raise NotFound(f"fund {fund_id} not found")
-    return f
+    return {"id": fund_id, "name": display(name, db.display_names(), fund_id)}
+
+
+def _entity_ids(fund_id: str) -> set[str]:
+    return set(db.fund_entity_ids(fund_id)) or {fund_id}
 
 
 def profile(fund_id: str) -> dict:
@@ -189,7 +256,7 @@ def _basis_rounds(fund_id: str, portfolio: set) -> list[dict]:
     """The fund's own investments since 2022: rounds where one of its entities is a named participant.
     Portfolio companies whose rounds since 2022 have no participant list in Cala contribute their first
     such round instead. Conflated rounds never count."""
-    ents = set(db.fund_entity_ids(fund_id))
+    ents = _entity_ids(fund_id)
     rounds = [r for r in db.rounds_for_companies(portfolio)
               if r["date"] and r["date"] >= PROFILE_FROM and not is_conflated(r)]
     parts = db.participants([r["id"] for r in rounds])
@@ -200,13 +267,22 @@ def _basis_rounds(fund_id: str, portfolio: set) -> list[dict]:
         investors = [p for p in parts.get(r["id"], []) if p["role"] != "ISSUER"]
         if r["company_id"] not in joined_companies and not investors and r["company_id"] not in no_list:
             no_list[r["company_id"]] = r
-    return joined + list(no_list.values())
+    # Cala sometimes holds the same round twice (two entities, same company, stage and date): count it once.
+    out, seen = [], set()
+    for r in sorted(joined + list(no_list.values()), key=lambda r: (r["date"], r["id"])):
+        key = (r["company_id"], r["label"], r["date"])
+        if key not in seen:
+            seen.add(key)
+            out.append(r)
+    return out
 
 
 def _profile(fund_id: str) -> dict:
     """Thesis and profile, all over the same period (since 2022) and scope (European HQ)."""
     fund = _fund_or_404(fund_id)
     portfolios = db.all_fund_portfolios()
+    if fund_id not in portfolios:            # an investor organisation that is not a crawled fund
+        portfolios[fund_id] = db.investor_portfolio(fund_id)
     portfolio = portfolios.get(fund_id, set())
     comps = db.companies(portfolio)
     basis_all = _basis_rounds(fund_id, portfolio)
@@ -316,7 +392,7 @@ def run_audit(fund_id: str, peer_ids: list[str], crm_text: str) -> dict:
 
 def run_audit_rows(fund_id: str, peer_ids: list[str], crm_rows: list[dict], simulated: bool,
                    fingerprint: str) -> dict:
-    """v2 audit (plus the deprecated v1 fields during the frontend transition).
+    """v2 audit (the frontend reads only v2; the v1 fields were removed).
 
     Market = European companies with a qualifying round since 2022 (market.py) inside the fund's thesis.
     Blind spot = market company that is neither in the CRM nor in the fund's own Cala portfolio.
@@ -389,44 +465,7 @@ def run_audit_rows(fund_id: str, peer_ids: list[str], crm_rows: list[dict], simu
         "top_investors_in_blind_spots": top_investors,
         "market_coverage": db.market_coverage(n_qualifying),
     }
-    return {**v2, **_legacy_v1(v2, chosen, comps, status, crm_only)}
-
-
-def _legacy_v1(v2: dict, chosen: dict, comps: dict, status: dict, crm_only: int) -> dict:
-    """Deprecated v1 fields, derived from the v2 result, until the frontend switches (see contract)."""
-    s = v2["summary"]
-    cell = defaultdict(lambda: [0, 0])
-    for cid, r in chosen.items():
-        k = (comps[cid]["country"], r["label"])
-        cell[k][0] += 1
-        cell[k][1] += status[cid] == "never_seen"
-    countries = sorted({k[0] for k in cell}, key=lambda c: (-sum(v[0] for k, v in cell.items() if k[0] == c), c))
-    stages = sorted({k[1] for k in cell}, key=STAGE_RANK.get)
-    leads = Counter()
-    lead_names = {}
-    for d in v2["never_seen"]:
-        for i in d["round"]["investors"]:
-            if i["is_lead"]:
-                leads[i["id"]] += 1
-                lead_names[i["id"]] = i["name"]
-    return {
-        "peers": [],
-        "summary": {**s, "market_deals": s["market_companies"], "in_pipeline": s["in_crm"]},
-        "venn": {"pipeline_only": crm_only, "overlap": s["in_crm"], "market_only": s["never_seen"]},
-        "heatmap": {"countries": countries, "stages": stages,
-                    "cells": [{"country": c, "stage": st, "total": cell[(c, st)][0], "never_seen": cell[(c, st)][1],
-                               "share": round(cell[(c, st)][1] / cell[(c, st)][0], 2)}
-                              for c in countries for st in stages if (c, st) in cell]},
-        "top_blind_spots": [],
-        "never_seen_deals": [{
-            "company_id": d["company_id"], "name": d["name"], "website": d["website"], "country": d["country"],
-            "stage": d["round"]["label"], "amount": d["round"]["amount"], "currency": d["round"]["currency"],
-            "date": d["round"]["date"],
-            "lead_investors": [{"id": i["id"], "name": i["name"]} for i in d["round"]["investors"] if i["is_lead"]],
-            "sources": d["round"]["sources"], "conflated": False} for d in v2["never_seen"]],
-        "top_missed_leads": [{"id": k, "name": lead_names[k], "deals": n}
-                             for k, n in sorted(leads.items(), key=lambda kv: (-kv[1], lead_names[kv[0]].casefold()))[:5]],
-    }
+    return v2
 
 
 # ---------------------------------------------------------------- deal detail

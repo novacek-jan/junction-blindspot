@@ -21,9 +21,9 @@ WORKDIR /app
 COPY backend/requirements.txt backend/requirements.txt
 RUN pip install --upgrade pip && pip install -r backend/requirements.txt
 
-# Application code and the precomputed demo (the server has no SQLite DB; the demo is served from JSON).
+# Application code and the precomputed demos (served from JSON when no database is attached).
 COPY backend/*.py backend/
-COPY data/demo_audit.json data/demo_profile.json data/demo_deals.json data/
+COPY data/demos.json data/demo_*.json data/
 
 # Read-only for the app user: it writes nothing at runtime.
 RUN chown -R root:root /app && chmod -R a-w /app

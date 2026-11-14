@@ -10,6 +10,7 @@ Crawler prefilter (cheap, before any round is fetched): Europe HQ and founded >=
 """
 from __future__ import annotations
 
+import os
 from typing import Iterable, Optional
 
 PERIOD_FROM = "2022-01-01"
@@ -22,6 +23,26 @@ EUROPE_COUNTRIES = {
     "Portugal", "Greece", "Malta", "Cyprus", "Poland", "Czechia", "Slovakia", "Hungary", "Romania", "Bulgaria",
     "Croatia", "Slovenia", "Serbia", "Ukraine", "Estonia", "Latvia", "Lithuania", "Türkiye", "Turkey",
 }
+
+
+# Crawl focus. The snowball crawler only spends budget on companies headquartered in MARKET_REGION; data
+# already crawled elsewhere in Europe stays in the DB and still counts for the (Europe-wide) market.
+# Expanding later = change the default (or set the MARKET_REGION env var), e.g. to "europe".
+REGIONS = {
+    "nordics": ["Finland", "Sweden", "Norway", "Denmark", "Iceland"],
+    "europe": sorted(EUROPE_COUNTRIES),
+}
+MARKET_REGION = os.environ.get("MARKET_REGION", "nordics").strip().lower()
+REGION_COUNTRIES = set(REGIONS.get(MARKET_REGION, REGIONS["nordics"]))
+PRIORITY_COUNTRY = "Finland"     # screened first within the region
+
+
+def crawl_prefilter(country: Optional[str], founded: Optional[str]) -> str:
+    """The crawler's prefilter: 'pass' | 'no_hq' | 'out_of_region' | 'out_of_europe' | 'too_old'."""
+    pf = prefilter(country, founded)
+    if pf == "pass" and country not in REGION_COUNTRIES:
+        return "out_of_region"
+    return pf
 
 
 def prefilter(country: Optional[str], founded: Optional[str]) -> str:

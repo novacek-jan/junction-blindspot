@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 import random
 import sys
 from datetime import date, timedelta
@@ -25,11 +26,11 @@ os.environ.setdefault("BLINDSPOT_BACKEND", "sqlite")   # built from the local cr
 import audit  # noqa: E402
 import db  # noqa: E402
 
-DEMO_FUND = "Earlybird Venture Capital"  # best round coverage since 2022 among the early-stage funds
-CSV_PATH = db.ROOT / "data" / "demo_pipeline.csv"
-JSON_PATH = db.ROOT / "data" / "demo_audit.json"
-PROFILE_PATH = db.ROOT / "data" / "demo_profile.json"
-DEALS_PATH = db.ROOT / "data" / "demo_deals.json"
+# Demos: (slug, fund name). The first is the main demo, also written to the legacy file names
+# (data/demo_audit.json, demo_profile.json, demo_deals.json, demo_pipeline.csv).
+DEMOS = [("lifeline", "Lifeline Ventures"), ("earlybird", "Earlybird Venture Capital")]
+DATA = db.ROOT / "data"
+INDEX_PATH = DATA / "demos.json"
 SEED = 2026
 SHARE_IN_PIPELINE = 0.40
 NEWS_PREFETCH = 20
@@ -44,17 +45,15 @@ NOISE = [
 ]
 
 
-def demo_fund_and_peers() -> tuple[dict, list[str]]:
-    funds = db.list_funds()
-    fund = next(f for f in funds if f["name"] == DEMO_FUND)
-    # v2: peers no longer define the market (it is every qualifying European company in the thesis).
-    return fund, []
+def paths(slug: str) -> dict:
+    return {k: DATA / f"demo_{slug}_{k}.{ext}" for k, ext in
+            (("audit", "json"), ("profile", "json"), ("deals", "json"), ("pipeline", "csv"))}
 
 
-def build_csv(fund: dict, peers: list[str]) -> None:
+def build_csv(fund: dict, csv_path: Path) -> None:
     """SIMULATED CRM: the fund's real known deals (invested) + SHARE_IN_PIPELINE of its v2 market
     (passed / in_review only: we never invent investments) + out-of-market noise rows."""
-    rng = random.Random(SEED)
+    rng = random.Random(f"{SEED}:{fund['id']}")
     rows = []
     # 1. The fund's own known deals: its Cala portfolio companies with a dated round since 2022.
     own = db.fund_portfolio(fund["id"])
@@ -69,7 +68,7 @@ def build_csv(fund: dict, peers: list[str]) -> None:
         rows.append((c["name"], audit.normalize_domain(c["website"]) or "", "invested", seen.isoformat()))
     n_own = len(rows)
     # 2. A plausible share of the market the fund did see: mostly passed, some still in review.
-    empty = audit.run_audit(fund["id"], peers, "company,website,status,date\n")
+    empty = audit.run_audit(fund["id"], [], "company,website,status,date\n")
     deals = sorted((d for d in empty["never_seen"] if d["company_id"] not in own), key=lambda d: d["company_id"])
     rng.shuffle(deals)
     picked = deals[: round(len(deals) * SHARE_IN_PIPELINE)]
@@ -87,37 +86,48 @@ def build_csv(fund: dict, peers: list[str]) -> None:
              "# invested = real portfolio companies from Cala; passed/in_review rows and noise rows are simulated.",
              "company,website,status,date"]
     lines += [",".join('"' + v.replace('"', '""') + '"' if "," in v else v for v in r) for r in rows]
-    CSV_PATH.write_text("\n".join(lines) + "\n")
-    print(f"wrote {CSV_PATH}: {n_own} own deals (invested), {len(picked)} of {len(deals)} market companies "
+    csv_path.write_text("\n".join(lines) + "\n")
+    print(f"wrote {csv_path}: {n_own} own deals (invested), {len(picked)} of {len(deals)} market companies "
           f"(passed/in_review), {len(NOISE)} noise rows")
 
 
-def main() -> None:
-    fund, peers = demo_fund_and_peers()
-    if "--regen-csv" in sys.argv or not CSV_PATH.exists():
-        build_csv(fund, peers)
-    result = audit.run_audit(fund["id"], peers, CSV_PATH.read_text())
+def build_demo(slug: str, fund_name: str, regen_csv: bool, news: bool) -> dict:
+    fund = next(f for f in db.list_funds() if f["name"] == fund_name)
+    p = paths(slug)
+    if regen_csv or not p["pipeline"].exists():
+        build_csv(fund, p["pipeline"])
+    result = audit.run_audit(fund["id"], [], p["pipeline"].read_text())
     assert result["simulated_crm"] is True, "demo CSV must carry the SIMULATED marker"
     missing = [d["name"] for d in result["never_seen"] if not d["round"]["sources"]]
     assert not missing, f"blind spots without a Cala source: {missing}"
     assert all(d["round"]["label"] in result["thesis"]["stages"] for d in result["never_seen"])
-    JSON_PATH.write_text(json.dumps(result, indent=1, ensure_ascii=False))
-    print(f"wrote {JSON_PATH}: {json.dumps(result['summary'])}")
-
     from cala_client import Cala
     cala = Cala()
-    deals = [{"company_id": d["company_id"], "name": d["name"], "website": d["website"], "conflated": False}
-             for d in result["never_seen"]]
-    if "--no-news" not in sys.argv:   # fetch news (knowledge_search) for the deals a demo will click first
-        for d in [d for d in deals if not d["conflated"]][:NEWS_PREFETCH]:
+    if news:   # fetch news (knowledge_search) for the deals a demo will click first
+        for d in result["never_seen"][:NEWS_PREFETCH]:
             audit.recent_news(cala, d["name"], d["website"], wait=180)
     # Every demo deal's detail is bundled so /api/deals works on a server without the DB.
     details = {d["company_id"]: audit.deal_detail(d["company_id"], fund["id"], cala, news_cache_only=True)
-               for d in deals}
-    PROFILE_PATH.write_text(json.dumps(audit.profile(fund["id"]), indent=1, ensure_ascii=False))
-    DEALS_PATH.write_text(json.dumps(details, indent=1, ensure_ascii=False))
-    print(f"wrote {PROFILE_PATH} and {DEALS_PATH} ({len(details)} deals, "
-          f"{sum(1 for v in details.values() if v['recent_news'])} with news)")
+               for d in result["never_seen"]}
+    profile = audit.profile(fund["id"])
+    for key, data in (("audit", result), ("profile", profile), ("deals", details)):
+        p[key].write_text(json.dumps(data, indent=1, ensure_ascii=False))
+    print(f"[{slug}] {fund_name}: {json.dumps(result['summary'])} | {len(details)} deals, "
+          f"{sum(1 for v in details.values() if v['recent_news'])} with news")
+    return {"slug": slug, "fund": fund, "summary": result["summary"]}
+
+
+def main() -> None:
+    regen, news = "--regen-csv" in sys.argv, "--no-news" not in sys.argv
+    built = [build_demo(slug, name, regen, news) for slug, name in DEMOS]
+    main_slug = DEMOS[0][0]
+    for key, legacy in (("audit", "demo_audit.json"), ("profile", "demo_profile.json"),
+                        ("deals", "demo_deals.json"), ("pipeline", "demo_pipeline.csv")):
+        shutil.copyfile(paths(main_slug)[key], DATA / legacy)
+    INDEX_PATH.write_text(json.dumps([{"slug": b["slug"], "fund": b["fund"], "default": b["slug"] == main_slug}
+                                      for b in built], indent=1, ensure_ascii=False))
+    print(f"wrote {INDEX_PATH} (main demo: {main_slug})")
+
 
 if __name__ == "__main__":
     main()

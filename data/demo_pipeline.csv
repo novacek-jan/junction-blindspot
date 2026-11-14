@@ -1,29 +1,22 @@
-# SIMULATED CRM export for the Blind Spot demo. Not real pipeline data of Earlybird Venture Capital.
+# SIMULATED CRM export for the Blind Spot demo. Not real pipeline data of Lifeline Ventures.
 # invested = real portfolio companies from Cala; passed/in_review rows and noise rows are simulated.
 company,website,status,date
-Aiven,aiven.io,invested,2022-01-19
-Mosaic Grid,mosaicgrid.energy,in_review,2022-02-20
-LiveEO GmbH,live-eo.com,passed,2022-06-02
-Tidewell Health,tidewell.health,in_review,2022-06-06
-Strata Forms,strataforms.app,passed,2022-07-05
-Prewave GmbH,prewave.com,passed,2023-02-06
-Orchard Ledger,orchardledger.com,passed,2023-08-22
-Kvarn Logistics,kvarn.se,passed,2023-11-29
-Lumora Analytics,lumora-analytics.io,passed,2024-01-01
-Pinecrest Labs,pinecrestlabs.co.uk,passed,2024-01-26
-Cardino,cardino.de,in_review,2024-03-02
-Brisa Mobility,brisa-mobility.es,passed,2024-07-25
-Velora Pay,velorapay.eu,passed,2024-08-02
-Arclight Bio,arclightbio.ch,passed,2024-10-17
-Fernwerk Robotics,fernwerk.de,in_review,2024-11-17
-Patchbay Audio,patchbay.fm,in_review,2025-02-15
-Haya Therapeutics SA,hayatx.com,invested,2025-03-26
-Halvard Security,halvard.no,passed,2025-03-28
-Nimbus Kitchen,nimbuskitchen.fr,in_review,2025-04-14
-Quillnest,quillnest.ai,in_review,2025-08-13
-Porters,withporters.com,invested,2025-11-02
-eleQtron,eleqtron.com,invested,2025-12-16
-Avrea,avrea.com,invested,2026-02-21
-"Gemma Biotherapeutics, Inc.",gemmabiotx.com,invested,2026-04-30
-Graph Therapeutics,graphtx.com,passed,2026-05-27
-Marvel Fusion GmbH,marvelfusion.com,invested,2026-09-21
+Aiven,aiven.io,invested,2021-12-29
+Lumora Analytics,lumora-analytics.io,in_review,2022-02-15
+Orchard Ledger,orchardledger.com,passed,2022-05-28
+Tidewell Health,tidewell.health,in_review,2022-10-17
+Mosaic Grid,mosaicgrid.energy,passed,2022-12-27
+Velora Pay,velorapay.eu,passed,2023-07-26
+Halvard Security,halvard.no,passed,2023-10-24
+Strata Forms,strataforms.app,in_review,2024-02-07
+Patchbay Audio,patchbay.fm,passed,2024-04-25
+Quillnest,quillnest.ai,passed,2024-06-17
+Nimbus Kitchen,nimbuskitchen.fr,in_review,2024-09-08
+In Parallel,in-parallel.com,invested,2024-10-10
+Kvarn Logistics,kvarn.se,passed,2024-12-09
+Pinecrest Labs,pinecrestlabs.co.uk,passed,2024-12-24
+Fernwerk Robotics,fernwerk.de,passed,2024-12-28
+Brisa Mobility,brisa-mobility.es,in_review,2025-03-18
+Arclight Bio,arclightbio.ch,passed,2025-05-08
+Carbo Culture Oy,carboculture.com,invested,2026-01-18
+Verda,verda.com,invested,2026-06-11
