@@ -154,6 +154,21 @@ Same upload, header, limits and optional `mapping` as `POST /api/audit` (`fund_i
   }],
   "top_investors_in_blind_spots": [{ "id": "uuid", "name": "Creandum", "companies": 4 }],
   "breakdown": [{ "country": "Finland", "stage": "SEED", "market": 9, "never_seen": 6 }],
+  "briefing": {
+    "insights": [
+      { "kind": "sourcing", "value": 6, "total": 16, "title": "Two seed funds got there first",
+        "line": "Icebreaker.vc and Innovestor backed 6 of them; you never co-invested with either.",
+        "company_ids": ["uuid"], "investor_names": ["Icebreaker.vc", "Innovestor"] },
+      { "kind": "theme", "value": 5, "total": 16, "title": "Vertical AI is your gap",
+        "line": "AI tools for one expert job: patents, M&A, legal and compliance.",
+        "company_ids": ["uuid"], "investor_names": [] },
+      { "kind": "momentum", "value": 4, "total": 16, "title": "They raised again",
+        "line": "4 of them closed another VC round since 2022.",
+        "company_ids": ["uuid"], "investor_names": [] }
+    ],
+    "model": "claude-sonnet-5-5",
+    "generated_at": "2026-11-14T19:30:00Z"
+  },
   "patterns": [
     { "kind": "top_vc", "text": "Lifeline Ventures backed 3 of the 23", "value": 3, "total": 23 },
     { "kind": "country", "text": "14 of the 23 are in Finland", "value": 14, "total": 23 },
@@ -196,6 +211,26 @@ Semantics:
   `country` (the country with most never-seen companies: "<value> of the <total> are in <country>"),
   `stage` (the stage with most: "<value> of the <total> raised a <stage> round"). `total` = `summary.never_seen`.
   Ties break alphabetically. No LLM.
+- `briefing` ("Why they slipped through"): `null` or up to 3 insights, always in the order sourcing, theme,
+  momentum, each only when its `value >= 2`. Written by Claude **from public Cala data only**: the CRM never goes
+  to the model, and every number (`value`, `total`) is computed in code. `total` = `summary.never_seen`.
+  - `sourcing`: VCs that backed never-seen companies but appear in **none** of the fund's own rounds since 2022;
+    the top 2 by companies; `value` = distinct never-seen companies they backed together; `investor_names` = those
+    VCs; `company_ids` = those companies.
+  - `theme`: Claude picks ONE group of 3+ never-seen companies that do similar things (all are inside the thesis;
+    the briefing explains why they were missed, it never suggests sectors outside the thesis). `company_ids` =
+    the ids that are really in `never_seen`; `value` = their count. Omitted when the call fails or validation fails.
+  - `momentum`: never-seen companies with 2+ qualifying (VC-backed) rounds since 2022; `value` = their count.
+  - `title` (max 6 words) and `line` (max 14 words) are Claude's wording of these facts. A text containing any
+    number other than `value` or `total` (digits or number words) is rejected. On any failure, a 20 s timeout or
+    a rejected text, `sourcing` and `momentum` use a fixed template text and `theme` is omitted.
+  - `model`: the Claude model that wrote the text, or `"template"` when every text is the fallback.
+  - Demo audits carry a precomputed briefing (never waits on the API). For `POST /api/audit` it is generated
+    during the request (up to 20 s); `briefing` may be `null`.
+- Investor `name`s are cleaned display names: legal suffixes (GmbH, Oy, AB, OÜ, s.r.o., ApS, A/S, LLC, Ltd, Ky,
+  ...), a trailing "Management" and fund-vehicle tails ("Fund IV", "II") are removed, and vehicles of the same
+  fund are merged under one name (e.g. "Butterfly Venture Fund IV Ky" and "BVF Venture Fund IV AB" →
+  "Butterfly Ventures"; hand-editable aliases in `backend/vc_lists.py`).
 - `market_coverage`: how much of Cala the crawler has explored, for an honest "market as known today" note.
   `region` is the crawl focus (`nordics`); `region_qualifying_companies` / `priority_country_qualifying_companies`
   count qualifying companies headquartered there (Finland is crawled first).

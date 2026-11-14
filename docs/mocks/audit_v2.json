@@ -245,6 +245,39 @@
       "total": 3
     }
   ],
+  "briefing": {
+    "insights": [
+      {
+        "kind": "sourcing",
+        "value": 2,
+        "total": 3,
+        "title": "Two funds got there first",
+        "line": "Creandum and Voima Ventures backed 2 of them; you never co-invested with either.",
+        "company_ids": [
+          "0b6f4c1e-1111-4a0b-9c1d-000000000001",
+          "0b6f4c1e-1111-4a0b-9c1d-000000000002"
+        ],
+        "investor_names": [
+          "Creandum",
+          "Voima Ventures"
+        ]
+      },
+      {
+        "kind": "momentum",
+        "value": 2,
+        "total": 3,
+        "title": "They raised again",
+        "line": "2 of them closed another VC round since 2022.",
+        "company_ids": [
+          "0b6f4c1e-1111-4a0b-9c1d-000000000001",
+          "0b6f4c1e-1111-4a0b-9c1d-000000000003"
+        ],
+        "investor_names": []
+      }
+    ],
+    "model": "claude-sonnet-5-5",
+    "generated_at": "2026-11-14T19:30:00Z"
+  },
   "market_coverage": {
     "european_companies_screened": 3100,
     "qualifying_companies": 260,
