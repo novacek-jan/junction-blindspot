@@ -29,9 +29,13 @@ class PaymentRequired(Exception):
 
 
 class Cala:
-    def __init__(self, api_key: Optional[str] = None):
+    def __init__(self, api_key: Optional[str] = None, max_attempts: int = MAX_ATTEMPTS, http_timeout: float = 120,
+                 min_interval: float = MIN_INTERVAL):
+        """Defaults suit the crawler (patient retries). The live check uses max_attempts=1 (no backoff sleep:
+        a 429, 5xx or network error simply fails the call) and a short http_timeout."""
         load_env()
         self._key = api_key or os.environ.get("CALA_API_KEY")
+        self.max_attempts, self.http_timeout, self.min_interval = max_attempts, http_timeout, min_interval
         self._lock = threading.Lock()
         self._next_slot = 0.0
         self._rid = 0
@@ -71,13 +75,14 @@ class Cala:
         headers = {"X-API-KEY": self._key, "Content-Type": "application/json",
                    "Accept": "application/json, text/event-stream"}
         what = args.get("entity_id") or args.get("name") or args.get("input", "")[:40]
-        for attempt in range(MAX_ATTEMPTS):
+        for attempt in range(self.max_attempts):
+            last = attempt == self.max_attempts - 1
             self._wait_turn()
             with self._lock:
                 self.api_calls += 1
             try:
                 req = urllib.request.Request(MCP_URL, data=body, headers=headers, method="POST")
-                with urllib.request.urlopen(req, timeout=120) as resp:
+                with urllib.request.urlopen(req, timeout=self.http_timeout) as resp:
                     raw = resp.read().decode()
             except urllib.error.HTTPError as e:
                 if e.code in (401, 402, 403):
@@ -85,12 +90,15 @@ class Cala:
                               403: "Forbidden (access blocked or plan limit)"}[e.code]
                     self._err(f"{tool} {what}: HTTP {e.code} {reason}")
                     raise PaymentRequired(f"Cala returned {e.code} {reason}")
-                if e.code in (429, 500, 502, 503, 504):
+                if e.code in (429, 500, 502, 503, 504) and not last:
                     self._backoff(attempt)
                     continue
                 self._err(f"{tool} {what}: HTTP {e.code}")
                 return None
-            except (urllib.error.URLError, TimeoutError, ConnectionError):
+            except (urllib.error.URLError, TimeoutError, ConnectionError) as e:
+                if last:
+                    self._err(f"{tool} {what}: {type(e).__name__}")
+                    return None
                 self._backoff(attempt)
                 continue
             msg = None
@@ -108,7 +116,7 @@ class Cala:
                 if "402" in text or "Payment Required" in text or "Insufficient bala" in text:
                     self._err(f"{tool} {what}: HTTP 402 Payment Required")
                     raise PaymentRequired("Cala returned 402 Payment Required (insufficient balance)")
-                if ("429" in text or "rate limit" in text.lower()) and attempt < MAX_ATTEMPTS - 1:
+                if ("429" in text or "rate limit" in text.lower()) and not last:
                     self._backoff(attempt)
                     continue
                 self._err(f"{tool} {what}: {text[:200]}")
@@ -116,14 +124,14 @@ class Cala:
             if res.get("structuredContent") is not None:
                 return res["structuredContent"]
             return json.loads(res["content"][0]["text"])
-        self._err(f"{tool} {what}: gave up after {MAX_ATTEMPTS} attempts")
+        self._err(f"{tool} {what}: gave up after {self.max_attempts} attempts")
         return None
 
     def _wait_turn(self) -> None:
         with self._lock:
             now = time.time()
             start = max(now, self._next_slot)
-            self._next_slot = start + MIN_INTERVAL
+            self._next_slot = start + self.min_interval
         time.sleep(max(0.0, start - now))
 
     def _backoff(self, attempt: int) -> None:
@@ -147,8 +155,10 @@ class Cala:
     def knowledge_search(self, question: str, cache_only: bool = False) -> Optional[dict]:
         return self.call("knowledge_search", {"input": question}, cache_only=cache_only)
 
-    def retrieve(self, entity_id: str, properties: list[str], out: list[str] = (), inc: list[str] = ()) -> dict:
-        """Retrieve properties plus *all* items of the given relationships (paged with limit/offset)."""
+    def retrieve(self, entity_id: str, properties: list[str], out: list[str] = (), inc: list[str] = (),
+                 cache: bool = True) -> dict:
+        """Retrieve properties plus *all* items of the given relationships (paged with limit/offset).
+        cache=False: always ask Cala (the live check) and do not store the answer in the crawl cache."""
         rels = {("outgoing", r): [] for r in out}
         rels.update({("incoming", r): [] for r in inc})
         offset, entity, pending = 0, None, set(rels)
@@ -158,7 +168,7 @@ class Cala:
                 "outgoing": {r: {"limit": PAGE, "offset": offset} for d, r in pending if d == "outgoing"},
                 "incoming": {r: {"limit": PAGE, "offset": offset} for d, r in pending if d == "incoming"},
             }
-            res = self.call("entity_retrieval", args)
+            res = self.call("entity_retrieval", args, cache=cache)
             if res is None:
                 break
             if entity is None:

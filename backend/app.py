@@ -34,8 +34,10 @@ from starlette.formparsers import MultiPartParser  # noqa: E402
 import audit  # noqa: E402
 import crm_import  # noqa: E402
 import db  # noqa: E402
+import live_check  # noqa: E402
 from cala_client import Cala  # noqa: E402
 from matching import CompanyIndex  # noqa: E402
+from vc import VCRule  # noqa: E402
 from settings import load_env  # noqa: E402
 
 load_env()
@@ -232,9 +234,37 @@ def audit_demos():
     return [{"fund": d["fund"], "default": d["fund"]["id"] == demo.default_id} for d in demo.index]
 
 
+def with_live_check(result: dict, demo_fund_id: Optional[str] = None) -> dict:
+    """Merge the live Cala check (live_check.py) into an audit result. Never raises: on any error the stored data
+    is returned with live_check.status "offline"."""
+    try:
+        ids = [d["company_id"] for d in result.get("never_seen") or []]
+        if db.available():
+            known: dict[str, set] = defaultdict(set)
+            for r in db.rounds_for_companies(ids):
+                known[r["company_id"]].add(r["id"])
+            rule = audit.vc_rule()
+            funds, ent2fund, names = audit._fund_names()
+        else:                   # demo-only deployment: the rounds bundled with the demo deal details
+            deals = demo.deals.get(demo_fund_id or "", {})
+            known = {cid: {r["id"] for r in (deals.get(cid) or {}).get("rounds", []) if r.get("id")} for cid in ids}
+            rule, funds, ent2fund, names = VCRule(()), {}, {}, {}
+        for d in result.get("never_seen") or []:
+            known.setdefault(d["company_id"], set()).add(d["round"]["id"])
+        return live_check.apply(result, known, rule,
+                                lambda parts: audit.investor_entries(parts, funds, ent2fund, names, rule))
+    except Exception:
+        log.exception("live check failed")
+        result["live_check"] = {"companies": 0, "updated": 0, "updated_company_ids": [], "seconds": 0.0,
+                                "status": "offline",
+                                "checked_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
+        return result
+
+
 @app.get("/api/audit/demo")
 def audit_demo(fund_id: Optional[str] = None):
-    """Precomputed by backend/build_demo.py and held in memory: responds in milliseconds.
+    """Precomputed by backend/build_demo.py and held in memory, plus the live Cala check (live_check.py):
+    milliseconds while every company's check is cached (10 min), up to ~10 s otherwise.
     Without fund_id: the main demo (Lifeline Ventures)."""
     demo.load()
     fid = fund_id or demo.default_id
@@ -242,7 +272,8 @@ def audit_demo(fund_id: Optional[str] = None):
         if fund_id:
             raise ApiError(404, "not_found", "no demo for this fund")
         raise ApiError(503, "demo_unavailable", "demo audit has not been built")
-    return Response(content=demo.audits[fid], media_type="application/json")
+    result = with_live_check(json.loads(demo.audits[fid]), fid)      # a fresh copy per request
+    return Response(content=json.dumps(result, ensure_ascii=False).encode(), media_type="application/json")
 
 
 @app.get("/api/deals/{company_id}")
@@ -425,8 +456,10 @@ async def run_audit(request: Request):
             raise db.DBUnavailable()
         try:
             # In a worker thread: the briefing may wait up to 20 s on Claude and must not block other requests.
-            return await run_in_threadpool(audit.run_audit_rows, fields["fund_id"], fields["peer_ids"][:50], rows,
-                                           table["simulated"], fields["fingerprint"])
+            # Then the live Cala check (up to 10 s), also off the event loop.
+            result = await run_in_threadpool(audit.run_audit_rows, fields["fund_id"], fields["peer_ids"][:50],
+                                             rows, table["simulated"], fields["fingerprint"])
+            return await run_in_threadpool(with_live_check, result)
         except audit.NotFound:
             raise ApiError(404, "not_found", "fund or peer not found")
     finally:

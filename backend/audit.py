@@ -434,17 +434,7 @@ def run_audit_rows(fund_id: str, peer_ids: list[str], crm_rows: list[dict], simu
                "coverage_pct": round(100.0 * in_crm / n_market, 1) if n_market else 0.0}
 
     def investors_of(rid):
-        merged: dict[str, dict] = {}            # one entry per display name (fund vehicles merged)
-        for p in parts.get(rid, []):
-            if p["role"] == "ISSUER":
-                continue
-            inv = _investor(p["entity_id"], p["name"], funds, ent2fund, known)
-            e = merged.setdefault(inv["name"].casefold(), {"id": inv["id"], "name": inv["name"],
-                                                          "type": p.get("entity_type"), "is_lead": False,
-                                                          "is_vc": False})
-            e["is_lead"] = e["is_lead"] or bool(p["is_lead"])
-            e["is_vc"] = e["is_vc"] or rule.is_vc(p)
-        return sorted(merged.values(), key=lambda i: (not i["is_lead"], i["name"].casefold()))
+        return investor_entries(parts.get(rid, []), funds, ent2fund, known, rule)
 
     never = []
     for cid, r in chosen.items():
@@ -459,19 +449,10 @@ def run_audit_rows(fund_id: str, peer_ids: list[str], crm_rows: list[dict], simu
                       "date": r["date"], "date_kind": r.get("date_kind") or "announcement",
                       "investors": investors_of(r["id"]), "sources": rank_sources(r["sources"])},
         })
-    never.sort(key=lambda d: (-(d["round"]["amount"] or 0), d["round"]["date"] or "", d["company_id"]))
+    sort_never_seen(never)
     never = never[:MAX_NEVER_SEEN]
 
-    inv_companies, inv_ref = defaultdict(set), {}       # per display name: distinct never-seen companies
-    for d in never:
-        for i in d["round"]["investors"]:
-            if i["id"] != fund_id and i["is_vc"]:
-                key = i["name"].casefold()
-                inv_companies[key].add(d["company_id"])
-                inv_ref.setdefault(key, i)
-    top_investors = [{"id": inv_ref[k]["id"], "name": inv_ref[k]["name"], "companies": len(cs)}
-                     for k, cs in sorted(inv_companies.items(), key=lambda kv: (-len(kv[1]), kv[0]))
-                     ][:MAX_TOP_INVESTORS]
+    top_investors = top_investors_of(never, fund_id)
     n_never = summary["never_seen"]
     noun = "VC-backed company" if n_never == 1 else "VC-backed companies"
     v2 = {
@@ -498,6 +479,38 @@ def run_audit_rows(fund_id: str, peer_ids: list[str], crm_rows: list[dict], simu
         "market_coverage": db.market_coverage(n_qualifying),
     }
     return v2
+
+
+def investor_entries(parts: list[dict], funds: dict, ent2fund: dict, known: Optional[dict], rule) -> list[dict]:
+    """A round's named investors for the audit: one entry per display name (fund vehicles merged), leads first."""
+    merged: dict[str, dict] = {}
+    for p in parts:
+        if p["role"] == "ISSUER":
+            continue
+        inv = _investor(p["entity_id"], p["name"], funds, ent2fund, known)
+        e = merged.setdefault(inv["name"].casefold(), {"id": inv["id"], "name": inv["name"],
+                                                      "type": p.get("entity_type"), "is_lead": False,
+                                                      "is_vc": False})
+        e["is_lead"] = e["is_lead"] or bool(p["is_lead"])
+        e["is_vc"] = e["is_vc"] or rule.is_vc(p)
+    return sorted(merged.values(), key=lambda i: (not i["is_lead"], i["name"].casefold()))
+
+
+def sort_never_seen(never: list[dict]) -> None:
+    never.sort(key=lambda d: (-(d["round"]["amount"] or 0), d["round"]["date"] or "", d["company_id"]))
+
+
+def top_investors_of(never: list[dict], fund_id: str) -> list[dict]:
+    """VCs in the most never-seen rounds (distinct companies per display name), max 10."""
+    inv_companies, inv_ref = defaultdict(set), {}
+    for d in never:
+        for i in d["round"]["investors"]:
+            if i["id"] != fund_id and i["is_vc"]:
+                key = i["name"].casefold()
+                inv_companies[key].add(d["company_id"])
+                inv_ref.setdefault(key, i)
+    return [{"id": inv_ref[k]["id"], "name": inv_ref[k]["name"], "companies": len(cs)}
+            for k, cs in sorted(inv_companies.items(), key=lambda kv: (-len(kv[1]), kv[0]))][:MAX_TOP_INVESTORS]
 
 
 def breakdown(prof: dict, chosen: dict, comps: dict, status: dict) -> list[dict]:
@@ -542,7 +555,7 @@ def _news_date(url: str) -> Optional[str]:
     return None
 
 
-NEWS_TIMEOUT_S = 3.0   # first view waits at most 3 s; the fetch finishes in the background and is cached
+NEWS_TIMEOUT_S = 6.0   # a view waits at most 6 s; the fetch finishes in the background and is cached
 _news_pool = ThreadPoolExecutor(2)
 _news_inflight: dict[str, Future] = {}
 

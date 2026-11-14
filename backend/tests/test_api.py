@@ -66,6 +66,56 @@ def _seed(path: Path) -> None:
     db.ALLOW_CREATE = False
 
 
+class FakeCala:
+    """Stands in for Cala in the live check: no network. rounds: company id -> new round entities (Cala shape);
+    fail: company ids whose retrieval fails; delay: seconds per call; refuse: raise PaymentRequired."""
+
+    def __init__(self, rounds=None, fail=(), delay=0.0, refuse=False):
+        self.rounds, self.fail, self.delay, self.refuse = rounds or {}, set(fail), delay, refuse
+        self.has_key = True
+        self.calls = []
+
+    def retrieve(self, entity_id, properties, out=(), inc=(), cache=True):
+        import cala_client
+        assert cache is False                            # the live check always bypasses the crawl cache
+        self.calls.append(entity_id)
+        if self.delay:
+            time.sleep(self.delay)
+        if self.refuse:
+            raise cala_client.PaymentRequired("Cala returned 402")
+        if entity_id in self.fail:
+            return {"id": entity_id, "properties": {}, "_ok": False, "_rels": {}}
+        for cid, rounds in self.rounds.items():
+            for r in rounds:
+                if r["id"] == entity_id:
+                    return {**r, "_ok": True}
+        items = [{"id": r["id"], "properties": {"role": "ISSUER"}} for r in self.rounds.get(entity_id, [])]
+        return {"id": entity_id, "properties": {}, "_ok": True,
+                "_rels": {"outgoing:PARTICIPATES_IN_FUNDING_ROUND": items}}
+
+
+def cala_round(rid, label, amount, day, investors):
+    """A round entity as Cala's entity_retrieval returns it (with participants)."""
+    def prop(v):
+        return {"value": v, "sources": [{"name": "tech.eu", "document": f"https://tech.eu/{rid}",
+                                         "source_rank": "PRESS"}]}
+    return {"id": rid, "properties": {"round_label": prop(label), "transaction_value": prop(amount),
+                                      "transaction_value_units": prop("EUR"), "announcement_date": prop(day)},
+            "_rels": {"incoming:PARTICIPATES_IN_FUNDING_ROUND": [
+                {"id": eid, "name": name, "entity_type": "Organization",
+                 "properties": {"role": "INVESTOR", "is_lead": True}} for eid, name in investors]}}
+
+
+@pytest.fixture(autouse=True)
+def fake_cala(monkeypatch):
+    """Every test: the live check talks to a fake Cala (no network) with no new rounds, and starts uncached."""
+    import live_check
+    live_check.reset()
+    fake = FakeCala()
+    monkeypatch.setattr(live_check, "client", lambda: fake)
+    return fake
+
+
 @pytest.fixture(scope="module")
 def client(tmp_path_factory):
     _seed(tmp_path_factory.mktemp("db") / "test.db")
@@ -80,6 +130,7 @@ ADDED_FIELDS = {
     "$": {"breakdown", "patterns", "briefing"},
     "$.briefing.insights[]": {"best_pct", "worst_pct", "best_industry", "worst_industry"},
     "$.never_seen[].round.investors[]": {"is_vc"},
+    "$.live_check": {"checked_at"},                 # frontend mock has no checked_at
     "$.market_coverage": {"region", "region_countries", "region_qualifying_companies", "priority_country",
                           "priority_country_qualifying_companies"},
     "$[]": {"basis_rounds"},
@@ -221,7 +272,10 @@ def test_audit_numbers_and_shape(client):
 
 
 def test_audit_is_deterministic(client):
-    assert post_audit(client).json() == post_audit(client).json()
+    a, b = post_audit(client).json(), post_audit(client).json()
+    for x in (a, b):
+        x["live_check"].pop("seconds"), x["live_check"].pop("checked_at")
+    assert a == b
 
 
 def test_deal_detail_shape(client):
@@ -303,9 +357,12 @@ def test_demo_shape_speed_determinism(client):
     elapsed = time.perf_counter() - t0
     r2 = client.get("/api/audit/demo")
     assert r1.status_code == 200 and elapsed < 1.0
-    assert r1.content == r2.content
-    a = r1.json()
+    a, b = r1.json(), r2.json()
+    assert a["live_check"]["status"] == "ok" and a["live_check"]["companies"] == len(a["never_seen"])
     check_v2_shape(a, mock("audit_demo.json"))
+    for x in (a, b):
+        x["live_check"].pop("seconds"), x["live_check"].pop("checked_at")
+    assert a == b
     assert a["simulated_crm"] is True
     assert all(d["round"]["sources"] for d in a["never_seen"])
     assert all(d["round"]["label"] in a["thesis"]["stages"] for d in a["never_seen"])
@@ -625,3 +682,116 @@ def test_months_before():
     assert briefing._months_before(date(2026, 11, 14), 12) == date(2025, 11, 14)
     assert briefing._months_before(date(2026, 3, 31), 1) == date(2026, 2, 28)
     assert briefing._months_before(date(2026, 1, 15), 24) == date(2024, 1, 15)
+
+
+# ---------------------------------------------------------------- live Cala check (audit.live_check)
+
+def test_live_check_newer_round_updates_row(client, fake_cala):
+    # m3 (never seen) raised a new SEED round led by Beta Capital (a crawled fund, so a VC) in 2026
+    fake_cala.rounds = {"m3": [cala_round("r-m3-live", "SEED", 3e6, "2026-10-01", [(F2, "Beta Capital")])]}
+    a = post_audit(client).json()
+    assert a["live_check"]["status"] == "ok"
+    assert a["live_check"]["updated"] == 1 and a["live_check"]["companies"] == len(a["never_seen"])
+    assert a["live_check"]["updated_company_ids"] == ["m3"]
+    m3 = next(d for d in a["never_seen"] if d["company_id"] == "m3")
+    assert (m3["round"]["id"], m3["round"]["date"], m3["round"]["amount"]) == ("r-m3-live", "2026-10-01", 3e6)
+    assert m3["round"]["investors"] == [{"id": F2, "name": "Beta Capital", "type": "Organization",
+                                         "is_lead": True, "is_vc": True}]
+    assert m3["round"]["sources"][0]["url"] == "https://tech.eu/r-m3-live"
+    assert any(t["id"] == F2 for t in a["top_investors_in_blind_spots"])        # recomputed
+    assert a["summary"]["never_seen"] == len(a["never_seen"])                     # nobody added or dropped
+    assert sum(b["never_seen"] for b in a["breakdown"]) == a["summary"]["never_seen"]
+    # stored rounds are known: only the company and the one new round were fetched
+    assert fake_cala.calls.count("r-m3-live") == 1 and "r-m3" not in fake_cala.calls
+
+
+def test_live_check_ignores_old_and_non_qualifying_rounds(client, fake_cala):
+    fake_cala.rounds = {"m3": [cala_round("r-m3-old", "SEED", 1e6, "2023-01-01", [(F2, "Beta Capital")]),    # older
+                               cala_round("r-m3-angel", "SEED", 1e6, "2026-10-01", [("p1", "Jane Doe")])]}  # no VC
+    a = post_audit(client).json()
+    m3 = next(d for d in a["never_seen"] if d["company_id"] == "m3")
+    assert m3["round"]["id"] == "r-m3" and a["live_check"]["updated"] == 1       # a new qualifying round, but older
+
+
+def test_live_check_cached_for_ten_minutes(client, fake_cala):
+    post_audit(client)
+    n = len(fake_cala.calls)
+    assert n >= 1
+    a = post_audit(client).json()
+    assert len(fake_cala.calls) == n and a["live_check"]["status"] == "ok"       # served from the 10-minute cache
+    import live_check
+    for cid in list(live_check._cache):
+        t, rounds = live_check._cache[cid]
+        live_check._cache[cid] = (t - live_check.TTL_S - 1, rounds)              # expired
+    post_audit(client)
+    assert len(fake_cala.calls) > n
+
+
+def test_live_check_refused_is_offline_and_audit_still_works(client, fake_cala):
+    fake_cala.refuse = True                     # 401/402/403
+    r = post_audit(client)
+    assert r.status_code == 200
+    a = r.json()
+    assert a["live_check"]["status"] == "offline" and a["live_check"]["companies"] == 0
+    assert next(d for d in a["never_seen"] if d["company_id"] == "m3")["round"]["id"] == "r-m3"
+    n = len(fake_cala.calls)
+    post_audit(client)
+    assert len(fake_cala.calls) == n            # no further calls while Cala refuses (pause)
+
+
+def test_live_check_partial_and_timeout(client, fake_cala, monkeypatch):
+    import live_check
+    _seed_briefing_data()                       # more never-seen companies (bs-1..bs-4 and m3)
+    fake_cala.fail = {"bs-1"}
+    a = post_audit(client).json()
+    lc = a["live_check"]
+    assert lc["status"] == "partial" and lc["companies"] == len(a["never_seen"]) - 1
+    # timeout: every call is slower than the budget -> offline, fast, stored rows kept
+    live_check.reset()
+    monkeypatch.setattr(live_check, "client", lambda: fake_cala)
+    monkeypatch.setattr(live_check, "BUDGET_S", 0.2)
+    fake_cala.fail, fake_cala.delay = set(), 1.0
+    t0 = time.perf_counter()
+    a = post_audit(client).json()
+    assert time.perf_counter() - t0 < 1.0
+    assert a["live_check"]["status"] == "offline" and a["live_check"]["companies"] == 0
+    assert len(a["never_seen"]) == a["summary"]["never_seen"]
+
+
+def test_live_check_no_key_is_offline(client, fake_cala):
+    fake_cala.has_key = False
+    a = post_audit(client).json()
+    assert a["live_check"]["status"] == "offline" and fake_cala.calls == []
+
+
+def test_live_cala_client_fails_fast_on_429(monkeypatch):
+    """max_attempts=1: a 429 fails the call at once (no backoff sleep)."""
+    import io
+    import urllib.error
+    import cala_client
+    c = cala_client.Cala(api_key="k", max_attempts=1, http_timeout=1, min_interval=0)
+
+    def boom(*a, **k):
+        raise urllib.error.HTTPError(cala_client.MCP_URL, 429, "Too Many Requests", {}, io.BytesIO(b""))
+    monkeypatch.setattr(cala_client.urllib.request, "urlopen", boom)
+    t0 = time.perf_counter()
+    assert c.call("entity_retrieval", {"entity_id": "x"}, cache=False) is None
+    assert time.perf_counter() - t0 < 0.5
+
+
+def test_deal_news_capped_and_empty_on_failure():
+    import audit
+
+    class Slow:
+        def knowledge_search(self, q, cache_only=False):
+            time.sleep(1.0)
+            return {"context": [{"origins": [{"document": {"url": "https://x.com/a", "name": "A b"}}]}]}
+
+    class Broken:
+        def knowledge_search(self, q, cache_only=False):
+            raise RuntimeError("Cala down")
+    assert audit.NEWS_TIMEOUT_S == 6.0
+    t0 = time.perf_counter()
+    assert audit.recent_news(Slow(), "Slow Co", None, wait=0.1) == []
+    assert time.perf_counter() - t0 < 0.5
+    assert audit.recent_news(Broken(), "Broken Co", None) == []
