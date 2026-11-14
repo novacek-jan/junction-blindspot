@@ -20,7 +20,7 @@ sys.path.insert(0, str(BACKEND))
 os.environ["ALLOWED_ORIGINS"] = "http://localhost:3000,https://blindspot-test.vercel.app"
 os.environ["AUDIT_ACCESS_CODE"] = "test-code"
 os.environ["AUDIT_RATE_LIMIT"] = "1000"
-os.environ.pop("ANTHROPIC_API_KEY", None)
+os.environ["ANTHROPIC_API_KEY"] = ""   # never call Claude in tests (load_env does not override)
 
 import db  # noqa: E402
 
@@ -75,7 +75,7 @@ def client(tmp_path_factory):
 
 # Fields added to the contract after the frontend mocks were written (documented in docs/api-contract.md).
 ADDED_FIELDS = {
-    "$": {"breakdown", "patterns"},
+    "$": {"breakdown", "patterns", "briefing"},
     "$.never_seen[].round.investors[]": {"is_vc"},
     "$.market_coverage": {"region", "region_countries", "region_qualifying_companies", "priority_country",
                           "priority_country_qualifying_companies"},
@@ -459,3 +459,91 @@ def test_vc_rule_market_and_patterns(client):
     assert kinds["top_vc"]["text"].startswith("Gamma Partners backed 3 of the")
     assert kinds["country"]["text"] == f"{kinds['country']['value']} of the {a['summary']['never_seen']} are in Finland"
     assert all(p["value"] >= 2 for p in a["patterns"]) and len(a["patterns"]) <= 3
+
+
+# ---------------------------------------------------------------- briefing ("Why they slipped through")
+
+def _seed_briefing_data():
+    import db as dbm
+    dbm.ALLOW_CREATE = True
+    rows = [("bs-1", "Patent AI Oy", "AI for patent search", "SEED", ["new-vc"], 2),
+            ("bs-2", "Contract AI Oy", "AI for legal contracts", "SEED", ["new-vc"], 1),
+            ("bs-3", "Compliance AI Oy", "AI for compliance checks", "SEED", ["new-vc", "other-vc"], 2),
+            ("bs-4", "Boat Parts Oy", "Marine spare parts marketplace", "SEED", ["other-vc"], 1)]
+    for cid, name, desc, label, vcs, n_rounds in rows:
+        dbm.upsert_company({"id": cid, "name": name, "website": f"https://{cid}.fi", "description": desc,
+                            "country": "Finland", "founded": "2021", "funding_stage": label, "total_funding": 2e6,
+                            "total_funding_currency": "EUR", "industries": json.dumps(["SOFTWARE_AND_SERVICES"]),
+                            "sources": json.dumps(SRC), "fetched_at": 0})
+        for k in range(n_rounds):
+            dbm.upsert_round({"id": f"r-{cid}-{k}", "company_id": cid, "label": label, "amount": 1e6 + k,
+                              "currency": "EUR", "date": f"202{4 + k}-03-01", "conflated": 0, "conflation_reason": "",
+                              "sources": json.dumps(SRC)},
+                             [{"entity_id": cid, "name": name, "role": "ISSUER"}] +
+                             [{"entity_id": v, "name": {"new-vc": "Nordic Seed Capital Oy",
+                                                       "other-vc": "BVF Venture Fund IV AB"}[v],
+                               "entity_type": "Organization", "role": "INVESTOR", "is_lead": True} for v in vcs])
+    dbm.ALLOW_CREATE = False
+
+
+def test_briefing_facts_and_fallback_without_key(client):
+    _seed_briefing_data()
+    a = post_audit(client).json()
+    b = a["briefing"]
+    assert b and b["model"] == "template"                      # no API key in tests: template text
+    kinds = [i["kind"] for i in b["insights"]]
+    assert kinds == [k for k in ("sourcing", "theme", "momentum") if k in kinds] and "theme" not in kinds
+    src = next(i for i in b["insights"] if i["kind"] == "sourcing")
+    never_ids = {d["company_id"] for d in a["never_seen"]}
+    assert set(src["company_ids"]) <= never_ids and src["value"] == len(src["company_ids"]) >= 2
+    assert "Nordic Seed Capital" in src["investor_names"]      # "Nordic Seed Capital Oy": legal suffix removed
+    boat = next(d for d in a["never_seen"] if d["company_id"] == "bs-4")
+    assert [i["name"] for i in boat["round"]["investors"]] == ["Butterfly Ventures"]   # "BVF Venture Fund IV AB"
+    mom = next(i for i in b["insights"] if i["kind"] == "momentum")
+    assert set(mom["company_ids"]) == {"bs-1", "bs-3"} and mom["value"] == 2   # raised again since 2022
+    for i in b["insights"]:
+        assert i["total"] == a["summary"]["never_seen"] and i["value"] >= 2
+
+
+def test_briefing_uses_model_text_only_when_valid(client, monkeypatch):
+    import briefing
+    _seed_briefing_data()
+    seen_payloads = []
+
+    def fake(payload):
+        seen_payloads.append(payload)
+        v = payload["insights"]["sourcing"]["value"]
+        return {"sourcing": {"title": "Seed funds you never meet", "line": f"They backed {v} of them before you looked."},
+                "theme": {"company_ids": ["bs-1", "bs-2", "bs-3", "not-a-real-id"], "title": "Vertical AI for experts",
+                          "line": "AI tools for patents, contracts and compliance work."},
+                "momentum": {"title": "They raised again", "line": "They closed 99 rounds already."}}  # 99: invalid
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "test")
+    monkeypatch.setattr(briefing, "_call_model", fake)
+    monkeypatch.setattr(briefing.db, "kv_get", lambda k: None)
+    monkeypatch.setattr(briefing.db, "kv_put", lambda k, v: None)
+    a = post_audit(client).json()
+    ins = {i["kind"]: i for i in a["briefing"]["insights"]}
+    assert [i["kind"] for i in a["briefing"]["insights"]] == ["sourcing", "theme", "momentum"]
+    assert ins["sourcing"]["title"] == "Seed funds you never meet"              # valid model text kept
+    assert ins["theme"]["company_ids"] == ["bs-1", "bs-2", "bs-3"] and ins["theme"]["value"] == 3   # fake id dropped
+    assert ins["momentum"]["title"] == "They already raised again"             # invalid -> template
+    assert a["briefing"]["model"] == briefing.MODEL
+    # the CRM never reaches the model: no CRM-only company names in the payload
+    assert "Unrelated Startup" not in json.dumps(seen_payloads)
+
+
+def test_briefing_text_rules():
+    import briefing
+    assert briefing.text_ok("Seed funds got there first", "They backed 6 of the 16 before you.", 6, 16)
+    assert not briefing.text_ok("Two seed funds got there", "They backed 6 of the 16.", 6, 16)     # "two"
+    assert not briefing.text_ok("Seed funds", "They backed 7 of them.", 6, 16)                      # 7
+    assert not briefing.text_ok("A title that is far too long here", "Fine.", 6, 16)                # > 6 words
+    assert briefing.text_ok("20VC got there first", "20VC backed 6 of them.", 6, 16, names=("20VC",))
+
+
+def test_briefing_templates_respect_word_limits():
+    import briefing
+    long_names = {"kind": "sourcing", "value": 4, "investor_names": ["Icebreaker.vc", "Ugly Duckling Ventures"]}
+    for fact in (long_names, {"kind": "momentum", "value": 6, "investor_names": []}):
+        title, line = briefing.fallback_text(fact)
+        assert briefing.text_ok(title, line, fact["value"], 19, names=tuple(fact["investor_names"]))

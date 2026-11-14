@@ -17,11 +17,12 @@ from urllib.parse import urlparse
 
 import db
 import crm_import
+import briefing
 import market
 import peers as peerscore
 from vc import VCRule
 from matching import CompanyIndex, classify, normalize_domain
-from names import display
+from names import display, investor_display
 
 PROFILE_FROM = market.PERIOD_FROM          # one period everywhere: since 2022-01-01
 MARKET_FROM = market.PERIOD_FROM
@@ -101,21 +102,22 @@ def _investor(entity_id: str, name: str, funds: dict, ent2fund: dict, known: Opt
     """Collapse a fund's legal entities onto the fund (e.g. 'Creandum Kommanditbolag' -> Creandum);
     other investors get their brand name instead of an upper-case legal name."""
     fid = ent2fund.get(entity_id)
-    return {"id": fid, "name": funds[fid]} if fid else {"id": entity_id, "name": display(name, known, entity_id)}
+    return {"id": fid, "name": funds[fid]} if fid else {"id": entity_id,
+                                                         "name": investor_display(name, known, entity_id)}
 
 
 def _leads_and_participants(round_ids, funds, ent2fund, known=None) -> dict[str, dict]:
     out: dict[str, dict] = {}
     for rid, parts in db.participants(round_ids).items():
-        leads, others, seen = [], [], set()
+        merged: dict[str, dict] = {}            # one entry per display name (fund vehicles merged)
         for p in parts:
             if p["role"] == "ISSUER":
                 continue
             inv = _investor(p["entity_id"], p["name"], funds, ent2fund, known)
-            if inv["id"] in seen:
-                continue
-            seen.add(inv["id"])
-            (leads if p["is_lead"] else others).append(inv)
+            entry = merged.setdefault(inv["name"].casefold(), {"inv": inv, "lead": False})
+            entry["lead"] = entry["lead"] or bool(p["is_lead"])
+        leads = [e["inv"] for e in merged.values() if e["lead"]]
+        others = [e["inv"] for e in merged.values() if not e["lead"]]
         out[rid] = {"leads": leads, "participants": others}
     return out
 
@@ -162,32 +164,40 @@ def search_funds(q: str) -> list[dict]:
 
 
 def _all_investors() -> list[dict]:
+    """VCs for the fund search. Entities with the same cleaned display name (fund vehicles of one firm) are one
+    result; basis_rounds counts distinct rounds across them; the id is the vehicle with most rounds."""
     funds, ent2fund, known = _fund_names()
     rows = db.market_rounds(market.PERIOD_FROM)
     comps = db.companies({r["company_id"] for r in rows})
     parts = db.participants([r["id"] for r in rows])
-    count, grants, names, types = Counter(), Counter(), {}, {}
     rule = vc_rule()
+    rounds, grants, per_entity, names, types = defaultdict(set), defaultdict(set), Counter(), {}, {}
     for r in rows:
         c = comps.get(r["company_id"])
         if not c or c["country"] not in market.EUROPE_COUNTRIES or is_conflated(r):
             continue
         for p in {p["entity_id"]: p for p in parts.get(r["id"], [])
                   if p["role"] == "INVESTOR" and rule.is_vc(p)}.values():
-            key = ent2fund.get(p["entity_id"], p["entity_id"])
-            count[key] += 1
-            grants[key] += r["label"] == "GRANT"
-            names.setdefault(key, p["name"])
+            if p["entity_id"] in ent2fund:
+                continue                                    # crawled funds are listed below
+            name = investor_display(p["name"], known, p["entity_id"])
+            key = name.casefold()
+            rounds[key].add(r["id"])
+            if r["label"] == "GRANT":
+                grants[key].add(r["id"])
+            per_entity[(key, p["entity_id"])] += 1
+            names.setdefault(key, name)
             types.setdefault(key, p.get("entity_type"))
-    out = []
-    for fid, name in funds.items():                         # crawled funds: always listed
-        out.append({"id": fid, "name": name, "basis_rounds": len(_basis_rounds_quick(fid))})
-    for key, n in count.items():
-        if key in funds or n < MIN_SEARCH_ROUNDS or (types.get(key) or "") == "Person":
+    out = [{"id": fid, "name": name, "basis_rounds": len(_basis_rounds_quick(fid))} for fid, name in funds.items()]
+    fund_names = {n.casefold() for n in funds.values()}
+    for key, rs in rounds.items():
+        n = len(rs)
+        if key in fund_names or n < MIN_SEARCH_ROUNDS or (types.get(key) or "") == "Person":
             continue
-        if NON_INVESTOR_NAME.search(names[key] or "") or grants[key] / n >= GRANT_SHARE_EXCLUDE:
+        if NON_INVESTOR_NAME.search(names[key] or "") or len(grants[key]) / n >= GRANT_SHARE_EXCLUDE:
             continue
-        out.append({"id": key, "name": display(names[key], known, key), "basis_rounds": n})
+        best = max((e for (k, e) in per_entity if k == key), key=lambda e: (per_entity[(key, e)], e))
+        out.append({"id": best, "name": names[key], "basis_rounds": n})
     return out
 
 
@@ -393,14 +403,15 @@ def parse_crm(text: str) -> tuple[list[dict], bool]:
     return rows, table["simulated"]
 
 
-def run_audit(fund_id: str, peer_ids: list[str], crm_text: str) -> dict:
+def run_audit(fund_id: str, peer_ids: list[str], crm_text: str, briefing_mode: str = "generate",
+              briefing_attempts: int = 1) -> dict:
     """Audit from CRM CSV text (demo builder, tests). peer_ids is ignored in v2."""
     rows, simulated = parse_crm(crm_text)
-    return run_audit_rows(fund_id, peer_ids, rows, simulated, crm_text)
+    return run_audit_rows(fund_id, peer_ids, rows, simulated, crm_text, briefing_mode, briefing_attempts)
 
 
 def run_audit_rows(fund_id: str, peer_ids: list[str], crm_rows: list[dict], simulated: bool,
-                   fingerprint: str) -> dict:
+                   fingerprint: str, briefing_mode: str = "generate", briefing_attempts: int = 1) -> dict:
     """v2 audit (the frontend reads only v2; the v1 fields were removed).
 
     Market = European companies with a qualifying round since 2022 (market.py) inside the fund's thesis.
@@ -421,17 +432,17 @@ def run_audit_rows(fund_id: str, peer_ids: list[str], crm_rows: list[dict], simu
                "coverage_pct": round(100.0 * in_crm / n_market, 1) if n_market else 0.0}
 
     def investors_of(rid):
-        out, seen = [], set()
+        merged: dict[str, dict] = {}            # one entry per display name (fund vehicles merged)
         for p in parts.get(rid, []):
             if p["role"] == "ISSUER":
                 continue
             inv = _investor(p["entity_id"], p["name"], funds, ent2fund, known)
-            if inv["id"] in seen:
-                continue
-            seen.add(inv["id"])
-            out.append({"id": inv["id"], "name": inv["name"], "type": p.get("entity_type"), "is_lead": bool(p["is_lead"]),
-                        "is_vc": rule.is_vc(p)})
-        return sorted(out, key=lambda i: (not i["is_lead"], i["name"].casefold()))
+            e = merged.setdefault(inv["name"].casefold(), {"id": inv["id"], "name": inv["name"],
+                                                          "type": p.get("entity_type"), "is_lead": False,
+                                                          "is_vc": False})
+            e["is_lead"] = e["is_lead"] or bool(p["is_lead"])
+            e["is_vc"] = e["is_vc"] or rule.is_vc(p)
+        return sorted(merged.values(), key=lambda i: (not i["is_lead"], i["name"].casefold()))
 
     never = []
     for cid, r in chosen.items():
@@ -449,15 +460,16 @@ def run_audit_rows(fund_id: str, peer_ids: list[str], crm_rows: list[dict], simu
     never.sort(key=lambda d: (-(d["round"]["amount"] or 0), d["round"]["date"] or "", d["company_id"]))
     never = never[:MAX_NEVER_SEEN]
 
-    inv_count, inv_name = Counter(), {}
+    inv_companies, inv_ref = defaultdict(set), {}       # per display name: distinct never-seen companies
     for d in never:
         for i in d["round"]["investors"]:
             if i["id"] != fund_id and i["is_vc"]:
-                inv_count[i["id"]] += 1
-                inv_name[i["id"]] = i["name"]
-    top_investors = [{"id": k, "name": inv_name[k], "companies": n}
-                     for k, n in sorted(inv_count.items(), key=lambda kv: (-kv[1], inv_name[kv[0]].casefold()))
-                     [:MAX_TOP_INVESTORS]]
+                key = i["name"].casefold()
+                inv_companies[key].add(d["company_id"])
+                inv_ref.setdefault(key, i)
+    top_investors = [{"id": inv_ref[k]["id"], "name": inv_ref[k]["name"], "companies": len(cs)}
+                     for k, cs in sorted(inv_companies.items(), key=lambda kv: (-len(kv[1]), kv[0]))
+                     ][:MAX_TOP_INVESTORS]
     n_never = summary["never_seen"]
     noun = "VC-backed company" if n_never == 1 else "VC-backed companies"
     v2 = {
@@ -476,6 +488,11 @@ def run_audit_rows(fund_id: str, peer_ids: list[str], crm_rows: list[dict], simu
         "top_investors_in_blind_spots": top_investors,
         "breakdown": breakdown(prof, chosen, comps, status),
         "patterns": patterns(never, top_investors, n_never),
+        # Only public Cala data reaches the model (never the CRM); numbers come from code. "none": skip.
+        "briefing": (None if briefing_mode == "none" else
+                     briefing.build(prof["fund"], prof, never, comps, rule, is_conflated, industry_human,
+                                    stage_human, generate=briefing_mode == "generate",
+                                    attempts=briefing_attempts)),
         "market_coverage": db.market_coverage(n_qualifying),
     }
     return v2

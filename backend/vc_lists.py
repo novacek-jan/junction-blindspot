@@ -74,3 +74,15 @@ BLOCK = {
     # syndicates
     "central trust syndicate number one": "family_office_holding_syndicate",
 }
+
+
+# Display names: fund vehicles shown under the fund's name (normalized cleaned name -> display name).
+INVESTOR_ALIASES = {
+    "bvf venture": "Butterfly Ventures", "bvf": "Butterfly Ventures", "butterfly venture": "Butterfly Ventures",
+    "butterfly": "Butterfly Ventures",
+    "butterfly ventures": "Butterfly Ventures", "psv hafnium": "PreSeed Ventures", "psv": "PreSeed Ventures",
+    "preseed ventures": "PreSeed Ventures", "nsi nordic science": "Nordic Science Investments",
+    "nsi nordic science investments": "Nordic Science Investments",
+    "nordic science investments": "Nordic Science Investments", "maki vc": "Maki.vc", "maki": "Maki.vc",
+    "voima ventures": "Voima Ventures", "lifeline ventures": "Lifeline Ventures",
+}

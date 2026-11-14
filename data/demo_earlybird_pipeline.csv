@@ -2,43 +2,47 @@
 # invested = real portfolio companies from Cala; passed/in_review rows and noise rows are simulated.
 company,website,status,date
 Aiven,aiven.io,invested,2022-01-01
-Velora Pay,velorapay.eu,in_review,2022-01-27
-Tidewell Health,tidewell.health,passed,2022-07-01
-Mosaic Grid,mosaicgrid.energy,passed,2022-07-12
-Quillnest,quillnest.ai,in_review,2022-08-29
-Lumora Analytics,lumora-analytics.io,in_review,2022-09-02
-Nimbus Kitchen,nimbuskitchen.fr,passed,2023-02-22
-Kvarn Logistics,kvarn.se,passed,2023-02-25
-Aiba AI,,passed,2023-08-25
-Fernwerk Robotics,fernwerk.de,in_review,2023-11-22
-Patchbay Audio,patchbay.fm,passed,2023-12-03
-DealGuru,dealguru.se,passed,2024-01-15
-Halvard Security,halvard.no,passed,2024-02-24
-Strata Forms,strataforms.app,passed,2024-03-16
-Orchard Ledger,orchardledger.com,passed,2024-04-03
-Brisa Mobility,brisa-mobility.es,in_review,2024-04-29
-Nadmed,,passed,2024-06-18
-Synergi,synergi.fi,passed,2024-07-10
-Soihtu DTx,soihtudtx.com,passed,2024-08-06
-Open Payments Europe AB,openpayments.io,in_review,2024-10-11
-SisuSemi,sisusemi.com,passed,2024-11-25
+Lumora Analytics,lumora-analytics.io,in_review,2022-01-27
+Patchbay Audio,patchbay.fm,passed,2022-03-23
+LiveEO GmbH,live-eo.com,passed,2022-05-11
+Quillnest,quillnest.ai,passed,2022-05-24
+Halvard Security,halvard.no,passed,2022-06-07
+Pinecrest Labs,pinecrestlabs.co.uk,passed,2022-07-16
+Nimbus Kitchen,nimbuskitchen.fr,in_review,2022-10-05
+IPRally,iprally.com,passed,2023-01-23
+Pandatron,pandatron.ai,passed,2023-02-13
+Tidewell Health,tidewell.health,passed,2023-02-22
+Strata Forms,strataforms.app,passed,2023-02-26
+Prewave GmbH,prewave.com,in_review,2023-03-08
+Carter Oy,,passed,2023-05-17
+Brisa Mobility,brisa-mobility.es,in_review,2023-05-19
+Mosaic Grid,mosaicgrid.energy,passed,2023-07-04
+Measur Oy,,passed,2023-07-21
+Fernwerk Robotics,fernwerk.de,passed,2024-03-16
+Orchard Ledger,orchardledger.com,passed,2024-04-23
+Nadmed,nadmed.com,passed,2024-05-05
+Cardino,cardino.de,passed,2024-05-09
+Noux Digital,nouxdigital.com,in_review,2024-07-24
+Open Payments Europe AB,openpayments.io,passed,2024-10-16
+beel GmbH,beel.com,in_review,2024-11-12
+Btry,btry.ch,passed,2024-11-15
 Haya Therapeutics SA,hayatx.com,invested,2024-12-25
-Pistachio,pistachioapp.com,passed,2025-03-25
-Acembee,,passed,2025-05-14
-Kertos GmbH,kertos.io,passed,2025-06-22
-Pinecrest Labs,pinecrestlabs.co.uk,passed,2025-07-05
-Forgent AI GmbH,forgent.ai,in_review,2025-07-17
-Gosta Labs,gostalabs.com,in_review,2025-07-30
-Arclight Bio,arclightbio.ch,passed,2025-09-24
-Finperks,finperks.com,passed,2025-12-02
+Phasetree,phasetree.ai,passed,2025-01-01
+Arclight Bio,arclightbio.ch,passed,2025-01-25
+Intergrid Oy,,passed,2025-01-31
+Velora Pay,velorapay.eu,passed,2025-02-17
+Cariqa,cariqa.com,in_review,2025-05-25
+Forgent AI GmbH,,passed,2025-07-11
+Cytely,cytely.io,passed,2025-07-24
+Acembee,,in_review,2025-08-07
+Kertos GmbH,kertos.io,passed,2025-08-13
+Kvarn Logistics,kvarn.se,passed,2025-09-24
 Porters,withporters.com,invested,2025-12-04
+Finperks,finperks.com,in_review,2026-01-02
 eleQtron,eleqtron.com,invested,2026-01-20
-Photoncycle,photoncycle.com,passed,2026-01-29
-Quicksave Interactive,playables.ai,in_review,2026-01-31
-ConfidentialMind,confidentialmind.com,in_review,2026-02-04
+Photoncycle,photoncycle.com,passed,2026-02-07
+Maculaser Oy,,passed,2026-03-24
 Avrea,avrea.com,invested,2026-04-09
-Skyfora,skyfora.com,in_review,2026-04-18
-Graph Therapeutics,graphtx.com,passed,2026-04-25
 "Gemma Biotherapeutics, Inc.",gemmabiotx.com,invested,2026-05-09
+Graph Therapeutics,graphtx.com,passed,2026-05-29
 Marvel Fusion GmbH,marvelfusion.com,invested,2026-08-16
-Clock&Cloud,clockcloud.ai,passed,2026-08-22

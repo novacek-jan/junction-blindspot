@@ -1,4 +1,372 @@
 {
+ "a98a18cc-854a-4357-b049-91585d4afb40": {
+  "id": "a98a18cc-854a-4357-b049-91585d4afb40",
+  "name": "Pliant GmbH",
+  "website": "getpliant.com",
+  "description": "Pliant is a payment platform as forward-thinking as your business. See how all types of businesses benefit from Pliant's business credit card solution.",
+  "country": "Germany",
+  "founded": "2020",
+  "rounds": [
+   {
+    "id": "3cf54dc5-270a-5755-bc6c-151fe4e7cb54",
+    "label": "SERIES_C",
+    "amount": 80000000,
+    "currency": "USD",
+    "date": "2026-11-04",
+    "date_kind": "announcement",
+    "qualifying": true,
+    "lead_investors": [
+     {
+      "id": "ef0faddc-af4a-4028-8209-dd81731d5e51",
+      "name": "Seaya Nova"
+     },
+     {
+      "id": "94e0ca6a-4e39-4181-bd84-11f264d0aa62",
+      "name": "Speedinvest"
+     }
+    ],
+    "participants": [
+     {
+      "id": "d60ab02a-23a7-4393-9a71-e7aa9a565914",
+      "name": "Illuminate Financial"
+     },
+     {
+      "id": "910768b3-9747-4fc8-8e85-fd615e706e3e",
+      "name": "Molten Ventures"
+     },
+     {
+      "id": "992428ad-ac06-419b-9179-b785fb43567e",
+      "name": "Motive Partners"
+     }
+    ],
+    "sources": [
+     {
+      "name": "getpliant.com",
+      "url": "https://www.getpliant.com/en/press/80-million-series-c",
+      "rank": "PRIMARY",
+      "date": "2026-11-04"
+     },
+     {
+      "name": "thenextweb.com",
+      "url": "https://thenextweb.com/news/pliant-80m-series-c-ai-agents-b2b-payments-seaya-speedinvest",
+      "rank": "PRESS",
+      "date": "2026-11-04"
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "id": "e73d3c6b-8562-5495-a9cf-d0c6f75e0dda",
+    "label": "SERIES_B",
+    "amount": 40000000,
+    "currency": "USD",
+    "date": "2025-04-28",
+    "date_kind": "announcement",
+    "qualifying": true,
+    "lead_investors": [
+     {
+      "id": "d60ab02a-23a7-4393-9a71-e7aa9a565914",
+      "name": "Illuminate Financial"
+     },
+     {
+      "id": "94e0ca6a-4e39-4181-bd84-11f264d0aa62",
+      "name": "Speedinvest"
+     }
+    ],
+    "participants": [
+     {
+      "id": "c36e36db-95bf-43cd-93aa-5a026dfd9a73",
+      "name": "Motive Ventures"
+     },
+     {
+      "id": "159f3a77-2b91-42f2-afa6-2140e782234e",
+      "name": "PayPal Ventures"
+     }
+    ],
+    "sources": [
+     {
+      "name": "getpliant.com",
+      "url": "https://www.getpliant.com/en/press/series-b",
+      "rank": "PRIMARY",
+      "date": "2026-11-04"
+     },
+     {
+      "name": "handelsblatt.com",
+      "url": "https://www.handelsblatt.com/finanzen/banken-versicherungen/banken/fintech-pliant-sammelt-40-millionen-dollar-ein/100123464.html",
+      "rank": "PRESS",
+      "date": "2026-11-04"
+     },
+     {
+      "name": "businessinsider.de",
+      "url": "https://www.businessinsider.de/gruenderszene/business/fintech-pliant-erhaelt-35-millionen-euro-fuer-markteintritt-in-die-usa/",
+      "rank": "PRESS",
+      "date": "2026-11-04"
+     },
+     {
+      "name": "fintechfutures.com",
+      "url": "https://www.fintechfutures.com/venture-capital-funding/germanys-pliant-eyes-us-market-following-40m-series-b",
+      "rank": "PRESS",
+      "date": "2026-11-04"
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "id": "d37105ca-c365-5287-9b7d-f00d64c31e02",
+    "label": "DEBT_FINANCING",
+    "amount": null,
+    "currency": null,
+    "date": "2024-09-10",
+    "date_kind": "announcement",
+    "qualifying": false,
+    "lead_investors": [
+     {
+      "id": "60abd68b-ed63-4ff4-ae58-381472989f4d",
+      "name": "Vereinigte Volksbank Raiffeisenbank eG"
+     }
+    ],
+    "participants": [],
+    "sources": [
+     {
+      "name": "getpliant.com",
+      "url": "https://www.getpliant.com/en/press/pliant-credit-lines-in-11-currencies",
+      "rank": "PRIMARY",
+      "date": "2024-09-10"
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "id": "8e1ecec5-0278-5e6d-bfbc-572b36013f2b",
+    "label": "DEBT_FINANCING",
+    "amount": 100000000,
+    "currency": "EUR",
+    "date": "2024-01-16",
+    "date_kind": "announcement",
+    "qualifying": false,
+    "lead_investors": [
+     {
+      "id": "15fa6701-02a8-486e-a0a1-1df455f8b068",
+      "name": "Varengold Bank"
+     }
+    ],
+    "participants": [],
+    "sources": [
+     {
+      "name": "getpliant.com",
+      "url": "https://www.getpliant.com/en/press/pliant-concludes-a-successful-2023",
+      "rank": "PRIMARY",
+      "date": "2024-01-16"
+     },
+     {
+      "name": "tech.eu",
+      "url": "https://tech.eu/2024/01/16/berlin-startup-pliant-adds-8m-to-series-a-round-and-secures-100m-debt-facility/",
+      "rank": "PRESS",
+      "date": "2024-01-16"
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "id": "b8fce2b2-fc3f-5a45-84dc-9f687b668a45",
+    "label": "SERIES_A",
+    "amount": 50000000,
+    "currency": "EUR",
+    "date": "2023-02-17",
+    "date_kind": "announcement",
+    "qualifying": true,
+    "lead_investors": [],
+    "participants": [
+     {
+      "id": "f36abff9-79ae-4fef-990f-9fedc1d51fb5",
+      "name": "ALSTIN Capital"
+     },
+     {
+      "id": "c36e36db-95bf-43cd-93aa-5a026dfd9a73",
+      "name": "Motive Ventures"
+     }
+    ],
+    "sources": [
+     {
+      "name": "newsroom.paypal-corp.com",
+      "url": "https://newsroom.paypal-corp.com/2024-04-17-PayPal-Ventures-Leads-Pliants-18-Million-Series-A-Extension-Financing",
+      "rank": "PRIMARY",
+      "date": "2024-04-17"
+     },
+     {
+      "name": "getpliant.com",
+      "url": "https://www.getpliant.com/en/press/pliant-concludes-a-successful-2023",
+      "rank": "PRIMARY",
+      "date": "2024-01-16"
+     },
+     {
+      "name": "getpliant.com",
+      "url": "https://www.getpliant.com/nl/pers/pliant-raises-28-million-in-series-a-funding-round",
+      "rank": "PRIMARY",
+      "date": "2023-02-17"
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "id": "dae926be-4f09-5acf-b4f2-e86d708b827f",
+    "label": "SEED",
+    "amount": 18000000,
+    "currency": "EUR",
+    "date": "2021-08-06",
+    "date_kind": "announcement",
+    "qualifying": false,
+    "lead_investors": [
+     {
+      "id": "f36abff9-79ae-4fef-990f-9fedc1d51fb5",
+      "name": "ALSTIN Capital"
+     }
+    ],
+    "participants": [
+     {
+      "id": "ff82c973-0e85-5803-b6ad-bad841de2d5b",
+      "name": "Christian Gaiser"
+     },
+     {
+      "id": "db2170fc-080d-5435-ada6-f06cff16aa9c",
+      "name": "Julian Blessin"
+     },
+     {
+      "id": "ff4d27bc-f354-4f91-82c2-f63bf3d32a20",
+      "name": "Main Incubator"
+     },
+     {
+      "id": "9832358d-3ea6-5832-b820-992ac3a02177",
+      "name": "Raffael Johnen"
+     },
+     {
+      "id": "ac3dc033-eac1-460a-a217-17e50009f505",
+      "name": "Saber Capital"
+     },
+     {
+      "id": "420b2ebc-7589-420f-9f5b-ed2dea14a893",
+      "name": "seed + speed Ventures"
+     }
+    ],
+    "sources": [
+     {
+      "name": "getpliant.com",
+      "url": "https://www.getpliant.com/en/press/pliant-closes-seed-round-with-18-million-euros",
+      "rank": "PRIMARY",
+      "date": "2021-12-20"
+     },
+     {
+      "name": "tech.eu",
+      "url": "https://tech.eu/2021/12/20/berlins-pliant-joins-the-corporate-credit-card-game-closes-e18-million-seed-round/",
+      "rank": "PRESS",
+      "date": "2021-12-20"
+     },
+     {
+      "name": "getpliant.com",
+      "url": "https://www.getpliant.com/en/press/pliant-6-5-million-in-seed-funding-from-alstin",
+      "rank": "PRIMARY",
+      "date": "2021-08-06"
+     }
+    ],
+    "conflated": true
+   }
+  ],
+  "why_missed": [
+   {
+    "reason": "Lead investor Seaya Nova has never co-invested with you"
+   },
+   {
+    "reason": "Series C is outside your usual stages"
+   }
+  ],
+  "recent_news": [],
+  "sources": [
+   {
+    "name": "GLEIF",
+    "url": "https://search.gleif.org/#/record/529900VCIY8WGIGCZA18",
+    "rank": null,
+    "date": null
+   },
+   {
+    "name": "www.zoominfo.com",
+    "url": "https://www.zoominfo.com/c/pliant-gmbh/542943246",
+    "rank": null,
+    "date": null
+   },
+   {
+    "name": "Pliant | LinkedIn",
+    "url": "https://www.linkedin.com/company/getpliant",
+    "rank": null,
+    "date": null
+   },
+   {
+    "name": "getpliant.com",
+    "url": "https://getpliant.com/",
+    "rank": "PRIMARY",
+    "date": null
+   },
+   {
+    "name": "dns.google",
+    "url": "https://dns.google/query?name=getpliant.com&type=A",
+    "rank": "PRIMARY",
+    "date": null
+   },
+   {
+    "name": "getpliant.com",
+    "url": "https://www.getpliant.com/en/press/series-b",
+    "rank": "PRIMARY",
+    "date": null
+   },
+   {
+    "name": "handelsblatt.com",
+    "url": "https://www.handelsblatt.com/finanzen/banken-versicherungen/banken/fintech-pliant-sammelt-40-millionen-dollar-ein/100123464.html",
+    "rank": "PRESS",
+    "date": null
+   },
+   {
+    "name": "businessinsider.de",
+    "url": "https://www.businessinsider.de/gruenderszene/business/fintech-pliant-erhaelt-35-millionen-euro-fuer-markteintritt-in-die-usa/",
+    "rank": "PRESS",
+    "date": null
+   },
+   {
+    "name": "fintechfutures.com",
+    "url": "https://www.fintechfutures.com/venture-capital-funding/germanys-pliant-eyes-us-market-following-40m-series-b",
+    "rank": "PRESS",
+    "date": null
+   },
+   {
+    "name": "getpliant.com",
+    "url": "https://www.getpliant.com/en/press/pliant-closes-seed-round-with-18-million-euros",
+    "rank": "PRIMARY",
+    "date": null
+   },
+   {
+    "name": "tech.eu",
+    "url": "https://tech.eu/2021/12/20/berlins-pliant-joins-the-corporate-credit-card-game-closes-e18-million-seed-round/",
+    "rank": "PRESS",
+    "date": null
+   },
+   {
+    "name": "newsroom.paypal-corp.com",
+    "url": "https://newsroom.paypal-corp.com/2024-04-17-PayPal-Ventures-Leads-Pliants-18-Million-Series-A-Extension-Financing",
+    "rank": "PRIMARY",
+    "date": null
+   },
+   {
+    "name": "getpliant.com",
+    "url": "https://www.getpliant.com/en/press/pliant-concludes-a-successful-2023",
+    "rank": "PRIMARY",
+    "date": null
+   },
+   {
+    "name": "tech.eu",
+    "url": "https://tech.eu/2024/01/16/berlin-startup-pliant-adds-8m-to-series-a-round-and-secures-100m-debt-facility/",
+    "rank": "PRESS",
+    "date": null
+   }
+  ]
+ },
  "41f89a61-54ac-4068-82af-a2d2096efcfc": {
   "id": "41f89a61-54ac-4068-82af-a2d2096efcfc",
   "name": "Kuva Space",
@@ -182,258 +550,6 @@
    }
   ]
  },
- "d5f8974b-7765-44f7-afc6-6f1767b8bad0": {
-  "id": "d5f8974b-7765-44f7-afc6-6f1767b8bad0",
-  "name": "Photoncycle",
-  "website": "photoncycle.com",
-  "description": "The year-round solar energy system for heating and electricity",
-  "country": "Norway",
-  "founded": "2020",
-  "rounds": [
-   {
-    "id": "922d6772-8e37-5ce0-b473-dee51632c7a7",
-    "label": "SERIES_A",
-    "amount": 15000000,
-    "currency": "EUR",
-    "date": "2026-03-04",
-    "date_kind": "announcement",
-    "qualifying": true,
-    "lead_investors": [
-     {
-      "id": "a46a1058-93a7-4b0f-bc1f-bc31238fb006",
-      "name": "Nordicninja VC"
-     },
-     {
-      "id": "8673db97-466e-4e7e-8417-a0ce1207bf9e",
-      "name": "Voima Ventures"
-     }
-    ],
-    "participants": [
-     {
-      "id": "8540e55a-1f3b-4969-bf08-6802f5344d24",
-      "name": "Eviny Ventures"
-     },
-     {
-      "id": "476a73ac-afa2-4713-9f73-188bc7ec0b95",
-      "name": "Lifeline Ventures"
-     },
-     {
-      "id": "be67283b-4529-4a2d-834a-96edc4b36971",
-      "name": "Luminar Ventures"
-     },
-     {
-      "id": "1c4ea99e-d351-4abd-b230-420f1a194603",
-      "name": "Momentum Partners"
-     }
-    ],
-    "sources": [
-     {
-      "name": "eu-startups.com",
-      "url": "https://www.eu-startups.com/2026/03/oslos-photoncycle-raises-e15-million-to-enable-households-to-store-surplus-summer-solar-power-for-winter-use/",
-      "rank": "PRESS",
-      "date": "2026-03-04"
-     },
-     {
-      "name": "tech.eu",
-      "url": "https://tech.eu/2026/03/04/photoncycle-raises-eur15m-to-scale-seasonal-energy-storage-in-europe/",
-      "rank": "PRESS",
-      "date": "2026-03-04"
-     },
-     {
-      "name": "techfundingnews.com",
-      "url": "https://techfundingnews.com/photoncycle-raises-e15m-to-store-summer-solar-for-europes-winter-energy-gap/",
-      "rank": "PRESS",
-      "date": "2026-03-04"
-     }
-    ],
-    "conflated": false
-   },
-   {
-    "id": "48681996-125a-51d3-9c20-61db0d626dd0",
-    "label": "GRANT",
-    "amount": 14376817,
-    "currency": "NOK",
-    "date": "2025-03-13",
-    "date_kind": "event",
-    "qualifying": false,
-    "lead_investors": [
-     {
-      "id": "76d8c340-04bf-474a-b8c6-00c4e8438b79",
-      "name": "Enova SF"
-     }
-    ],
-    "participants": [],
-    "sources": [
-     {
-      "name": "stotte.brreg.no",
-      "url": "https://stotte.brreg.no/en/oppslag/stoettetildeling/1000026319",
-      "rank": "FILING",
-      "date": "2025-06-19"
-     }
-    ],
-    "conflated": false
-   },
-   {
-    "id": "624aff32-cf55-5435-9768-eeb95eb97fda",
-    "label": "GRANT",
-    "amount": 21263840,
-    "currency": "NOK",
-    "date": "2024-04-18",
-    "date_kind": "event",
-    "qualifying": false,
-    "lead_investors": [
-     {
-      "id": "76d8c340-04bf-474a-b8c6-00c4e8438b79",
-      "name": "Enova SF"
-     }
-    ],
-    "participants": [],
-    "sources": [
-     {
-      "name": "stotte.brreg.no",
-      "url": "https://stotte.brreg.no/en/oppslag/stoettetildeling/1000019728",
-      "rank": "FILING",
-      "date": "2024-05-08"
-     }
-    ],
-    "conflated": false
-   },
-   {
-    "id": "03428a20-6314-5bee-8511-f42b244a8e58",
-    "label": "SEED",
-    "amount": 5000000,
-    "currency": "EUR",
-    "date": "2024-04-02",
-    "date_kind": "announcement",
-    "qualifying": true,
-    "lead_investors": [
-     {
-      "id": "476a73ac-afa2-4713-9f73-188bc7ec0b95",
-      "name": "Lifeline Ventures"
-     }
-    ],
-    "participants": [
-     {
-      "id": "8540e55a-1f3b-4969-bf08-6802f5344d24",
-      "name": "Eviny Ventures"
-     },
-     {
-      "id": "be67283b-4529-4a2d-834a-96edc4b36971",
-      "name": "Luminar Ventures"
-     },
-     {
-      "id": "1c4ea99e-d351-4abd-b230-420f1a194603",
-      "name": "Momentum Partners"
-     }
-    ],
-    "sources": [
-     {
-      "name": "photoncycle.com",
-      "url": "https://www.photoncycle.com/en/news/photoncycle-closes-seed-round",
-      "rank": "PRIMARY",
-      "date": "2024-04-05"
-     },
-     {
-      "name": "techcrunch.com",
-      "url": "https://techcrunch.com/2024/04/02/photoncycle-solar-energy-storage-solid-hydrogen/",
-      "rank": "PRESS",
-      "date": "2024-04-02"
-     }
-    ],
-    "conflated": false
-   },
-   {
-    "id": "da65b870-36bb-5d82-8e78-3ab6c90190c9",
-    "label": "GRANT",
-    "amount": 5300000,
-    "currency": "NOK",
-    "date": "2023-01-27",
-    "date_kind": "event",
-    "qualifying": false,
-    "lead_investors": [
-     {
-      "id": "e8203bac-13d8-5d13-ab4d-996b6657363b",
-      "name": "Innovation Norway"
-     }
-    ],
-    "participants": [],
-    "sources": [
-     {
-      "name": "stotte.brreg.no",
-      "url": "https://stotte.brreg.no/en/oppslag/stoettetildeling/1000026931",
-      "rank": "FILING",
-      "date": "2025-09-22"
-     },
-     {
-      "name": "stotte.brreg.no",
-      "url": "https://stotte.brreg.no/en/oppslag/stoettetildeling/1000031655",
-      "rank": "FILING",
-      "date": "2025-12-11"
-     }
-    ],
-    "conflated": false
-   }
-  ],
-  "why_missed": [
-   {
-    "reason": "Lead investor Nordicninja VC has never co-invested with you"
-   },
-   {
-    "reason": "Norway is outside your top countries (Germany, Finland, Switzerland)"
-   }
-  ],
-  "recent_news": [],
-  "sources": [
-   {
-    "name": "photoncycle.com",
-    "url": "https://photoncycle.com/",
-    "rank": "PRIMARY",
-    "date": "2026-11-02"
-   },
-   {
-    "name": "linkedin.com",
-    "url": "https://www.linkedin.com/company/photoncycle/",
-    "rank": "AGGREGATOR",
-    "date": "2026-11-02"
-   },
-   {
-    "name": "dns.google",
-    "url": "https://dns.google/query?name=photoncycle.com&type=A",
-    "rank": "PRIMARY",
-    "date": "2026-11-02"
-   },
-   {
-    "name": "eu-startups.com",
-    "url": "https://www.eu-startups.com/2026/03/oslos-photoncycle-raises-e15-million-to-enable-households-to-store-surplus-summer-solar-power-for-winter-use/",
-    "rank": "PRESS",
-    "date": "2026-03-04"
-   },
-   {
-    "name": "stotte.brreg.no",
-    "url": "https://stotte.brreg.no/en/oppslag/stoettetildeling/1000019728",
-    "rank": "FILING",
-    "date": "2024-05-08"
-   },
-   {
-    "name": "stotte.brreg.no",
-    "url": "https://stotte.brreg.no/en/oppslag/stoettetildeling/1000026319",
-    "rank": "FILING",
-    "date": "2025-06-19"
-   },
-   {
-    "name": "stotte.brreg.no",
-    "url": "https://stotte.brreg.no/en/oppslag/stoettetildeling/1000026931",
-    "rank": "FILING",
-    "date": "2025-09-22"
-   },
-   {
-    "name": "stotte.brreg.no",
-    "url": "https://stotte.brreg.no/en/oppslag/stoettetildeling/1000031655",
-    "rank": "FILING",
-    "date": "2025-12-11"
-   }
-  ]
- },
  "d2929f0c-d341-487c-a25c-52a1e0df01a2": {
   "id": "d2929f0c-d341-487c-a25c-52a1e0df01a2",
   "name": "Synera",
@@ -613,7 +729,7 @@
     "lead_investors": [
      {
       "id": "ce876685-96f1-4a29-85e1-37e674418f31",
-      "name": "Bundesministerium für Wirtschaft und Technologie (BMWi)"
+      "name": "Bundesministerium für Wirtschaft und Technologie"
      }
     ],
     "participants": [],
@@ -737,72 +853,177 @@
    }
   ]
  },
- "cf3d6a47-052e-473c-a742-0030a764d51c": {
-  "id": "cf3d6a47-052e-473c-a742-0030a764d51c",
-  "name": "Intergrid Oy",
-  "website": "intergridsystems.com",
-  "description": "Trusted by 100+ sites in Europe - the easiest way to operate industrial energy systems.",
-  "country": "Finland",
-  "founded": "2023",
+ "e628510b-d41c-439d-ac68-f6bbd966214b": {
+  "id": "e628510b-d41c-439d-ac68-f6bbd966214b",
+  "name": "DealGuru",
+  "website": "dealguru.se",
+  "description": "Vill du göra en riktigt bra deal och spara pengar när du shoppar? DealGuru.se listar de bästa erbjudandena, dealsen och rabattkoderna – helt gratis!",
+  "country": "Sweden",
+  "founded": "2022",
   "rounds": [
    {
-    "id": "a0f6d5cb-9dde-508a-9259-e3b6ac8e35ee",
+    "id": "63e22644-0cb9-5d2f-a1d1-13e4385eff5e",
     "label": "SEED",
     "amount": 10000000,
-    "currency": "EUR",
-    "date": "2025-05-24",
+    "currency": "SEK",
+    "date": "2024-02-09",
     "date_kind": "announcement",
     "qualifying": true,
-    "lead_investors": [],
+    "lead_investors": [
+     {
+      "id": "1f2979fb-423a-40ef-8c96-eb0d9fae7ea6",
+      "name": "Gorilla Capital"
+     },
+     {
+      "id": "6a966907-4006-4a4b-8d11-2330f76cb3cd",
+      "name": "Innovestor"
+     }
+    ],
     "participants": [
      {
-      "id": "476a73ac-afa2-4713-9f73-188bc7ec0b95",
-      "name": "Lifeline Ventures"
+      "id": "37139cf3-a307-5da6-a62a-8e2f231d9b03",
+      "name": "Aleksi Uusitalo"
+     },
+     {
+      "id": "4d000956-e609-50d1-8826-c23cc726d416",
+      "name": "Joel Klint Gustafsson"
+     },
+     {
+      "id": "fdd4e5b1-5057-5828-b1bf-1ddb6e977459",
+      "name": "Jon Böhmer"
+     },
+     {
+      "id": "e88212a5-238c-5202-9ecd-33cb8f476fe3",
+      "name": "Mikko Nurminen"
+     },
+     {
+      "id": "f2079dbe-19ce-5585-b2ee-6f6201abc3bb",
+      "name": "Nicklas Andersson"
+     },
+     {
+      "id": "4af557d8-a2a1-5950-9f45-0d4c6f41a5ab",
+      "name": "Olli Kopakkala"
      }
     ],
     "sources": [
      {
-      "name": "mainsights.io",
-      "url": "https://www.mainsights.io/ma-news/finnish-startup-intergrid-secures-over-eur-10m-to-electrify-industrial-energy-use",
+      "name": "en.ain.ua",
+      "url": "https://en.ain.ua/2024/02/20/dealguru-secures-890k-innovestor-gorilla-capital",
+      "rank": "PRESS",
+      "date": "2026-11-10"
+     },
+     {
+      "name": "oresundstartups.com",
+      "url": "https://oresundstartups.com/dealguru-raises-e900k-to-revolutionize-deals-in-sweden/",
+      "rank": "PRESS",
+      "date": "2026-11-10"
+     },
+     {
+      "name": "nordic9.com",
+      "url": "https://nordic9.com/news/dealguru-raises-sek-10-million-with-gorilla-capital-innovestor-and-angel-investors/",
       "rank": "AGGREGATOR",
-      "date": "2025-05-24"
+      "date": "2026-11-10"
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "id": "f31ad7a5-3c03-570e-a1d3-a431ae08caf1",
+    "label": "PRE_SEED",
+    "amount": null,
+    "currency": null,
+    "date": "2022-12-14",
+    "date_kind": "announcement",
+    "qualifying": false,
+    "lead_investors": [],
+    "participants": [
+     {
+      "id": "91f87e04-da4a-535d-8637-cfa0696f575f",
+      "name": "Johan Selin"
+     },
+     {
+      "id": "e284d246-14df-525f-96d7-c28f460059e0",
+      "name": "Lasse Järvinen"
+     },
+     {
+      "id": "4af557d8-a2a1-5950-9f45-0d4c6f41a5ab",
+      "name": "Olli Kopakkala"
+     }
+    ],
+    "sources": [
+     {
+      "name": "nordic9.com",
+      "url": "https://nordic9.com/news/dealguru-was-pre-seeded-by-angel-investors/",
+      "rank": "AGGREGATOR",
+      "date": "2026-11-10"
      }
     ],
     "conflated": false
    }
   ],
-  "why_missed": [],
+  "why_missed": [
+   {
+    "reason": "Lead investor Gorilla Capital has never co-invested with you"
+   },
+   {
+    "reason": "Sweden is outside your top countries (Germany, Finland, Switzerland)"
+   }
+  ],
   "recent_news": [],
   "sources": [
    {
-    "name": "GLEIF",
-    "url": "https://search.gleif.org/#/record/743700SILEXUN25LIB40",
+    "name": "en.ain.ua",
+    "url": "https://en.ain.ua/2024/02/20/dealguru-secures-890k-innovestor-gorilla-capital",
     "rank": null,
-    "date": "2026-07-10"
+    "date": "2026-08-24"
    },
    {
-    "name": "intergridsystems.com",
-    "url": "https://intergridsystems.com/",
+    "name": "o.parsers.vc",
+    "url": "https://o.parsers.vc/fund/gorillacapital.fi",
+    "rank": null,
+    "date": "2026-08-24"
+   },
+   {
+    "name": "dealguru.se",
+    "url": "https://dealguru.se/",
     "rank": "PRIMARY",
+    "date": "2026-11-02"
+   },
+   {
+    "name": "linkedin.com",
+    "url": "https://www.linkedin.com/company/dealguru-ab/",
+    "rank": "AGGREGATOR",
     "date": "2026-11-02"
    },
    {
     "name": "dns.google",
-    "url": "https://dns.google/query?name=intergridsystems.com&type=A",
+    "url": "https://dns.google/query?name=dealguru.se&type=A",
     "rank": "PRIMARY",
     "date": "2026-11-02"
    },
    {
-    "name": "mainsights.io",
-    "url": "https://www.mainsights.io/ma-news/finnish-startup-intergrid-secures-over-eur-10m-to-electrify-industrial-energy-use",
-    "rank": "AGGREGATOR",
-    "date": "2025-05-24"
+    "name": "nordic9.com",
+    "url": "https://nordic9.com/news/dealguru-was-pre-seeded-by-angel-investors/",
+    "rank": "PRIMARY",
+    "date": "2026-11-10"
+   },
+   {
+    "name": "oresundstartups.com",
+    "url": "https://oresundstartups.com/dealguru-raises-e900k-to-revolutionize-deals-in-sweden/",
+    "rank": "PRESS",
+    "date": "2026-11-10"
    },
    {
     "name": "nordic9.com",
-    "url": "https://nordic9.com/news/intergrid-was-pre-seeded-with-1m-by-lifeline-ventures-and-investors-in-finland/",
+    "url": "https://nordic9.com/news/dealguru-raises-sek-10-million-with-gorilla-capital-innovestor-and-angel-investors/",
     "rank": "AGGREGATOR",
-    "date": "2023-09-12"
+    "date": "2026-11-10"
+   },
+   {
+    "name": "dealguru.se",
+    "url": "https://www.dealguru.se/om-oss",
+    "rank": "PRIMARY",
+    "date": "2026-11-10"
    }
   ]
  },
@@ -839,7 +1060,7 @@
      },
      {
       "id": "373d84d7-06a8-426f-8244-5f8e5e3b23a9",
-      "name": "Alven Capital V"
+      "name": "Alven Capital"
      },
      {
       "id": "ee73ff4d-6994-509b-a54a-c113626f40bc",
@@ -938,6 +1159,110 @@
    }
   ]
  },
+ "4e91b640-41bb-45f7-b82c-711a94a2e0e5": {
+  "id": "4e91b640-41bb-45f7-b82c-711a94a2e0e5",
+  "name": "eBrands Global Oy",
+  "website": "ebrands.com",
+  "description": "Cross-border e-commerce for brands: merchant and importer of record, marketplace management on 200+ channels, fulfilment, Apollo AI platform. Started as a Nordic DTC brand aggregator.",
+  "country": "Finland",
+  "founded": "2020",
+  "rounds": [
+   {
+    "id": "dfbfc74c-0d6b-54fc-898f-e700cdf3ee23",
+    "label": "SERIES_A",
+    "amount": 7500000,
+    "currency": "EUR",
+    "date": "2025-03-11",
+    "date_kind": "announcement",
+    "qualifying": true,
+    "lead_investors": [
+     {
+      "id": "519b4993-6256-48de-a01f-c4e9102aa7cf",
+      "name": "Varma Mutual Pension Insurance Company"
+     },
+     {
+      "id": "67a477ec-9758-439c-ad0d-386b91208c86",
+      "name": "Veikko Laine"
+     }
+    ],
+    "participants": [
+     {
+      "id": "70fb3317-cd8c-4c52-aa86-66502789bce3",
+      "name": "Icebreaker.vc"
+     },
+     {
+      "id": "6739d1c3-5ce0-4e04-ab28-a54eaf75f7d1",
+      "name": "Rettig Group"
+     }
+    ],
+    "sources": [
+     {
+      "name": "news.cision.com",
+      "url": "https://news.cision.com/san-francisco-oy/r/ebrands-raises--7-5m-to-help-consumer-brands-grow-internationally-with-ai,c4117793",
+      "rank": "PRIMARY",
+      "date": "2025-03-12"
+     },
+     {
+      "name": "castren.fi",
+      "url": "https://www.castren.fi/cases/ebrands-funding-round-2025/",
+      "rank": "PRESS",
+      "date": "2025-03-11"
+     },
+     {
+      "name": "cbinsights.com",
+      "url": "https://www.cbinsights.com/company/ebrands/financials",
+      "rank": "AGGREGATOR",
+      "date": "2026-11-13"
+     }
+    ],
+    "conflated": false
+   }
+  ],
+  "why_missed": [
+   {
+    "reason": "Lead investor Varma Mutual Pension Insurance Company has never co-invested with you"
+   }
+  ],
+  "recent_news": [],
+  "sources": [
+   {
+    "name": "GLEIF",
+    "url": "https://search.gleif.org/#/record/743700K0S2UG1YUFI665",
+    "rank": null,
+    "date": "2026-04-08"
+   },
+   {
+    "name": "ebrands.com",
+    "url": "https://ebrands.com/",
+    "rank": "PRIMARY",
+    "date": "2026-11-04"
+   },
+   {
+    "name": "claude.ai",
+    "url": "https://claude.ai/artifact/H3Eq8ujw2PKskrTrSvodVZ#conflicts",
+    "rank": "AGGREGATOR",
+    "date": "2026-11-04"
+   },
+   {
+    "name": "cbinsights.com",
+    "url": "https://www.cbinsights.com/company/ebrands/financials",
+    "rank": "AGGREGATOR",
+    "date": "2026-11-13"
+   },
+   {
+    "name": "news.cision.com",
+    "url": "https://news.cision.com/san-francisco-oy/r/ebrands-raises--7-5m-to-help-consumer-brands-grow-internationally-with-ai,c4117793",
+    "rank": "PRIMARY",
+    "date": "2025-03-12"
+   },
+   {
+    "name": "castren.fi",
+    "url": "https://www.castren.fi/cases/ebrands-funding-round-2025/",
+    "rank": "PRESS",
+    "date": "2025-03-11"
+   }
+  ]
+ },
  "25a97622-eed9-4289-bde6-2d191e44c06d": {
   "id": "25a97622-eed9-4289-bde6-2d191e44c06d",
   "name": "Gosta Labs",
@@ -963,11 +1288,11 @@
     "participants": [
      {
       "id": "3f9a41b4-1b21-4d8a-86f9-188109ff6179",
-      "name": "AHO Aps"
+      "name": "AHO"
      },
      {
       "id": "81192996-e623-4961-9025-58afec3a68d3",
-      "name": "Cor Group Oy"
+      "name": "Cor Group"
      }
     ],
     "sources": [
@@ -1051,7 +1376,7 @@
     "participants": [
      {
       "id": "09125dc5-ebf7-4ce2-b901-92e7100c9d2e",
-      "name": "Angel Invest B.V."
+      "name": "Angel Invest"
      },
      {
       "id": "d3e3c2e5-47ff-47d2-856c-94efbf7e5d90",
@@ -1099,7 +1424,7 @@
     "lead_investors": [
      {
       "id": "e40e360b-86ab-4887-984e-ea4f9efc7175",
-      "name": "Signals Venture Capital I GmbH & Co. KG"
+      "name": "Signals Venture Capital"
      }
     ],
     "participants": [
@@ -1415,7 +1740,7 @@
     "lead_investors": [
      {
       "id": "34829e66-7e7e-412e-a0ea-c61014ced495",
-      "name": "Ugly Duckling Ventures Management ApS"
+      "name": "Ugly Duckling Ventures"
      }
     ],
     "participants": [
@@ -1473,7 +1798,7 @@
      },
      {
       "id": "34829e66-7e7e-412e-a0ea-c61014ced495",
-      "name": "Ugly Duckling Ventures Management ApS"
+      "name": "Ugly Duckling Ventures"
      }
     ],
     "participants": [
@@ -1483,7 +1808,7 @@
      },
      {
       "id": "1f973216-f1e5-4466-8409-da6608460c02",
-      "name": "Voima Ventures Oy"
+      "name": "Voima Ventures"
      }
     ],
     "sources": [
@@ -1588,6 +1913,122 @@
     "url": "https://www.skyfora.com/news/skyfora-secures-4-million-to-supercharge-ai-weather-forecasts-using-telecom-gnss-meteorology",
     "rank": "PRIMARY",
     "date": "2025-03-03"
+   }
+  ]
+ },
+ "5dcfdc22-c000-43d1-b745-a9248a11a488": {
+  "id": "5dcfdc22-c000-43d1-b745-a9248a11a488",
+  "name": "Blidz",
+  "website": "blidz.com",
+  "description": "Earn generous loyalty rewards while shopping Team-Up deals with friends, and secure deals up to 90% OFF or even free.",
+  "country": "Finland",
+  "founded": null,
+  "rounds": [
+   {
+    "id": "fcbba000-66a2-5916-ba46-6399721d8af2",
+    "label": "SEED",
+    "amount": 6000000,
+    "currency": "EUR",
+    "date": "2022-03-23",
+    "date_kind": "announcement",
+    "qualifying": true,
+    "lead_investors": [
+     {
+      "id": "276a7aad-f22b-43f4-b755-cc923da7e6f5",
+      "name": "General Catalyst Partners"
+     },
+     {
+      "id": "117e1523-324b-4e8e-94b7-3a571c198692",
+      "name": "Peak"
+     }
+    ],
+    "participants": [
+     {
+      "id": "1c534ab1-317e-53db-a873-0056fc0c7645",
+      "name": "Christopher North"
+     },
+     {
+      "id": "962682aa-7519-51bf-88ee-88902f8b1823",
+      "name": "D4 Ventures"
+     },
+     {
+      "id": "8c16236c-299d-5a39-bbd1-7e255e62619d",
+      "name": "Don Hoang"
+     },
+     {
+      "id": "ea00d6f7-d3b8-43ca-894b-22898ab2dce5",
+      "name": "Fabric Ventures"
+     },
+     {
+      "id": "abd4cae6-8be9-4671-923f-8c4d3a901547",
+      "name": "FJ Labs"
+     },
+     {
+      "id": "406ef484-9135-4ce7-8a88-40a6cc945e09",
+      "name": "Illusian Capital"
+     },
+     {
+      "id": "f6d40792-fa70-437d-ad49-bb014de7bdbd",
+      "name": "Ipr.vc"
+     },
+     {
+      "id": "641b9cd2-46c6-470e-8a36-a9c5a12539b2",
+      "name": "Youngme Moon"
+     }
+    ],
+    "sources": [
+     {
+      "name": "peak.capital",
+      "url": "https://peak.capital/social-shopping-app-blidz-raises-e6m-in-seed-funding-led-by-general-catalyst-and-peak/",
+      "rank": "PRIMARY",
+      "date": "2022-03-23"
+     },
+     {
+      "name": "techcrunch.com",
+      "url": "https://techcrunch.com/2022/03/23/blidz-a-european-pinduoduo-clone-raises-6-6m-to-expand-its-social-shopping-app",
+      "rank": "PRESS",
+      "date": "2022-03-23"
+     }
+    ],
+    "conflated": false
+   }
+  ],
+  "why_missed": [
+   {
+    "reason": "Lead investor General Catalyst Partners has never co-invested with you"
+   }
+  ],
+  "recent_news": [],
+  "sources": [
+   {
+    "name": "Companies",
+    "url": "https://ventechvc.com/portfolio",
+    "rank": null,
+    "date": "2025-09-11"
+   },
+   {
+    "name": "blidz.com",
+    "url": "https://blidz.com/",
+    "rank": "PRIMARY",
+    "date": "2026-11-02"
+   },
+   {
+    "name": "dns.google",
+    "url": "https://dns.google/query?name=blidz.com&type=A",
+    "rank": "PRIMARY",
+    "date": "2026-11-02"
+   },
+   {
+    "name": "peak.capital",
+    "url": "https://peak.capital/social-shopping-app-blidz-raises-e6m-in-seed-funding-led-by-general-catalyst-and-peak/",
+    "rank": "PRIMARY",
+    "date": "2022-03-23"
+   },
+   {
+    "name": "techcrunch.com",
+    "url": "https://techcrunch.com/2022/03/23/blidz-a-european-pinduoduo-clone-raises-6-6m-to-expand-its-social-shopping-app",
+    "rank": "PRESS",
+    "date": "2022-03-23"
    }
   ]
  },
@@ -1857,11 +2298,11 @@
      },
      {
       "id": "558f8f59-08b0-412a-9947-8878de485861",
-      "name": "Hi5 VC OÜ"
+      "name": "Hi5 VC"
      },
      {
       "id": "a25ba634-4459-4bf3-8a4d-78155efe5558",
-      "name": "Purple Ventures s.r.o."
+      "name": "Purple Ventures"
      },
      {
       "id": "84e3e982-b3a0-4338-bfdf-ec4f4fa30a4a",
@@ -1915,7 +2356,7 @@
      },
      {
       "id": "6c370362-a57d-4abd-aa07-daf59dbc3132",
-      "name": "Nidoco AB"
+      "name": "Nidoco"
      },
      {
       "id": "f8ff6ced-c413-54bb-b9cf-970eee8921df",
@@ -2022,160 +2463,136 @@
    }
   ]
  },
- "674105b6-bd55-46da-bdea-977384ea1572": {
-  "id": "674105b6-bd55-46da-bdea-977384ea1572",
-  "name": "Graph Therapeutics",
-  "website": "graphtx.com",
-  "description": "Graph Therapeutics - precision immunology",
-  "country": "Austria",
-  "founded": "2024",
+ "393abcb1-cecf-4c33-b742-4f648261a98a": {
+  "id": "393abcb1-cecf-4c33-b742-4f648261a98a",
+  "name": "ai|coustics",
+  "website": "ai-coustics.com",
+  "description": "Cleaner input. Smarter output. Real-time speech enhancement that makes Voice AI work at scale - more accurate ASR, steadier VAD, and reliable audio in the real world.",
+  "country": "Germany",
+  "founded": "2023",
   "rounds": [
    {
-    "id": "d88ffddb-47ff-57bc-82bf-d48958c8ffec",
+    "id": "fd86a579-5459-5de5-b883-ea9b284feb5a",
     "label": "SEED",
-    "amount": 5000000,
+    "amount": 5119294,
     "currency": "USD",
-    "date": "2026-06-22",
+    "date": "2025-03-25",
     "date_kind": "announcement",
     "qualifying": true,
     "lead_investors": [
      {
-      "id": "3fa5315d-8836-46f6-bc65-4f55b5a295bd",
-      "name": "Daphni"
+      "id": "90e442ac-3623-48d1-ab34-ea4208d554cf",
+      "name": "Partech"
      }
     ],
     "participants": [
      {
-      "id": "8b8c3098-8d09-4968-8a1b-4146f4c02613",
-      "name": "Merantix Fund Management GmbH"
+      "id": "0c69b876-4dea-4f08-af7a-d7e3fd0b23b4",
+      "name": "Acurio Ventures Partners"
      },
      {
-      "id": "13c27c2d-3764-4c91-9b93-a4eb604ffb35",
-      "name": "Navec Investment Management"
+      "id": "c66ecdbc-5474-430c-af13-b4cce4b1d01b",
+      "name": "Arc Investors"
      },
      {
-      "id": "963b881e-2dc9-418c-b900-abdb9c61f2ce",
-      "name": "SquareOne"
-     }
-    ],
-    "sources": [
-     {
-      "name": "graphtx.com",
-      "url": "https://www.graphtx.com/articles/graph-therapeutics-secures-over-10-million-in-combined-funding-to-advance-therapeutics-programs-in-inflammation-and-immunology",
-      "rank": "PRIMARY",
-      "date": "2026-06-22"
+      "id": "2cca7004-6efc-4539-a8ca-ea73e4d3d888",
+      "name": "Connect Ventures"
      },
      {
-      "name": "tech.eu",
-      "url": "https://tech.eu/2026/06/22/graph-therapeutics-brings-total-funding-to-over-10m-to-advance-precision-immunology/",
-      "rank": "PRESS",
-      "date": "2026-06-22"
+      "id": "4e9350ec-f5cf-46f3-8fb9-4e1ed2eb15f6",
+      "name": "FOV Ventures"
      },
      {
-      "name": "trendingtopics.eu",
-      "url": "https://www.trendingtopics.eu/graph-therapeutics-raises-5-million-for-drug-discovery-programs/",
-      "rank": "PRESS",
-      "date": "2026-07-01"
+      "id": "3796defa-a280-574d-ba3d-94e8a9fb5130",
+      "name": "Gert Lanckriet"
      },
      {
-      "name": "fundediq.co",
-      "url": "https://fundediq.co/graph-therapeutics-graphtx-com-funding/",
-      "rank": "AGGREGATOR",
-      "date": "2026-11-04"
-     }
-    ],
-    "conflated": false
-   },
-   {
-    "id": "d6bbc4cf-40c3-5ded-97c0-e026ec404202",
-    "label": "GRANT",
-    "amount": 1100000,
-    "currency": "EUR",
-    "date": "2025-04-22",
-    "date_kind": "announcement",
-    "qualifying": false,
-    "lead_investors": [
-     {
-      "id": "0cb6f26f-170f-442b-895d-ac8b5b6fe58b",
-      "name": "Austria Wirtschaftsservice Gesellschaft mit beschränkter Haftung"
-     }
-    ],
-    "participants": [],
-    "sources": [
-     {
-      "name": "graphtx.com",
-      "url": "https://www.graphtx.com/articles/aws-graph-2025-04-22",
-      "rank": "PRIMARY",
-      "date": "2025-04-22"
-     }
-    ],
-    "conflated": false
-   },
-   {
-    "id": "6f29ffb3-ffe2-5353-a4e0-0e7dace9ccb2",
-    "label": "GRANT",
-    "amount": 1100000,
-    "currency": "EUR",
-    "date": "2025-03-03",
-    "date_kind": "announcement",
-    "qualifying": false,
-    "lead_investors": [
-     {
-      "id": "45f9f633-3794-5fb4-b1f5-6fc7a7ead3b0",
-      "name": "FFG Austrian Research Promotion Agency"
-     }
-    ],
-    "participants": [],
-    "sources": [
-     {
-      "name": "graphtx.com",
-      "url": "https://www.graphtx.com/articles/ffg-grant-2025-03-03",
-      "rank": "PRIMARY",
-      "date": "2025-03-03"
-     }
-    ],
-    "conflated": false
-   },
-   {
-    "id": "78b32cec-5d09-5d02-91e4-5968be10475e",
-    "label": "PRE_SEED",
-    "amount": 3100000,
-    "currency": "USD",
-    "date": "2025-01-09",
-    "date_kind": "announcement",
-    "qualifying": true,
-    "lead_investors": [
-     {
-      "id": "8b8c3098-8d09-4968-8a1b-4146f4c02613",
-      "name": "Merantix Fund Management GmbH"
+      "id": "d4ad402b-f161-5ed0-a97f-5fd2c8729cc4",
+      "name": "Hazel Savage"
      },
      {
-      "id": "963b881e-2dc9-418c-b900-abdb9c61f2ce",
-      "name": "SquareOne"
-     }
-    ],
-    "participants": [
+      "id": "1ab39345-03b5-4dbd-845f-de4fd2e42683",
+      "name": "Intuition"
+     },
      {
-      "id": "b20efe6c-3c59-45f6-9862-223ec72764be",
+      "id": "ae4028a2-df65-505a-9d4f-e9e1454625cc",
       "name": "Mehdi Ghissassi"
      },
      {
-      "id": "13c27c2d-3764-4c91-9b93-a4eb604ffb35",
-      "name": "Navec Investment Management"
+      "id": "e9cb3ea2-6d1e-5336-8fb5-799bf1aea5a9",
+      "name": "Thomas Wolf"
      }
     ],
     "sources": [
      {
-      "name": "graphtx.com",
-      "url": "https://www.graphtx.com/articles/pre-seed-2025-01-09",
-      "rank": "PRIMARY",
-      "date": "2025-01-09"
+      "name": "sec.gov",
+      "url": "https://www.sec.gov/Archives/edgar/data/2007168/000200716825000002/primary_doc.xml",
+      "rank": "FILING",
+      "date": "2025-04-02"
      },
      {
-      "name": "vestbee.com",
-      "url": "https://www.vestbee.com/blog/articles/graph-therapeutics-raises-3-1-m",
+      "name": "partechpartners.com",
+      "url": "https://partechpartners.com/news/berlin-based-aicoustics-raises-5m-seed-round-bringing-studio-quality-sound-to-voice-ai",
+      "rank": "PRIMARY",
+      "date": "2025-03-25"
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "id": "9db7c10e-2d84-56fb-b803-b5ca7c4c3e3a",
+    "label": "PRE_SEED",
+    "amount": 2100515,
+    "currency": "USD",
+    "date": "2024-03-25",
+    "date_kind": "announcement",
+    "qualifying": true,
+    "lead_investors": [
+     {
+      "id": "2cca7004-6efc-4539-a8ca-ea73e4d3d888",
+      "name": "Connect Ventures"
+     }
+    ],
+    "participants": [
+     {
+      "id": "4e9350ec-f5cf-46f3-8fb9-4e1ed2eb15f6",
+      "name": "FOV Ventures"
+     },
+     {
+      "id": "653ca6f9-a173-5a4f-aae0-d20618e6e55e",
+      "name": "Inovia Capital"
+     },
+     {
+      "id": "73b09ac6-3656-5a15-a8e1-6d12ac7c2bfe",
+      "name": "Jan Bohl"
+     },
+     {
+      "id": "6128f8a2-ccf5-57a6-b15d-0b14dcbfdd67",
+      "name": "Michael Schmitt"
+     },
+     {
+      "id": "a731826e-bdcf-5b9a-950f-1d9b63803197",
+      "name": "Nigel Toon"
+     }
+    ],
+    "sources": [
+     {
+      "name": "sec.gov",
+      "url": "https://www.sec.gov/Archives/edgar/data/2007168/000200716824000001/primary_doc.xml",
+      "rank": "FILING",
+      "date": "2024-01-26"
+     },
+     {
+      "name": "ai-coustics.com",
+      "url": "https://ai-coustics.com/blog/company-updates-aicoustics-raises-funding",
+      "rank": "PRIMARY",
+      "date": "2024-04-03"
+     },
+     {
+      "name": "techcrunch.com",
+      "url": "https://techcrunch.com/2024/03/25/can-you-hear-me-now-ai-coustics-to-fight-noisy-audio-with-generative-ai",
       "rank": "PRESS",
-      "date": "2025-01-10"
+      "date": "2024-03-25"
      }
     ],
     "conflated": false
@@ -2183,125 +2600,46 @@
   ],
   "why_missed": [
    {
-    "reason": "Lead investor Daphni has never co-invested with you"
-   },
-   {
-    "reason": "Austria is outside your top countries (Germany, Finland, Switzerland)"
+    "reason": "Lead investor Partech has never co-invested with you"
    }
   ],
   "recent_news": [],
   "sources": [
    {
-    "name": "graphtx.com",
-    "url": "https://graphtx.com/",
-    "rank": "PRIMARY",
-    "date": null
-   },
-   {
-    "name": "linkedin.com",
-    "url": "https://www.linkedin.com/company/graphtx/",
-    "rank": "AGGREGATOR",
-    "date": null
-   },
-   {
-    "name": "dns.google",
-    "url": "https://dns.google/query?name=graphtx.com&type=A",
-    "rank": "PRIMARY",
-    "date": null
-   },
-   {
-    "name": "fundediq.co",
-    "url": "https://fundediq.co/graph-therapeutics-graphtx-com-funding/",
-    "rank": "AGGREGATOR",
-    "date": null
-   },
-   {
-    "name": "tech.eu",
-    "url": "https://tech.eu/2026/06/22/graph-therapeutics-brings-total-funding-to-over-10m-to-advance-precision-immunology/",
-    "rank": "PRESS",
-    "date": null
-   },
-   {
-    "name": "graphtx.com",
-    "url": "https://www.graphtx.com/articles/graph-therapeutics-secures-over-10-million-in-combined-funding-to-advance-therapeutics-programs-in-inflammation-and-immunology",
-    "rank": "PRIMARY",
-    "date": null
-   }
-  ]
- },
- "c83207b7-2e55-44af-a4e8-26463e746626": {
-  "id": "c83207b7-2e55-44af-a4e8-26463e746626",
-  "name": "Forgent AI GmbH",
-  "website": "forgent.ai",
-  "description": "Berlin AI-agent platform for public-sector procurement: scores tenders and alerts on relevant opportunities (EU, North America, Asia), turns institutional knowledge into compliant bid responses and...",
-  "country": "Germany",
-  "founded": "2025",
-  "rounds": [
-   {
-    "id": "89aecaa6-dc3c-585b-af1c-b163da6b74a8",
-    "label": "PRE_SEED",
-    "amount": 4300000,
-    "currency": "EUR",
-    "date": "2025-09-23",
-    "date_kind": "announcement",
-    "qualifying": true,
-    "lead_investors": [
-     {
-      "id": "c06adc97-e2d8-4590-a329-4462750ee4e6",
-      "name": "Cherry Ventures"
-     }
-    ],
-    "participants": [
-     {
-      "id": "e811f1f6-6ecf-4f98-aa99-e3a9e2211458",
-      "name": "Charlie Songhurst"
-     },
-     {
-      "id": "3575b080-b535-420c-9284-b09481e8a793",
-      "name": "Katrin Suder"
-     },
-     {
-      "id": "abd3d254-3a98-4569-b867-2bc1e6e3e110",
-      "name": "Rethink Ventures"
-     }
-    ],
-    "sources": [
-     {
-      "name": "thesaasnews.com",
-      "url": "https://www.thesaasnews.com/news/forgent-ai-secures-4-3-million-pre-seed/",
-      "rank": "PRESS",
-      "date": "2025-09-22"
-     },
-     {
-      "name": "preqin.com",
-      "url": "https://www.preqin.com/data/profile/asset/forgent-ai-gmbh/769464",
-      "rank": "AGGREGATOR",
-      "date": "2025-10-01"
-     }
-    ],
-    "conflated": false
-   }
-  ],
-  "why_missed": [],
-  "recent_news": [],
-  "sources": [
-   {
-    "name": "GLEIF",
-    "url": "https://search.gleif.org/#/record/391200ZKA87UVIAI1168",
+    "name": "Portfolio",
+    "url": "https://www.acurio.vc/portfolio",
     "rank": null,
-    "date": null
+    "date": "2025-01-01"
+   },
+   {
+    "name": "ai-coustics.com",
+    "url": "https://ai-coustics.com/",
+    "rank": "PRIMARY",
+    "date": "2026-10-30"
    },
    {
     "name": "dns.google",
-    "url": "https://dns.google/query?name=forgent.ai&type=A",
+    "url": "https://dns.google/query?name=ai-coustics.com&type=A",
     "rank": "PRIMARY",
-    "date": null
+    "date": "2026-10-30"
    },
    {
-    "name": "thesaasnews.com",
-    "url": "https://www.thesaasnews.com/news/forgent-ai-secures-4-3-million-pre-seed/",
-    "rank": "PRESS",
-    "date": null
+    "name": "partechpartners.com",
+    "url": "https://partechpartners.com/news/berlin-based-aicoustics-raises-5m-seed-round-bringing-studio-quality-sound-to-voice-ai",
+    "rank": "PRIMARY",
+    "date": "2025-03-25"
+   },
+   {
+    "name": "sec.gov",
+    "url": "https://www.sec.gov/Archives/edgar/data/2007168/000200716824000001/primary_doc.xml",
+    "rank": "FILING",
+    "date": "2024-01-26"
+   },
+   {
+    "name": "sec.gov",
+    "url": "https://www.sec.gov/Archives/edgar/data/2007168/000200716825000002/primary_doc.xml",
+    "rank": "FILING",
+    "date": "2025-04-02"
    }
   ]
  },
@@ -2337,7 +2675,7 @@
      },
      {
       "id": "8e7f2cff-80e6-48fa-8d99-16bf5474d24f",
-      "name": "Reaktor Innovations Oy"
+      "name": "Reaktor Innovations"
      },
      {
       "id": "9f7ac588-995e-4288-96bd-752fa62ee12e",
@@ -2465,190 +2803,6 @@
    }
   ]
  },
- "67fd399e-f160-4f05-81e0-b8ec9ce45fa2": {
-  "id": "67fd399e-f160-4f05-81e0-b8ec9ce45fa2",
-  "name": "Cardino",
-  "website": "cardino.de",
-  "description": "Cardino helps automotive fleets recover remarketing value with end-to-end infrastructure for inspection, pricing, distribution, and sales.",
-  "country": "Germany",
-  "founded": "2023",
-  "rounds": [
-   {
-    "id": "a5f849a3-9816-52ee-a385-8ce48e05c419",
-    "label": "SEED",
-    "amount": 4000000,
-    "currency": "EUR",
-    "date": "2024-06-11",
-    "date_kind": "announcement",
-    "qualifying": true,
-    "lead_investors": [
-     {
-      "id": "c934f7e3-6ee3-4983-b0e1-f7827df567f9",
-      "name": "Point Nine"
-     }
-    ],
-    "participants": [
-     {
-      "id": "9d40fc4f-016c-4439-ab2b-755ed3e0c752",
-      "name": "Rosberg Ventures"
-     }
-    ],
-    "sources": [
-     {
-      "name": "businesswire.com",
-      "url": "https://www.businesswire.com/news/home/20240611979084/en/",
-      "rank": "PRIMARY",
-      "date": "2024-06-11"
-     },
-     {
-      "name": "eu-startups.com",
-      "url": "https://www.eu-startups.com/2024/06/berlin-based-cardino-gets-e4-million-seed-to-accelerate-its-used-ev-sales-model/",
-      "rank": "PRESS",
-      "date": "2024-06-11"
-     },
-     {
-      "name": "electrive.net",
-      "url": "https://www.electrive.net/2024/06/12/gebrauchte-e-autos-cardino-sammelt-vier-millionen-euro-ein/",
-      "rank": "PRESS",
-      "date": "2024-06-12"
-     }
-    ],
-    "conflated": false
-   },
-   {
-    "id": "5ee38fe8-4061-53b1-a4e6-dbfc11eed9eb",
-    "label": "PRE_SEED",
-    "amount": 1000000,
-    "currency": "EUR",
-    "date": "2023-09-18",
-    "date_kind": "announcement",
-    "qualifying": true,
-    "lead_investors": [
-     {
-      "id": "af455c14-7d52-4318-9418-fd1ee7d573ef",
-      "name": "FJ Labs, LLC"
-     },
-     {
-      "id": "20f7fabf-02bc-4b05-b3a6-3d5a652b1594",
-      "name": "Silence VC"
-     }
-    ],
-    "participants": [
-     {
-      "id": "7ae06d12-d153-423e-9ba1-ed5d992be80d",
-      "name": "Asymmetric Capital Partners"
-     },
-     {
-      "id": "6a76b52f-0fb4-4593-8d89-80a436b51182",
-      "name": "DEPO Ventures"
-     },
-     {
-      "id": "b639e213-1ea8-41db-b399-630177098329",
-      "name": "Gaingels"
-     },
-     {
-      "id": "60781283-9a9a-4c43-930c-58fa26364694",
-      "name": "Inclimo"
-     },
-     {
-      "id": "f2f9da2e-b5f2-4865-b45b-2f47fb051aee",
-      "name": "Voyagers.io"
-     }
-    ],
-    "sources": [
-     {
-      "name": "prlog.org",
-      "url": "https://www.prlog.org/12984692-cardino-raises-1m-to-build-next-generation-ev-marketplace.html",
-      "rank": "PRIMARY",
-      "date": "2023-09-18"
-     },
-     {
-      "name": "eu-startups.com",
-      "url": "https://www.eu-startups.com/2023/09/berlin-based-cardino-secures-e1-million-pre-seed-to-build-the-real-deal-marketplace-for-used-evs/",
-      "rank": "PRESS",
-      "date": "2023-09-18"
-     },
-     {
-      "name": "tech.eu",
-      "url": "https://tech.eu/2023/09/18/cardino-raises-1m-and-launches-new-c2b-ev-auction-site/",
-      "rank": "PRESS",
-      "date": "2023-09-18"
-     }
-    ],
-    "conflated": false
-   },
-   {
-    "id": "673d5f4c-970e-5117-92cb-c0a8626854fd",
-    "label": "SERIES_A",
-    "amount": 1550000,
-    "currency": "USD",
-    "date": null,
-    "date_kind": null,
-    "qualifying": false,
-    "lead_investors": [],
-    "participants": [],
-    "sources": [
-     {
-      "name": "pitchbook.com",
-      "url": "https://pitchbook.com/profiles/company/517711-24",
-      "rank": "AGGREGATOR",
-      "date": "2026-11-10"
-     }
-    ],
-    "conflated": false
-   }
-  ],
-  "why_missed": [
-   {
-    "reason": "Lead investor Point Nine has never co-invested with you"
-   }
-  ],
-  "recent_news": [],
-  "sources": [
-   {
-    "name": "Cardino",
-    "url": "https://inclimo.com/en/portfolio/cardino/",
-    "rank": null,
-    "date": null
-   },
-   {
-    "name": "Berlin-based Cardino secures €1 million pre-seed to build the real deal marketplace for used EVs | EU-Startups",
-    "url": "https://www.eu-startups.com/2023/09/berlin-based-cardino-secures-e1-million-pre-seed-to-build-the-real-deal-marketplace-for-used-evs/",
-    "rank": null,
-    "date": null
-   },
-   {
-    "name": "Inclimo Climate Tech Fund",
-    "url": "https://investorlist.com/investor/inclimo-climate-tech-fund",
-    "rank": null,
-    "date": null
-   },
-   {
-    "name": "cardino.de",
-    "url": "https://cardino.de/",
-    "rank": "PRIMARY",
-    "date": null
-   },
-   {
-    "name": "eu-startups.com",
-    "url": "https://www.eu-startups.com/2024/06/berlin-based-cardino-gets-e4-million-seed-to-accelerate-its-used-ev-sales-model/",
-    "rank": "PRESS",
-    "date": null
-   },
-   {
-    "name": "dns.google",
-    "url": "https://dns.google/query?name=cardino.de&type=A",
-    "rank": "PRIMARY",
-    "date": null
-   },
-   {
-    "name": "pitchbook.com",
-    "url": "https://pitchbook.com/profiles/company/517711-24",
-    "rank": "AGGREGATOR",
-    "date": null
-   }
-  ]
- },
  "f1970456-a6e4-4b95-91a8-58c5a92d9bfe": {
   "id": "f1970456-a6e4-4b95-91a8-58c5a92d9bfe",
   "name": "Flow Computing",
@@ -2682,11 +2836,11 @@
      },
      {
       "id": "597fb031-b820-4362-9311-3d6106e13c08",
-      "name": "Sarsia Management"
+      "name": "Sarsia"
      },
      {
       "id": "dc925386-409d-41f1-8fb2-3a7b61802366",
-      "name": "Stephen Industries Inc Oy"
+      "name": "Stephen Industries"
      },
      {
       "id": "8f18dee5-e41b-4eaa-86e2-f03f1a846edc",
@@ -2755,139 +2909,107 @@
    }
   ]
  },
- "36fb528c-7795-4825-a9a4-a66ba327461b": {
-  "id": "36fb528c-7795-4825-a9a4-a66ba327461b",
-  "name": "Cariqa",
-  "website": "cariqa.com",
-  "description": "Payments, pricing and billing platform for electric-vehicle charging.",
-  "country": "Germany",
-  "founded": "2021",
+ "db82c519-cfd2-47e1-8db0-869988bb3d65": {
+  "id": "db82c519-cfd2-47e1-8db0-869988bb3d65",
+  "name": "Nala Earth",
+  "website": "nala.earth",
+  "description": "AI nature-and-biodiversity intelligence platform (API-first) that helps companies measure, manage and report nature risks and impacts for TNFD/CSRD; customers include Volkswagen, BASF and Continental.",
+  "country": "Switzerland",
+  "founded": "2023",
   "rounds": [
    {
-    "id": "0e3f36da-8273-5f91-9868-66e03fc2f61d",
+    "id": "27587ac2-c1a1-5f7e-86bb-a3800b3b189b",
     "label": "SEED",
-    "amount": 4000000,
+    "amount": 3800000,
     "currency": "EUR",
-    "date": "2025-07-08",
+    "date": "2025-01-30",
     "date_kind": "announcement",
     "qualifying": true,
     "lead_investors": [
      {
-      "id": "4985b453-12d1-4307-aa52-79ee031ba8e4",
-      "name": "Anthemis Group"
-     },
-     {
-      "id": "3c7caf1d-2b92-493f-bed9-7e14f8e4cc78",
-      "name": "UAB Contrarian Ventures"
+      "id": "84cb634c-910c-4268-9bc3-72f362907d42",
+      "name": "Iris"
      }
     ],
     "participants": [
      {
-      "id": "684da1ca-282f-5288-9b0b-5cd0de1aa323",
-      "name": "Earth"
+      "id": "ac207e7a-24e3-4dad-9b73-7d532d80ec59",
+      "name": "Founderful"
      },
      {
-      "id": "9feb906c-9d6c-4f3b-bac9-5660c69cbaa0",
-      "name": "Female Innovators Lab"
+      "id": "5aa183ac-7b7c-4320-b4d9-8e29e65c0db6",
+      "name": "Kompas VC"
      },
      {
-      "id": "f64a71c5-bcd7-4822-9580-60a1e3ab620d",
-      "name": "Golden Egg Check Capital"
-     },
-     {
-      "id": "ae7530e4-556e-4547-ba15-88a12fbcdcb1",
-      "name": "Techstars"
+      "id": "464a4a20-3ca1-4ce2-95e3-5895f86e7b5d",
+      "name": "Pale Blue DOT"
      }
     ],
     "sources": [
      {
-      "name": "tech.eu",
-      "url": "https://tech.eu/2025/07/08/cariqa-raises-eur4m-to-simplify-ev-charging-payments-and-pricing/",
-      "rank": "PRESS",
-      "date": "2025-07-08"
+      "name": "iris.vc",
+      "url": "https://www.iris.vc/articles/nala-earth-secures-3-8meu-seed-funding-to-integrate-nature-risk-into-corporate-decision-making",
+      "rank": "PRIMARY",
+      "date": "2025-01-30"
      },
      {
-      "name": "siliconcanals.com",
-      "url": "https://siliconcanals.com/cariqa-lands-e4m/",
-      "rank": "PRESS",
-      "date": "2025-07-08"
-     },
-     {
-      "name": "electrive.net",
-      "url": "https://www.electrive.net/2025/07/12/cariqa-schliesst-seed-finanzierung-erfolgreich-ab/",
-      "rank": "PRESS",
-      "date": "2025-07-12"
+      "name": "nala.earth",
+      "url": "https://www.nala.earth/post/www-nala-earth-post-eu3-8-mio-seed-funding-for-nature",
+      "rank": "PRIMARY",
+      "date": "2025-01-30"
      }
     ],
     "conflated": false
    },
    {
-    "id": "391d82ab-c8b8-5bf6-b685-ee35e2938818",
+    "id": "2e1cb7c8-492b-5463-83f1-20afc08ee8f7",
     "label": "PRE_SEED",
-    "amount": 1000000,
+    "amount": 1700000,
     "currency": "EUR",
-    "date": "2024-09-23",
+    "date": "2023-10-18",
     "date_kind": "announcement",
     "qualifying": true,
     "lead_investors": [],
     "participants": [
      {
-      "id": "4985b453-12d1-4307-aa52-79ee031ba8e4",
-      "name": "Anthemis Group"
+      "id": "9a6d4b9f-6455-4531-8276-7164c603924e",
+      "name": "Daniel Mahler"
      },
      {
-      "id": "f64a71c5-bcd7-4822-9580-60a1e3ab620d",
-      "name": "Golden Egg Check Capital"
+      "id": "ac207e7a-24e3-4dad-9b73-7d532d80ec59",
+      "name": "Founderful"
      },
      {
-      "id": "dad62210-b3b5-4696-ad5e-494862a108b5",
-      "name": "Hatcher+"
+      "id": "ae53bd8a-0a0e-4fa1-8dd9-2034fdb4285a",
+      "name": "Kenta Capital Investment"
      },
      {
-      "id": "53f0c100-86d8-5598-8fad-b632076fb1ce",
-      "name": "Play"
+      "id": "71c2111c-0c9a-41ce-a113-581ca738e07d",
+      "name": "Lea-Sophie Cramer"
      },
      {
-      "id": "3baab3ef-2387-5e97-86f5-aeaf2db72eb4",
-      "name": "Plug"
-     },
-     {
-      "id": "c04545e6-fd20-441a-9feb-5247eb8de975",
-      "name": "Plug and Play Tech Center"
-     },
-     {
-      "id": "ae7530e4-556e-4547-ba15-88a12fbcdcb1",
-      "name": "Techstars"
-     },
-     {
-      "id": "c97eb974-6dcc-4deb-8015-22028bd21c83",
-      "name": "Vento Ventures"
+      "id": "464a4a20-3ca1-4ce2-95e3-5895f86e7b5d",
+      "name": "Pale Blue DOT"
      }
     ],
     "sources": [
      {
-      "name": "eu-startups.com",
-      "url": "https://www.eu-startups.com/2024/09/berlin-based-cariqa-gets-e1-million-to-launch-consumer-facing-ev-charging-marketplace/",
+      "name": "carbon-pulse.com",
+      "url": "https://carbon-pulse.com/230175/",
       "rank": "PRESS",
-      "date": "2024-09-23"
+      "date": "2023-10-18"
      },
      {
-      "name": "cariqa.com",
-      "url": "https://cariqa.com/en/blog/cariqa-secures-eu1m-in-pre-seed-funding-to-release-the-worlds-first-consumer-facing-ev-charging-marketplace",
-      "rank": "PRIMARY",
-      "date": "2024-09-23"
+      "name": "bouncewatch.com",
+      "url": "https://bouncewatch.com/company/nala-earth",
+      "rank": "AGGREGATOR",
+      "date": "2025-11-01"
      },
      {
-      "name": "vestbee.com",
-      "url": "https://www.vestbee.com/insights/articles/cariqa-closes-1-m-round",
-      "rank": "PRESS",
-      "date": "2024-09-23"
-     },
-     {
-      "name": "why.berlin",
-      "url": "https://why.berlin/n/cariqa-raises-eur1-million-in-pre-seed-funding-to-launch-ev-charging-marketplace",
-      "rank": "PRESS",
-      "date": "2024-09-30"
+      "name": "pitchbook.com",
+      "url": "https://pitchbook.com/profiles/company/538208-20",
+      "rank": "AGGREGATOR",
+      "date": "2026-10-09"
      }
     ],
     "conflated": false
@@ -2895,76 +3017,40 @@
   ],
   "why_missed": [
    {
-    "reason": "Lead investor Anthemis Group has never co-invested with you"
+    "reason": "Lead investor Iris has never co-invested with you"
    }
   ],
   "recent_news": [],
   "sources": [
    {
-    "name": "tracxn.com",
-    "url": "https://tracxn.com/d/venture-capital/vento/__nhQ2mU28euMW1K5GTumEfPLeQmhnHAn_vB2rLD5xB2w",
+    "name": "Explore the KOMPAS VC Portfolio",
+    "url": "https://kompas.vc/portfolio",
     "rank": null,
-    "date": "2026-06-09"
+    "date": "2016-01-01"
    },
    {
-    "name": "Berlin-based EV charging marketplace Cariqa closes €1M pre-seed round",
-    "url": "https://vestbee.com/insights/articles/cariqa-closes-1-m-round",
-    "rank": null,
-    "date": "2024-09-23"
-   },
-   {
-    "name": "eu-startups.com",
-    "url": "https://www.eu-startups.com/2024/09/berlin-based-cariqa-gets-e1-million-to-launch-consumer-facing-ev-charging-marketplace/",
-    "rank": "PRESS",
-    "date": "2024-09-01"
-   },
-   {
-    "name": "cariqa.com",
-    "url": "https://cariqa.com/",
+    "name": "iris.vc",
+    "url": "https://www.iris.vc/articles/nala-earth-secures-3-8meu-seed-funding-to-integrate-nature-risk-into-corporate-decision-making",
     "rank": "PRIMARY",
-    "date": "2026-10-29"
+    "date": "2025-01-30"
+   },
+   {
+    "name": "nala.earth",
+    "url": "https://www.nala.earth/post/www-nala-earth-post-eu3-8-mio-seed-funding-for-nature",
+    "rank": "PRIMARY",
+    "date": "2025-01-30"
    },
    {
     "name": "dns.google",
-    "url": "https://dns.google/query?name=cariqa.com&type=A",
+    "url": "https://dns.google/query?name=nala.earth&type=A",
     "rank": "PRIMARY",
-    "date": "2026-10-29"
+    "date": "2026-10-09"
    },
    {
-    "name": "cariqa.com",
-    "url": "https://cariqa.com/en/blog/cariqa-secures-eu1m-in-pre-seed-funding-to-release-the-worlds-first-consumer-facing-ev-charging-marketplace",
-    "rank": "PRIMARY",
-    "date": "2026-11-09"
-   },
-   {
-    "name": "electrive.net",
-    "url": "https://www.electrive.net/2025/07/12/cariqa-schliesst-seed-finanzierung-erfolgreich-ab/",
-    "rank": "PRESS",
-    "date": "2025-07-12"
-   },
-   {
-    "name": "tech.eu",
-    "url": "https://tech.eu/2025/07/08/cariqa-raises-eur4m-to-simplify-ev-charging-payments-and-pricing/",
-    "rank": "PRESS",
-    "date": "2025-07-08"
-   },
-   {
-    "name": "siliconcanals.com",
-    "url": "https://siliconcanals.com/cariqa-lands-e4m/",
-    "rank": "PRESS",
-    "date": "2025-07-08"
-   },
-   {
-    "name": "vestbee.com",
-    "url": "https://www.vestbee.com/insights/articles/cariqa-closes-1-m-round",
-    "rank": "PRESS",
-    "date": "2024-09-23"
-   },
-   {
-    "name": "why.berlin",
-    "url": "https://why.berlin/n/cariqa-raises-eur1-million-in-pre-seed-funding-to-launch-ev-charging-marketplace",
-    "rank": "PRESS",
-    "date": "2024-09-30"
+    "name": "bouncewatch.com",
+    "url": "https://bouncewatch.com/company/nala-earth",
+    "rank": "AGGREGATOR",
+    "date": "2025-11-01"
    }
   ]
  },
@@ -3087,244 +3173,6 @@
    }
   ]
  },
- "8502a550-46b3-4790-b869-c450eb925672": {
-  "id": "8502a550-46b3-4790-b869-c450eb925672",
-  "name": "Cytely",
-  "website": "cytely.io",
-  "description": "Cytely operationalizes biological measurement, turning microscopy into standardized, reproducible data so research teams can accelerate discovery.",
-  "country": "Sweden",
-  "founded": "2022",
-  "rounds": [
-   {
-    "id": "d93d4f0c-33b5-5f5f-b4f4-9c064e1ae180",
-    "label": "PRE_SEED",
-    "amount": 3000000,
-    "currency": "EUR",
-    "date": "2025-10-22",
-    "date_kind": "announcement",
-    "qualifying": true,
-    "lead_investors": [
-     {
-      "id": "70fb3317-cd8c-4c52-aa86-66502789bce3",
-      "name": "Icebreaker.vc"
-     },
-     {
-      "id": "34829e66-7e7e-412e-a0ea-c61014ced495",
-      "name": "Ugly Duckling Ventures Management ApS"
-     }
-    ],
-    "participants": [],
-    "sources": [
-     {
-      "name": "eu-startups.com",
-      "url": "https://www.eu-startups.com/2025/10/swedens-cytely-raises-e3-million-as-labs-report-75-faster-analysis-using-its-smart-microscopy-platform/",
-      "rank": "PRESS",
-      "date": "2025-10-24"
-     },
-     {
-      "name": "newsroom.notified.com",
-      "url": "https://newsroom.notified.com/news/382296/cytely-ab-raises-capital-to-accelerate-discov",
-      "rank": "PRIMARY",
-      "date": "2025-10-22"
-     },
-     {
-      "name": "oresundstartups.com",
-      "url": "https://oresundstartups.com/cytely-secures-e3m-to-revolutionize-biomedical-research-with-ai-powered-microscopy/",
-      "rank": "PRESS",
-      "date": "2025-10-23"
-     },
-     {
-      "name": "cbinsights.com",
-      "url": "https://www.cbinsights.com/company/cytely/financials",
-      "rank": "AGGREGATOR",
-      "date": "2026-11-13"
-     },
-     {
-      "name": "cytely.io",
-      "url": "https://www.cytely.io/resources/news/cytely-accelerating-discovery-to-unlock-human-biology-and-cure-all-preventable-disease",
-      "rank": "PRIMARY",
-      "date": "2025-10-22"
-     }
-    ],
-    "conflated": false
-   }
-  ],
-  "why_missed": [
-   {
-    "reason": "Lead investor Icebreaker.vc has never co-invested with you"
-   },
-   {
-    "reason": "Sweden is outside your top countries (Germany, Finland, Switzerland)"
-   }
-  ],
-  "recent_news": [],
-  "sources": [
-   {
-    "name": "News | EstVCA",
-    "url": "https://www.estvca.ee/news/tagged/icebreakervc",
-    "rank": null,
-    "date": "2026-06-02"
-   },
-   {
-    "name": "Estonian Icebreaker.vc invests in Swedish medtech startup Cytely",
-    "url": "https://www.balticvc.com/2025/10/estonian-icebreakervc-invests-in.html",
-    "rank": null,
-    "date": "2025-10-23"
-   },
-   {
-    "name": "tracxn.com",
-    "url": "https://tracxn.com/d/venture-capital/icebreaker/__6onsCCxoge0mlrsTAu7qNqkle4NFbLIHo2zNfANtVfw",
-    "rank": null,
-    "date": "2026-08-24"
-   },
-   {
-    "name": "cytely.io",
-    "url": "https://cytely.io/",
-    "rank": "PRIMARY",
-    "date": "2026-10-29"
-   },
-   {
-    "name": "eu-startups.com",
-    "url": "https://www.eu-startups.com/2025/10/swedens-cytely-raises-e3-million-as-labs-report-75-faster-analysis-using-its-smart-microscopy-platform/",
-    "rank": "PRESS",
-    "date": "2025-10-01"
-   },
-   {
-    "name": "dns.google",
-    "url": "https://dns.google/query?name=cytely.io&type=A",
-    "rank": "PRIMARY",
-    "date": "2026-10-29"
-   },
-   {
-    "name": "cytely.io",
-    "url": "https://www.cytely.io/resources/news/how-ai-has-changed-microscopy-forever",
-    "rank": "PRIMARY",
-    "date": "2025-06-26"
-   },
-   {
-    "name": "vcbacked.co",
-    "url": "https://www.vcbacked.co/company/cytely",
-    "rank": "AGGREGATOR",
-    "date": "2026-11-04"
-   },
-   {
-    "name": "cytely.io",
-    "url": "https://www.cytely.io/resources/news/cytely-accelerating-discovery-to-unlock-human-biology-and-cure-all-preventable-disease",
-    "rank": "PRIMARY",
-    "date": "2025-10-22"
-   }
-  ]
- },
- "07fbed4b-858c-4c34-a8b4-e49f73686aad": {
-  "id": "07fbed4b-858c-4c34-a8b4-e49f73686aad",
-  "name": "beel GmbH",
-  "website": "beel.com",
-  "description": "Infrastructure for startup investments and dealflow (GmbH/UG cap table, investment contracts, angel syndicates). It was earlier a platform for token-based startup investments.",
-  "country": "Germany",
-  "founded": "2022",
-  "rounds": [
-   {
-    "id": "489ee1ec-a51a-553a-a7b0-67f86d6fa846",
-    "label": "SEED",
-    "amount": 2700000,
-    "currency": "EUR",
-    "date": "2025-03-12",
-    "date_kind": "announcement",
-    "qualifying": true,
-    "lead_investors": [],
-    "participants": [
-     {
-      "id": "144aee1c-a102-46e3-8b21-caca2e9fe681",
-      "name": "Corpus Ventures"
-     },
-     {
-      "id": "5c5f67af-f2f1-5eab-951a-f6f6ccba096b",
-      "name": "Gnosis VC"
-     },
-     {
-      "id": "e2f5eaee-2749-52e2-abb6-0ba2f548f969",
-      "name": "Thomas Schmidt"
-     }
-    ],
-    "sources": [
-     {
-      "name": "beel.com",
-      "url": "https://beel.com/en/blog/tokenize-it-raises-2-7m-eur-seed-round",
-      "rank": "PRIMARY",
-      "date": "2025-03-12"
-     }
-    ],
-    "conflated": false
-   },
-   {
-    "id": "4a93bc1c-a097-5c79-a729-cfbb37320b22",
-    "label": "SEED",
-    "amount": 2000000,
-    "currency": "EUR",
-    "date": "2023-09-11",
-    "date_kind": "announcement",
-    "qualifying": true,
-    "lead_investors": [],
-    "participants": [
-     {
-      "id": "63a2fb1b-119c-4c3d-84af-40a49dc0ea64",
-      "name": "High-Tech Gründerfonds"
-     },
-     {
-      "id": "420b2ebc-7589-420f-9f5b-ed2dea14a893",
-      "name": "seed + speed Ventures"
-     },
-     {
-      "id": "b3501056-1da7-4054-85e2-98867f6ebb3c",
-      "name": "w3.fund"
-     }
-    ],
-    "sources": [
-     {
-      "name": "htgf.de",
-      "url": "https://www.htgf.de/en/htgf-investment-tokenize-it",
-      "rank": "PRIMARY",
-      "date": "2023-09-11"
-     }
-    ],
-    "conflated": false
-   }
-  ],
-  "why_missed": [],
-  "recent_news": [],
-  "sources": [
-   {
-    "name": "GLEIF",
-    "url": "https://search.gleif.org/#/record/391200PHF6PDHST1OC52",
-    "rank": null,
-    "date": "2026-09-19"
-   },
-   {
-    "name": "beel.com",
-    "url": "https://beel.com/",
-    "rank": "PRIMARY",
-    "date": "2026-11-04"
-   },
-   {
-    "name": "claude.ai",
-    "url": "https://claude.ai/artifact/H3Eq8ujw2PKskrTrSvodVZ#conflicts",
-    "rank": "AGGREGATOR",
-    "date": "2026-11-04"
-   },
-   {
-    "name": "beel.com",
-    "url": "https://beel.com/en/blog/tokenize-it-raises-2-7m-eur-seed-round",
-    "rank": "PRIMARY",
-    "date": "2025-03-12"
-   },
-   {
-    "name": "htgf.de",
-    "url": "https://www.htgf.de/en/htgf-investment-tokenize-it",
-    "rank": "PRIMARY",
-    "date": "2023-09-11"
-   }
-  ]
- },
  "057c7768-b724-44ef-b63d-e07f9b1a8bc0": {
   "id": "057c7768-b724-44ef-b63d-e07f9b1a8bc0",
   "name": "Engrate",
@@ -3344,7 +3192,7 @@
     "lead_investors": [
      {
       "id": "1fd8f680-ce94-4e36-b56d-e2dc9d2e983a",
-      "name": "Maniv Mobility A, LP"
+      "name": "Maniv Mobility A"
      },
      {
       "id": "e576a39a-2046-4cc0-adbb-124ff351627a",
@@ -3354,7 +3202,7 @@
     "participants": [
      {
       "id": "2b8a2d06-6e9c-4e01-8c97-3d969d01bce0",
-      "name": "Course Corrected VC Fund I AB"
+      "name": "Course Corrected VC"
      },
      {
       "id": "8540e55a-1f3b-4969-bf08-6802f5344d24",
@@ -3380,7 +3228,7 @@
   ],
   "why_missed": [
    {
-    "reason": "Lead investor Maniv Mobility A, LP has never co-invested with you"
+    "reason": "Lead investor Maniv Mobility A has never co-invested with you"
    },
    {
     "reason": "Sweden is outside your top countries (Germany, Finland, Switzerland)"
@@ -3432,6 +3280,155 @@
    }
   ]
  },
+ "98ff140a-f183-485a-8d7d-3e02bf137c9b": {
+  "id": "98ff140a-f183-485a-8d7d-3e02bf137c9b",
+  "name": "Rotomate",
+  "website": "rotomate.ai",
+  "description": "Turn machine data into clear maintenance decisions, at scale. Rotomate's AI colleague monitors every asset so your team knows what to act on.",
+  "country": "Finland",
+  "founded": "2024",
+  "rounds": [
+   {
+    "id": "ad80754b-af20-51e5-9f71-48ceae7b6485",
+    "label": "PRE_SEED",
+    "amount": 2100000,
+    "currency": "EUR",
+    "date": "2026-06-10",
+    "date_kind": "announcement",
+    "qualifying": true,
+    "lead_investors": [
+     {
+      "id": "5862d707-c5ab-407b-bd32-a93869b84154",
+      "name": "Kvanted Ventures"
+     }
+    ],
+    "participants": [
+     {
+      "id": "aee065b7-5ae9-45c7-8c30-457f6d339958",
+      "name": "Accel"
+     },
+     {
+      "id": "09b18c40-e175-4099-bdf5-964367320b52",
+      "name": "Angel Invest"
+     },
+     {
+      "id": "960f809c-9c75-557a-8253-5539622ebcec",
+      "name": "Jiri Heinonen"
+     },
+     {
+      "id": "85f67a08-17ec-56b0-bb34-0309ffa5076b",
+      "name": "Moaffak Ahmed"
+     },
+     {
+      "id": "cf4f0236-63ca-46aa-bc0f-55cf940e0594",
+      "name": "Robin Capital"
+     }
+    ],
+    "sources": [
+     {
+      "name": "tech.eu",
+      "url": "https://tech.eu/2026/06/10/rotomate-raises-eur21m-to-automate-industrial-reliability-analysis/",
+      "rank": "PRESS",
+      "date": "2026-06-10"
+     },
+     {
+      "name": "vcbacked.co",
+      "url": "https://www.vcbacked.co/company/rotomate",
+      "rank": "AGGREGATOR",
+      "date": "2026-11-04"
+     },
+     {
+      "name": "rotomate.ai",
+      "url": "https://rotomate.ai/blog/rotomate-funding-announcement",
+      "rank": "PRIMARY",
+      "date": "2026-06-10"
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "id": "1cb97fd9-ae2e-5d1d-a690-cbe897a6b0ae",
+    "label": "GRANT",
+    "amount": null,
+    "currency": null,
+    "date": "2026-06-10",
+    "date_kind": "announcement",
+    "qualifying": false,
+    "lead_investors": [
+     {
+      "id": "d5b41639-eb27-43df-a6ee-a4f03807fbca",
+      "name": "Business Finland"
+     }
+    ],
+    "participants": [],
+    "sources": [
+     {
+      "name": "rotomate.ai",
+      "url": "https://rotomate.ai/blog/rotomate-funding-announcement",
+      "rank": "PRIMARY",
+      "date": "2026-06-10"
+     },
+     {
+      "name": "tech.eu",
+      "url": "https://tech.eu/2026/06/10/rotomate-raises-eur21m-to-automate-industrial-reliability-analysis/",
+      "rank": "PRESS",
+      "date": "2026-06-10"
+     }
+    ],
+    "conflated": false
+   }
+  ],
+  "why_missed": [
+   {
+    "reason": "Lead investor Kvanted Ventures has never co-invested with you"
+   }
+  ],
+  "recent_news": [],
+  "sources": [
+   {
+    "name": "arcticstartup.com",
+    "url": "https://arcticstartup.com/rotomate-raises-e2-1m-pre-seed",
+    "rank": null,
+    "date": "2026-08-24"
+   },
+   {
+    "name": "techfundingnews.com",
+    "url": "https://techfundingnews.com/rotomate-2-1m-pre-seed-kvanted-industrial-ai",
+    "rank": null,
+    "date": "2026-08-24"
+   },
+   {
+    "name": "rotomate.ai",
+    "url": "https://rotomate.ai/",
+    "rank": "PRIMARY",
+    "date": "2026-11-02"
+   },
+   {
+    "name": "linkedin.com",
+    "url": "https://www.linkedin.com/company/rotomate-ai",
+    "rank": "AGGREGATOR",
+    "date": "2026-11-02"
+   },
+   {
+    "name": "dns.google",
+    "url": "https://dns.google/query?name=rotomate.ai&type=A",
+    "rank": "PRIMARY",
+    "date": "2026-11-02"
+   },
+   {
+    "name": "vcbacked.co",
+    "url": "https://www.vcbacked.co/company/rotomate",
+    "rank": "AGGREGATOR",
+    "date": "2026-11-04"
+   },
+   {
+    "name": "tech.eu",
+    "url": "https://tech.eu/2026/06/10/rotomate-raises-eur21m-to-automate-industrial-reliability-analysis/",
+    "rank": "PRESS",
+    "date": "2026-06-10"
+   }
+  ]
+ },
  "3254bcd3-da85-4b40-9ccc-7e9a9966d8a4": {
   "id": "3254bcd3-da85-4b40-9ccc-7e9a9966d8a4",
   "name": "Synergi",
@@ -3465,7 +3462,7 @@
      },
      {
       "id": "f8530c77-aa35-4d03-b689-0f89a75603bc",
-      "name": "Vaens Oy"
+      "name": "Vaens"
      },
      {
       "id": "c1ab0b56-e050-433b-8b3b-5c6526db70ef",
@@ -3503,7 +3500,7 @@
      },
      {
       "id": "74b41293-7b58-48d7-bbd7-0e46c1769258",
-      "name": "Cape Capital Oy"
+      "name": "Cape Capital"
      },
      {
       "id": "faaaf067-848f-5e72-a3d8-83a874ba4814",
@@ -3571,6 +3568,107 @@
     "url": "https://arcticstartup.com/?p=101041",
     "rank": "PRESS",
     "date": "2026-11-13"
+   }
+  ]
+ },
+ "d7da9cd1-709a-471c-88f2-801a6b2f06ca": {
+  "id": "d7da9cd1-709a-471c-88f2-801a6b2f06ca",
+  "name": "Groundhawk",
+  "website": "groundhawk.io",
+  "description": "Meet Groundhawk, the future of underground cable mapping and real-time as-built documentation. Exact and real-time open trench mapping is now a reality.",
+  "country": "Finland",
+  "founded": "2021",
+  "rounds": [
+   {
+    "id": "fe93b97d-0d22-56de-b17c-5f509c7bac0d",
+    "label": "SEED",
+    "amount": 2000000,
+    "currency": "EUR",
+    "date": "2026-03-03",
+    "date_kind": "announcement",
+    "qualifying": true,
+    "lead_investors": [
+     {
+      "id": "c6b615fe-3da2-49b5-ad46-eba069642084",
+      "name": "2C Ventures"
+     },
+     {
+      "id": "cef02fe0-0cf3-5914-8aa9-03673f91ef8e",
+      "name": "Greencode Ventures"
+     }
+    ],
+    "participants": [],
+    "sources": [
+     {
+      "name": "groundhawk.io",
+      "url": "https://www.groundhawk.io/blog/groundhawk-raises-2-million-to-scale-ai-powered-3d-underground-infrastructure-mapping-across-europe",
+      "rank": "PRIMARY",
+      "date": "2026-03-03"
+     },
+     {
+      "name": "news.cision.com",
+      "url": "https://news.cision.com/san-francisco-oy/r/groundhawk-raises--2-million-to-scale-ai-powered-3d-underground-infrastructure-mapping-across-europe,c4317393",
+      "rank": "PRIMARY",
+      "date": "2026-03-05"
+     },
+     {
+      "name": "tech.eu",
+      "url": "https://tech.eu/2026/03/03/groundhawk-raises-eur2m-to-digitise-europes-underground-infrastructure/",
+      "rank": "PRESS",
+      "date": "2026-03-03"
+     }
+    ],
+    "conflated": false
+   }
+  ],
+  "why_missed": [
+   {
+    "reason": "Lead investor 2C Ventures has never co-invested with you"
+   }
+  ],
+  "recent_news": [],
+  "sources": [
+   {
+    "name": "2C Ventures Portfolio Investments, 2C Ventures Funds, 2C Ventures Exits",
+    "url": "https://www.cbinsights.com/investor/2c-ventures",
+    "rank": null,
+    "date": "2026-04-24"
+   },
+   {
+    "name": "tracxn.com",
+    "url": "https://tracxn.com/d/venture-capital/2c-ventures/__AzmzLZrvIOh7OkMtEOX325teoDVbfHv1JtYQu2vQrc8",
+    "rank": null,
+    "date": "2026-08-24"
+   },
+   {
+    "name": "groundhawk.io",
+    "url": "https://groundhawk.io/",
+    "rank": "PRIMARY",
+    "date": "2026-11-02"
+   },
+   {
+    "name": "dns.google",
+    "url": "https://dns.google/query?name=groundhawk.io&type=A",
+    "rank": "PRIMARY",
+    "date": "2026-11-02"
+   },
+   {
+    "name": "groundhawk.io",
+    "url": "https://www.groundhawk.io/blog/groundhawk-raises-2-million-to-scale-ai-powered-3d-underground-infrastructure-mapping-across-europe",
+    "rank": "PRIMARY",
+    "date": "2026-03-03"
+   },
+   {
+    "name": "news.cision.com",
+    "url": "https://news.cision.com/san-francisco-oy/r/groundhawk-raises--2-million-to-scale-ai-powered-3d-underground-infrastructure-mapping-across-europe,c4317393",
+    "rank": "PRIMARY",
+    "date": "2026-03-05"
+   },
+   {
+    "name": "tech.eu",
+    "url": "https://tech.eu/2026/03/03/groundhawk-raises-eur2m-to-digitise-europes-underground-infrastructure/",
+    "rank": "PRESS",
+    "date": "2026-03-03"
    }
   ]
  },
@@ -3709,7 +3807,7 @@
      },
      {
       "id": "6a966907-4006-4a4b-8d11-2330f76cb3cd",
-      "name": "Innovestor Oy"
+      "name": "Innovestor"
      },
      {
       "id": "7b47b4c6-d8a4-58bb-8dbd-98b3e79f142f",
@@ -3733,7 +3831,7 @@
      },
      {
       "id": "7429f308-6b49-4917-b77a-111fc3b9e190",
-      "name": "Sofokus Oy"
+      "name": "Sofokus"
      }
     ],
     "sources": [
@@ -3924,7 +4022,7 @@
      },
      {
       "id": "34829e66-7e7e-412e-a0ea-c61014ced495",
-      "name": "Ugly Duckling Ventures Management ApS"
+      "name": "Ugly Duckling Ventures"
      }
     ],
     "participants": [],
@@ -4020,6 +4118,174 @@
    }
   ]
  },
+ "7028e46d-9ffe-4972-84ee-2cfae31983e5": {
+  "id": "7028e46d-9ffe-4972-84ee-2cfae31983e5",
+  "name": "Huuva Oy",
+  "website": "huuva.io",
+  "description": "Huuva kokoaa suosikkiravintolasi saman katon alle – voit yhdistellä useiden ravintoloiden ruokia samassa tilauksessa. 15 toimipistettä ympäri Suomea. Tilaa suoraan Huuvasta.",
+  "country": "Finland",
+  "founded": "2021",
+  "rounds": [
+   {
+    "id": "9aaaf41a-00dc-590e-bd5f-617c4bd1f4d3",
+    "label": "PRE_SEED",
+    "amount": 1050000,
+    "currency": "EUR",
+    "date": "2022-06-01",
+    "date_kind": "announcement",
+    "qualifying": true,
+    "lead_investors": [
+     {
+      "id": "efbaf101-a009-4df7-9d98-b409b2350b15",
+      "name": "General Catalyst"
+     },
+     {
+      "id": "476a73ac-afa2-4713-9f73-188bc7ec0b95",
+      "name": "Lifeline Ventures"
+     }
+    ],
+    "participants": [
+     {
+      "id": "03a8980f-379d-5962-9762-c50bb75c114d",
+      "name": "Ilkka Paananen"
+     },
+     {
+      "id": "8a0e087e-d381-53fa-b72b-aa562db01459",
+      "name": "Julian Lange"
+     },
+     {
+      "id": "21984134-bf54-5172-b767-3f97b5126a8b",
+      "name": "Laurel Bowden"
+     }
+    ],
+    "sources": [
+     {
+      "name": "invesdor.com",
+      "url": "https://www.invesdor.com/rounds/b5b32c41-f6f0-4595-8ef0-5cae1d535e42",
+      "rank": "PRIMARY",
+      "date": "2026-11-12"
+     },
+     {
+      "name": "arcticstartup.com",
+      "url": "https://arcticstartup.com/?p=91609",
+      "rank": "PRESS",
+      "date": "2026-11-12"
+     },
+     {
+      "name": "tech.eu",
+      "url": "https://tech.eu/2022/06/01/gourmet-lovers-rejoice-huuva-gobbles-eur49-million-from-general-catalyst-to-bring-delivery-food-outside-city-hot-spots/",
+      "rank": "PRESS",
+      "date": "2022-06-01"
+     },
+     {
+      "name": "finsmes.com",
+      "url": "https://www.finsmes.com/?p=229396",
+      "rank": "PRESS",
+      "date": "2022-06-01"
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "id": "004396c2-b866-5da9-9d82-869b0e20beac",
+    "label": "DEBT_FINANCING",
+    "amount": 650455,
+    "currency": "EUR",
+    "date": null,
+    "date_kind": null,
+    "qualifying": false,
+    "lead_investors": [
+     {
+      "id": "3b0499bc-3c7e-4d50-aee5-42de34a5f8d0",
+      "name": "Business Finland"
+     },
+     {
+      "id": "545aafcc-1e79-46ab-9e31-b90deec8688a",
+      "name": "Finnvera"
+     }
+    ],
+    "participants": [],
+    "sources": [
+     {
+      "name": "invesdor.com",
+      "url": "https://www.invesdor.com/rounds/b5b32c41-f6f0-4595-8ef0-5cae1d535e42",
+      "rank": "PRIMARY",
+      "date": "2026-11-12"
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "id": "7ed574e4-9daf-5872-9cd9-b6b218d1bae4",
+    "label": "GRANT",
+    "amount": 50000,
+    "currency": "EUR",
+    "date": null,
+    "date_kind": null,
+    "qualifying": false,
+    "lead_investors": [
+     {
+      "id": "3b0499bc-3c7e-4d50-aee5-42de34a5f8d0",
+      "name": "Business Finland"
+     }
+    ],
+    "participants": [],
+    "sources": [
+     {
+      "name": "invesdor.com",
+      "url": "https://www.invesdor.com/rounds/b5b32c41-f6f0-4595-8ef0-5cae1d535e42",
+      "rank": "PRIMARY",
+      "date": "2026-11-12"
+     }
+    ],
+    "conflated": false
+   }
+  ],
+  "why_missed": [
+   {
+    "reason": "Lead investor General Catalyst has never co-invested with you"
+   }
+  ],
+  "recent_news": [],
+  "sources": [
+   {
+    "name": "GLEIF",
+    "url": "https://search.gleif.org/#/record/743700S60NGEGMVY6B32",
+    "rank": null,
+    "date": "2026-11-06"
+   },
+   {
+    "name": "huuva.io",
+    "url": "https://huuva.io/",
+    "rank": "PRIMARY",
+    "date": "2026-11-02"
+   },
+   {
+    "name": "dns.google",
+    "url": "https://dns.google/query?name=huuva.io&type=A",
+    "rank": "PRIMARY",
+    "date": "2026-11-02"
+   },
+   {
+    "name": "invesdor.com",
+    "url": "https://www.invesdor.com/rounds/b5b32c41-f6f0-4595-8ef0-5cae1d535e42",
+    "rank": "PRIMARY",
+    "date": "2026-11-12"
+   },
+   {
+    "name": "tech.eu",
+    "url": "https://tech.eu/2022/06/01/gourmet-lovers-rejoice-huuva-gobbles-eur49-million-from-general-catalyst-to-bring-delivery-food-outside-city-hot-spots/",
+    "rank": "PRESS",
+    "date": "2022-06-01"
+   },
+   {
+    "name": "finsmes.com",
+    "url": "https://www.finsmes.com/?p=229396",
+    "rank": "PRESS",
+    "date": "2022-06-01"
+   }
+  ]
+ },
  "09d7fa77-4315-4185-927b-af05e9fca8c3": {
   "id": "09d7fa77-4315-4185-927b-af05e9fca8c3",
   "name": "SisuSemi",
@@ -4039,7 +4305,7 @@
     "lead_investors": [
      {
       "id": "3b0499bc-3c7e-4d50-aee5-42de34a5f8d0",
-      "name": "Business Finland Oy"
+      "name": "Business Finland"
      }
     ],
     "participants": [],
@@ -4065,11 +4331,7 @@
     "participants": [
      {
       "id": "fb0f0dfe-f07a-483c-a501-01c39526970a",
-      "name": "Butterfly Venture Fund IV Ky"
-     },
-     {
-      "id": "d442e8e0-1cd1-4b65-b32f-9d1536073a0e",
-      "name": "BVF Venture Fund IV AB"
+      "name": "Butterfly Ventures"
      },
      {
       "id": "4b4ee6ab-0588-4802-8e4b-428fad1c2ee9",
@@ -4081,11 +4343,11 @@
      },
      {
       "id": "38ef0c95-9886-55df-8bce-cd7d757922fb",
-      "name": "NSI Nordic Science I"
+      "name": "Nordic Science Investments"
      },
      {
       "id": "b587cc1c-d880-50d1-bda8-ed730b7cfae1",
-      "name": "PSV Hafnium Fund I"
+      "name": "PreSeed Ventures"
      }
     ],
     "sources": [
@@ -4101,7 +4363,7 @@
   ],
   "why_missed": [
    {
-    "reason": "Lead investor Business Finland Oy has never co-invested with you"
+    "reason": "Lead investor Business Finland has never co-invested with you"
    },
    {
     "reason": "Debt Financing is outside your usual stages"
@@ -4234,138 +4496,6 @@
     "url": "https://www.eu-startups.com/2025/01/giving-superpowersto-second-hand-sellers-minimistraises-e350k-pre-seed/",
     "rank": "PRESS",
     "date": "2025-01-15"
-   }
-  ]
- },
- "dd64c2b7-b551-4322-ac10-57fa4eead37e": {
-  "id": "dd64c2b7-b551-4322-ac10-57fa4eead37e",
-  "name": "IPRally",
-  "website": "iprally.com",
-  "description": "One custom-trained AI engine for prior art search, patent intelligence, and prior-art-aware drafting. Trusted by 275+ organizations worldwide.",
-  "country": "Finland",
-  "founded": "2018",
-  "rounds": [
-   {
-    "id": "3c993de3-7fd6-5cc7-bc17-ff79d6501591",
-    "label": "PRE_SEED",
-    "amount": 150000,
-    "currency": "EUR",
-    "date": "2023-03-21",
-    "date_kind": "announcement",
-    "qualifying": true,
-    "lead_investors": [
-     {
-      "id": "41cbd5c4-9fbb-4a53-ad26-d58f86003f9d",
-      "name": "Endeit Capital"
-     },
-     {
-      "id": "c00c3ba1-d236-4e49-ad35-c5ee8b5b5708",
-      "name": "Join Capital GmbH"
-     },
-     {
-      "id": "4b9d59a7-331d-4664-a491-a0b2e7d37c03",
-      "name": "Spintop Ventures"
-     }
-    ],
-    "participants": [
-     {
-      "id": "fca117fd-52c3-4977-b2bc-1e09a7594168",
-      "name": "ActivumSG"
-     },
-     {
-      "id": "70fb3317-cd8c-4c52-aa86-66502789bce3",
-      "name": "Icebreaker.vc"
-     }
-    ],
-    "sources": [
-     {
-      "name": "iprally.com",
-      "url": "https://www.iprally.com/news/patent-search--will-iprallys-technology-leap-make-boolean-history",
-      "rank": "PRIMARY",
-      "date": "2024-06-26"
-     },
-     {
-      "name": "startupintros.com",
-      "url": "https://startupintros.com/news/2018-04-01-iprally-seed",
-      "rank": "AGGREGATOR",
-      "date": "2026-11-12"
-     },
-     {
-      "name": "iprally.com",
-      "url": "https://www.iprally.com/news/press-release-iprally-raises-eu10m-to-accelerate-patent-intelligence-ai",
-      "rank": "PRIMARY",
-      "date": "2023-03-21"
-     },
-     {
-      "name": "techcrunch.com",
-      "url": "https://techcrunch.com/2023/03/21/iprally-a-patent-search-engine-powered-by-explainable-ai-raises-10-8m/",
-      "rank": "PRESS",
-      "date": "2023-03-21"
-     }
-    ],
-    "conflated": false
-   }
-  ],
-  "why_missed": [
-   {
-    "reason": "Lead investor Endeit Capital has never co-invested with you"
-   }
-  ],
-  "recent_news": [],
-  "sources": [
-   {
-    "name": "iprally.com",
-    "url": "https://iprally.com/",
-    "rank": "PRIMARY",
-    "date": "2026-11-02"
-   },
-   {
-    "name": "linkedin.com",
-    "url": "https://www.linkedin.com/company/iprally/",
-    "rank": "AGGREGATOR",
-    "date": "2026-11-02"
-   },
-   {
-    "name": "dns.google",
-    "url": "https://dns.google/query?name=iprally.com&type=A",
-    "rank": "PRIMARY",
-    "date": "2026-11-02"
-   },
-   {
-    "name": "iprally.com",
-    "url": "https://www.iprally.com/news/press-release-iprally-raises-eu10m-to-accelerate-patent-intelligence-ai",
-    "rank": "PRIMARY",
-    "date": "2023-03-21"
-   },
-   {
-    "name": "techcrunch.com",
-    "url": "https://techcrunch.com/2023/03/21/iprally-a-patent-search-engine-powered-by-explainable-ai-raises-10-8m/",
-    "rank": "PRESS",
-    "date": "2023-03-21"
-   },
-   {
-    "name": "iprally.com",
-    "url": "https://www.iprally.com/news/patent-search--will-iprallys-technology-leap-make-boolean-history",
-    "rank": "PRIMARY",
-    "date": "2024-06-26"
-   },
-   {
-    "name": "startupintros.com",
-    "url": "https://startupintros.com/news/2018-04-01-iprally-seed",
-    "rank": "AGGREGATOR",
-    "date": "2026-11-12"
-   },
-   {
-    "name": "iprally.com",
-    "url": "https://www.iprally.com/news/press-release-iprally-raises-eu2-0-million-to-build-the-patent-search-engine-2-0",
-    "rank": "PRIMARY",
-    "date": "2021-01-07"
-   },
-   {
-    "name": "ipwatchdog.com",
-    "url": "https://ipwatchdog.com/press/iprally-raises-e2-million-build-patent-search-engine-2-0/",
-    "rank": "PRESS",
-    "date": "2021-01-07"
    }
   ]
  },
@@ -4572,6 +4702,133 @@
    }
   ]
  },
+ "53e80375-1967-4c14-b4e5-ac33b016e110": {
+  "id": "53e80375-1967-4c14-b4e5-ac33b016e110",
+  "name": "Soihtu DTx",
+  "website": "soihtudtx.com",
+  "description": "Treating depression through gameplay. We revolutionize depression treatment through engaging game-based Digital Therapeutics (DTx).",
+  "country": "Finland",
+  "founded": "2023",
+  "rounds": [
+   {
+    "id": "ee674f17-32e4-51db-a603-7e3a6771f447",
+    "label": "GRANT",
+    "amount": 2499875,
+    "currency": "EUR",
+    "date": "2026-09-23",
+    "date_kind": "event",
+    "qualifying": false,
+    "lead_investors": [
+     {
+      "id": "b7143bb3-c9a2-421e-ae61-d2c33088f953",
+      "name": "European Innovation Council"
+     }
+    ],
+    "participants": [],
+    "sources": [
+     {
+      "name": "cordis.europa.eu",
+      "url": "https://cordis.europa.eu/project/id/101314565",
+      "rank": "FILING",
+      "date": "2026-11-07"
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "id": "eab319a8-76db-5747-a229-b15f438ef148",
+    "label": "PRE_SEED",
+    "amount": null,
+    "currency": null,
+    "date": "2024-09-22",
+    "date_kind": "announcement",
+    "qualifying": true,
+    "lead_investors": [
+     {
+      "id": "6a966907-4006-4a4b-8d11-2330f76cb3cd",
+      "name": "Innovestor"
+     }
+    ],
+    "participants": [
+     {
+      "id": "d3ae0dbf-6282-5e0f-ba10-c4a370f672fb",
+      "name": "NewFund HEKA"
+     }
+    ],
+    "sources": [
+     {
+      "name": "startupsmagazine.co.uk",
+      "url": "https://startupsmagazine.co.uk/article-innovestor-backs-finnish-spinouts-pioneering-neurological-treatments",
+      "rank": "PRESS",
+      "date": "2024-09-22"
+     },
+     {
+      "name": "bebeez.eu",
+      "url": "https://bebeez.eu/2024/09/24/innovestor-backs-finnish-spinouts-addressing-neurological-disorders-with-e10m-investment/",
+      "rank": "PRESS",
+      "date": "2024-09-24"
+     }
+    ],
+    "conflated": false
+   }
+  ],
+  "why_missed": [
+   {
+    "reason": "Grant is outside your usual stages"
+   }
+  ],
+  "recent_news": [],
+  "sources": [
+   {
+    "name": "arcticstartup.com",
+    "url": "https://arcticstartup.com/innovestor-invests-in-polku-therapeutics-kasvu-therapeutics-and-soihtu-dtx",
+    "rank": null,
+    "date": "2026-08-24"
+   },
+   {
+    "name": "2024: A Year of Milestones at Innovestor - Innovestor",
+    "url": "https://innovestorgroup.com/2024-a-year-of-milestones-at-innovestor",
+    "rank": null,
+    "date": "2025-01-16"
+   },
+   {
+    "name": "soihtudtx.com",
+    "url": "https://soihtudtx.com/",
+    "rank": "PRIMARY",
+    "date": "2026-11-02"
+   },
+   {
+    "name": "linkedin.com",
+    "url": "https://www.linkedin.com/company/soihtu-dtx/",
+    "rank": "AGGREGATOR",
+    "date": "2026-11-02"
+   },
+   {
+    "name": "dns.google",
+    "url": "https://dns.google/query?name=soihtudtx.com&type=A",
+    "rank": "PRIMARY",
+    "date": "2026-11-02"
+   },
+   {
+    "name": "startupsmagazine.co.uk",
+    "url": "https://startupsmagazine.co.uk/article-innovestor-backs-finnish-spinouts-pioneering-neurological-treatments",
+    "rank": "PRESS",
+    "date": "2024-09-22"
+   },
+   {
+    "name": "bebeez.eu",
+    "url": "https://bebeez.eu/2024/09/24/innovestor-backs-finnish-spinouts-addressing-neurological-disorders-with-e10m-investment/",
+    "rank": "PRESS",
+    "date": "2024-09-24"
+   },
+   {
+    "name": "cordis.europa.eu",
+    "url": "https://cordis.europa.eu/project/id/101314565",
+    "rank": "FILING",
+    "date": "2026-11-07"
+   }
+  ]
+ },
  "b488fe95-8f45-40be-ab57-f8f96da242fe": {
   "id": "b488fe95-8f45-40be-ab57-f8f96da242fe",
   "name": "Adeu AI",
@@ -4592,7 +4849,7 @@
     "participants": [
      {
       "id": "6a966907-4006-4a4b-8d11-2330f76cb3cd",
-      "name": "Innovestor Oy"
+      "name": "Innovestor"
      }
     ],
     "sources": [
@@ -4629,6 +4886,206 @@
    }
   ]
  },
+ "1cec901d-20d1-4e4b-adb5-611141810031": {
+  "id": "1cec901d-20d1-4e4b-adb5-611141810031",
+  "name": "Quicksave Interactive",
+  "website": "playables.ai",
+  "description": "Prompt, build and scale interactive ad experiences even in minutes, with AI-powered tools. Create playable ads that audiences explore, not just watch.",
+  "country": "Finland",
+  "founded": "2017",
+  "rounds": [
+   {
+    "id": "4f24a3d3-645e-53e8-ba3c-5048c525827e",
+    "label": "SERIES_A",
+    "amount": null,
+    "currency": null,
+    "date": "2026-03-16",
+    "date_kind": "announcement",
+    "qualifying": true,
+    "lead_investors": [
+     {
+      "id": "95c2a414-2e9a-5af5-b7a5-1ae84704eed9",
+      "name": "HyperScope Ventures"
+     }
+    ],
+    "participants": [],
+    "sources": [
+     {
+      "name": "pocketgamer.biz",
+      "url": "https://www.pocketgamer.biz/quicksave-interactive-secures-hyperscope-ventures-investment-for-playablesai",
+      "rank": "PRESS",
+      "date": "2026-03-16"
+     },
+     {
+      "name": "raptorgroup.com",
+      "url": "https://www.raptorgroup.com/news/quicksave-interactive-secures-hyperscope-ventures-investment-for-playables-ai/",
+      "rank": "PRESS",
+      "date": "2026-03-16"
+     }
+    ],
+    "conflated": false
+   }
+  ],
+  "why_missed": [
+   {
+    "reason": "Lead investor HyperScope Ventures has never co-invested with you"
+   }
+  ],
+  "recent_news": [],
+  "sources": [
+   {
+    "name": "Quicksave Interactive raises $1.3 million to scale its HTML5 games",
+    "url": "https://www.pocketgamer.biz/quicksave-1-3-million-html5-games",
+    "rank": null,
+    "date": "2021-06-04"
+   },
+   {
+    "name": "nordic9.com",
+    "url": "https://nordic9.com/news/quicksave-to-get-13-million-in-fresh-capital-from-investors-led-by-konvoy-ventures",
+    "rank": null,
+    "date": "2026-08-24"
+   },
+   {
+    "name": "f4.fund",
+    "url": "https://f4.fund/firms/sisu-game-ventures",
+    "rank": null,
+    "date": "2026-08-24"
+   },
+   {
+    "name": "playables.ai",
+    "url": "https://playables.ai/",
+    "rank": "PRIMARY",
+    "date": "2026-11-02"
+   },
+   {
+    "name": "dns.google",
+    "url": "https://dns.google/query?name=playables.ai&type=A",
+    "rank": "PRIMARY",
+    "date": "2026-11-02"
+   },
+   {
+    "name": "pocketgamer.biz",
+    "url": "https://www.pocketgamer.biz/quicksave-interactive-secures-hyperscope-ventures-investment-for-playablesai",
+    "rank": "PRESS",
+    "date": "2026-03-16"
+   },
+   {
+    "name": "raptorgroup.com",
+    "url": "https://www.raptorgroup.com/news/quicksave-interactive-secures-hyperscope-ventures-investment-for-playables-ai/",
+    "rank": "PRESS",
+    "date": "2026-03-16"
+   },
+   {
+    "name": "nordic9.com",
+    "url": "https://nordic9.com/news/quicksave-to-get-13-million-in-fresh-capital-from-investors-led-by-konvoy-ventures/",
+    "rank": "PRESS",
+    "date": "2021-06-02"
+   },
+   {
+    "name": "pocketgamer.biz",
+    "url": "https://www.pocketgamer.biz/quicksave-1-3-million-html5-games/",
+    "rank": "PRESS",
+    "date": "2021-06-04"
+   }
+  ]
+ },
+ "3137bc6d-ad4f-45e1-8b26-83b92ee80ab9": {
+  "id": "3137bc6d-ad4f-45e1-8b26-83b92ee80ab9",
+  "name": "Vireum",
+  "website": "vireum.fi",
+  "description": "Choose Finnish or English for Vireum Vision AI.",
+  "country": "Finland",
+  "founded": "2018",
+  "rounds": [
+   {
+    "id": "a29369e2-b7b5-543b-a96b-178431e04581",
+    "label": "SEED",
+    "amount": null,
+    "currency": null,
+    "date": "2026-04-01",
+    "date_kind": "announcement",
+    "qualifying": true,
+    "lead_investors": [
+     {
+      "id": "1f2979fb-423a-40ef-8c96-eb0d9fae7ea6",
+      "name": "Gorilla Capital"
+     }
+    ],
+    "participants": [],
+    "sources": [
+     {
+      "name": "avoindata.prh.fi",
+      "url": "https://avoindata.prh.fi/opendata-registerednotices-api/v3/2877278-2",
+      "rank": "FILING",
+      "date": "2026-11-13"
+     },
+     {
+      "name": "paaomasijoittajat.fi",
+      "url": "https://paaomasijoittajat.fi/en/ajankohtaista/news/31628/gorilla-capital-fund-iiis-53rd-investment-is-vireum/",
+      "rank": "PRESS",
+      "date": "2026-04-01"
+     },
+     {
+      "name": "paaomasijoittajat.fi",
+      "url": "https://paaomasijoittajat.fi/ajankohtaista/uutiset/31625/gorilla-capital-fund-iiis-53rd-investment-is-vireum/",
+      "rank": "PRESS",
+      "date": "2026-04-01"
+     }
+    ],
+    "conflated": false
+   }
+  ],
+  "why_missed": [
+   {
+    "reason": "Lead investor Gorilla Capital has never co-invested with you"
+   }
+  ],
+  "recent_news": [],
+  "sources": [
+   {
+    "name": "Gorilla Capital Fund III has made its 53rd investment in Vireum - Gorilla Capital",
+    "url": "https://gorillacapital.fi/gorilla-capital-fund-iii-has-made-its-53rd-investment-in-vireum",
+    "rank": null,
+    "date": "2026-03-31"
+   },
+   {
+    "name": "Gorilla Capital invests in Vireum - Pääomasijoittajat",
+    "url": "https://paaomasijoittajat.fi/ajankohtaista/uutiset/31625/gorilla-capital-fund-iiis-53rd-investment-is-vireum",
+    "rank": null,
+    "date": "2026-04-02"
+   },
+   {
+    "name": "vireum.fi",
+    "url": "https://vireum.fi/",
+    "rank": "PRIMARY",
+    "date": "2026-11-02"
+   },
+   {
+    "name": "dns.google",
+    "url": "https://dns.google/query?name=vireum.fi&type=A",
+    "rank": "PRIMARY",
+    "date": "2026-11-02"
+   },
+   {
+    "name": "avoindata.prh.fi",
+    "url": "https://avoindata.prh.fi/opendata-registerednotices-api/v3/2877278-2",
+    "rank": "FILING",
+    "date": "2026-11-13"
+   },
+   {
+    "name": "paaomasijoittajat.fi",
+    "url": "https://paaomasijoittajat.fi/en/ajankohtaista/news/31628/gorilla-capital-fund-iiis-53rd-investment-is-vireum/",
+    "rank": "PRESS",
+    "date": "2026-04-01"
+   },
+   {
+    "name": "paaomasijoittajat.fi",
+    "url": "https://paaomasijoittajat.fi/ajankohtaista/uutiset/31625/gorilla-capital-fund-iiis-53rd-investment-is-vireum/",
+    "rank": "PRESS",
+    "date": "2026-04-01"
+   }
+  ]
+ },
  "3d3edba6-f4d7-432b-80d3-d07872e11def": {
   "id": "3d3edba6-f4d7-432b-80d3-d07872e11def",
   "name": "Verda",
@@ -4662,7 +5119,7 @@
      },
      {
       "id": "c56e5ea7-c50a-452f-ae9d-d8dfd5631f92",
-      "name": "Endur GP LLC"
+      "name": "Endur GP"
      },
      {
       "id": "476a73ac-afa2-4713-9f73-188bc7ec0b95",
@@ -4864,7 +5321,7 @@
     "participants": [
      {
       "id": "8cd6fc45-5ffd-5b92-8c5f-f69a668c20b1",
-      "name": "Danske Bank A/S"
+      "name": "Danske Bank"
      },
      {
       "id": "49dd4564-66eb-4fa9-a5ba-b0f2203cb824",
@@ -4872,7 +5329,7 @@
      },
      {
       "id": "17cf7872-be39-4211-aeb6-48231472ac28",
-      "name": "Norion Bank AB"
+      "name": "Norion Bank"
      },
      {
       "id": "dec0d91a-325b-4ec3-b1b1-2a03ce155dcb",
@@ -4966,7 +5423,7 @@
      },
      {
       "id": "0a1f36b6-366b-4d68-9812-71edc227f521",
-      "name": "Skaala Investments OÜ"
+      "name": "Skaala Investments"
      },
      {
       "id": "cd63d5a6-ff71-4c0f-a149-f6bae0487b36",
@@ -5010,7 +5467,7 @@
     "lead_investors": [
      {
       "id": "8dd970d8-282c-4400-8220-01f3f036a09a",
-      "name": "Armada Credit Partners Oy"
+      "name": "Armada Credit Partners"
      },
      {
       "id": "49dd4564-66eb-4fa9-a5ba-b0f2203cb824",
@@ -5020,7 +5477,7 @@
     "participants": [
      {
       "id": "8cd6fc45-5ffd-5b92-8c5f-f69a668c20b1",
-      "name": "Danske Bank A/S"
+      "name": "Danske Bank"
      },
      {
       "id": "7dbbbaf3-34f1-4987-a79c-ec619e674713",
@@ -5028,7 +5485,7 @@
      },
      {
       "id": "17cf7872-be39-4211-aeb6-48231472ac28",
-      "name": "Norion Bank AB"
+      "name": "Norion Bank"
      }
     ],
     "sources": [

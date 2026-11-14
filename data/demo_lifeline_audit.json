@@ -1,5 +1,5 @@
 {
- "audit_id": "24db8f85f6cf",
+ "audit_id": "df6704ba1384",
  "fund": {
   "id": "476a73ac-afa2-4713-9f73-188bc7ec0b95",
   "name": "Lifeline Ventures"
@@ -51,17 +51,17 @@
   "basis_rounds": 12
  },
  "headline": {
-  "never_seen": 16,
-  "text": "16 VC-backed companies in your thesis raised since 2022 and never hit your CRM"
+  "never_seen": 19,
+  "text": "19 VC-backed companies in your thesis raised since 2022 and never hit your CRM"
  },
  "summary": {
-  "market_companies": 36,
-  "in_crm": 20,
+  "market_companies": 40,
+  "in_crm": 21,
   "invested": 9,
-  "passed": 6,
+  "passed": 7,
   "in_review": 5,
-  "never_seen": 16,
-  "coverage_pct": 55.6
+  "never_seen": 19,
+  "coverage_pct": 52.5
  },
  "never_seen": [
   {
@@ -153,7 +153,7 @@
      },
      {
       "id": "6a966907-4006-4a4b-8d11-2330f76cb3cd",
-      "name": "Innovestor Oy",
+      "name": "Innovestor",
       "type": "Company",
       "is_lead": true,
       "is_vc": true
@@ -250,14 +250,14 @@
      },
      {
       "id": "3f9a41b4-1b21-4d8a-86f9-188109ff6179",
-      "name": "AHO Aps",
+      "name": "AHO",
       "type": "Company",
       "is_lead": false,
       "is_vc": false
      },
      {
       "id": "81192996-e623-4961-9025-58afec3a68d3",
-      "name": "Cor Group Oy",
+      "name": "Cor Group",
       "type": "Company",
       "is_lead": false,
       "is_vc": false
@@ -304,7 +304,7 @@
      },
      {
       "id": "09125dc5-ebf7-4ce2-b901-92e7100c9d2e",
-      "name": "Angel Invest B.V.",
+      "name": "Angel Invest",
       "type": "Company",
       "is_lead": false,
       "is_vc": false
@@ -349,6 +349,203 @@
       "url": "https://tech.eu/2025/04/29/pistachio-raises-7m-series-a-for-cybersecurity-awareness-platform/",
       "rank": "PRESS",
       "date": "2025-04-29"
+     }
+    ]
+   }
+  },
+  {
+   "company_id": "331fec23-9c63-4885-a8f5-c2902c9e1b9d",
+   "name": "Redpine Technology AB",
+   "website": "redpine.ai",
+   "country": "Sweden",
+   "industries": [
+    "Software and services"
+   ],
+   "round": {
+    "id": "f7e9dbb3-dd97-51be-8ebf-be133b8dc750",
+    "label": "SEED",
+    "amount": 6800000,
+    "currency": "EUR",
+    "date": "2026-04-28",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "a46a1058-93a7-4b0f-bc1f-bc31238fb006",
+      "name": "Nordicninja VC",
+      "type": "Company",
+      "is_lead": true,
+      "is_vc": true
+     },
+     {
+      "id": "fa42a2f9-d350-46d7-962a-b19aa7e62af7",
+      "name": "Anna Nordell Westling",
+      "type": "Person",
+      "is_lead": false,
+      "is_vc": false
+     },
+     {
+      "id": "a409cd02-5e3d-567d-ab47-2b015beb3340",
+      "name": "Colin M. Evans",
+      "type": "Person",
+      "is_lead": false,
+      "is_vc": false
+     },
+     {
+      "id": "dc3cefae-2abe-5e56-9f5a-f2f2d37c12ef",
+      "name": "Daniel Langkilde",
+      "type": "Person",
+      "is_lead": false,
+      "is_vc": false
+     },
+     {
+      "id": "b999c5fb-e37e-5eee-86b8-a6a0763b55b1",
+      "name": "Feng Hong",
+      "type": "Person",
+      "is_lead": false,
+      "is_vc": false
+     },
+     {
+      "id": "17de99d1-63bc-5fd2-bc7b-ea81feaafe6e",
+      "name": "Gustav Lindqvist",
+      "type": "Person",
+      "is_lead": false,
+      "is_vc": false
+     },
+     {
+      "id": "be67283b-4529-4a2d-834a-96edc4b36971",
+      "name": "Luminar Ventures",
+      "type": "Company",
+      "is_lead": false,
+      "is_vc": true
+     },
+     {
+      "id": "abd185d2-6933-484f-85b7-a4c4a1b60e56",
+      "name": "node.vc",
+      "type": "Company",
+      "is_lead": false,
+      "is_vc": true
+     },
+     {
+      "id": "1ca4273f-6654-5a7f-9447-bc922e109f3f",
+      "name": "Patrik Liu Tran",
+      "type": "Person",
+      "is_lead": false,
+      "is_vc": false
+     },
+     {
+      "id": "9e0a05df-a76e-58f8-9b44-a7ba114fff8a",
+      "name": "Peter Sarlin",
+      "type": "Person",
+      "is_lead": false,
+      "is_vc": false
+     }
+    ],
+    "sources": [
+     {
+      "name": "arcticstartup.com",
+      "url": "https://arcticstartup.com/redpine-raises-e6-8m-seed/",
+      "rank": "PRESS",
+      "date": "2026-05-01"
+     },
+     {
+      "name": "sifted.eu",
+      "url": "https://sifted.eu/articles/redpine-raises-e6-8m-to-give-ai-agents-access-to-non-public-data",
+      "rank": "PRESS",
+      "date": "2026-04-28"
+     },
+     {
+      "name": "techfundingnews.com",
+      "url": "https://techfundingnews.com/nordicninja-leads-redpine-in-e6-8m-round-to-let-ai-agents-access-private-data/",
+      "rank": "PRESS",
+      "date": "2026-04-28"
+     },
+     {
+      "name": "thenextweb.com",
+      "url": "https://thenextweb.com/news/redpine-raises-e6-8m-api-for-ai-agents",
+      "rank": "PRESS",
+      "date": "2026-04-28"
+     },
+     {
+      "name": "eu-startups.com",
+      "url": "https://www.eu-startups.com/2026/04/stockholms-redpine-raises-e6-8-million-to-unlock-licensed-premium-data-for-ai-agents/",
+      "rank": "PRESS",
+      "date": "2026-04-28"
+     }
+    ]
+   }
+  },
+  {
+   "company_id": "5466f036-ebe0-4171-ae24-643c83cfef6b",
+   "name": "Skyfora",
+   "website": "skyfora.com",
+   "country": "Finland",
+   "industries": [
+    "Renewable energy",
+    "Software and services",
+    "Telecommunications"
+   ],
+   "round": {
+    "id": "31db35af-6604-5eeb-8164-e3e66904718c",
+    "label": "SEED",
+    "amount": 6500000,
+    "currency": "EUR",
+    "date": "2026-06-09",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "34829e66-7e7e-412e-a0ea-c61014ced495",
+      "name": "Ugly Duckling Ventures",
+      "type": "Company",
+      "is_lead": true,
+      "is_vc": true
+     },
+     {
+      "id": "d5b41639-eb27-43df-a6ee-a4f03807fbca",
+      "name": "Business Finland",
+      "type": "Organization",
+      "is_lead": false,
+      "is_vc": false
+     },
+     {
+      "id": "8b48d1a5-8b64-43a6-a1ee-aac5022bb54d",
+      "name": "European Innovation Council Fund",
+      "type": "Organization",
+      "is_lead": false,
+      "is_vc": false
+     },
+     {
+      "id": "8540e55a-1f3b-4969-bf08-6802f5344d24",
+      "name": "Eviny Ventures",
+      "type": "Company",
+      "is_lead": false,
+      "is_vc": true
+     },
+     {
+      "id": "b6102f0d-6696-4dc6-b0bf-1d3f79c94344",
+      "name": "LUMO Labs",
+      "type": "Organization",
+      "is_lead": false,
+      "is_vc": true
+     }
+    ],
+    "sources": [
+     {
+      "name": "skyfora.com",
+      "url": "https://www.skyfora.com/news/skyfora-raises-6-5m-to-turn-telecom-networks-into-real-time-weather-sensors-for-ai-forecasting",
+      "rank": "PRIMARY",
+      "date": "2026-06-09"
+     },
+     {
+      "name": "raise.fusion-42.com",
+      "url": "https://raise.fusion-42.com/rounds/2186750a-f8fd-4d72-8dd3-a4200136fa0b",
+      "rank": "PRESS",
+      "date": "2026-11-04"
+     },
+     {
+      "name": "eu-startups.com",
+      "url": "https://www.eu-startups.com/2026/06/finnish-skyfora-raises-e6-5-million-to-quicken-deployment-of-atmospheric-sensing-network/",
+      "rank": "PRESS",
+      "date": "2026-06-09"
      }
     ]
    }
@@ -421,7 +618,7 @@
      },
      {
       "id": "406ef484-9135-4ce7-8a88-40a6cc945e09",
-      "name": "Illusian Capital Oy",
+      "name": "Illusian Capital",
       "type": "Company",
       "is_lead": false,
       "is_vc": true
@@ -563,14 +760,14 @@
      },
      {
       "id": "558f8f59-08b0-412a-9947-8878de485861",
-      "name": "Hi5 VC OÜ",
+      "name": "Hi5 VC",
       "type": "Company",
       "is_lead": false,
       "is_vc": true
      },
      {
       "id": "a25ba634-4459-4bf3-8a4d-78155efe5558",
-      "name": "Purple Ventures s.r.o.",
+      "name": "Purple Ventures",
       "type": "Company",
       "is_lead": false,
       "is_vc": true
@@ -606,53 +803,88 @@
    }
   },
   {
-   "company_id": "4718e06f-58f1-4af5-86e0-077b0fe0219c",
-   "name": "Avrea",
-   "website": "avrea.com",
-   "country": "Finland",
+   "company_id": "6623017a-9e19-4729-a887-0a9ee38c1e3c",
+   "name": "Bookboost",
+   "website": "bookboost.io",
+   "country": "Sweden",
    "industries": [
+    "Hospitality and tourism",
     "Software and services"
    ],
    "round": {
-    "id": "d68efa90-cb12-513a-ad12-70726b6231d0",
-    "label": "PRE_SEED",
-    "amount": 4700000,
-    "currency": "USD",
-    "date": "2026-05-26",
+    "id": "9808ad33-e45b-5a14-a3d1-c19d53d9a110",
+    "label": "SERIES_A",
+    "amount": 3600000,
+    "currency": "EUR",
+    "date": "2025-03-03",
     "date_kind": "announcement",
     "investors": [
      {
-      "id": "7de3d7d6-af8f-4e95-a949-2befc86938a0",
-      "name": "Earlybird Venture Capital",
-      "type": "Organization",
+      "id": "c979df8c-22de-418c-89cf-a7b4a1640087",
+      "name": "Vendep Capital",
+      "type": "Company",
       "is_lead": true,
       "is_vc": true
      }
     ],
     "sources": [
      {
-      "name": "avrea.com",
-      "url": "https://avrea.com/blog/launching-avrea",
+      "name": "vendep.com",
+      "url": "https://www.vendep.com/vendep-invests-in-hospitality-crm-bookboost",
       "rank": "PRIMARY",
-      "date": "2026-05-26"
+      "date": "2026-11-12"
      },
      {
-      "name": "earlybird.com",
-      "url": "https://earlybird.com/perspectives/the-ai-native-ci-cd-platform-why-were-backing-avrea",
+      "name": "bookboost.io",
+      "url": "https://www.bookboost.io/post/bookboost-secures-3-million-growth-hospitality-crm",
       "rank": "PRIMARY",
-      "date": "2026-05-26"
+      "date": "2025-03-03"
      },
      {
-      "name": "tech.eu",
-      "url": "https://tech.eu/2026/05/26/avrea-emerges-from-stealth-with-47m-to-reinvent-cicd-for-the-ai-coding-era/",
+      "name": "siliconcanals.com",
+      "url": "https://siliconcanals.com/bookboost-raises-e3-6m/",
       "rank": "PRESS",
-      "date": "2026-05-26"
+      "date": "2025-03-04"
+     }
+    ]
+   }
+  },
+  {
+   "company_id": "f17072d7-d371-4e9e-822e-50ceef8cfef7",
+   "name": "Phasetree",
+   "website": "phasetree.ai",
+   "country": "Denmark",
+   "industries": [
+    "Software and services"
+   ],
+   "round": {
+    "id": "b837f28e-dafd-5249-a703-9bf567fb187d",
+    "label": "SEED",
+    "amount": 3000000,
+    "currency": "EUR",
+    "date": "2025-03-07",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "c7c91c8e-15b5-4ba8-a652-5fa93c268db1",
+      "name": "Heartcore Capital",
+      "type": "Company",
+      "is_lead": true,
+      "is_vc": true
+     }
+    ],
+    "sources": [
+     {
+      "name": "eu-startups.com",
+      "url": "https://www.eu-startups.com/2025/03/phasetree-raises-e3-million-to-accelerate-discovery-of-sustainable-materials/",
+      "rank": "PRESS",
+      "date": "2025-03-07"
      },
      {
-      "name": "thenextweb.com",
-      "url": "https://thenextweb.com/news/avrea-raises-47m-preseed-ai-cicd-helsinki",
-      "rank": "PRESS",
-      "date": "2026-05-26"
+      "name": "vcbacked.co",
+      "url": "https://www.vcbacked.co/company/phasetree",
+      "rank": "AGGREGATOR",
+      "date": "2026-11-04"
      }
     ]
    }
@@ -684,7 +916,7 @@
      },
      {
       "id": "34829e66-7e7e-412e-a0ea-c61014ced495",
-      "name": "Ugly Duckling Ventures Management ApS",
+      "name": "Ugly Duckling Ventures",
       "type": "Company",
       "is_lead": true,
       "is_vc": true
@@ -720,6 +952,88 @@
       "url": "https://www.cbinsights.com/company/cytely/financials",
       "rank": "AGGREGATOR",
       "date": "2026-11-13"
+     }
+    ]
+   }
+  },
+  {
+   "company_id": "98ff140a-f183-485a-8d7d-3e02bf137c9b",
+   "name": "Rotomate",
+   "website": "rotomate.ai",
+   "country": "Finland",
+   "industries": [
+    "Manufacturing automotive",
+    "Software and services"
+   ],
+   "round": {
+    "id": "ad80754b-af20-51e5-9f71-48ceae7b6485",
+    "label": "PRE_SEED",
+    "amount": 2100000,
+    "currency": "EUR",
+    "date": "2026-06-10",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "5862d707-c5ab-407b-bd32-a93869b84154",
+      "name": "Kvanted Ventures",
+      "type": "Company",
+      "is_lead": true,
+      "is_vc": true
+     },
+     {
+      "id": "aee065b7-5ae9-45c7-8c30-457f6d339958",
+      "name": "Accel",
+      "type": "Organization",
+      "is_lead": false,
+      "is_vc": true
+     },
+     {
+      "id": "09b18c40-e175-4099-bdf5-964367320b52",
+      "name": "Angel Invest",
+      "type": "Organization",
+      "is_lead": false,
+      "is_vc": false
+     },
+     {
+      "id": "960f809c-9c75-557a-8253-5539622ebcec",
+      "name": "Jiri Heinonen",
+      "type": "Person",
+      "is_lead": false,
+      "is_vc": false
+     },
+     {
+      "id": "85f67a08-17ec-56b0-bb34-0309ffa5076b",
+      "name": "Moaffak Ahmed",
+      "type": "Person",
+      "is_lead": false,
+      "is_vc": false
+     },
+     {
+      "id": "cf4f0236-63ca-46aa-bc0f-55cf940e0594",
+      "name": "Robin Capital",
+      "type": "Organization",
+      "is_lead": false,
+      "is_vc": true
+     }
+    ],
+    "sources": [
+     {
+      "name": "rotomate.ai",
+      "url": "https://rotomate.ai/blog/rotomate-funding-announcement",
+      "rank": "PRIMARY",
+      "date": "2026-06-10"
+     },
+     {
+      "name": "tech.eu",
+      "url": "https://tech.eu/2026/06/10/rotomate-raises-eur21m-to-automate-industrial-reliability-analysis/",
+      "rank": "PRESS",
+      "date": "2026-06-10"
+     },
+     {
+      "name": "vcbacked.co",
+      "url": "https://www.vcbacked.co/company/rotomate",
+      "rank": "AGGREGATOR",
+      "date": "2026-11-04"
      }
     ]
    }
@@ -779,6 +1093,62 @@
    }
   },
   {
+   "company_id": "51e1482f-31e9-4f8c-a79e-71192f9545bb",
+   "name": "Renow",
+   "website": "renow.ai",
+   "country": "Finland",
+   "industries": [
+    "Internet and web services",
+    "Retail",
+    "Software and services"
+   ],
+   "round": {
+    "id": "82558a9a-b288-5cb8-9af7-06d1fafe3d8c",
+    "label": "SEED",
+    "amount": 1800000,
+    "currency": "EUR",
+    "date": "2025-06-16",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "cef02fe0-0cf3-5914-8aa9-03673f91ef8e",
+      "name": "Greencode Ventures",
+      "type": "Organization",
+      "is_lead": true,
+      "is_vc": true
+     },
+     {
+      "id": "e4c0834e-ee99-5052-b235-031f22d1a23e",
+      "name": "Street Smart Capital",
+      "type": "Organization",
+      "is_lead": false,
+      "is_vc": true
+     },
+     {
+      "id": "8f18dee5-e41b-4eaa-86e2-f03f1a846edc",
+      "name": "Superhero Capital",
+      "type": "Company",
+      "is_lead": false,
+      "is_vc": true
+     }
+    ],
+    "sources": [
+     {
+      "name": "renow.ai",
+      "url": "https://renow.ai/news/renow-raises-1-8m",
+      "rank": "PRIMARY",
+      "date": "2025-06-16"
+     },
+     {
+      "name": "tech.eu",
+      "url": "https://tech.eu/2025/06/17/renow-raises-eur18m-to-disrupt-europes-second-hand-market-with-ai-powered-recommerce-platform/",
+      "rank": "PRESS",
+      "date": "2025-06-17"
+     }
+    ]
+   }
+  },
+  {
    "company_id": "d17e0abf-0a57-4574-820b-822e5cac6308",
    "name": "Clock&Cloud",
    "website": "clockcloud.ai",
@@ -804,7 +1174,7 @@
      },
      {
       "id": "34829e66-7e7e-412e-a0ea-c61014ced495",
-      "name": "Ugly Duckling Ventures Management ApS",
+      "name": "Ugly Duckling Ventures",
       "type": "Company",
       "is_lead": true,
       "is_vc": true
@@ -845,73 +1215,51 @@
    }
   },
   {
-   "company_id": "c0157114-f8ec-491b-b38c-57c7a690e146",
-   "name": "Acembee",
-   "website": "acembee.com",
-   "country": "Denmark",
+   "company_id": "8a099aee-049b-4bd9-b4fa-a318542dc867",
+   "name": "Pandatron",
+   "website": "pandatron.ai",
+   "country": "Finland",
    "industries": [
-    "Construction and engineering",
+    "Consulting",
+    "Education",
     "Software and services"
    ],
    "round": {
-    "id": "d39ec64d-6b40-5d21-853f-45d92f81967b",
+    "id": "a1a4ab75-d08b-5928-b2a8-a6718e75737b",
     "label": "SEED",
-    "amount": 1200000,
-    "currency": "EUR",
-    "date": "2025-08-25",
+    "amount": 550000,
+    "currency": "USD",
+    "date": "2023-04-12",
     "date_kind": "announcement",
     "investors": [
      {
-      "id": "abd185d2-6933-484f-85b7-a4c4a1b60e56",
-      "name": "node.vc",
+      "id": "9afd259d-109a-4faf-9d7f-ce0e71a0d333",
+      "name": "AI Startup Incubator",
+      "type": "Organization",
+      "is_lead": false,
+      "is_vc": false
+     },
+     {
+      "id": "396c1310-6936-4775-9d4a-8a716041e897",
+      "name": "Evolutionary Ventures",
       "type": "Company",
-      "is_lead": true,
+      "is_lead": false,
       "is_vc": true
      },
      {
-      "id": "394a0fe3-cf6c-4f9c-a1fd-a15fedbcd35e",
-      "name": "Kiilto Ventures Oy",
-      "type": "Company",
+      "id": "73aa623e-3559-433a-97e0-7348ce528b74",
+      "name": "Sparkmind.vc",
+      "type": "Organization",
       "is_lead": false,
       "is_vc": true
      }
     ],
     "sources": [
      {
-      "name": "kiilto.com",
-      "url": "https://www.kiilto.com/newsroom/kiilto-ventures-invests-in-a-startup-automating-compliance-reporting-for-contractors/",
-      "rank": "PRIMARY",
-      "date": "2025-08-25"
-     },
-     {
-      "name": "fundediq.co",
-      "url": "https://fundediq.co/acembee-acembee-com-funding/",
-      "rank": "PRESS",
-      "date": "2026-11-04"
-     },
-     {
-      "name": "bebeez.eu",
-      "url": "https://bebeez.eu/2025/08/29/news-funding-round-backs-danish-acembees-efforts-to-digitise-construction-emissions-tracking/",
-      "rank": "PRESS",
-      "date": "2025-08-29"
-     },
-     {
-      "name": "siliconcanals.com",
-      "url": "https://siliconcanals.com/acembee-secures-1-2m/",
-      "rank": "PRESS",
-      "date": "2025-08-26"
-     },
-     {
-      "name": "eu-startups.com",
-      "url": "https://www.eu-startups.com/2025/08/danish-contech-startup-acembee-raises-e1-2-million-to-automate-construction-site-compliance/",
-      "rank": "PRESS",
-      "date": "2025-08-26"
-     },
-     {
-      "name": "vestbee.com",
-      "url": "https://www.vestbee.com/insights/articles/acembee-raises-1-1-m",
-      "rank": "PRESS",
-      "date": "2025-08-25"
+      "name": "bouncewatch.com",
+      "url": "https://bouncewatch.com/company/pandatron-1",
+      "rank": "AGGREGATOR",
+      "date": "2026-11-12"
      }
     ]
    }
@@ -941,7 +1289,7 @@
      },
      {
       "id": "c00c3ba1-d236-4e49-ad35-c5ee8b5b5708",
-      "name": "Join Capital GmbH",
+      "name": "Join Capital",
       "type": "Company",
       "is_lead": true,
       "is_vc": true
@@ -1017,7 +1365,7 @@
     "investors": [
      {
       "id": "6a966907-4006-4a4b-8d11-2330f76cb3cd",
-      "name": "Innovestor Oy",
+      "name": "Innovestor",
       "type": "Company",
       "is_lead": true,
       "is_vc": true
@@ -1045,83 +1393,6 @@
      }
     ]
    }
-  },
-  {
-   "company_id": "b488fe95-8f45-40be-ab57-f8f96da242fe",
-   "name": "Adeu AI",
-   "website": "adeu.ai",
-   "country": "Finland",
-   "industries": [
-    "Legal",
-    "Software and services"
-   ],
-   "round": {
-    "id": "f2d35147-3db3-541b-98c9-eb9519458f93",
-    "label": "PRE_SEED",
-    "amount": null,
-    "currency": null,
-    "date": "2025-03-28",
-    "date_kind": "announcement",
-    "investors": [
-     {
-      "id": "6a966907-4006-4a4b-8d11-2330f76cb3cd",
-      "name": "Innovestor Oy",
-      "type": "Company",
-      "is_lead": false,
-      "is_vc": true
-     }
-    ],
-    "sources": [
-     {
-      "name": "nordic9.com",
-      "url": "https://nordic9.com/news/adeu-ai-raised-money-in-a-pre-seed-round-with-innovestor-angel-fund/",
-      "rank": "AGGREGATOR",
-      "date": "2025-03-28"
-     }
-    ]
-   }
-  },
-  {
-   "company_id": "1cec901d-20d1-4e4b-adb5-611141810031",
-   "name": "Quicksave Interactive",
-   "website": "playables.ai",
-   "country": "Finland",
-   "industries": [
-    "Advertising and marketing",
-    "Entertainment",
-    "Software and services"
-   ],
-   "round": {
-    "id": "4f24a3d3-645e-53e8-ba3c-5048c525827e",
-    "label": "SERIES_A",
-    "amount": null,
-    "currency": null,
-    "date": "2026-03-16",
-    "date_kind": "announcement",
-    "investors": [
-     {
-      "id": "95c2a414-2e9a-5af5-b7a5-1ae84704eed9",
-      "name": "HyperScope Ventures",
-      "type": "Organization",
-      "is_lead": true,
-      "is_vc": true
-     }
-    ],
-    "sources": [
-     {
-      "name": "pocketgamer.biz",
-      "url": "https://www.pocketgamer.biz/quicksave-interactive-secures-hyperscope-ventures-investment-for-playablesai",
-      "rank": "PRESS",
-      "date": "2026-03-16"
-     },
-     {
-      "name": "raptorgroup.com",
-      "url": "https://www.raptorgroup.com/news/quicksave-interactive-secures-hyperscope-ventures-investment-for-playables-ai/",
-      "rank": "PRESS",
-      "date": "2026-03-16"
-     }
-    ]
-   }
   }
  ],
  "top_investors_in_blind_spots": [
@@ -1131,8 +1402,8 @@
    "companies": 3
   },
   {
-   "id": "6a966907-4006-4a4b-8d11-2330f76cb3cd",
-   "name": "Innovestor Oy",
+   "id": "34829e66-7e7e-412e-a0ea-c61014ced495",
+   "name": "Ugly Duckling Ventures",
    "companies": 3
   },
   {
@@ -1146,8 +1417,13 @@
    "companies": 2
   },
   {
-   "id": "34829e66-7e7e-412e-a0ea-c61014ced495",
-   "name": "Ugly Duckling Ventures Management ApS",
+   "id": "cef02fe0-0cf3-5914-8aa9-03673f91ef8e",
+   "name": "Greencode Ventures",
+   "companies": 2
+  },
+  {
+   "id": "6a966907-4006-4a4b-8d11-2330f76cb3cd",
+   "name": "Innovestor",
    "companies": 2
   },
   {
@@ -1161,18 +1437,13 @@
    "companies": 1
   },
   {
+   "id": "aee065b7-5ae9-45c7-8c30-457f6d339958",
+   "name": "Accel",
+   "companies": 1
+  },
+  {
    "id": "89086b9e-3468-4d6c-b6b3-1caeaa418d5c",
    "name": "Araya Ventures",
-   "companies": 1
-  },
-  {
-   "id": "962682aa-7519-51bf-88ee-88902f8b1823",
-   "name": "D4 Ventures",
-   "companies": 1
-  },
-  {
-   "id": "7de3d7d6-af8f-4e95-a949-2befc86938a0",
-   "name": "Earlybird Venture Capital",
    "companies": 1
   }
  ],
@@ -1186,7 +1457,7 @@
   {
    "country": "Denmark",
    "stage": "SEED",
-   "market": 1,
+   "market": 2,
    "never_seen": 1
   },
   {
@@ -1198,20 +1469,20 @@
   {
    "country": "Finland",
    "stage": "PRE_SEED",
-   "market": 8,
-   "never_seen": 4
+   "market": 9,
+   "never_seen": 3
   },
   {
    "country": "Finland",
    "stage": "SEED",
-   "market": 13,
-   "never_seen": 5
+   "market": 15,
+   "never_seen": 8
   },
   {
    "country": "Finland",
    "stage": "SERIES_A",
    "market": 5,
-   "never_seen": 2
+   "never_seen": 1
   },
   {
    "country": "Iceland",
@@ -1259,39 +1530,92 @@
    "country": "Sweden",
    "stage": "SEED",
    "market": 4,
-   "never_seen": 2
+   "never_seen": 3
   },
   {
    "country": "Sweden",
    "stage": "SERIES_A",
    "market": 1,
-   "never_seen": 0
+   "never_seen": 1
   }
  ],
  "patterns": [
   {
    "kind": "top_vc",
-   "text": "Icebreaker.vc backed 3 of the 16",
+   "text": "Icebreaker.vc backed 3 of the 19",
    "value": 3,
-   "total": 16
+   "total": 19
   },
   {
    "kind": "country",
-   "text": "11 of the 16 are in Finland",
-   "value": 11,
-   "total": 16
+   "text": "12 of the 19 are in Finland",
+   "value": 12,
+   "total": 19
   },
   {
    "kind": "stage",
-   "text": "8 of the 16 raised a seed round",
-   "value": 8,
-   "total": 16
+   "text": "12 of the 19 raised a seed round",
+   "value": 12,
+   "total": 19
   }
  ],
+ "briefing": {
+  "insights": [
+   {
+    "kind": "sourcing",
+    "value": 4,
+    "total": 19,
+    "title": "Other funds got there first",
+    "line": "Icebreaker.vc and Ugly Duckling Ventures backed 4 of them; you never co-invested.",
+    "company_ids": [
+     "5466f036-ebe0-4171-ae24-643c83cfef6b",
+     "8502a550-46b3-4790-b869-c450eb925672",
+     "d17e0abf-0a57-4574-820b-822e5cac6308",
+     "dd64c2b7-b551-4322-ac10-57fa4eead37e"
+    ],
+    "investor_names": [
+     "Icebreaker.vc",
+     "Ugly Duckling Ventures"
+    ]
+   },
+   {
+    "kind": "theme",
+    "value": 4,
+    "total": 19,
+    "title": "AI software for knowledge work",
+    "line": "These sell AI tools to companies for security, patents, deals and geopolitical analysis.",
+    "company_ids": [
+     "3ee757f1-15c6-4f26-aafd-eba7953589a9",
+     "d17e0abf-0a57-4574-820b-822e5cac6308",
+     "dd64c2b7-b551-4322-ac10-57fa4eead37e",
+     "dfc26dad-408b-4630-8a68-e490d2fbd786"
+    ],
+    "investor_names": []
+   },
+   {
+    "kind": "momentum",
+    "value": 6,
+    "total": 19,
+    "title": "Many already raised again",
+    "line": "6 of 19 have already closed a new round, so they move fast.",
+    "company_ids": [
+     "3ee757f1-15c6-4f26-aafd-eba7953589a9",
+     "41f89a61-54ac-4068-82af-a2d2096efcfc",
+     "5466f036-ebe0-4171-ae24-643c83cfef6b",
+     "6623017a-9e19-4729-a887-0a9ee38c1e3c",
+     "8a099aee-049b-4bd9-b4fa-a318542dc867",
+     "dfc26dad-408b-4630-8a68-e490d2fbd786"
+    ],
+    "investor_names": []
+   }
+  ],
+  "model": "claude-sonnet-5-5",
+  "generated_at": "2026-11-14T17:39:28Z"
+ },
  "market_coverage": {
-  "european_companies_screened": 1915,
-  "qualifying_companies": 104,
-  "investors_explored": 459,
+  "european_companies_screened": 2701,
+  "qualifying_companies": 109,
+  "investors_explored": 961,
   "as_of": "2026-11-14",
   "region": "nordics",
   "region_countries": [
@@ -1301,8 +1625,8 @@
    "Norway",
    "Sweden"
   ],
-  "region_qualifying_companies": 46,
+  "region_qualifying_companies": 51,
   "priority_country": "Finland",
-  "priority_country_qualifying_companies": 31
+  "priority_country_qualifying_companies": 35
  }
 }

@@ -9,19 +9,19 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 
 | Category | VC | Participants |
 |---|---|---|
-| vc | yes | 525 |
-| angel | no | 320 |
-| other | no | 127 |
-| grant_public | no | 44 |
-| lender | no | 33 |
+| vc | yes | 550 |
+| angel | no | 341 |
+| other | no | 142 |
+| grant_public | no | 45 |
+| lender | no | 36 |
 | cvc | yes | 17 |
+| family_office_holding_syndicate | no | 16 |
 | growth_pe | yes | 15 |
-| family_office_holding_syndicate | no | 14 |
+| bank_insurer_pension_am | no | 14 |
 | state_vc | yes | 12 |
-| bank_insurer_pension_am | no | 12 |
-| accelerator | no | 10 |
+| accelerator | no | 11 |
 | corporate | no | 7 |
-| university_research | no | 5 |
+| university_research | no | 6 |
 
 ## All participants
 
@@ -30,36 +30,42 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 31 | Lifeline Ventures | lifeline ventures | Organization | INVESTOR | vc | yes |
 | 20 | Index Ventures | index ventures | Company | INVESTOR | vc | yes |
 | 18 | Speedinvest GmbH | speedinvest | Company | INVESTOR | vc | yes |
-| 13 | European Innovation Council | european innovation council | Organization | GRANTOR | grant_public | no |
+| 14 | European Innovation Council | european innovation council | Organization | GRANTOR | grant_public | no |
 | 13 | Northzone | northzone | Company | INVESTOR | vc | yes |
 | 12 | Seedcamp Limited | seedcamp | Organization | INVESTOR | vc | yes |
 | 11 | Balderton Capital | balderton capital | Organization | INVESTOR | vc | yes |
 | 11 | Notion Capital | notion capital | Company | INVESTOR | vc | yes |
 | 10 | Earlybird Venture Capital | earlybird venture capital | Organization | INVESTOR | vc | yes |
+| 10 | European Innovation Council Fund | european innovation council fund | Organization | INVESTOR | grant_public | no |
 | 10 | Lifeline Ventures AB | lifeline ventures | Company | INVESTOR | vc | yes |
+| 9 | Accel | accel | Organization | INVESTOR | vc | yes |
 | 9 | ATOMICO (UK) LIMITED | atomico | Company | INVESTOR | vc | yes |
 | 9 | Creandum | creandum | Organization | INVESTOR | vc | yes |
 | 9 | LocalGlobe | localglobe | Company | INVESTOR | vc | yes |
 | 9 | Point Nine Capital | point nine capital | Organization | INVESTOR | vc | yes |
-| 8 | Accel | accel | Organization | INVESTOR | vc | yes |
 | 8 | Andreessen Horowitz | andreessen horowitz | Company | INVESTOR | vc | yes |
 | 8 | Cherry Ventures UG (haftungsbeschränkt) & Co. KG | cherry ventures | Company | INVESTOR | vc | yes |
 | 8 | High-Tech Gründerfonds | high tech grunderfonds | Organization | INVESTOR | state_vc | yes |
+| 7 | European Commission | european commission | Company | GRANTOR | grant_public | no |
 | 7 | seed + speed Ventures | seed speed ventures | Organization | INVESTOR | vc | yes |
 | 7 | Sequoia Capital | sequoia capital | Organization | INVESTOR | vc | yes |
 | 6 | byFounders | byfounders | Organization | INVESTOR | vc | yes |
 | 6 | EQT Ventures | eqt ventures | Organization | INVESTOR | vc | yes |
 | 6 | European Commission | european commission | Organization | GRANTOR | grant_public | no |
+| 6 | Eviny Ventures | eviny ventures | Company | INVESTOR | cvc | yes |
+| 6 | IDEKAPITAL AS | idekapital | Company | INVESTOR | vc | yes |
 | 6 | Khosla Ventures | khosla ventures | Company | INVESTOR | vc | yes |
 | 6 | Motier Ventures | motier ventures | Organization | INVESTOR | vc | yes |
 | 6 | Voima Ventures | voima ventures | Organization | INVESTOR | vc | yes |
+| 5 | Bayern Kapit | bayern kapit | Organization | INVESTOR | state_vc | yes |
 | 5 | Bundesministerium für Bildung und Forschung | bundesministerium fur bildung und forschung | Organization | GRANTOR | grant_public | no |
 | 5 | Business Finland | business finland | Organization | INVESTOR | grant_public | no |
-| 5 | European Innovation Council Fund | european innovation council fund | Organization | INVESTOR | grant_public | no |
-| 5 | IDEKAPITAL AS | idekapital | Company | INVESTOR | vc | yes |
+| 5 | Course Corrected VC Fund I AB | course corrected vc fund i | Company | INVESTOR | vc | yes |
+| 5 | Danske Bank A/S | danske bank a s | Organization | LENDER | lender | no |
 | 5 | Innovestor Oy | innovestor | Company | INVESTOR | vc | yes |
 | 5 | KOMPAS VC | kompas vc | Company | INVESTOR | vc | yes |
 | 5 | Spark Capital | spark capital | Organization | INVESTOR | vc | yes |
+| 5 | Tesi | tesi | Organization | INVESTOR | state_vc | yes |
 | 5 | Varma Mutual Pension Insurance Company | varma mutual pension insurance company | Organization | INVESTOR | bank_insurer_pension_am | no |
 | 5 | Ventech | ventech | Organization | INVESTOR | vc | yes |
 | 5 | Wave Ventures | wave ventures | Company | INVESTOR | vc | yes |
@@ -70,8 +76,8 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 4 | Connect Ventures | connect ventures | Organization | INVESTOR | vc | yes |
 | 4 | Creandum Kommanditbolag | creandum kommanditbolag | Company | INVESTOR | vc | yes |
 | 4 | Credo Ventures a.s. | credo ventures a s | Company | INVESTOR | vc | yes |
-| 4 | Danske Bank A/S | danske bank a s | Organization | LENDER | lender | no |
-| 4 | Eviny Ventures | eviny ventures | Company | INVESTOR | cvc | yes |
+| 4 | Gorilla Capital | gorilla capital | Company | INVESTOR | vc | yes |
+| 4 | Greencode Ventures | greencode ventures | Organization | INVESTOR | vc | yes |
 | 4 | HEADLINE SERVICES US, LLC | headline services us | Company | INVESTOR | vc | yes |
 | 4 | HubSpot Ventures | hubspot ventures | Organization | INVESTOR | cvc | yes |
 | 4 | Icebreaker.vc | icebreaker vc | Company | INVESTOR | vc | yes |
@@ -82,15 +88,16 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 4 | SOFINNOVA PARTNERS | sofinnova partners | Company | INVESTOR | vc | yes |
 | 4 | TESI S.P.A. | tesi s p a | Company | INVESTOR | state_vc | yes |
 | 4 | Ugly Duckling Ventures Management ApS | ugly duckling ventures management | Company | INVESTOR | vc | yes |
+| 4 | Vsquared Ventures | vsquared ventures | Organization | INVESTOR | vc | yes |
 | 4 | Working Capital Fund | working capital fund | Organization | INVESTOR | vc | yes |
 | 4 | Y Combinator | y combinator | Company | INVESTOR | accelerator | no |
 | 3 | 10x Founders GmbH | 10x founders | Company | INVESTOR | vc | yes |
 | 3 | Alpine Space Ventures | alpine space ventures | Organization | INVESTOR | vc | yes |
-| 3 | Bayern Kapit | bayern kapit | Organization | INVESTOR | state_vc | yes |
 | 3 | Bayern Kapital | bayern kapital | Company | INVESTOR | state_vc | yes |
 | 3 | Blockwall Management GmbH | blockwall management | Company | INVESTOR | vc | yes |
 | 3 | BOND LIMITED | bond | Company | INVESTOR | vc | yes |
 | 3 | BroadLight Capital | broadlight capital | Organization | INVESTOR | vc | yes |
+| 3 | Business Finland | business finland | Organization | GRANTOR | grant_public | no |
 | 3 | Business Finland Oy | business finland | Company | GRANTOR | grant_public | no |
 | 3 | CAMBRIDGE INNOVATION CAPITAL LIMITED | cambridge innovation capital | Company | INVESTOR | vc | yes |
 | 3 | CENTRAL TRUST SYNDICATE NUMBER ONE LIMITED | central trust syndicate number one | Company | INVESTOR | family_office_holding_syndicate | no |
@@ -102,7 +109,6 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 3 | DeepTech & Climate Fund | deeptech and climate fund | Company | INVESTOR | state_vc | yes |
 | 3 | DIGITALIS VENTURES, LLC | digitalis ventures | Company | INVESTOR | vc | yes |
 | 3 | ELI LILLY AND COMPANY | eli lilly and company | Company | INVESTOR | corporate | no |
-| 3 | European Commission | european commission | Company | GRANTOR | grant_public | no |
 | 3 | European Space Agency (ESA) | european space agency | Organization | GRANTOR | grant_public | no |
 | 3 | F-Prime Capital | f prime capital | Company | INVESTOR | vc | yes |
 | 3 | First Round Capital | first round capital | Company | INVESTOR | vc | yes |
@@ -129,12 +135,12 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 3 | Sequoia Capital | sequoia capital | Organization | INVESTOR | vc | yes |
 | 3 | Smash Capital Advisors L.P. | smash capital advisors l p | Company | INVESTOR | vc | yes |
 | 3 | Sofina SA | sofina | Company | INVESTOR | family_office_holding_syndicate | no |
+| 3 | Superhero Capital | superhero capital | Company | INVESTOR | vc | yes |
 | 3 | SV Health Investors | sv health investors | Company | INVESTOR | vc | yes |
+| 3 | Ten Eleven Ventures | ten eleven ventures | Organization | INVESTOR | vc | yes |
 | 3 | Tencent Holdings | tencent holdings | Organization | INVESTOR | corporate | no |
-| 3 | Tesi | tesi | Organization | INVESTOR | state_vc | yes |
 | 3 | Tiny.VC | tiny vc | Organization | INVESTOR | vc | yes |
 | 3 | UVC Partners | uvc partners | Company | INVESTOR | vc | yes |
-| 3 | Vsquared Ventures | vsquared ventures | Organization | INVESTOR | vc | yes |
 | 3 | World Innovation Lab (WiL) | world innovation lab | Company | INVESTOR | vc | yes |
 | 3 | XISTA Science Ventures | xista science ventures | Company | INVESTOR | vc | yes |
 | 2 | 42Cap | 42cap | Organization | INVESTOR | vc | yes |
@@ -142,6 +148,7 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 2 | Adara Ventures SICAR, S.C.A. | adara ventures sicar s c a | Company | INVESTOR | vc | yes |
 | 2 | AENU | aenu | Organization | INVESTOR | other | no |
 | 2 | AGLAE VENTURES | aglae ventures | Company | INVESTOR | vc | yes |
+| 2 | AI Startup Incubator | ai startup incubator | Organization | INVESTOR | accelerator | no |
 | 2 | Alumni Ventures LLC | alumni ventures | Company | INVESTOR | vc | yes |
 | 2 | Amathaon Capital | amathaon capital | Organization | INVESTOR | vc | yes |
 | 2 | Annika Falkengren | annika falkengren | Person | INVESTOR | angel | no |
@@ -151,6 +158,7 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 2 | ARAYA VENTURES LTD | araya ventures | Company | INVESTOR | vc | yes |
 | 2 | Arc Investors LLC | arc investors | Company | INVESTOR | vc | yes |
 | 2 | AXELEO CAPITAL | axeleo capital | Company | INVESTOR | vc | yes |
+| 2 | BackingMinds Invest AB | backingminds invest | Company | INVESTOR | vc | yes |
 | 2 | BARCLAYS PLC | barclays | Company | LENDER | lender | no |
 | 2 | Battery Ventures | battery ventures | Company | INVESTOR | vc | yes |
 | 2 | Benchmark | benchmark | Organization | INVESTOR | vc | yes |
@@ -160,7 +168,6 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 2 | BMW i Ventures | bmw i ventures | Company | INVESTOR | cvc | yes |
 | 2 | Bpifrance | bpifrance | Organization | INVESTOR | grant_public | no |
 | 2 | British Business Bank Plc | british business bank | Organization | INVESTOR | grant_public | no |
-| 2 | Business Finland | business finland | Organization | GRANTOR | grant_public | no |
 | 2 | Business Finland Oy | business finland | Company | LENDER | lender | no |
 | 2 | Cal Henderson | cal henderson | Person | INVESTOR | angel | no |
 | 2 | Cal Henderson | cal henderson | Organization | INVESTOR | angel | no |
@@ -180,6 +187,7 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 2 | EIT Food | eit food | Organization | INVESTOR | grant_public | no |
 | 2 | ENOVA SF | enova sf | Company | GRANTOR | grant_public | no |
 | 2 | Entrepreneurs First | entrepreneurs first | Organization | INVESTOR | accelerator | no |
+| 2 | EQT Ventures | eqt ventures | Organization | INVESTOR | vc | yes |
 | 2 | Evantic Capital | evantic capital | Organization | INVESTOR | vc | yes |
 | 2 | Evantic Capital, LLC | evantic capital | Company | INVESTOR | vc | yes |
 | 2 | Evolution Equity Partners | evolution equity partners | Company | INVESTOR | vc | yes |
@@ -188,13 +196,13 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 2 | Founderful | founderful | Company | INVESTOR | vc | yes |
 | 2 | General Catalyst | general catalyst | Organization | INVESTOR | vc | yes |
 | 2 | General Catalyst | general catalyst | Organization | INVESTOR | vc | yes |
+| 2 | General Catalyst Partners | general catalyst partners | Organization | INVESTOR | vc | yes |
 | 2 | GG1 | gg1 | Organization | INVESTOR | vc | yes |
 | 2 | Glilot Capital Partners | glilot capital partners | Company | INVESTOR | vc | yes |
 | 2 | GOLDMAN SACHS GROUP INC | goldman sachs group | Company | LENDER | lender | no |
-| 2 | Gorilla Capital | gorilla capital | Company | INVESTOR | vc | yes |
-| 2 | Greencode Ventures | greencode ventures | Organization | INVESTOR | vc | yes |
 | 2 | Grid.vc I Ky | grid vc i ky | Company | INVESTOR | vc | yes |
 | 2 | Guillermo Federico Rauch | guillermo federico rauch | Person | INVESTOR | angel | no |
+| 2 | Heartcore Capital A/S | heartcore capital a s | Company | INVESTOR | vc | yes |
 | 2 | Hjalmar Winbladh | hjalmar winbladh | Person | INVESTOR | angel | no |
 | 2 | HSBC Innovation Banking | hsbc innovation banking | Organization | INVESTOR | bank_insurer_pension_am | no |
 | 2 | ICG PLC | icg | Company | INVESTOR | other | no |
@@ -219,11 +227,14 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 2 | LUMO Labs | lumo labs | Organization | INVESTOR | vc | yes |
 | 2 | Magnetic Capital OÜ | magnetic capital | Company | INVESTOR | vc | yes |
 | 2 | Maki VC | maki vc | Organization | INVESTOR | vc | yes |
+| 2 | Maki.vc | maki vc | Company | INVESTOR | vc | yes |
+| 2 | Matadero QED | matadero qed | Organization | INVESTOR | other | no |
 | 2 | Matterwave Ventures Management GmbH | matterwave ventures management | Company | INVESTOR | vc | yes |
 | 2 | Mehdi Ghissassi | mehdi ghissassi | Person | INVESTOR | angel | no |
 | 2 | Mehdi Ghissassi | mehdi ghissassi | Person | INVESTOR | angel | no |
 | 2 | Menlo Ventures | menlo ventures | Company | INVESTOR | vc | yes |
 | 2 | Merantix Fund Management GmbH | merantix fund management | Company | INVESTOR | vc | yes |
+| 2 | MIG Nemovitostní otevřený podílový fond | mig nemovitostni otevreny podilovy fond | Company | INVESTOR | other | no |
 | 2 | MMC VENTURES GP LLP | mmc ventures gp | Company | INVESTOR | vc | yes |
 | 2 | Momentum Partners | momentum partners | Organization | INVESTOR | vc | yes |
 | 2 | Mosaic Ventures | mosaic ventures | Company | INVESTOR | vc | yes |
@@ -243,10 +254,12 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 2 | node.vc | node vc | Company | INVESTOR | vc | yes |
 | 2 | Nordic Science Investments | nordic science investments | Company | INVESTOR | vc | yes |
 | 2 | Norion Bank AB | norion bank | Company | LENDER | lender | no |
+| 2 | NP-Hard Ventures | np hard ventures | Company | INVESTOR | vc | yes |
 | 2 | NVentures LLC | nventures | Company | INVESTOR | cvc | yes |
 | 2 | OHB Venture Capital | ohb venture capital | Organization | INVESTOR | vc | yes |
 | 2 | Olivier Pomel | olivier pomel | Person | INVESTOR | angel | no |
 | 2 | Olli Kopakkala | olli kopakkala | Person | INVESTOR | angel | no |
+| 2 | Openocean Oy | openocean | Organization | INVESTOR | other | no |
 | 2 | Operator Collective | operator collective | Organization | INVESTOR | vc | yes |
 | 2 | Owl Ventures, LLC | owl ventures | Company | INVESTOR | vc | yes |
 | 2 | PALE BLUE DOT LTD | pale blue dot | Company | INVESTOR | vc | yes |
@@ -278,14 +291,12 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 2 | SquareOne | squareone | Organization | INVESTOR | vc | yes |
 | 2 | STARTUPLAB FOUNDERS AS | startuplab founders | Company | INVESTOR | other | no |
 | 2 | STIFTELSEN INDUSTRIFONDEN | stiftelsen industrifonden | Company | INVESTOR | state_vc | yes |
-| 2 | Superhero Capital | superhero capital | Company | INVESTOR | vc | yes |
 | 2 | Superlyst | superlyst | Organization | INVESTOR | vc | yes |
 | 2 | Supermoon Capital | supermoon capital | Organization | INVESTOR | vc | yes |
 | 2 | Sutter Hill Ventures | sutter hill ventures | Organization | INVESTOR | vc | yes |
 | 2 | SV Angel | sv angel | Organization | INVESTOR | family_office_holding_syndicate | no |
 | 2 | Swedbank | swedbank | Company | LENDER | lender | no |
 | 2 | Techstars | techstars | Organization | INVESTOR | accelerator | no |
-| 2 | Ten Eleven Ventures | ten eleven ventures | Organization | INVESTOR | vc | yes |
 | 2 | Tengelmann Ventures GmbH | tengelmann ventures | Company | INVESTOR | cvc | yes |
 | 2 | Tensor Ventures | tensor ventures | Organization | INVESTOR | vc | yes |
 | 2 | The Council Holding ApS | the council holding | Company | INVESTOR | grant_public | no |
@@ -316,11 +327,14 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | 20VC Fund | 20vc fund | Organization | INVESTOR | vc | yes |
 | 1 | 20VC Product | 20vc product | Organization | INVESTOR | vc | yes |
 | 1 | 2100 vc | 2100 vc | Organization | INVESTOR | vc | yes |
+| 1 | 2C Ventures | 2c ventures | Company | INVESTOR | vc | yes |
 | 1 | 4see ventures | 4see ventures | Company | INVESTOR | vc | yes |
 | 1 | 6 DEGREES CAPITAL LLP | 6 degrees capital | Company | INVESTOR | vc | yes |
+| 1 | 8 Media Ventures | 8 media ventures | Organization | INVESTOR | vc | yes |
 | 1 | 83North | 83north | Company | INVESTOR | vc | yes |
 | 1 | 8VC | 8vc | Company | INVESTOR | vc | yes |
 | 1 | a16z Speedrun | a16z speedrun | Organization | INVESTOR | vc | yes |
+| 1 | Aalto University Foundation | aalto university foundation | Organization | INVESTOR | university_research | no |
 | 1 | Abstract OÜ | abstract | Company | INVESTOR | other | no |
 | 1 | Access Biotechnology, Inc. | access biotechnology | Company | INVESTOR | other | no |
 | 1 | ACE Investments Partners GP S.à r.l. | ace investments partners gp s a r l | Company | INVESTOR | vc | yes |
@@ -350,6 +364,7 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | Alfvén & Didrikson | alfven and didrikson | Company | INVESTOR | other | no |
 | 1 | Alliance VC | alliance vc | Company | INVESTOR | vc | yes |
 | 1 | Alliance Ventures | alliance ventures | Organization | INVESTOR | vc | yes |
+| 1 | Almi Invest GreenTech AB | almi invest greentech | Company | INVESTOR | vc | yes |
 | 1 | ALSTIN Capital | alstin capital | Organization | INVESTOR | vc | yes |
 | 1 | ALVEN CAPITAL V | alven capital v | Company | INVESTOR | vc | yes |
 | 1 | ALYCHLO | alychlo | Company | INVESTOR | other | no |
@@ -364,6 +379,8 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | Andrew Yeung | andrew yeung | Person | INVESTOR | angel | no |
 | 1 | Andy Dunn | andy dunn | Person | INVESTOR | angel | no |
 | 1 | Andy Zhong | andy zhong | Person | INVESTOR | angel | no |
+| 1 | ANGEL COFUND | angel cofund | Company | INVESTOR | family_office_holding_syndicate | no |
+| 1 | Angel Invest | angel invest | Organization | INVESTOR | family_office_holding_syndicate | no |
 | 1 | Angel Invest | angel invest | Organization | INVESTOR | family_office_holding_syndicate | no |
 | 1 | Angel Invest B.V. | angel invest b v | Company | INVESTOR | family_office_holding_syndicate | no |
 | 1 | Ankaa Ventures | ankaa ventures | Organization | INVESTOR | vc | yes |
@@ -378,7 +395,9 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | Antti Pelkonen | antti pelkonen | Person | INVESTOR | angel | no |
 | 1 | Antti Tarakkamäki | antti tarakkamaki | Person | INVESTOR | angel | no |
 | 1 | Apollo Health Ventures | apollo health ventures | Company | INVESTOR | vc | yes |
+| 1 | Apteekkien Eläkekassa | apteekkien elakekassa | Company | INVESTOR | angel | no |
 | 1 | Ari Tulla | ari tulla | Person | INVESTOR | angel | no |
+| 1 | Arkwright X | arkwright x | Company | INVESTOR | other | no |
 | 1 | Arkwright, LLC | arkwright | Company | INVESTOR | other | no |
 | 1 | Armada Credit Partners Oy | armada credit partners | Company | LENDER | lender | no |
 | 1 | Arup Chakrabarti | arup chakrabarti | Person | INVESTOR | angel | no |
@@ -448,6 +467,7 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | Cal Henderson | cal henderson | Person | INVESTOR | angel | no |
 | 1 | Canaan Partners | canaan partners | Company | INVESTOR | vc | yes |
 | 1 | Cape Capital Oy | cape capital | Company | INVESTOR | vc | yes |
+| 1 | Carl Manneh | carl manneh | Person | INVESTOR | angel | no |
 | 1 | Carles Reina | carles reina | Person | INVESTOR | angel | no |
 | 1 | Carles Reina | carles reina | Organization | INVESTOR | angel | no |
 | 1 | CARMIGNAC GESTION | carmignac gestion | Company | INVESTOR | other | no |
@@ -472,8 +492,10 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | Christian Vollmann | christian vollmann | Person | INVESTOR | angel | no |
 | 1 | Christina Cacioppo | christina cacioppo | Person | INVESTOR | angel | no |
 | 1 | Christophe Frey | christophe frey | Organization | INVESTOR | angel | no |
+| 1 | Christopher North | christopher north | Person | INVESTOR | angel | no |
 | 1 | CITI VENTURES, INC. | citi ventures | Company | INVESTOR | vc | yes |
 | 1 | CLIMATE CLUB HOLDINGS PBC | climate club holdings pbc | Company | INVESTOR | family_office_holding_syndicate | no |
+| 1 | CMPC Ventures | cmpc ventures | Company | INVESTOR | vc | yes |
 | 1 | Co-founder | co founder | Organization | INVESTOR | other | no |
 | 1 | Codecademy, LLC | codecademy | Company | INVESTOR | other | no |
 | 1 | Cody Gakpo | cody gakpo | Organization | INVESTOR | angel | no |
@@ -488,7 +510,6 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | CORPUS VENTURES CORP. | corpus ventures | Company | INVESTOR | vc | yes |
 | 1 | CosmiCapital | cosmicapital | Organization | INVESTOR | other | no |
 | 1 | Counterview Capital | counterview capital | Organization | INVESTOR | vc | yes |
-| 1 | Course Corrected VC Fund I AB | course corrected vc fund i | Company | INVESTOR | vc | yes |
 | 1 | Craig Kallman | craig kallman | Person | INVESTOR | angel | no |
 | 1 | Crosspoint Capital | crosspoint capital | Organization | INVESTOR | vc | yes |
 | 1 | Crossventures | crossventures | Company | INVESTOR | vc | yes |
@@ -498,6 +519,7 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | CVX Ventures | cvx ventures | Company | INVESTOR | vc | yes |
 | 1 | D1 Capital Partners | d1 capital partners | Organization | INVESTOR | vc | yes |
 | 1 | D1 CAPITAL PARTNERS LP | d1 capital partners | Company | INVESTOR | vc | yes |
+| 1 | D4 Ventures | d4 ventures | Organization | INVESTOR | vc | yes |
 | 1 | Daniel Dhawan | daniel dhawan | Person | INVESTOR | angel | no |
 | 1 | Daniel Fried | daniel fried | Person | INVESTOR | angel | no |
 | 1 | Daniel Langkilde | daniel langkilde | Person | INVESTOR | angel | no |
@@ -518,8 +540,10 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | DEUTSCHE TELEKOM AG | deutsche telekom | Company | INVESTOR | corporate | no |
 | 1 | DG Daiwa Ventures | dg daiwa ventures | Company | INVESTOR | vc | yes |
 | 1 | Dig Ventures | dig ventures | Organization | INVESTOR | vc | yes |
+| 1 | Dirk Freise | dirk freise | Person | INVESTOR | angel | no |
 | 1 | DN Capital | dn capital | Organization | INVESTOR | vc | yes |
 | 1 | DNB ASA | dnb | Company | LENDER | lender | no |
+| 1 | Don Hoang | don hoang | Person | INVESTOR | angel | no |
 | 1 | Double Point Ventures LLC | double point ventures | Company | INVESTOR | vc | yes |
 | 1 | Dovesco | dovesco | Company | INVESTOR | other | no |
 | 1 | Dr Nicolas Burkardt | dr nicolas burkardt | Organization | INVESTOR | angel | no |
@@ -540,7 +564,9 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | Elad Gil | elad gil | Company | INVESTOR | angel | no |
 | 1 | ELAIA VENTURES | elaia ventures | Company | INVESTOR | vc | yes |
 | 1 | Elliot Stein Jr. | elliot stein jr | Organization | INVESTOR | other | no |
+| 1 | Elo Mutual Pension Insurance | elo mutual pension insurance | Organization | INVESTOR | bank_insurer_pension_am | no |
 | 1 | ELY-keskus | ely keskus | Organization | GRANTOR | grant_public | no |
+| 1 | Emad Zand | emad zand | Person | INVESTOR | angel | no |
 | 1 | Emergence Capital | emergence capital | Organization | INVESTOR | vc | yes |
 | 1 | Emil Kowalski | emil kowalski | Person | INVESTOR | angel | no |
 | 1 | Endeavor Catalyst Fund | endeavor catalyst fund | Organization | INVESTOR | vc | yes |
@@ -554,20 +580,23 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | EQT | eqt | Company | INVESTOR | growth_pe | yes |
 | 1 | EQT Growth | eqt growth | Organization | INVESTOR | growth_pe | yes |
 | 1 | EQT Life Sciences | eqt life sciences | Company | INVESTOR | growth_pe | yes |
-| 1 | EQT Ventures | eqt ventures | Organization | INVESTOR | vc | yes |
 | 1 | Eric Bernhardsson | eric bernhardsson | Person | INVESTOR | angel | no |
 | 1 | Eric French | eric french | Person | INVESTOR | angel | no |
 | 1 | Erik Engellau-Nilsson | erik engellau nilsson | Organization | INVESTOR | angel | no |
 | 1 | EU Innovation Fund | eu innovation fund | Organization | GRANTOR | grant_public | no |
 | 1 | EURAZEO | eurazeo | Company | INVESTOR | vc | yes |
 | 1 | EUREKA BFC | eureka bfc | Company | GRANTOR | grant_public | no |
+| 1 | European Commission (Digital Europe Programme, European Digital Innovation Hubs) | european commission | Organization | GRANTOR | grant_public | no |
 | 1 | European Defence Fund | european defence fund | Organization | GRANTOR | grant_public | no |
 | 1 | European Innovation Council | european innovation council | Organization | INVESTOR | grant_public | no |
 | 1 | European Investment Bank | european investment bank | Organization | LENDER | lender | no |
+| 1 | European Investment Bank | european investment bank | Organization | LENDER | lender | no |
 | 1 | European Investment Fund | european investment fund | Organization | INVESTOR | grant_public | no |
 | 1 | Evantic Capital Partners LLP | evantic capital partners | Company | INVESTOR | vc | yes |
+| 1 | Evolutionary Ventures LLC | evolutionary ventures | Company | INVESTOR | vc | yes |
 | 1 | EX-ANTE ADVISORS LLP | ex ante advisors | Company | INVESTOR | other | no |
 | 1 | Fabian Wesemann | fabian wesemann | Organization | INVESTOR | angel | no |
+| 1 | FABRIC VENTURES LLP | fabric ventures | Company | INVESTOR | vc | yes |
 | 1 | FACTORIAL FUNDS MANAGEMENT LLC | factorial funds management | Company | INVESTOR | vc | yes |
 | 1 | Failup Ventures | failup ventures | Organization | INVESTOR | vc | yes |
 | 1 | FASANARA CAPITAL LTD | fasanara capital | Company | LENDER | lender | no |
@@ -582,12 +611,14 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | Financière Saint James | financiere saint james | Organization | INVESTOR | angel | no |
 | 1 | FINANZA.TECH S.P.A. | finanza tech s p a | Company | INVESTOR | other | no |
 | 1 | Finnish government | finnish government | Organization | LENDER | lender | no |
+| 1 | Finnish State Treasury | finnish state treasury | Organization | LENDER | lender | no |
 | 1 | FinTech Collective | fintech collective | Company | INVESTOR | vc | yes |
 | 1 | Fiocruz (Brazil Ministry of Health) | fiocruz | Organization | GRANTOR | grant_public | no |
 | 1 | FIRDA AS | firda | Company | INVESTOR | other | no |
 | 1 | Firstminute Capital | firstminute capital | Organization | INVESTOR | vc | yes |
 | 1 | FIRSTMINUTE CAPITAL LLP | firstminute capital | Company | INVESTOR | vc | yes |
 | 1 | FIRSTPICK | firstpick | Company | INVESTOR | other | no |
+| 1 | FJ Labs | fj labs | Company | INVESTOR | vc | yes |
 | 1 | Flat Capital AB | flat capital | Organization | INVESTOR | vc | yes |
 | 1 | Flourish Ventures | flourish ventures | Organization | INVESTOR | vc | yes |
 | 1 | Fondation de l'École polytechnique | fondation de l ecole polytechnique | Organization | GRANTOR | grant_public | no |
@@ -654,7 +685,6 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | Hatcher+ | hatcher | Company | INVESTOR | other | no |
 | 1 | Hazel Savage | hazel savage | Person | INVESTOR | angel | no |
 | 1 | HealthCap | healthcap | Company | INVESTOR | vc | yes |
-| 1 | Heartcore Capital A/S | heartcore capital a s | Company | INVESTOR | vc | yes |
 | 1 | Heartfelt | heartfelt | Organization | INVESTOR | other | no |
 | 1 | Hedosophia | hedosophia | Organization | INVESTOR | growth_pe | yes |
 | 1 | Helantic Management GmbH | helantic management | Company | INVESTOR | other | no |
@@ -696,6 +726,8 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | Ilkka Hiidenheimo | ilkka hiidenheimo | Person | INVESTOR | angel | no |
 | 1 | Ilkka Kaikuvuo | ilkka kaikuvuo | Person | INVESTOR | angel | no |
 | 1 | Ilkka Paananen | ilkka paananen | Organization | INVESTOR | angel | no |
+| 1 | Illusian Capital Oy | illusian capital | Company | INVESTOR | vc | yes |
+| 1 | Ilmarinen | ilmarinen | Company | INVESTOR | other | no |
 | 1 | In-Q-Tel | in q tel | Company | INVESTOR | cvc | yes |
 | 1 | Inclimo | inclimo | Company | INVESTOR | other | no |
 | 1 | INFRAVIA CAPITAL PARTNERS | infravia capital partners | Company | INVESTOR | vc | yes |
@@ -707,6 +739,7 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | INTUITION A/S | intuition a s | Company | INVESTOR | other | no |
 | 1 | Inventure | inventure | Organization | INVESTOR | vc | yes |
 | 1 | Investinor | investinor | Organization | INVESTOR | state_vc | yes |
+| 1 | IPR.VC | ipr vc | Company | INVESTOR | vc | yes |
 | 1 | IRIS | iris | Company | INVESTOR | vc | yes |
 | 1 | Irwan Bello | irwan bello | Person | INVESTOR | angel | no |
 | 1 | IST cube | ist cube | Company | INVESTOR | other | no |
@@ -719,12 +752,14 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | Jakub Pawelski | jakub pawelski | Person | INVESTOR | angel | no |
 | 1 | Jan Bohl | jan bohl | Person | INVESTOR | angel | no |
 | 1 | Jan Goetz | jan goetz | Person | INVESTOR | angel | no |
+| 1 | Janne Rajala | janne rajala | Person | INVESTOR | angel | no |
 | 1 | Janus Henderson Investors | janus henderson investors | Company | INVESTOR | vc | yes |
 | 1 | Jason Eichenholz | jason eichenholz | Person | INVESTOR | angel | no |
 | 1 | Jason Goodman | jason goodman | Person | INVESTOR | angel | no |
 | 1 | Jean‑Luc Robert | jeanluc robert | Person | INVESTOR | angel | no |
 | 1 | Jeff Lawson | jeff lawson | Person | INVESTOR | angel | no |
 | 1 | Jefferson Life Sciences | jefferson life sciences | Organization | INVESTOR | angel | no |
+| 1 | Jiri Heinonen | jiri heinonen | Person | INVESTOR | angel | no |
 | 1 | JJ Fiegelman | jj fiegelman | Organization | INVESTOR | other | no |
 | 1 | JME Ventures | jme ventures | Company | INVESTOR | vc | yes |
 | 1 | Joel Klint Gustafsson | joel klint gustafsson | Person | INVESTOR | angel | no |
@@ -765,6 +800,7 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | Kaya VC | kaya vc | Company | INVESTOR | vc | yes |
 | 1 | Kenneth Blomqvist | kenneth blomqvist | Organization | INVESTOR | angel | no |
 | 1 | KENTA CAPITAL INVESTMENT MANAGEMENT, S.A. | kenta capital investment management s a | Company | INVESTOR | bank_insurer_pension_am | no |
+| 1 | Keskinäinen työeläkevakuutusyhtiö Varma | keskinainen tyoelakevakuutusyhtio varma | Company | INVESTOR | other | no |
 | 1 | Kevin Hartz | kevin hartz | Person | INVESTOR | angel | no |
 | 1 | Kfund | kfund | Organization | INVESTOR | vc | yes |
 | 1 | Kibo Ventures | kibo ventures | Company | INVESTOR | vc | yes |
@@ -779,9 +815,11 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | KNOLLWOOD INVESTMENT ADVISORY, LLC | knollwood investment advisory | Company | INVESTOR | vc | yes |
 | 1 | Knut Alicke | knut alicke | Person | INVESTOR | angel | no |
 | 1 | KORO CAPITAL AS | koro capital | Company | INVESTOR | vc | yes |
+| 1 | Kreos Capital | kreos capital | Company | LENDER | lender | no |
 | 1 | Kristian Lundkvist | kristian lundkvist | Organization | INVESTOR | angel | no |
 | 1 | Kulveer Taggar | kulveer taggar | Person | INVESTOR | angel | no |
 | 1 | Kurt Lauk | kurt lauk | Person | INVESTOR | angel | no |
+| 1 | Kvanted Ventures | kvanted ventures | Company | INVESTOR | vc | yes |
 | 1 | Kyuden International | kyuden international | Organization | INVESTOR | angel | no |
 | 1 | L-Bank | l bank | Organization | INVESTOR | bank_insurer_pension_am | no |
 | 1 | La Famiglia Boajé AB | la famiglia boaje | Company | INVESTOR | vc | yes |
@@ -796,6 +834,7 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | LEADBLOCK PARTNERS LIMITED | leadblock partners | Company | INVESTOR | vc | yes |
 | 1 | Leah Solivan | leah solivan | Person | INVESTOR | angel | no |
 | 1 | Leblon Capital | leblon capital | Organization | INVESTOR | vc | yes |
+| 1 | Leitmotif | leitmotif | Organization | INVESTOR | other | no |
 | 1 | Leopold König | leopold konig | Person | INVESTOR | angel | no |
 | 1 | LHV Bank AS | lhv bank | Company | LENDER | lender | no |
 | 1 | LifeLink Ventures | lifelink ventures | Organization | INVESTOR | vc | yes |
@@ -822,6 +861,7 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | MACQUARIE GROUP LIMITED | macquarie group | Company | LENDER | lender | no |
 | 1 | Macroscopic Ventures | macroscopic ventures | Company | INVESTOR | vc | yes |
 | 1 | MANGO CAPITAL INVESTMENTS LIMITED | mango capital investments | Company | INVESTOR | vc | yes |
+| 1 | Maniv Mobility A, LP | maniv mobility a | Company | INVESTOR | other | no |
 | 1 | Marcin Żukowski | marcin zukowski | Person | INVESTOR | angel | no |
 | 1 | Marianne Vikkula | marianne vikkula | Person | INVESTOR | angel | no |
 | 1 | Mario Götze | mario gotze | Organization | INVESTOR | angel | no |
@@ -829,12 +869,14 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | Mark Saroufim | mark saroufim | Person | INVESTOR | angel | no |
 | 1 | Marshall Wace Llp | marshall wace | Organization | INVESTOR | angel | no |
 | 1 | Martin Kassing | martin kassing | Person | INVESTOR | angel | no |
+| 1 | Martin Ostermayer | martin ostermayer | Person | INVESTOR | angel | no |
 | 1 | Mathilde Collin | mathilde collin | Person | INVESTOR | angel | no |
 | 1 | Matt Swulinski | matt swulinski | Person | INVESTOR | angel | no |
 | 1 | Matthias Gotta | matthias gotta | Person | INVESTOR | angel | no |
 | 1 | Matthias Müller | matthias muller | Person | INVESTOR | angel | no |
 | 1 | Matthieu Rouif | matthieu rouif | Person | INVESTOR | angel | no |
 | 1 | Mattias Miksche | mattias miksche | Person | INVESTOR | angel | no |
+| 1 | Maurice Eisenmann | maurice eisenmann | Person | INVESTOR | angel | no |
 | 1 | Max Jaderberg | max jaderberg | Person | INVESTOR | angel | no |
 | 1 | Max Jennings | max jennings | Person | INVESTOR | angel | no |
 | 1 | Max Stoiber | max stoiber | Person | INVESTOR | angel | no |
@@ -854,11 +896,13 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | MIRANA VENTURES LIMITED | mirana ventures | Company | INVESTOR | vc | yes |
 | 1 | MKT1 | mkt1 | Organization | INVESTOR | other | no |
 | 1 | MMC | mmc | Organization | INVESTOR | vc | yes |
+| 1 | Moaffak Ahmed | moaffak ahmed | Person | INVESTOR | angel | no |
 | 1 | Molten Ventures | molten ventures | Organization | INVESTOR | vc | yes |
 | 1 | Moneta VC | moneta vc | Organization | INVESTOR | vc | yes |
 | 1 | Montis S.à.R.L. | montis s a r l | Company | INVESTOR | other | no |
 | 1 | Monttu Ventures | monttu ventures | Organization | INVESTOR | vc | yes |
 | 1 | Moritz von der Linden | moritz von der linden | Organization | INVESTOR | other | no |
+| 1 | Morrow Ventures | morrow ventures | Company | INVESTOR | vc | yes |
 | 1 | Motu Ventures Management GmbH | motu ventures management | Company | INVESTOR | vc | yes |
 | 1 | MUFG Innovation Partners | mufg innovation partners | Company | INVESTOR | vc | yes |
 | 1 | MVP Ventures | mvp ventures | Organization | INVESTOR | vc | yes |
@@ -896,11 +940,12 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | Nordic Investment Bank | nordic investment bank | Company | LENDER | lender | no |
 | 1 | Norrsken VC | norrsken vc | Organization | INVESTOR | vc | yes |
 | 1 | Norwest Venture Partners | norwest venture partners | Organization | INVESTOR | vc | yes |
-| 1 | NP-Hard Ventures | np hard ventures | Company | INVESTOR | vc | yes |
 | 1 | NRW | nrw | Organization | INVESTOR | other | no |
 | 1 | NSI Nordic Science I | nsi nordic science i | Organization | INVESTOR | vc | yes |
 | 1 | Nvidia | nvidia | Company | INVESTOR | corporate | no |
+| 1 | OBERON CAPITAL CORPORATION | oberon capital | Company | INVESTOR | vc | yes |
 | 1 | OCCIDENT | occident | Organization | INVESTOR | other | no |
+| 1 | Oki Tag | oki tag | Person | INVESTOR | angel | no |
 | 1 | Ola Tørudbakken | ola trudbakken | Person | INVESTOR | angel | no |
 | 1 | Oliver Robsahm | oliver robsahm | Person | INVESTOR | angel | no |
 | 1 | Oliver Åstrand | oliver astrand | Organization | INVESTOR | angel | no |
@@ -914,6 +959,7 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | Oscar Werner | oscar werner | Person | INVESTOR | angel | no |
 | 1 | Oskari Saarenmaa | oskari saarenmaa | Person | INVESTOR | angel | no |
 | 1 | Ott Kaukver | ott kaukver | Person | INVESTOR | angel | no |
+| 1 | OurCrowd | ourcrowd | Company | INVESTOR | other | no |
 | 1 | Outfittery GmbH | outfittery | Company | INVESTOR | other | no |
 | 1 | Owl Rock | owl rock | Company | INVESTOR | angel | no |
 | 1 | Palmgren Angels | palmgren angels | Organization | INVESTOR | family_office_holding_syndicate | no |
@@ -924,10 +970,12 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | Paul Graham | paul graham | Person | INVESTOR | angel | no |
 | 1 | PayPal Ventures | paypal ventures | Organization | INVESTOR | vc | yes |
 | 1 | PC Rettig Impact & Co | pc rettig impact | Organization | INVESTOR | other | no |
+| 1 | Peak | peak | Organization | INVESTOR | other | no |
 | 1 | Peak XV Partners | peak xv partners | Organization | INVESTOR | vc | yes |
 | 1 | Per Christian Rettig & Co AB | per christian rettig | Company | INVESTOR | other | no |
 | 1 | PERPETUAL GROWTH HOLDING LP | perpetual growth holding | Company | INVESTOR | family_office_holding_syndicate | no |
 | 1 | PERPETUAL LIMITED | perpetual | Company | INVESTOR | other | no |
+| 1 | Peter Ort | peter ort | Person | INVESTOR | angel | no |
 | 1 | Peter Sarlin | peter sarlin | Person | INVESTOR | angel | no |
 | 1 | Peter Seligson | peter seligson | Person | INVESTOR | angel | no |
 | 1 | Pfizer Ventures | pfizer ventures | Organization | INVESTOR | vc | yes |
@@ -956,6 +1004,7 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | Prequel Ventures Management GmbH | prequel ventures management | Company | INVESTOR | vc | yes |
 | 1 | PreSeed Ventures A/S | preseed ventures a s | Company | INVESTOR | vc | yes |
 | 1 | PRIMEPULSE SE | primepulse | Company | INVESTOR | other | no |
+| 1 | Prodeko Ventures | prodeko ventures | Organization | INVESTOR | vc | yes |
 | 1 | Project A | project a | Organization | INVESTOR | vc | yes |
 | 1 | Project A Ventures GmbH & Co. KG | project a ventures | Company | INVESTOR | vc | yes |
 | 1 | PropTech1 Ventures | proptech1 ventures | Organization | INVESTOR | vc | yes |
@@ -965,6 +1014,7 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | PSV Hafnium Fund I | psv hafnium fund i | Organization | INVESTOR | vc | yes |
 | 1 | Purple Ventures s.r.o. | purple ventures s r o | Company | INVESTOR | vc | yes |
 | 1 | QED Investors | qed investors | Organization | INVESTOR | vc | yes |
+| 1 | QUA SERIES QCI A SERIES LLC OF QUA LLC | qua series qci a series llc of qua | Company | INVESTOR | other | no |
 | 1 | QUADRILLE CAPITAL | quadrille capital | Company | INVESTOR | vc | yes |
 | 1 | Quantonation | quantonation | Organization | INVESTOR | vc | yes |
 | 1 | RA Capital | ra capital | Company | INVESTOR | vc | yes |
@@ -973,9 +1023,11 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | Ralph Natter Berg | ralph natter berg | Person | INVESTOR | angel | no |
 | 1 | Rasty Turek | rasty turek | Person | INVESTOR | angel | no |
 | 1 | RE Ventures | re ventures | Organization | INVESTOR | vc | yes |
+| 1 | Reaktor Innovations Oy | reaktor innovations | Company | INVESTOR | other | no |
 | 1 | Recall Capital | recall capital | Organization | INVESTOR | vc | yes |
 | 1 | REDBUS VENTURES LTD | redbus ventures | Company | INVESTOR | vc | yes |
 | 1 | Redstone/VR Ventures | redstone vr ventures | Organization | INVESTOR | vc | yes |
+| 1 | Reetta Rajala | reetta rajala | Person | INVESTOR | angel | no |
 | 1 | Regent | regent | Company | INVESTOR | other | no |
 | 1 | Remote First Capital | remote first capital | Organization | INVESTOR | vc | yes |
 | 1 | Rendered VC | rendered vc | Organization | INVESTOR | vc | yes |
@@ -985,12 +1037,14 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | REVAIA | revaia | Company | INVESTOR | other | no |
 | 1 | Revel Venture Partners | revel venture partners | Organization | INVESTOR | vc | yes |
 | 1 | Revent | revent | Company | INVESTOR | vc | yes |
+| 1 | Ria Parppei | ria parppei | Person | INVESTOR | angel | no |
 | 1 | Richard Aberman | richard aberman | Person | INVESTOR | angel | no |
 | 1 | RICOH Innovation Fund | ricoh innovation fund | Organization | INVESTOR | vc | yes |
 | 1 | Rishabh Kaul | rishabh kaul | Person | INVESTOR | angel | no |
 | 1 | Risto Kalevi Siilasmaa | risto kalevi siilasmaa | Person | INVESTOR | angel | no |
 | 1 | Risto Siilasmaa | risto siilasmaa | Person | INVESTOR | angel | no |
 | 1 | RITMIR VENTURES LTD | ritmir ventures | Company | INVESTOR | vc | yes |
+| 1 | Robin Capital | robin capital | Organization | INVESTOR | vc | yes |
 | 1 | Robin Klein | robin klein | Person | INVESTOR | angel | no |
 | 1 | Rochefort | rochefort | Organization | LENDER | lender | no |
 | 1 | Roland Berger | roland berger | Person | INVESTOR | angel | no |
@@ -1002,11 +1056,13 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | RUJ VC | ruj vc | Company | INVESTOR | vc | yes |
 | 1 | RunwayVC | runwayvc | Organization | INVESTOR | vc | yes |
 | 1 | Sabrina Hahn | sabrina hahn | Person | INVESTOR | angel | no |
+| 1 | Salvia GmbH | salvia | Company | INVESTOR | other | no |
 | 1 | Sami Marttinen | sami marttinen | Person | INVESTOR | angel | no |
 | 1 | Samsung Next | samsung next | Company | INVESTOR | corporate | no |
 | 1 | Sander van de Rijdt | sander van de rijdt | Person | INVESTOR | angel | no |
 | 1 | Sands Capital Ventures | sands capital ventures | Organization | INVESTOR | vc | yes |
 | 1 | SANDWATER AS | sandwater | Company | INVESTOR | other | no |
+| 1 | Santo Venture Capital GmbH | santo venture capital | Company | INVESTOR | vc | yes |
 | 1 | Sapphire Ventures | sapphire ventures | Organization | INVESTOR | vc | yes |
 | 1 | SARIA Group | saria group | Organization | INVESTOR | other | no |
 | 1 | SARSIA MANAGEMENT AS | sarsia management | Company | INVESTOR | other | no |
@@ -1020,6 +1076,7 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | Scaleup Europe Fund | scaleup europe fund | Organization | INVESTOR | vc | yes |
 | 1 | ScaleWolf Management, UAB | scalewolf management | Company | INVESTOR | other | no |
 | 1 | Schwarz Digits | schwarz digits | Organization | INVESTOR | angel | no |
+| 1 | Schwarz Gruppe | schwarz gruppe | Organization | INVESTOR | angel | no |
 | 1 | SCOTTISH ENTERPRISE | scottish enterprise | Company | INVESTOR | other | no |
 | 1 | Scout Ventures | scout ventures | Company | INVESTOR | vc | yes |
 | 1 | Script Capital | script capital | Organization | INVESTOR | vc | yes |
@@ -1055,6 +1112,7 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | SoftBank Vision Fund 2 | softbank vision fund 2 | Organization | INVESTOR | growth_pe | yes |
 | 1 | Somersault Ventures | somersault ventures | Organization | INVESTOR | vc | yes |
 | 1 | Sony Financial Ventures | sony financial ventures | Organization | INVESTOR | vc | yes |
+| 1 | Sparkmind.vc | sparkmind vc | Organization | INVESTOR | vc | yes |
 | 1 | SR One Capital | sr one capital | Company | INVESTOR | vc | yes |
 | 1 | SSE Business Lab | sse business lab | Organization | INVESTOR | other | no |
 | 1 | Startup Wise Guys | startup wise guys | Company | INVESTOR | accelerator | no |
@@ -1067,18 +1125,21 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | Stephen Whitworth | stephen whitworth | Person | INVESTOR | angel | no |
 | 1 | Steve Newman | steve newman | Person | INVESTOR | angel | no |
 | 1 | Stewart Butterfield | stewart butterfield | Person | INVESTOR | angel | no |
+| 1 | Street Smart Capital | street smart capital | Organization | INVESTOR | vc | yes |
 | 1 | Sue Odio | sue odio | Person | INVESTOR | angel | no |
 | 1 | Summit Partners | summit partners | Company | INVESTOR | growth_pe | yes |
 | 1 | SUPER MICRO COMPUTER, INC. | super micro computer | Company | INVESTOR | other | no |
 | 1 | Superangel OÜ | superangel | Company | INVESTOR | family_office_holding_syndicate | no |
 | 1 | Superlative | superlative | Organization | INVESTOR | vc | yes |
 | 1 | SWANLAAB VENTURE FACTORY S.G.E.I.C., S.A. | swanlaab venture factory s g e i c s a | Company | INVESTOR | vc | yes |
+| 1 | Symbia VC | symbia vc | Company | INVESTOR | vc | yes |
 | 1 | Taavet Hinrikus | taavet hinrikus | Person | INVESTOR | angel | no |
 | 1 | Tapestry VC | tapestry vc | Organization | INVESTOR | vc | yes |
 | 1 | Tapio Tolvanen | tapio tolvanen | Person | INVESTOR | angel | no |
 | 1 | Tekedia Capital | tekedia capital | Organization | INVESTOR | vc | yes |
 | 1 | TEKNE S.R.L. | tekne s r l | Company | INVESTOR | other | no |
 | 1 | TENACITY CAPITAL, LLC | tenacity capital | Company | INVESTOR | vc | yes |
+| 1 | Tencent | tencent | Company | INVESTOR | other | no |
 | 1 | Tencent Holdings Ltd | tencent holdings | Company | INVESTOR | corporate | no |
 | 1 | TenNine.VC | tennine vc | Organization | INVESTOR | vc | yes |
 | 1 | Tera Ventures I Usaldusfond | tera ventures i usaldusfond | Company | INVESTOR | vc | yes |
@@ -1096,6 +1157,7 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | Thomas Wolf | thomas wolf | Person | INVESTOR | angel | no |
 | 1 | Thomas Wolf | thomas wolf | Person | INVESTOR | angel | no |
 | 1 | Thomas Wolf | thomas wolf | Person | INVESTOR | angel | no |
+| 1 | Timo Hentunen | timo hentunen | Person | INVESTOR | angel | no |
 | 1 | Timo Soininen | timo soininen | Person | INVESTOR | angel | no |
 | 1 | Tine Tomažič | tine tomazic | Organization | INVESTOR | angel | no |
 | 1 | Tiny VC | tiny vc | Organization | INVESTOR | vc | yes |
@@ -1105,6 +1167,7 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | TK Ventures | tk ventures | Organization | INVESTOR | vc | yes |
 | 1 | Tobias Hedlund | tobias hedlund | Person | INVESTOR | angel | no |
 | 1 | Tobias Schütt | tobias schutt | Person | INVESTOR | angel | no |
+| 1 | Tofino B.V. | tofino b v | Company | INVESTOR | other | no |
 | 1 | Tom Sakofall | tom sakofall | Person | INVESTOR | angel | no |
 | 1 | Tomas von Rettig | tomas von rettig | Person | INVESTOR | angel | no |
 | 1 | Tomasz Karwatka | tomasz karwatka | Person | INVESTOR | angel | no |
@@ -1125,11 +1188,14 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | Urbanite Transcend Fund 1, LLC | urbanite transcend fund 1 | Company | INVESTOR | vc | yes |
 | 1 | V Pappas | v pappas | Person | INVESTOR | angel | no |
 | 1 | Vaens Oy | vaens | Company | INVESTOR | other | no |
+| 1 | Valion Eläkekassa | valion elakekassa | Company | INVESTOR | angel | no |
 | 1 | Varengold Bank AG | varengold bank | Organization | LENDER | lender | no |
+| 1 | Varma Mutual Pension Insurance Co | varma mutual pension insurance | Organization | INVESTOR | bank_insurer_pension_am | no |
 | 1 | vdk bank | vdk bank | Company | INVESTOR | bank_insurer_pension_am | no |
 | 1 | Veikko Laine Oy | veikko laine | Company | INVESTOR | other | no |
 | 1 | VentureFriends | venturefriends | Organization | INVESTOR | vc | yes |
 | 1 | Vereinigte Volksbank Raiffeisenbank eG | vereinigte volksbank raiffeisenbank eg | Organization | LENDER | lender | no |
+| 1 | Vestas Ventures | vestas ventures | Organization | INVESTOR | vc | yes |
 | 1 | Viešoji Įstaiga "Startuolių Platforma" | viesoji istaiga startuoliu platforma | Organization | GRANTOR | grant_public | no |
 | 1 | Vijay Sharma | vijay sharma | Person | INVESTOR | angel | no |
 | 1 | Ville Vesterinen | ville vesterinen | Organization | INVESTOR | angel | no |
@@ -1138,6 +1204,7 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | Visionaries Club | visionaries club | Organization | INVESTOR | vc | yes |
 | 1 | Visionaries Club | visionaries club | Organization | INVESTOR | vc | yes |
 | 1 | Visionaries Club GmbH | visionaries club | Company | INVESTOR | vc | yes |
+| 1 | VITO Ventures Fonds I GmbH & Co KG | vito ventures fonds i | Company | INVESTOR | vc | yes |
 | 1 | VNV Global AB (publ) | vnv global | Company | INVESTOR | vc | yes |
 | 1 | Volvo Group Venture Capital AB | volvo group venture capital | Company | INVESTOR | cvc | yes |
 | 1 | VOYAGERS.IO LIMITED | voyagers io | Company | INVESTOR | other | no |
@@ -1146,10 +1213,12 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | Wave Ventures | wave ventures | Organization | INVESTOR | vc | yes |
 | 1 | Weekend Fund | weekend fund | Organization | INVESTOR | vc | yes |
 | 1 | WHALE ROCK CAPITAL MANAGEMENT LLC | whale rock capital management | Company | INVESTOR | vc | yes |
+| 1 | Winbond Electronics | winbond electronics | Organization | INVESTOR | angel | no |
 | 1 | Wind OÜ | wind | Company | INVESTOR | other | no |
 | 1 | WINTERMUTE VENTURES LIMITED | wintermute ventures | Company | INVESTOR | vc | yes |
 | 1 | WISKI CAPITAL AS | wiski capital | Company | INVESTOR | vc | yes |
 | 1 | Worklife Ventures Management, LLC | worklife ventures management | Company | INVESTOR | vc | yes |
+| 1 | World Fund | world fund | Company | INVESTOR | vc | yes |
 | 1 | Xavier Niel | xavier niel | Person | INVESTOR | angel | no |
 | 1 | Xora Innovation | xora innovation | Company | INVESTOR | vc | yes |
 | 1 | XTX Ventures | xtx ventures | Organization | INVESTOR | vc | yes |
@@ -1159,11 +1228,13 @@ Every non-issuer participant in rounds since 2022-01-01 in the database, with th
 | 1 | YG CAPITAL | yg capital | Company | INVESTOR | vc | yes |
 | 1 | Yinon Costica | yinon costica | Person | INVESTOR | angel | no |
 | 1 | York IE | york ie | Organization | INVESTOR | vc | yes |
+| 1 | Youngme Moon | youngme moon | Person | INVESTOR | angel | no |
 | 1 | Zach Abrams | zach abrams | Person | INVESTOR | angel | no |
 | 1 | ZEISS Ventures | zeiss ventures | Organization | INVESTOR | vc | yes |
 | 1 | Zenith Capital Befektetési Korlátolt Felelősségű Társaság | zenith capital befektetesi korlatolt felelossegu tarsasag | Company | INVESTOR | vc | yes |
 | 1 | Zeno Rocha | zeno rocha | Person | INVESTOR | angel | no |
 | 1 | Zero Prime Ventures | zero prime ventures | Organization | INVESTOR | vc | yes |
+| 1 | Zhao Hanbo | zhao hanbo | Person | INVESTOR | angel | no |
 | 1 | ZÜRCHER KANTONALBANK | zurcher kantonalbank | Company | INVESTOR | other | no |
 | 1 | Éléonore Crespo | eleonore crespo | Person | INVESTOR | angel | no |
 | 1 | 스마일게이트자산운용 |  | Company | INVESTOR | other | no |

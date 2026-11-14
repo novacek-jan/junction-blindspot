@@ -66,3 +66,45 @@ def display(name: Optional[str], known: Optional[dict] = None, entity_id: Option
     if known and entity_id and entity_id in known:
         return known[entity_id]
     return brand_name(name)
+
+
+# ------------------------------------------------------------------ investor display names
+
+VEHICLE_TAIL = re.compile(r"\s+(?:(?i:(?:venture\s+)?fund)\s+)?(?:[IVX]{1,4}|\d{1,2})$")
+INVESTOR_SUFFIXES = LEGAL_SUFFIXES | {"ky", "oy", "oyj", "ab", "ou", "oü", "aps", "a/s", "k/s", "as", "sro", "s.r.o",
+                                      "llc", "ltd", "limited", "gmbh", "kommanditbolag", "lp", "llp", "sa", "sarl",
+                                      "bv", "nv", "inc", "co", "kg", "ug", "plc", "ag", "spa", "srl", "management"}
+
+
+def _ascii(s: str) -> str:
+    import unicodedata
+    return unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode()
+
+
+def _strip_investor_tail(name: str) -> str:
+    tokens = name.split()
+    while len(tokens) > 1:
+        tokens[-1] = tokens[-1].rstrip(",;")
+        bare = re.sub(r"[^a-z/]", "", _ascii(tokens[-1]).lower())
+        if bare in INVESTOR_SUFFIXES or tokens[-1] in ("&", "-", ",", "Co."):
+            tokens.pop()
+            continue
+        joined = " ".join(tokens)
+        cut = VEHICLE_TAIL.sub("", joined)
+        if cut != joined and cut.strip():
+            tokens = cut.split()
+            continue
+        break
+    return _TRAILING.sub("", " ".join(tokens)).strip() or name
+
+
+def investor_display(name: Optional[str], known: Optional[dict] = None, entity_id: Optional[str] = None) -> Optional[str]:
+    """Clean investor name for display: brand instead of an upper-case legal name, legal suffixes (GmbH, Oy, AB,
+    OÜ, s.r.o., ApS, A/S, LLC, Ltd, Ky, ...), a trailing 'Management' and fund-vehicle tails ('Fund IV', 'II')
+    removed, and vehicles of one fund merged through vc_lists.INVESTOR_ALIASES."""
+    if not name:
+        return name
+    from vc_lists import INVESTOR_ALIASES
+    base = display(name, known, entity_id) or name
+    cleaned = _strip_investor_tail(re.sub(r"\s*\(.*?\)\s*$", "", base))
+    return INVESTOR_ALIASES.get(normalize_name(cleaned), cleaned)

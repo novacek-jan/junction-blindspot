@@ -1,6 +1,6 @@
 # Lifeline Ventures: rounds counted for the thesis
 
-Basis rounds since 2022 (de-duplicated, European companies): **11**. Thesis stages: PRE_SEED, SEED, SERIES_A. Countries: Denmark, Finland, Iceland, Norway, Sweden.
+Basis rounds since 2022 (de-duplicated, European companies): **12**. Thesis stages: PRE_SEED, SEED, SERIES_A. Countries: Denmark, Finland, Iceland, Norway, Sweden.
 Rounds reaching Lifeline only via Lifeline Ventures AB: **5**.
 
 A round is flagged **AB only** when Lifeline appears in it only through the Swedish entity "Lifeline Ventures AB" (Cala links it to Finnish rounds; see backend/funds.py).
@@ -9,6 +9,7 @@ A round is flagged **AB only** when Lifeline appears in it only through the Swed
 |---|---|---|---|---|---|---|
 | Huuva Oy | Finland | 2022-06-01 | PRE_SEED | Lifeline Ventures | [invesdor.com](https://www.invesdor.com/rounds/b5b32c41-f6f0-4595-8ef0-5cae1d535e42) PRIMARY |  |
 | Synergi | Finland | 2022-11-23 | PRE_SEED | Lifeline Ventures | [arcticstartup.com](https://arcticstartup.com/?p=101041) PRESS |  |
+| Measur Oy | Finland | 2023-09-01 | PRE_SEED | Lifeline Ventures | [avoindata.prh.fi](https://avoindata.prh.fi/opendata-registerednotices-api/v3/2820461-1) FILING |  |
 | Photoncycle | Norway | 2024-04-02 | SEED | Lifeline Ventures AB | [photoncycle.com](https://www.photoncycle.com/en/news/photoncycle-closes-seed-round) PRIMARY | **AB only** |
 | Nextinox | Finland | 2024-06-02 | SEED | Lifeline Ventures | [nordic9.com](https://nordic9.com/news/nextinox-to-add-capital-funding-from-nordic-science-investments-in-finland) AGGREGATOR |  |
 | Synergi | Finland | 2024-10-08 | SEED | Lifeline Ventures | [eu-startups.com](https://www.eu-startups.com/2024/10/helsinki-based-synergi-raises-e2-million-to-plug-european-homes-and-utilities-into-flexibility-markets/) PRESS |  |

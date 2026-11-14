@@ -72,7 +72,7 @@ def build_csv(fund: dict, csv_path: Path) -> None:
         rows.append((c["name"], audit.normalize_domain(c["website"]) or "", "invested", seen.isoformat()))
     n_own = len(rows)
     # 2. A plausible share of the market the fund did see: mostly passed, some still in review.
-    empty = audit.run_audit(fund["id"], [], "company,website,status,date\n")
+    empty = audit.run_audit(fund["id"], [], "company,website,status,date\n", briefing_mode="none")
     deals = sorted((d for d in empty["never_seen"] if d["company_id"] not in own), key=lambda d: d["company_id"])
     rng.shuffle(deals)
     picked = deals[: round(len(deals) * SHARE_IN_PIPELINE)]
@@ -100,7 +100,7 @@ def build_demo(slug: str, fund_name: str, regen_csv: bool, news: bool) -> dict:
     p = paths(slug)
     if regen_csv or not p["pipeline"].exists():
         build_csv(fund, p["pipeline"])
-    result = audit.run_audit(fund["id"], [], p["pipeline"].read_text())
+    result = audit.run_audit(fund["id"], [], p["pipeline"].read_text(), briefing_attempts=3)   # offline: retry
     assert result["simulated_crm"] is True, "demo CSV must carry the SIMULATED marker"
     missing = [d["name"] for d in result["never_seen"] if not d["round"]["sources"]]
     assert not missing, f"blind spots without a Cala source: {missing}"

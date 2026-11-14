@@ -28,6 +28,7 @@ from fastapi.exceptions import RequestValidationError  # noqa: E402
 from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
 from fastapi.responses import JSONResponse, Response  # noqa: E402
 from starlette.exceptions import HTTPException as StarletteHTTPException  # noqa: E402
+from starlette.concurrency import run_in_threadpool  # noqa: E402
 from starlette.formparsers import MultiPartParser  # noqa: E402
 
 import audit  # noqa: E402
@@ -423,8 +424,9 @@ async def run_audit(request: Request):
         if not db.available():
             raise db.DBUnavailable()
         try:
-            return audit.run_audit_rows(fields["fund_id"], fields["peer_ids"][:50], rows, table["simulated"],
-                                        fields["fingerprint"])
+            # In a worker thread: the briefing may wait up to 20 s on Claude and must not block other requests.
+            return await run_in_threadpool(audit.run_audit_rows, fields["fund_id"], fields["peer_ids"][:50], rows,
+                                           table["simulated"], fields["fingerprint"])
         except audit.NotFound:
             raise ApiError(404, "not_found", "fund or peer not found")
     finally:
