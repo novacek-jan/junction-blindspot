@@ -6,7 +6,7 @@ import { AppShell } from "@/components/AppShell";
 import { FundSearch } from "@/components/FundSearch";
 import { ProfileCard } from "@/components/ProfileCard";
 import { Icon } from "@/components/Icon";
-import { getFundProfile, runAudit } from "@/lib/api";
+import { ApiError, ERROR_MESSAGES, getFundProfile, runAudit } from "@/lib/api";
 import { clearAudit, saveAudit } from "@/lib/auditStore";
 import type { FundProfile, FundSearchResult, OrgRef } from "@/lib/types";
 
@@ -26,8 +26,18 @@ export default function StartPage() {
   const [csv, setCsv] = useState<File | null>(null);
   const [dragOver, setDragOver] = useState(false);
   const [running, setRunning] = useState<"audit" | "demo" | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setErrorState] = useState<{ message: string; offerDemo: boolean } | null>(null);
+  // Access code for a real audit: React state only (never localStorage, sessionStorage or the URL).
+  const [accessCode, setAccessCode] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
+  const accessRef = useRef<HTMLInputElement>(null);
+
+  function setError(e: unknown) {
+    if (e == null) return setErrorState(null);
+    if (typeof e === "string") return setErrorState({ message: e, offerDemo: false });
+    if (e instanceof ApiError) return setErrorState({ message: e.message, offerDemo: e.kind === "unavailable" });
+    setErrorState({ message: ERROR_MESSAGES.other, offerDemo: false });
+  }
 
   async function selectFund(f: FundSearchResult) {
     setFund(f);
@@ -41,7 +51,7 @@ export default function StartPage() {
       setProfile(p);
       setPeers(p.suggested_peers);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Could not load the fund profile.");
+      setError(e);
     } finally {
       setProfileLoading(false);
     }
@@ -86,12 +96,13 @@ export default function StartPage() {
     setRunning("audit");
     setError(null);
     try {
-      const audit = await runAudit({ fundId: fund!.id, peerIds: peers.map((p) => p.id), crmCsv: csv! });
+      const audit = await runAudit({ fundId: fund!.id, peerIds: peers.map((p) => p.id), crmCsv: csv!, accessCode });
       saveAudit(audit);
       router.push("/results");
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Something went wrong.");
+      setError(e);
       setRunning(null);
+      if (e instanceof ApiError && e.kind === "auth") accessRef.current?.focus();
     }
   }
 
@@ -250,10 +261,43 @@ export default function StartPage() {
           </div>
         ) : null}
 
+        {/* Access code: only part of the real-audit flow, never the demo */}
+        {profile ? (
+          <div className="animate-fade-in flex flex-col gap-2">
+            <label htmlFor="access-code" className="flex items-center justify-between">
+              <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Access code</span>
+              <span className="text-[11px] text-slate-400">Optional · required for real audits on the live backend</span>
+            </label>
+            <input
+              id="access-code"
+              ref={accessRef}
+              type="password"
+              autoComplete="off"
+              spellCheck={false}
+              value={accessCode}
+              onChange={(e) => setAccessCode(e.target.value)}
+              placeholder="Enter the code you were given"
+              className="h-10 w-full max-w-xs rounded-lg border border-slate-200 bg-white px-3 text-sm text-ink outline-none transition-all placeholder:text-slate-400 focus:border-ink focus:shadow-[0_0_0_2px_rgba(2,132,199,0.15)]"
+            />
+          </div>
+        ) : null}
+
         {error ? (
-          <div role="alert" className="flex items-start gap-2 rounded-lg border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-800">
-            <Icon name="warning" className="mt-0.5 size-4 shrink-0" />
-            {error}
+          <div role="alert" className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-800">
+            <span className="flex items-start gap-2">
+              <Icon name="warning" className="mt-0.5 size-4 shrink-0" />
+              {error.message}
+            </span>
+            {error.offerDemo ? (
+              <button
+                type="button"
+                onClick={startDemo}
+                className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-sky-200 bg-sky-100 px-3 text-xs font-semibold text-sky-700 hover:bg-sky-200/70"
+              >
+                <Icon name="sparkle" className="size-3.5" />
+                Run the demo
+              </button>
+            ) : null}
           </div>
         ) : null}
 

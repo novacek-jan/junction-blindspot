@@ -9,7 +9,7 @@ import { BlindSpots } from "@/components/BlindSpots";
 import { DealsTable } from "@/components/DealsTable";
 import { DealPanel } from "@/components/DealPanel";
 import { Icon } from "@/components/Icon";
-import { getDemoAudit } from "@/lib/api";
+import { ApiError, getDemoAudit } from "@/lib/api";
 import { loadAudit, saveAudit } from "@/lib/auditStore";
 import type { Audit, NeverSeenDeal } from "@/lib/types";
 
@@ -35,7 +35,11 @@ export default function ResultsPage() {
         saveAudit(a);
         setAudit(a);
       })
-      .catch((e) => !cancelled && setError(e instanceof Error ? e.message : "Could not load the audit."));
+      .catch((e) => {
+        if (cancelled) return;
+        // The demo itself failed here, so don't suggest "try the demo".
+        setError(e instanceof ApiError && e.kind === "unavailable" ? "Backend unavailable. Please try again in a moment." : e instanceof Error ? e.message : "Could not load the audit.");
+      });
     return () => {
       cancelled = true;
     };
