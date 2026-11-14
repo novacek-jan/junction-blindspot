@@ -2779,11 +2779,61 @@
  "briefing": {
   "insights": [
    {
+    "kind": "coverage",
+    "value": 11,
+    "total": 14,
+    "title": "Coverage is uneven across sectors",
+    "line": "You see 83% of biotechnology, 21% of internet and web services.",
+    "company_ids": [
+     "3d3edba6-f4d7-432b-80d3-d07872e11def",
+     "e2ca4eed-eb90-4bc8-ad76-f711dd5f80df",
+     "4a4f5af0-8919-414c-af16-8b976ba8ebc2",
+     "76689e08-32d7-4003-bb02-1f2b7bd3cf77",
+     "51e1482f-31e9-4f8c-a79e-71192f9545bb",
+     "393abcb1-cecf-4c33-b742-4f648261a98a",
+     "4e91b640-41bb-45f7-b82c-711a94a2e0e5",
+     "e628510b-d41c-439d-ac68-f6bbd966214b",
+     "b5431f33-ad55-44e4-87ed-3e791698e54a",
+     "7028e46d-9ffe-4972-84ee-2cfae31983e5",
+     "5dcfdc22-c000-43d1-b745-a9248a11a488"
+    ],
+    "investor_names": [],
+    "best_pct": 83,
+    "worst_pct": 21,
+    "best_industry": "Biotechnology",
+    "worst_industry": "Internet and web services"
+   },
+   {
+    "kind": "next_round",
+    "value": 11,
+    "total": 35,
+    "title": "Raising again soon",
+    "line": "11 of them last raised over a year ago; meet them first.",
+    "company_ids": [
+     "76689e08-32d7-4003-bb02-1f2b7bd3cf77",
+     "49a2e9fa-9824-4546-8b24-15eaf98e05b2",
+     "51e1482f-31e9-4f8c-a79e-71192f9545bb",
+     "057c7768-b724-44ef-b63d-e07f9b1a8bc0",
+     "3ee757f1-15c6-4f26-aafd-eba7953589a9",
+     "b488fe95-8f45-40be-ab57-f8f96da242fe",
+     "393abcb1-cecf-4c33-b742-4f648261a98a",
+     "09d7fa77-4315-4185-927b-af05e9fca8c3",
+     "4e91b640-41bb-45f7-b82c-711a94a2e0e5",
+     "6623017a-9e19-4729-a887-0a9ee38c1e3c",
+     "db82c519-cfd2-47e1-8db0-869988bb3d65"
+    ],
+    "investor_names": [],
+    "best_pct": null,
+    "worst_pct": null,
+    "best_industry": null,
+    "worst_industry": null
+   },
+   {
     "kind": "sourcing",
     "value": 8,
     "total": 35,
-    "title": "A sourcing gap in Nordic networks",
-    "line": "Lifeline Ventures and Innovestor backed 8 of 35 of them; you never co-invested.",
+    "title": "A sourcing gap",
+    "line": "Lifeline Ventures and Innovestor backed 8 of them; you never co-invested with either.",
     "company_ids": [
      "3254bcd3-da85-4b40-9ccc-7e9a9966d8a4",
      "3d3edba6-f4d7-432b-80d3-d07872e11def",
@@ -2797,47 +2847,15 @@
     "investor_names": [
      "Lifeline Ventures",
      "Innovestor"
-    ]
-   },
-   {
-    "kind": "theme",
-    "value": 4,
-    "total": 35,
-    "title": "Software for energy and industry",
-    "line": "Rotomate, Synergi, Engrate and Nala Earth sell AI software to energy and industrial operators.",
-    "company_ids": [
-     "057c7768-b724-44ef-b63d-e07f9b1a8bc0",
-     "3254bcd3-da85-4b40-9ccc-7e9a9966d8a4",
-     "98ff140a-f183-485a-8d7d-3e02bf137c9b",
-     "db82c519-cfd2-47e1-8db0-869988bb3d65"
     ],
-    "investor_names": []
-   },
-   {
-    "kind": "momentum",
-    "value": 12,
-    "total": 35,
-    "title": "Many already raised again",
-    "line": "12 of 35 have already closed a new round, so they move fast.",
-    "company_ids": [
-     "3254bcd3-da85-4b40-9ccc-7e9a9966d8a4",
-     "393abcb1-cecf-4c33-b742-4f648261a98a",
-     "3d3edba6-f4d7-432b-80d3-d07872e11def",
-     "3ee757f1-15c6-4f26-aafd-eba7953589a9",
-     "41f89a61-54ac-4068-82af-a2d2096efcfc",
-     "5466f036-ebe0-4171-ae24-643c83cfef6b",
-     "6623017a-9e19-4729-a887-0a9ee38c1e3c",
-     "740ec1be-1981-4b1d-a014-18f0a12c8fed",
-     "a98a18cc-854a-4357-b049-91585d4afb40",
-     "d2929f0c-d341-487c-a25c-52a1e0df01a2",
-     "db82c519-cfd2-47e1-8db0-869988bb3d65",
-     "dfc26dad-408b-4630-8a68-e490d2fbd786"
-    ],
-    "investor_names": []
+    "best_pct": null,
+    "worst_pct": null,
+    "best_industry": null,
+    "worst_industry": null
    }
   ],
   "model": "claude-sonnet-5-5",
-  "generated_at": "2026-11-14T18:03:07Z"
+  "generated_at": "2026-11-14T18:26:03Z"
  },
  "market_coverage": {
   "european_companies_screened": 2701,

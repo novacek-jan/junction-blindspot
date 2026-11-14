@@ -78,6 +78,7 @@ def client(tmp_path_factory):
 # Fields added to the contract after the frontend mocks were written (documented in docs/api-contract.md).
 ADDED_FIELDS = {
     "$": {"breakdown", "patterns", "briefing"},
+    "$.briefing.insights[]": {"best_pct", "worst_pct", "best_industry", "worst_industry"},
     "$.never_seen[].round.investors[]": {"is_vc"},
     "$.market_coverage": {"region", "region_countries", "region_qualifying_companies", "priority_country",
                           "priority_country_qualifying_companies"},
@@ -469,6 +470,9 @@ def test_vc_rule_market_and_patterns(client):
 # ---------------------------------------------------------------- briefing ("Why they slipped through")
 
 def _seed_briefing_data():
+    """Four never-seen Finnish seed companies. bs-1..bs-3 are also in ADVERTISING (own1's second industry), so
+    the thesis has two industries with >= 3 market companies: software (9 market, 4 in CRM: 44%) and
+    advertising (own1 invested + bs-1..bs-3: 25%)."""
     import db as dbm
     dbm.ALLOW_CREATE = True
     rows = [("bs-1", "Patent AI Oy", "AI for patent search", "SEED", ["new-vc"], 2),
@@ -476,14 +480,15 @@ def _seed_briefing_data():
             ("bs-3", "Compliance AI Oy", "AI for compliance checks", "SEED", ["new-vc", "other-vc"], 2),
             ("bs-4", "Boat Parts Oy", "Marine spare parts marketplace", "SEED", ["other-vc"], 1)]
     for cid, name, desc, label, vcs, n_rounds in rows:
+        inds = ["SOFTWARE_AND_SERVICES"] + (["ADVERTISING"] if cid != "bs-4" else [])
         dbm.upsert_company({"id": cid, "name": name, "website": f"https://{cid}.fi", "description": desc,
                             "country": "Finland", "founded": "2021", "funding_stage": label, "total_funding": 2e6,
-                            "total_funding_currency": "EUR", "industries": json.dumps(["SOFTWARE_AND_SERVICES"]),
+                            "total_funding_currency": "EUR", "industries": json.dumps(inds),
                             "sources": json.dumps(SRC), "fetched_at": 0})
         for k in range(n_rounds):
             dbm.upsert_round({"id": f"r-{cid}-{k}", "company_id": cid, "label": label, "amount": 1e6 + k,
-                              "currency": "EUR", "date": f"202{4 + k}-03-01", "conflated": 0, "conflation_reason": "",
-                              "sources": json.dumps(SRC)},
+                              "currency": "EUR", "date": f"202{4 + k}-03-0{1 + int(cid[-1])}", "conflated": 0,
+                              "conflation_reason": "", "sources": json.dumps(SRC)},
                              [{"entity_id": cid, "name": name, "role": "ISSUER"}] +
                              [{"entity_id": v, "name": {"new-vc": "Nordic Seed Capital Oy",
                                                        "other-vc": "BVF Venture Fund IV AB"}[v],
@@ -491,50 +496,82 @@ def _seed_briefing_data():
     dbm.ALLOW_CREATE = False
 
 
-def test_briefing_facts_and_fallback_without_key(client):
+@pytest.fixture
+def audit_day(monkeypatch):
+    """Audit date 2026-02-10: the next_round window is 2024-02-10..2025-02-10, so the companies whose latest
+    round is 2024-03-0x (bs-2, bs-4) are due; bs-1/bs-3 raised again in 2025-03."""
+    import briefing
+    from datetime import date
+    monkeypatch.setattr(briefing, "_today", lambda: date(2026, 2, 10))
+
+
+def test_briefing_facts_and_fallback_without_key(client, audit_day):
     _seed_briefing_data()
     a = post_audit(client).json()
     b = a["briefing"]
     assert b and b["model"] == "template"                      # no API key in tests: template text
-    kinds = [i["kind"] for i in b["insights"]]
-    assert kinds == [k for k in ("sourcing", "theme", "momentum") if k in kinds] and "theme" not in kinds
-    src = next(i for i in b["insights"] if i["kind"] == "sourcing")
+    assert [i["kind"] for i in b["insights"]] == ["coverage", "next_round", "sourcing"]
+    ins = {i["kind"]: i for i in b["insights"]}
     never_ids = {d["company_id"] for d in a["never_seen"]}
-    assert set(src["company_ids"]) <= never_ids and src["value"] == len(src["company_ids"]) >= 2
+    for i in b["insights"]:
+        assert set(i) == {"kind", "value", "total", "title", "line", "company_ids", "investor_names",
+                          "best_pct", "worst_pct", "best_industry", "worst_industry"}
+        assert i["value"] >= 2 and set(i["company_ids"]) <= never_ids
+        assert briefing_text_ok(i)
+    cov = ins["coverage"]
+    # software coverage depends on rows other tests add (44% on the base fixture); advertising is fixed
+    assert (cov["best_industry"], cov["worst_industry"], cov["worst_pct"]) == ("Software and services", "Advertising", 25)
+    assert cov["best_pct"] > 25
+    assert (cov["value"], cov["total"]) == (3, 4) and cov["company_ids"] == ["bs-3", "bs-1", "bs-2"]   # newest round first
+    assert cov["line"] == f"You see {cov['best_pct']}% of software and services, 25% of advertising."
+    nxt = ins["next_round"]
+    # bs-4 / bs-2 last raised 2024-03 (in the window); bs-1 / bs-3 raised again in 2025-03 (too recent)
+    assert {"bs-4", "bs-2"} <= set(nxt["company_ids"]) and not {"bs-1", "bs-3"} & set(nxt["company_ids"])
+    assert nxt["company_ids"].index("bs-4") < nxt["company_ids"].index("bs-2")   # newest first
+    assert nxt["value"] == len(nxt["company_ids"])
+    assert nxt["total"] == a["summary"]["never_seen"] and nxt["best_pct"] is None
+    src = ins["sourcing"]
+    assert src["value"] == len(src["company_ids"]) >= 2 and src["total"] == a["summary"]["never_seen"]
     assert "Nordic Seed Capital" in src["investor_names"]      # "Nordic Seed Capital Oy": legal suffix removed
     boat = next(d for d in a["never_seen"] if d["company_id"] == "bs-4")
     assert [i["name"] for i in boat["round"]["investors"]] == ["Butterfly Ventures"]   # "BVF Venture Fund IV AB"
-    mom = next(i for i in b["insights"] if i["kind"] == "momentum")
-    assert set(mom["company_ids"]) == {"bs-1", "bs-3"} and mom["value"] == 2   # raised again since 2022
-    for i in b["insights"]:
-        assert i["total"] == a["summary"]["never_seen"] and i["value"] >= 2
 
 
-def test_briefing_uses_model_text_only_when_valid(client, monkeypatch):
+def briefing_text_ok(i):
+    import briefing
+    names = tuple(i["investor_names"]) + tuple(x for x in (i["best_industry"], i["worst_industry"]) if x)
+    return briefing.text_ok(i["title"], i["line"], i["value"], i["total"], names, i["best_pct"], i["worst_pct"])
+
+
+def test_briefing_uses_model_text_only_when_valid(client, monkeypatch, audit_day):
     import briefing
     _seed_briefing_data()
     seen_payloads = []
 
     def fake(payload):
         seen_payloads.append(payload)
-        v = payload["insights"]["sourcing"]["value"]
-        return {"sourcing": {"title": "Seed funds you never meet", "line": f"They backed {v} of them before you looked."},
-                "theme": {"company_ids": ["bs-1", "bs-2", "bs-3", "not-a-real-id"], "title": "Vertical AI for experts",
-                          "line": "AI tools for patents, contracts and compliance work."},
-                "momentum": {"title": "They raised again", "line": "They closed 99 rounds already."}}  # 99: invalid
+        c = payload["insights"]["coverage"]
+        return {"coverage": {"title": "Advertising slips past you",
+                             "line": f"You see {c['best_pct']}% of software but {c['worst_pct']}% of advertising."},
+                "next_round": {"title": "Due again soon", "line": "They raised 18 months ago."},   # 18: invalid
+                "sourcing": {"title": "Seed funds you never meet", "line": "They backed most of them before you."}}
     monkeypatch.setenv("ANTHROPIC_API_KEY", "test")
     monkeypatch.setattr(briefing, "_call_model", fake)
     monkeypatch.setattr(briefing.db, "kv_get", lambda k: None)
     monkeypatch.setattr(briefing.db, "kv_put", lambda k, v: None)
     a = post_audit(client).json()
     ins = {i["kind"]: i for i in a["briefing"]["insights"]}
-    assert [i["kind"] for i in a["briefing"]["insights"]] == ["sourcing", "theme", "momentum"]
-    assert ins["sourcing"]["title"] == "Seed funds you never meet"              # valid model text kept
-    assert ins["theme"]["company_ids"] == ["bs-1", "bs-2", "bs-3"] and ins["theme"]["value"] == 3   # fake id dropped
-    assert ins["momentum"]["title"] == "They already raised again"             # invalid -> template
+    assert [i["kind"] for i in a["briefing"]["insights"]] == ["coverage", "next_round", "sourcing"]
+    c = seen_payloads[0]["insights"]["coverage"]
+    assert ins["coverage"]["line"] == f"You see {c['best_pct']}% of software but 25% of advertising."   # model text kept
+    assert ins["next_round"]["title"] == "Due for their next round"               # invalid -> template
+    assert ins["sourcing"]["title"] == "Seed funds you never meet"
     assert a["briefing"]["model"] == briefing.MODEL
-    # the CRM never reaches the model: no CRM-only company names in the payload
-    assert "Unrelated Startup" not in json.dumps(seen_payloads)
+    # the model gets computed facts only: no CRM rows, no company names or ids
+    sent = json.dumps(seen_payloads)
+    for leak in ("Unrelated Startup", "Market One", "Market Two", "Patent AI", "bs-1", "market-one.de"):
+        assert leak not in sent
+    assert set(seen_payloads[0]["insights"]) == {"coverage", "next_round", "sourcing"}
 
 
 def test_briefing_text_rules():
@@ -544,11 +581,34 @@ def test_briefing_text_rules():
     assert not briefing.text_ok("Seed funds", "They backed 7 of them.", 6, 16)                      # 7
     assert not briefing.text_ok("A title that is far too long here", "Fine.", 6, 16)                # > 6 words
     assert briefing.text_ok("20VC got there first", "20VC backed 6 of them.", 6, 16, names=("20VC",))
+    # coverage: the two percentages are allowed; "half" only when worst < 50 < best
+    assert briefing.text_ok("Software slips past you", "You see 80% of energy but 36% of software.", 9, 14,
+                            best_pct=80, worst_pct=36)
+    assert briefing.text_ok("Software slips past you", "You see most energy deals but under half of software.",
+                            9, 14, best_pct=80, worst_pct=36)
+    assert not briefing.text_ok("Software slips past you", "Under half of software deals reach you.", 9, 14,
+                                best_pct=45, worst_pct=36)
+    assert not briefing.text_ok("Software slips past you", "Under half of software deals reach you.", 9, 14)
+    assert not briefing.text_ok("Software slips past you", "You see 81% of energy deals.", 9, 14,
+                                best_pct=80, worst_pct=36)
 
 
 def test_briefing_templates_respect_word_limits():
     import briefing
-    long_names = {"kind": "sourcing", "value": 4, "investor_names": ["Icebreaker.vc", "Ugly Duckling Ventures"]}
-    for fact in (long_names, {"kind": "momentum", "value": 6, "investor_names": []}):
+    facts = [{"kind": "sourcing", "value": 4, "total": 19, "investor_names": ["Icebreaker.vc", "Ugly Duckling Ventures"]},
+             {"kind": "next_round", "value": 6, "total": 19, "investor_names": []},
+             {"kind": "coverage", "value": 9, "total": 14, "investor_names": [], "best_pct": 100, "worst_pct": 7,
+              "best_industry": "Internet and web services", "worst_industry": "Government and public admin"}]
+    for fact in facts:
         title, line = briefing.fallback_text(fact)
-        assert briefing.text_ok(title, line, fact["value"], 19, names=tuple(fact["investor_names"]))
+        names = tuple(fact["investor_names"]) + tuple(fact.get(k, "") for k in ("best_industry", "worst_industry"))
+        assert briefing.text_ok(title, line, fact["value"], fact["total"], names, fact.get("best_pct"),
+                                fact.get("worst_pct")), (title, line)
+
+
+def test_months_before():
+    import briefing
+    from datetime import date
+    assert briefing._months_before(date(2026, 11, 14), 12) == date(2025, 11, 14)
+    assert briefing._months_before(date(2026, 3, 31), 1) == date(2026, 2, 28)
+    assert briefing._months_before(date(2026, 1, 15), 24) == date(2024, 1, 15)
