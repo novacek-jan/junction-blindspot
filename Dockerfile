@@ -1,7 +1,9 @@
-# Blind Spot API. Build from the REPOSITORY ROOT (the image needs backend/ and data/):
-#   docker build -f backend/Dockerfile -t blindspot-api .
-#   docker run -p 8000:8000 --env-file .env blindspot-api
-# Only the files copied below enter the image (.env, *.db and logs/ never do).
+# Blind Spot API image. Lives at the repo root because Aiven Runtime uses the Dockerfile's folder
+# as the build context, and the image needs both backend/ and data/.
+#   docker build -t blindspot-api .
+#   docker run --rm -p 8000:8000 -e AUDIT_ACCESS_CODE=... -e ALLOWED_ORIGINS=http://localhost:3000 blindspot-api
+# Only the files copied below enter the image; .dockerignore also keeps .env, *.db, logs/,
+# frontend/, node_modules and .git out of the build context.
 FROM python:3.12-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \

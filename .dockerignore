@@ -1,0 +1,25 @@
+# Build context = repo root (see Dockerfile). Allow-list: send only what the image copies.
+*
+!backend/requirements.txt
+!backend/*.py
+!data/demo_audit.json
+!data/demo_profile.json
+!data/demo_deals.json
+
+# Explicit excludes (already covered by the allow-list; kept so they survive any future edit of it).
+.git
+.env
+.env.*
+**/.env
+**/.env.*
+*.db
+**/*.db
+**/*.db-wal
+**/*.db-shm
+**/*.db-journal
+logs/
+frontend/
+node_modules/
+**/node_modules/
+**/.venv/
+**/__pycache__/

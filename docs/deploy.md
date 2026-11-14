@@ -1,6 +1,6 @@
 # Deploying the Blind Spot API on Aiven Runtime
 
-Status: **prepared, not deployed.** The image is defined in `backend/Dockerfile` (python:3.12-slim, non-root, port 8000, healthcheck on `/api/health`).
+Status: **prepared, not deployed.** The image is defined in the root `Dockerfile` (python:3.12-slim, non-root, port 8000, healthcheck on `/api/health`). It sits at the repo root because Aiven Runtime always uses the Dockerfile's folder as the build context, and the image needs both `backend/` and `data/`. The root `.dockerignore` sends only the code and the demo JSON to the build, and explicitly excludes `.env`, `*.db`, `logs/`, `frontend/`, `node_modules` and `.git`.
 
 ## What runs on the server
 
@@ -28,9 +28,7 @@ These follow Aiven's [deploy apps](https://aiven.io/docs/products/runtime/deploy
 1. **Permissions.** Connecting GitHub needs the organization admin role, and deploying needs project manager, admin or `project:services:write`. To connect a GitHub *organization* you must be its owner. The repo `novacek-jan/junction-blindspot` is under a personal account, which also works.
 2. In your Aiven project, open **Runtime** and click **Deploy application**.
 3. **Connect GitHub**, then select Account `novacek-jan`, Repository `junction-blindspot`, Branch `main`. Click **Next**.
-4. **Select the manifest file `backend/Dockerfile`** and click **Scan**.
-   - *Check:* the build context must be the **repository root**, because the Dockerfile copies `backend/` and `data/`. In the Aiven API this is `build_path: "./"` (the default) with `containerfile_path: "./backend/Dockerfile"`.
-   - If the console builds from `backend/` instead, the build fails at `COPY data/...`. Then use the API/CLI with those two fields, or ask us to add a root-level Dockerfile.
+4. **Select the manifest file `Dockerfile`** (the one at the repo root) and click **Scan**. The build context is then the repo root, which is what the image needs.
 5. **Edit the application** (the edit control on the scan result):
    - Name: e.g. `blindspot-api`.
    - Port: `8000`, protocol HTTP. It is detected from `EXPOSE 8000`; confirm it.
@@ -67,7 +65,7 @@ Pushes do **not** deploy automatically. Open the application, then **Overview â†
 ## Local container test (needs Docker, not available on the dev Mac at the time of writing)
 
 ```bash
-docker build -f backend/Dockerfile -t blindspot-api .
+docker build -t blindspot-api .
 docker run --rm -p 8000:8000 -e AUDIT_ACCESS_CODE=local -e ALLOWED_ORIGINS=http://localhost:3000 blindspot-api
 curl localhost:8000/api/health
 ```
