@@ -49,27 +49,45 @@ def demo_fund_and_peers() -> tuple[dict, list[str]]:
 
 
 def build_csv(fund: dict, peers: list[str]) -> None:
+    """SIMULATED CRM: the fund's real known deals (invested) + SHARE_IN_PIPELINE of the peer market
+    (passed / in_review only: we never invent investments) + out-of-market noise rows."""
     rng = random.Random(SEED)
-    # Market with an empty CRM = every in-thesis peer deal the fund could have seen.
+    rows = []
+    # 1. The fund's own known deals: its Cala portfolio companies with a dated round since 2023.
+    own = db.fund_portfolio(fund["id"])
+    comps = db.companies(own)
+    latest: dict[str, str] = {}
+    for r in db.rounds_for_companies(own):
+        if r["date"] and r["date"] >= audit.MARKET_FROM and not audit.is_conflated(r):
+            latest[r["company_id"]] = max(latest.get(r["company_id"], ""), r["date"])
+    for cid, d in sorted(latest.items()):
+        c = comps[cid]
+        seen = date.fromisoformat(d) - timedelta(days=rng.randint(30, 150))
+        rows.append((c["name"], audit.normalize_domain(c["website"]) or "", "invested", seen.isoformat()))
+    n_own = len(rows)
+    # 2. A plausible share of the peer market the fund did see: mostly passed, some still in review.
     empty = audit.run_audit(fund["id"], peers, "company,website,status,date\n")
-    deals = [d for d in empty["never_seen_deals"] if not d["conflated"]]
+    deals = [d for d in empty["never_seen_deals"] if not d["conflated"] and d["company_id"] not in own]
+    deals.sort(key=lambda d: d["company_id"])
     rng.shuffle(deals)
     picked = deals[: round(len(deals) * SHARE_IN_PIPELINE)]
-    rows = []
-    for i, d in enumerate(picked):
-        status = "invested" if i < max(1, len(picked) // 12) else ("passed" if rng.random() < 0.65 else "in_review")
+    for d in picked:
+        status = "passed" if rng.random() < 0.65 else "in_review"
         seen = date.fromisoformat(d["date"]) - timedelta(days=rng.randint(14, 120))
         website = d["website"] if rng.random() < 0.7 else ""   # some CRM rows lack a website: name matching
         rows.append((d["name"], website or "", status, seen.isoformat()))
+    # 3. Out-of-market noise (fictional inbound companies).
     for name, site in NOISE:
         seen = date(2023, 1, 1) + timedelta(days=rng.randint(0, 1000))
         rows.append((name, site, rng.choice(["passed", "passed", "in_review"]), seen.isoformat()))
-    rows.sort(key=lambda r: r[3])
+    rows.sort(key=lambda r: (r[3], r[0]))
     lines = ["# SIMULATED CRM export for the Blind Spot demo. Not real pipeline data of " + fund["name"] + ".",
+             "# invested = real portfolio companies from Cala; passed/in_review rows and noise rows are simulated.",
              "company,website,status,date"]
     lines += [",".join('"' + v.replace('"', '""') + '"' if "," in v else v for v in r) for r in rows]
     CSV_PATH.write_text("\n".join(lines) + "\n")
-    print(f"wrote {CSV_PATH} ({len(picked)} market deals of {len(deals)}, {len(NOISE)} noise rows)")
+    print(f"wrote {CSV_PATH}: {n_own} own deals (invested), {len(picked)} of {len(deals)} peer-market deals "
+          f"(passed/in_review), {len(NOISE)} noise rows")
 
 
 def main() -> None:

@@ -250,3 +250,25 @@ def test_demo_works_without_db(client, monkeypatch, tmp_path):
     assert client.get("/api/funds/search?q=").json()
     assert post_audit(client).status_code == 503
     assert not (tmp_path / "missing.db").exists(), "API must not create an empty DB"
+
+
+# ---------------------------------------------------------------- client IP behind proxies
+
+class _Req:
+    def __init__(self, xff, peer="10.0.0.9"):
+        self.headers = {"x-forwarded-for": xff} if xff is not None else {}
+        self.client = type("C", (), {"host": peer})()
+
+
+@pytest.mark.parametrize("hops,xff,expected", [
+    ("0", "1.1.1.1, 2.2.2.2", "10.0.0.9"),            # default: header ignored
+    ("1", "6.6.6.6, 1.1.1.1", "1.1.1.1"),             # one proxy appended the real client
+    ("2", "6.6.6.6, 1.1.1.1, 3.3.3.3", "1.1.1.1"),    # two proxies; spoofed left entry ignored
+    ("3", "1.1.1.1", "1.1.1.1"),                       # fewer entries than hops: leftmost
+    ("1", None, "10.0.0.9"),                           # no header: peer
+    ("abc", "1.1.1.1", "10.0.0.9"),                    # invalid setting: treated as 0
+])
+def test_client_ip(monkeypatch, hops, xff, expected):
+    import app as app_module
+    monkeypatch.setenv("TRUSTED_PROXY_HOPS", hops)
+    assert app_module.client_ip(_Req(xff)) == expected

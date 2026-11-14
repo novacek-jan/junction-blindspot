@@ -1,4 +1,533 @@
 {
+ "8ac235c7-1f05-4234-84f6-73f4f6a1c6d3": {
+  "id": "8ac235c7-1f05-4234-84f6-73f4f6a1c6d3",
+  "name": "The Exploration Company",
+  "website": "exploration.space",
+  "description": "We build accessible, sustainable, and cooperative space worlds.",
+  "country": "Germany",
+  "founded": "2021",
+  "rounds": [
+   {
+    "label": "SERIES_C",
+    "amount": 387000000,
+    "currency": "EUR",
+    "date": "2026-09-08",
+    "lead_investors": [
+     {
+      "id": "32e27d54-3922-407f-aa07-2747d94b210c",
+      "name": "Atomico"
+     },
+     {
+      "id": "04cfed12-5b91-424b-b7fc-3c14593b944c",
+      "name": "Bessemer Venture Partners"
+     },
+     {
+      "id": "1dc243c5-c12b-4639-b560-3d13988cf767",
+      "name": "Scaleup Europe Fund"
+     }
+    ],
+    "participants": [],
+    "sources": [
+     {
+      "name": "eu-startups.com",
+      "url": "https://www.eu-startups.com/2026/09/the-exploration-company-secures-e387-million-to-accelerate-development-of-reusable-high-thrust-rocket-engine/",
+      "rank": "PRESS"
+     },
+     {
+      "name": "tech.eu",
+      "url": "https://tech.eu/2026/09/08/the-exploration-company-raises-450m-series-c-to-scale-reusable-space-transport/",
+      "rank": "PRESS"
+     }
+    ],
+    "conflated": true
+   },
+   {
+    "label": "SERIES_B",
+    "amount": 150000000,
+    "currency": "EUR",
+    "date": "2024-11-18",
+    "lead_investors": [
+     {
+      "id": "c96fa533-91c0-5674-bcbe-0d0dc934b7fa",
+      "name": "Balderton Capital"
+     },
+     {
+      "id": "9bafcf3b-292c-42aa-903f-6486eabe687d",
+      "name": "PLURAL STRATEGY GROUP LIMITED"
+     }
+    ],
+    "participants": [
+     {
+      "id": "a23edf99-9797-4942-927c-afa3eac6bd7c",
+      "name": "Bayern Kapital"
+     },
+     {
+      "id": "04cfed12-5b91-424b-b7fc-3c14593b944c",
+      "name": "Bessemer Venture Partners"
+     },
+     {
+      "id": "36a62265-0ad6-4ad2-98cf-8d04a078de2b",
+      "name": "DeepTech & Climate Fund"
+     },
+     {
+      "id": "9a5c6f45-4477-48fa-8a04-2e64590f694e",
+      "name": "French Tech Souveraineté"
+     },
+     {
+      "id": "6ae0c49f-9b3a-454a-988e-b8fc43ff022a",
+      "name": "NGP CAPITAL LTD"
+     },
+     {
+      "id": "11036831-3d04-402f-9ac3-b1e0ca72acd7",
+      "name": "deeptech"
+     }
+    ],
+    "sources": [
+     {
+      "name": "eu-startups.com",
+      "url": "https://www.eu-startups.com/2024/11/munich-based-the-exploration-company-secures-e160-million-to-further-develop-their-reusable-spacecraft/",
+      "rank": "PRESS"
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "label": "SERIES_A",
+    "amount": 40000000,
+    "currency": "EUR",
+    "date": "2023-02-01",
+    "lead_investors": [],
+    "participants": [],
+    "sources": [
+     {
+      "name": "eu-startups.com",
+      "url": "https://www.eu-startups.com/2023/02/the-exploration-company-jet-sets-its-space-ambitions-with-record-e40-million-raise/",
+      "rank": "PRESS"
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "label": "GRANT",
+    "amount": 5130403.75,
+    "currency": "EUR",
+    "date": null,
+    "lead_investors": [
+     {
+      "id": "346e2da2-b549-4992-9e10-420e4ecfe4eb",
+      "name": "European Commission"
+     }
+    ],
+    "participants": [],
+    "sources": [
+     {
+      "name": "cordis.europa.eu",
+      "url": "https://cordis.europa.eu/project/id/101296508",
+      "rank": "FILING"
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "label": "GRANT",
+    "amount": 100625,
+    "currency": "EUR",
+    "date": null,
+    "lead_investors": [
+     {
+      "id": "346e2da2-b549-4992-9e10-420e4ecfe4eb",
+      "name": "European Commission"
+     }
+    ],
+    "participants": [],
+    "sources": [
+     {
+      "name": "cordis.europa.eu",
+      "url": "https://cordis.europa.eu/project/id/101134934",
+      "rank": "FILING"
+     },
+     {
+      "name": "cordis.europa.eu",
+      "url": "https://cordis.europa.eu/project/id/101135431",
+      "rank": "FILING"
+     }
+    ],
+    "conflated": false
+   }
+  ],
+  "why_missed": [
+   {
+    "reason": "Lead investor Balderton Capital has never co-invested with you"
+   }
+  ],
+  "recent_news": [],
+  "sources": [
+   {
+    "name": "Companies | Partech",
+    "url": "https://partechpartners.com/companies",
+    "rank": null
+   },
+   {
+    "name": "exploration.space",
+    "url": "https://exploration.space/",
+    "rank": "PRIMARY"
+   },
+   {
+    "name": "eu-startups.com",
+    "url": "https://www.eu-startups.com/2024/11/munich-based-the-exploration-company-secures-e160-million-to-further-develop-their-reusable-spacecraft/",
+    "rank": "PRESS"
+   },
+   {
+    "name": "eu-startups.com",
+    "url": "https://www.eu-startups.com/2023/02/the-exploration-company-jet-sets-its-space-ambitions-with-record-e40-million-raise/",
+    "rank": "PRESS"
+   },
+   {
+    "name": "Balderton Capital Portfolio | Balderton Capital",
+    "url": "https://balderton.com/companies",
+    "rank": null
+   },
+   {
+    "name": "dns.google",
+    "url": "https://dns.google/query?name=exploration.space&type=A",
+    "rank": "PRIMARY"
+   },
+   {
+    "name": "eu-startups.com",
+    "url": "https://www.eu-startups.com/2026/09/the-exploration-company-secures-e387-million-to-accelerate-development-of-reusable-high-thrust-rocket-engine/",
+    "rank": "PRESS"
+   },
+   {
+    "name": "cordis.europa.eu",
+    "url": "https://cordis.europa.eu/search?q=%27THE+EXPLORATION+COMPANY+GMBH%27",
+    "rank": "FILING"
+   }
+  ]
+ },
+ "fa1dd1c6-b1b0-44a6-99da-09fbfd908c90": {
+  "id": "fa1dd1c6-b1b0-44a6-99da-09fbfd908c90",
+  "name": "SPIKO",
+  "website": "spiko.io",
+  "description": "Paris-based fintech that offers businesses and individuals daily yield on cash through tokenised money market funds in EUR, USD, GBP and CHF, accessed via an app or API.",
+  "country": "France",
+  "founded": "2023",
+  "rounds": [
+   {
+    "label": "SERIES_B",
+    "amount": 90000000,
+    "currency": "USD",
+    "date": "2026-10-06",
+    "lead_investors": [
+     {
+      "id": "672cb768-589c-4a36-addf-e4345bdffbc2",
+      "name": "New Enterprise Associates, Inc."
+     }
+    ],
+    "participants": [
+     {
+      "id": "3bbf3587-2f2b-435e-9729-cfddcdee2593",
+      "name": "Axel Weber"
+     },
+     {
+      "id": "2118c03d-4cb2-4567-b724-37f5f7be552a",
+      "name": "Blockwall Management GmbH"
+     },
+     {
+      "id": "b8f60f04-9fb0-4a59-8913-8ad92cba937c",
+      "name": "Bpifrance"
+     },
+     {
+      "id": "ed9224ea-a6cf-53c4-ba30-8433ab739305",
+      "name": "EQNX Galaxy SC"
+     },
+     {
+      "id": "943110c1-6950-430c-b683-31800a822941",
+      "name": "FRST CAPITAL"
+     },
+     {
+      "id": "04415e3d-ecae-4d41-8af8-f1df9ca98e19",
+      "name": "Flourish Ventures"
+     },
+     {
+      "id": "4a7ccd5d-1310-46b0-bd42-4ff8b409acc5",
+      "name": "Index Ventures"
+     },
+     {
+      "id": "98f845a9-350f-4a0a-8b5e-a09769d2596c",
+      "name": "MIRANA VENTURES LIMITED"
+     },
+     {
+      "id": "35a7d4d9-0277-57a8-ad32-21de27f43b00",
+      "name": "Nikolay Storonsky"
+     },
+     {
+      "id": "5b6d6fd2-bcb4-418b-beee-5d3e4035d725",
+      "name": "Shapers"
+     },
+     {
+      "id": "94e0ca6a-4e39-4181-bd84-11f264d0aa62",
+      "name": "Speedinvest"
+     },
+     {
+      "id": "2a0fd223-980f-4781-aebc-bda5a0af73ba",
+      "name": "WINTERMUTE VENTURES LIMITED"
+     },
+     {
+      "id": "5e3c8e4e-bae8-4ac2-9fa8-6998981b5db3",
+      "name": "White Star Capital"
+     }
+    ],
+    "sources": [
+     {
+      "name": "spiko.io",
+      "url": "https://www.spiko.io/blog/weve-raised-90m-to-make-cash-earn-for-everyone",
+      "rank": null
+     },
+     {
+      "name": "crypto.news",
+      "url": "https://crypto.news/spiko-raises-90m-as-its-tokenized-funds-hit-2-7b/",
+      "rank": null
+     },
+     {
+      "name": "cryptoast.fr",
+      "url": "https://cryptoast.fr/spiko-leve-90-millions-dollars-serie-b-nea/",
+      "rank": null
+     },
+     {
+      "name": "boersen-zeitung.de",
+      "url": "https://www.boersen-zeitung.de/banken-finanzen/axel-weber-steigt-bei-fintech-spiko-ein",
+      "rank": null
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "label": "SERIES_A",
+    "amount": 18500000,
+    "currency": "EUR",
+    "date": "2025-07-17",
+    "lead_investors": [
+     {
+      "id": "4a7ccd5d-1310-46b0-bd42-4ff8b409acc5",
+      "name": "Index Ventures"
+     }
+    ],
+    "participants": [
+     {
+      "id": "aff20a0a-ede9-41e8-bd4e-fef12f980192",
+      "name": "Antoine Le Nel"
+     },
+     {
+      "id": "2118c03d-4cb2-4567-b724-37f5f7be552a",
+      "name": "Blockwall Management GmbH"
+     },
+     {
+      "id": "33c163a1-20e9-435c-80b9-acff591ba81d",
+      "name": "Bpifrance's Digital Venture Fund"
+     },
+     {
+      "id": "943110c1-6950-430c-b683-31800a822941",
+      "name": "FRST CAPITAL"
+     },
+     {
+      "id": "57ca68da-c732-4458-ac92-639932a691c1",
+      "name": "Harsh Sinha"
+     },
+     {
+      "id": "883a32a3-f6bf-4fa7-9678-2ca31b382af7",
+      "name": "Jean-Charles Samuelian-Werve"
+     },
+     {
+      "id": "205e0cf7-d2ef-40b4-af1f-6fa2a9f6c282",
+      "name": "Jean‑Luc Robert"
+     },
+     {
+      "id": "98814569-469d-57b8-b087-f71397ec18c6",
+      "name": "Lionel Yves Assant"
+     },
+     {
+      "id": "35a7d4d9-0277-57a8-ad32-21de27f43b00",
+      "name": "Nikolay Storonsky"
+     },
+     {
+      "id": "3983e659-e01b-4e1f-83ef-309c1f823b14",
+      "name": "Rerail"
+     },
+     {
+      "id": "5e3c8e4e-bae8-4ac2-9fa8-6998981b5db3",
+      "name": "White Star Capital"
+     },
+     {
+      "id": "2dfb3590-5a18-461e-9021-f59300412faa",
+      "name": "Zach Abrams"
+     }
+    ],
+    "sources": [
+     {
+      "name": "frenchweb.fr",
+      "url": "https://www.frenchweb.fr/spiko-leve-185-millions-deuros-pour-reveiller-la-tresorerie-des-entreprises/456238",
+      "rank": null
+     },
+     {
+      "name": "en.thebigwhale.io",
+      "url": "https://en.thebigwhale.io/article-en/tokenised-money-market-fund-spiko-raises-18-5-million-in-series-a",
+      "rank": null
+     },
+     {
+      "name": "lemondedudroit.fr",
+      "url": "https://www.lemondedudroit.fr/deals/100049-orrick-conseille-index-ventures-dans-le-cadre-de-la-levee-de-18-5meur-de-spiko.html",
+      "rank": null
+     },
+     {
+      "name": "spiko.io",
+      "url": "https://www.spiko.io/blog/spiko-raises-22m-led-by-index-ventures",
+      "rank": null
+     },
+     {
+      "name": "indexventures.com",
+      "url": "https://www.indexventures.com/perspectives/spiko-raises-22m-to-democratize-access-to-treasury-yields/",
+      "rank": null
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "label": "PRE_SEED",
+    "amount": 4000000,
+    "currency": "EUR",
+    "date": "2024-06-12",
+    "lead_investors": [
+     {
+      "id": "943110c1-6950-430c-b683-31800a822941",
+      "name": "FRST CAPITAL"
+     }
+    ],
+    "participants": [
+     {
+      "id": "5cc771f2-9c9e-44ec-91a5-a2f853268e5a",
+      "name": "Adrien Montfort"
+     },
+     {
+      "id": "2118c03d-4cb2-4567-b724-37f5f7be552a",
+      "name": "Blockwall Management GmbH"
+     },
+     {
+      "id": "b8f60f04-9fb0-4a59-8913-8ad92cba937c",
+      "name": "Bpifrance"
+     },
+     {
+      "id": "104d568e-833b-416a-9201-b4fcbe147767",
+      "name": "Financière Saint James"
+     },
+     {
+      "id": "9956c3fb-2ca9-4f37-a8eb-f18cf60406aa",
+      "name": "Frédéric Montagnon"
+     },
+     {
+      "id": "883a32a3-f6bf-4fa7-9678-2ca31b382af7",
+      "name": "Jean-Charles Samuelian-Werve"
+     },
+     {
+      "id": "91049068-a609-4a3e-9959-b84235403107",
+      "name": "Kima"
+     },
+     {
+      "id": "4be9d74c-a768-493e-96d1-72ca3b040213",
+      "name": "Nicolas Bacca"
+     }
+    ],
+    "sources": [
+     {
+      "name": "spiko.io",
+      "url": "https://www.spiko.io/blog/spiko-launches-the-worlds-first-tokenized-money-market-funds",
+      "rank": null
+     },
+     {
+      "name": "thebigwhale.io",
+      "url": "https://www.thebigwhale.io/articles-en/exclusive-spiko-democratises-investment-in-treasury-bonds-through-tokenisation",
+      "rank": null
+     },
+     {
+      "name": "alphagrowth.io",
+      "url": "https://alphagrowth.io/spiko/company",
+      "rank": null
+     }
+    ],
+    "conflated": false
+   }
+  ],
+  "why_missed": [
+   {
+    "reason": "Lead investor New Enterprise Associates, Inc. has never co-invested with you"
+   },
+   {
+    "reason": "France is outside your top countries (Germany, United States, Switzerland)"
+   }
+  ],
+  "recent_news": [],
+  "sources": [
+   {
+    "name": "GLEIF",
+    "url": "https://search.gleif.org/#/record/25490065HLBMIYB04O18",
+    "rank": null
+   },
+   {
+    "name": "Spiko | LinkedIn",
+    "url": "https://www.linkedin.com/company/spiko-tech",
+    "rank": null
+   },
+   {
+    "name": "About us",
+    "url": "https://www.spiko.io/about",
+    "rank": null
+   },
+   {
+    "name": "dns.google",
+    "url": "https://dns.google/query?name=spiko.io&type=A",
+    "rank": null
+   },
+   {
+    "name": "spiko.io",
+    "url": "https://www.spiko.io/blog/why-spiko",
+    "rank": null
+   },
+   {
+    "name": "web.archive.org",
+    "url": "https://web.archive.org/web/20241125192821/https://www.spiko.io/",
+    "rank": null
+   },
+   {
+    "name": "web.archive.org",
+    "url": "https://web.archive.org/cdx/search/cdx?url=spiko.io",
+    "rank": null
+   },
+   {
+    "name": "spiko.io",
+    "url": "https://www.spiko.io/blog/weve-raised-90m-to-make-cash-earn-for-everyone",
+    "rank": null
+   },
+   {
+    "name": "bodacc.fr",
+    "url": "https://www.bodacc.fr/pages/annonces-commerciales-detail/?q.id=id:B20260158728",
+    "rank": null
+   },
+   {
+    "name": "cryptoast.fr",
+    "url": "https://cryptoast.fr/spiko-leve-90-millions-dollars-serie-b-nea/",
+    "rank": null
+   },
+   {
+    "name": "crypto.news",
+    "url": "https://crypto.news/spiko-raises-90m-as-its-tokenized-funds-hit-2-7b/",
+    "rank": null
+   },
+   {
+    "name": "boersen-zeitung.de",
+    "url": "https://www.boersen-zeitung.de/banken-finanzen/axel-weber-steigt-bei-fintech-spiko-ein",
+    "rank": null
+   }
+  ]
+ },
  "a98a18cc-854a-4357-b049-91585d4afb40": {
   "id": "a98a18cc-854a-4357-b049-91585d4afb40",
   "name": "Pliant GmbH",
@@ -317,44 +846,79 @@
    }
   ]
  },
- "f724426d-a26e-4596-a8de-50ead5b290e5": {
-  "id": "f724426d-a26e-4596-a8de-50ead5b290e5",
-  "name": "11X LIMITED",
-  "website": "11x.ai",
-  "description": "AI 'digital workers' for sales and go-to-market teams — Alice (AI SDR for prospecting and outreach) and Julian/Jordan (AI phone agents) — serving customers such as Checkr, Xerox and Sage.",
-  "country": "United States",
-  "founded": "2022",
+ "70819912-06d6-4b58-b152-56dd9029ae2d": {
+  "id": "70819912-06d6-4b58-b152-56dd9029ae2d",
+  "name": "Vertice",
+  "website": "vertice.one",
+  "description": "London procurement and spend-optimisation platform for finance and procurement teams: SaaS purchasing and management, cloud cost optimisation, procurement orchestration with AI/agentic workflows, b...",
+  "country": "United Kingdom",
+  "founded": "2021",
   "rounds": [
    {
-    "label": "SERIES_B",
+    "label": "SERIES_C",
     "amount": 50000000,
     "currency": "USD",
-    "date": "2024-11-12",
+    "date": "2025-01-22",
     "lead_investors": [
      {
-      "id": "daebf7ee-cf07-459c-a3c6-65523efcefa7",
-      "name": "Andreessen Horowitz"
+      "id": "16bdbb1a-6658-4fa2-9b04-0a48011841d2",
+      "name": "Lakestar"
      }
     ],
     "participants": [
      {
-      "id": "dd5852ee-1dad-40fe-9db0-d0d42b72109c",
-      "name": "Benchmark"
+      "id": "5b6ddef0-d320-44d0-9815-54e8d168fabf",
+      "name": "CF Private Equity, Inc."
      },
      {
-      "id": "3416b0d1-32d4-4ee2-8905-ed6f40c995eb",
-      "name": "HubSpot Ventures"
+      "id": "36db2c46-a72e-41da-95a8-da5e94b6a3fd",
+      "name": "PERPETUAL GROWTH HOLDING LP"
      }
     ],
     "sources": [
      {
-      "name": "maginative.com",
-      "url": "https://www.maginative.com/article/11x-raises-50m-series-b-led-by-a16z-for-ai-digital-workers/",
+      "name": "fintechfutures.com",
+      "url": "https://www.fintechfutures.com/venture-capital-funding/procurement-spend-optimisation-platform-vertice-raises-50m-series-c-funding-round",
       "rank": null
      },
      {
-      "name": "mitrade.com",
-      "url": "https://www.mitrade.com/insights/news/live-news/article-3-462705-20241112",
+      "name": "pymnts.com",
+      "url": "https://www.pymnts.com/spend-management/2025/vertice-raises-50-million-to-expand-procurement-platform",
+      "rank": null
+     },
+     {
+      "name": "fintechmagazine.com",
+      "url": "https://fintechmagazine.com/articles/vertice-series-c-funding",
+      "rank": null
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "label": "SERIES_B",
+    "amount": 25000000,
+    "currency": "USD",
+    "date": "2024-01-01",
+    "lead_investors": [
+     {
+      "id": "2c43483a-8d36-4ae6-9887-e4746dd5dccb",
+      "name": "83North"
+     },
+     {
+      "id": "04cfed12-5b91-424b-b7fc-3c14593b944c",
+      "name": "Bessemer Venture Partners"
+     }
+    ],
+    "participants": [],
+    "sources": [
+     {
+      "name": "fintechfutures.com",
+      "url": "https://www.fintechfutures.com/venture-capital-funding/procurement-spend-optimisation-platform-vertice-raises-50m-series-c-funding-round",
+      "rank": null
+     },
+     {
+      "name": "startupintros.com",
+      "url": "https://startupintros.com/orgs/vertice",
       "rank": null
      }
     ],
@@ -362,25 +926,301 @@
    },
    {
     "label": "SERIES_A",
-    "amount": 24000000,
+    "amount": 26000000,
     "currency": "USD",
-    "date": "2024-09-01",
-    "lead_investors": [
-     {
-      "id": "dd5852ee-1dad-40fe-9db0-d0d42b72109c",
-      "name": "Benchmark"
-     }
-    ],
+    "date": "2022-05-19",
+    "lead_investors": [],
     "participants": [],
     "sources": [
      {
-      "name": "maginative.com",
-      "url": "https://www.maginative.com/article/11x-raises-50m-series-b-led-by-a16z-for-ai-digital-workers/",
+      "name": "fintechfutures.com",
+      "url": "https://www.fintechfutures.com/venture-capital-funding/procurement-spend-optimisation-platform-vertice-raises-50m-series-c-funding-round",
       "rank": null
      },
      {
-      "name": "mitrade.com",
-      "url": "https://www.mitrade.com/insights/news/live-news/article-3-462705-20241112",
+      "name": "tracxn.com",
+      "url": "https://tracxn.com/d/companies/vertice/__mmN152oqVEA0835kI5jjuUQNuqhY5qJWheP6XXXpT-U",
+      "rank": null
+     }
+    ],
+    "conflated": false
+   }
+  ],
+  "why_missed": [
+   {
+    "reason": "United Kingdom is outside your top countries (Germany, United States, Switzerland)"
+   }
+  ],
+  "recent_news": [],
+  "sources": [
+   {
+    "name": "fintechfutures.com",
+    "url": "https://www.fintechfutures.com/venture-capital-funding/procurement-spend-optimisation-platform-vertice-raises-50m-series-c-funding-round",
+    "rank": "PRESS"
+   },
+   {
+    "name": "prnewswire.com",
+    "url": "https://www.prnewswire.com/news-releases/vertice-named-market-leader-in-2026-lionfish-tech-advisors-report-for-saas-procurement--management-302682704.html",
+    "rank": "PRIMARY"
+   },
+   {
+    "name": "dns.google",
+    "url": "https://dns.google/query?name=vertice.one&type=A",
+    "rank": "PRIMARY"
+   },
+   {
+    "name": "cbinsights.com",
+    "url": "https://www.cbinsights.com/company/vertice",
+    "rank": "AGGREGATOR"
+   },
+   {
+    "name": "tech.eu",
+    "url": "https://tech.eu/2022/05/19/brother-duo-raise-26-million-to-help-businesses-lower-software-spend/",
+    "rank": "PRIMARY"
+   },
+   {
+    "name": "vertice.one",
+    "url": "https://www.vertice.one/blog/announcing-our-series-c",
+    "rank": "PRIMARY"
+   }
+  ]
+ },
+ "57417792-a843-43db-9cfc-730d969e2fb6": {
+  "id": "57417792-a843-43db-9cfc-730d969e2fb6",
+  "name": "Cleo AI",
+  "website": "meetcleo.com",
+  "description": "a fintech company that provides an AI‑powered personal finance assistant",
+  "country": "United Kingdom",
+  "founded": "2015",
+  "rounds": [
+   {
+    "label": "SERIES_C",
+    "amount": 38800000,
+    "currency": "USD",
+    "date": "2025-01-01",
+    "lead_investors": [],
+    "participants": [
+     {
+      "id": "c96fa533-91c0-5674-bcbe-0d0dc934b7fa",
+      "name": "Balderton Capital"
+     },
+     {
+      "id": "d6cf13e1-92ff-4567-bd72-30316f2498e5",
+      "name": "EQT Ventures"
+     },
+     {
+      "id": "e4bfd057-8a9f-4790-b864-0a7d2ec151cf",
+      "name": "SENDERWOOD LLP"
+     }
+    ],
+    "sources": [
+     {
+      "name": "sifted.eu",
+      "url": "https://sifted.eu/articles/cleo-ceo-teases-ipo",
+      "rank": null
+     },
+     {
+      "name": "multiples.vc",
+      "url": "https://multiples.vc/private-comps/cleo",
+      "rank": null
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "label": "SERIES_C",
+    "amount": 60000000,
+    "currency": "GBP",
+    "date": "2022-06-21",
+    "lead_investors": [
+     {
+      "id": "1049be85-a40e-48ea-b33f-adf78c7aa432",
+      "name": "Sofina SA"
+     }
+    ],
+    "participants": [
+     {
+      "id": "c96fa533-91c0-5674-bcbe-0d0dc934b7fa",
+      "name": "Balderton Capital"
+     },
+     {
+      "id": "86d0c8a0-5fa5-4336-a3fc-deda228788de",
+      "name": "ENTREPRENEURS FIRST INVESTMENT MANAGER LLP"
+     },
+     {
+      "id": "d6cf13e1-92ff-4567-bd72-30316f2498e5",
+      "name": "EQT Ventures"
+     },
+     {
+      "id": "61fd6acc-8178-48b6-8627-f884c6467f1c",
+      "name": "HSBC Innovation Banking"
+     },
+     {
+      "id": "5ed14899-62d4-4db1-985b-47e5659384df",
+      "name": "SBI"
+     }
+    ],
+    "sources": [
+     {
+      "name": "web.meetcleo.com",
+      "url": "https://web.meetcleo.com/uk/company",
+      "rank": null
+     },
+     {
+      "name": "fintechfutures.com",
+      "url": "https://www.fintechfutures.com/fintech-innovation/gen-z-financial-assistant-app-cleo-raises-80m-at-500m-valuation",
+      "rank": null
+     },
+     {
+      "name": "pymnts.com",
+      "url": "https://pymnts.com/?p=1339190",
+      "rank": null
+     },
+     {
+      "name": "app.dealroom.co",
+      "url": "https://app.dealroom.co/companies/cleo",
+      "rank": null
+     },
+     {
+      "name": "sacra.com",
+      "url": "https://sacra.com/c/cleo/",
+      "rank": null
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "label": "SERIES_B",
+    "amount": 33000000,
+    "currency": "GBP",
+    "date": "2020-12-10",
+    "lead_investors": [
+     {
+      "id": "d6cf13e1-92ff-4567-bd72-30316f2498e5",
+      "name": "EQT Ventures"
+     }
+    ],
+    "participants": [
+     {
+      "id": "c96fa533-91c0-5674-bcbe-0d0dc934b7fa",
+      "name": "Balderton Capital"
+     },
+     {
+      "id": "86d0c8a0-5fa5-4336-a3fc-deda228788de",
+      "name": "ENTREPRENEURS FIRST INVESTMENT MANAGER LLP"
+     },
+     {
+      "id": "5ed14899-62d4-4db1-985b-47e5659384df",
+      "name": "SBI"
+     },
+     {
+      "id": "e4bfd057-8a9f-4790-b864-0a7d2ec151cf",
+      "name": "SENDERWOOD LLP"
+     }
+    ],
+    "sources": [
+     {
+      "name": "web.meetcleo.com",
+      "url": "https://web.meetcleo.com/uk/company",
+      "rank": null
+     },
+     {
+      "name": "ibsintelligence.com",
+      "url": "https://ibsintelligence.com/ibsi_prime_news/cleo-secures-44-million-in-series-b-led-by-eqt-ventures",
+      "rank": null
+     },
+     {
+      "name": "multiples.vc",
+      "url": "https://multiples.vc/private-comps/cleo",
+      "rank": null
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "label": "ANGEL",
+    "amount": 700000,
+    "currency": "USD",
+    "date": "2017-01-25",
+    "lead_investors": [],
+    "participants": [
+     {
+      "id": "282ba2e4-2955-4a32-976c-f3ff541d0493",
+      "name": "Alex Chesterman"
+     },
+     {
+      "id": "b79605bf-e3bd-42da-8c56-5b541926c8ab",
+      "name": "Errol Damelin"
+     },
+     {
+      "id": "ac050a09-a536-473f-8507-c5e8979f682f",
+      "name": "Jason Goodman"
+     },
+     {
+      "id": "d239e523-df54-5b40-83e3-85d933233f63",
+      "name": "Niklas Marten Zennstrom"
+     },
+     {
+      "id": "c172ef11-ba13-42fa-a4c1-2418dd713cd7",
+      "name": "Simon Franks"
+     },
+     {
+      "id": "9543b0c0-fe37-47d5-af33-40617ba8fdfe",
+      "name": "Siraj Khaliq"
+     }
+    ],
+    "sources": [
+     {
+      "name": "uktech.news",
+      "url": "https://www.uktech.news/news/investment-news/ai-financial-assistant-cleo-raises-700000-angel-round-20170125",
+      "rank": null
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "label": "SERIES_A",
+    "amount": 7500000,
+    "currency": "GBP",
+    "date": null,
+    "lead_investors": [
+     {
+      "id": "c96fa533-91c0-5674-bcbe-0d0dc934b7fa",
+      "name": "Balderton Capital"
+     }
+    ],
+    "participants": [
+     {
+      "id": "86d0c8a0-5fa5-4336-a3fc-deda228788de",
+      "name": "ENTREPRENEURS FIRST INVESTMENT MANAGER LLP"
+     },
+     {
+      "id": "b01c320a-45e3-4249-bbab-58dd377468e2",
+      "name": "REDBUS VENTURES LTD"
+     },
+     {
+      "id": "e4bfd057-8a9f-4790-b864-0a7d2ec151cf",
+      "name": "SENDERWOOD LLP"
+     },
+     {
+      "id": "a26e3466-4acc-576b-a066-aa048540eb21",
+      "name": "Taavet Hinrikus"
+     }
+    ],
+    "sources": [
+     {
+      "name": "web.meetcleo.com",
+      "url": "https://web.meetcleo.com/uk/company",
+      "rank": null
+     },
+     {
+      "name": "multiples.vc",
+      "url": "https://multiples.vc/private-comps/cleo",
+      "rank": null
+     },
+     {
+      "name": "app.dealroom.co",
+      "url": "https://app.dealroom.co/companies/cleo",
       "rank": null
      }
     ],
@@ -389,922 +1229,66 @@
    {
     "label": "SEED",
     "amount": 2000000,
-    "currency": "USD",
+    "currency": "GBP",
     "date": null,
     "lead_investors": [],
-    "participants": [],
-    "sources": [
-     {
-      "name": "tracxn.com",
-      "url": "https://tracxn.com/d/companies/11x/__P4mFd4dOZmyEt3qkI243p5AtNH1AhqMZw4A4Zd1scY4",
-      "rank": null
-     },
-     {
-      "name": "mitrade.com",
-      "url": "https://www.mitrade.com/insights/news/live-news/article-3-462705-20241112",
-      "rank": null
-     }
-    ],
-    "conflated": false
-   }
-  ],
-  "why_missed": [
-   {
-    "reason": "Lead investor Andreessen Horowitz has never co-invested with you"
-   },
-   {
-    "reason": "United States is outside your top countries (Finland, Germany, Switzerland)"
-   }
-  ],
-  "recent_news": [],
-  "sources": [
-   {
-    "name": "Companies House UK",
-    "url": "https://find-and-update.company-information.service.gov.uk/company/14393667",
-    "rank": null
-   },
-   {
-    "name": "dns.google",
-    "url": "https://dns.google/query?name=11x.ai&type=A",
-    "rank": "PRIMARY"
-   },
-   {
-    "name": "11x.ai",
-    "url": "https://www.11x.ai/guides/ai-sdr-tools-b2b-sales-teams",
-    "rank": "PRIMARY"
-   },
-   {
-    "name": "theinformation.com",
-    "url": "https://www.theinformation.com/projects/the-information-50-database",
-    "rank": null
-   },
-   {
-    "name": "maginative.com",
-    "url": "https://www.maginative.com/article/11x-raises-50m-series-b-led-by-a16z-for-ai-digital-workers/",
-    "rank": "PRESS"
-   },
-   {
-    "name": "mitrade.com",
-    "url": "https://www.mitrade.com/insights/news/live-news/article-3-462705-20241112",
-    "rank": "PRESS"
-   },
-   {
-    "name": "tracxn.com",
-    "url": "https://tracxn.com/d/companies/11x/__P4mFd4dOZmyEt3qkI243p5AtNH1AhqMZw4A4Zd1scY4",
-    "rank": "AGGREGATOR"
-   }
-  ]
- },
- "d2929f0c-d341-487c-a25c-52a1e0df01a2": {
-  "id": "d2929f0c-d341-487c-a25c-52a1e0df01a2",
-  "name": "Synera",
-  "website": "synera.io",
-  "description": "Deploy specialized AI agents across 76+ CAx and PLM tools. Precise, deterministic workflows that cut cost and dev time without changing your stack.",
-  "country": "Germany",
-  "founded": "2018",
-  "rounds": [
-   {
-    "label": "SERIES_B",
-    "amount": 35000000,
-    "currency": "EUR",
-    "date": "2026-04-14",
-    "lead_investors": [
-     {
-      "id": "a26bb0b0-a564-47ab-acf9-cdc54284b3ca",
-      "name": "REVAIA"
-     }
-    ],
     "participants": [
      {
-      "id": "3ac66fe6-39ad-4a66-b995-b5da413d1bf3",
-      "name": "BMW i Ventures"
+      "id": "32e27d54-3922-407f-aa07-2747d94b210c",
+      "name": "Atomico"
      },
      {
-      "id": "c06adc97-e2d8-4590-a329-4462750ee4e6",
-      "name": "Cherry Ventures"
+      "id": "86d0c8a0-5fa5-4336-a3fc-deda228788de",
+      "name": "ENTREPRENEURS FIRST INVESTMENT MANAGER LLP"
      },
      {
-      "id": "d8f34189-2e9d-43b4-a10e-c46c178e121f",
-      "name": "Isai"
+      "id": "ac050a09-a536-473f-8507-c5e8979f682f",
+      "name": "Jason Goodman"
      },
      {
-      "id": "61f378b9-5a27-40bb-bcfb-62d90f61dc8b",
-      "name": "Spark Capital"
+      "id": "d239e523-df54-5b40-83e3-85d933233f63",
+      "name": "Niklas Marten Zennstrom"
      },
      {
-      "id": "cedda44c-1f23-4c8f-99db-2494c4ea8700",
-      "name": "UVC Partners"
+      "id": "235c790f-821c-4d15-a7b8-a3f900a1fc43",
+      "name": "Robin Klein"
      },
      {
-      "id": "c488efcf-c285-4138-bc36-05a64ccabe4f",
-      "name": "Venture Stars"
+      "id": "e4bfd057-8a9f-4790-b864-0a7d2ec151cf",
+      "name": "SENDERWOOD LLP"
      }
     ],
     "sources": [
      {
-      "name": "unternehmertum.de",
-      "url": "https://www.unternehmertum.de/presse/ki-unternehmen-synera-erhaelt-35-millionen-euro",
-      "rank": "PRESS"
-     },
-     {
-      "name": "it-production.com",
-      "url": "https://it-production.com/news/maerkte-und-trends/synera-erhaelt-finanzierung-in-hoehe-von-35-millionen-euro/",
-      "rank": "PRESS"
-     },
-     {
-      "name": "synera.ai",
-      "url": "https://www.synera.ai/press/synera-raises-40m-series-b-to-scale-agentic-ai-engineering-for-global-manufacturers",
-      "rank": "PRIMARY"
-     },
-     {
-      "name": "businesswire.com",
-      "url": "https://www.businesswire.com/news/home/20260414992407/en/",
-      "rank": "PRESS"
-     }
-    ],
-    "conflated": false
-   },
-   {
-    "label": "SERIES_A",
-    "amount": 14500000,
-    "currency": "EUR",
-    "date": "2022-09-07",
-    "lead_investors": [
-     {
-      "id": "61f378b9-5a27-40bb-bcfb-62d90f61dc8b",
-      "name": "Spark Capital"
-     }
-    ],
-    "participants": [
-     {
-      "id": "3ac66fe6-39ad-4a66-b995-b5da413d1bf3",
-      "name": "BMW i Ventures"
-     },
-     {
-      "id": "c06adc97-e2d8-4590-a329-4462750ee4e6",
-      "name": "Cherry Ventures"
-     },
-     {
-      "id": "cedda44c-1f23-4c8f-99db-2494c4ea8700",
-      "name": "UVC Partners"
-     },
-     {
-      "id": "c488efcf-c285-4138-bc36-05a64ccabe4f",
-      "name": "Venture Stars"
-     }
-    ],
-    "sources": [
-     {
-      "name": "synera.ai",
-      "url": "https://www.synera.ai/news/series-a-funding",
-      "rank": "PRIMARY"
-     },
-     {
-      "name": "businesswire.com",
-      "url": "https://www.businesswire.com/news/home/20220907005348/en/ELISE-raises-14.8-million-Series-A-to-scale-connected-engineering",
-      "rank": "PRESS"
-     }
-    ],
-    "conflated": false
-   },
-   {
-    "label": "SEED",
-    "amount": 3000000,
-    "currency": "EUR",
-    "date": "2019-11-04",
-    "lead_investors": [
-     {
-      "id": "c06adc97-e2d8-4590-a329-4462750ee4e6",
-      "name": "Cherry Ventures"
-     },
-     {
-      "id": "cedda44c-1f23-4c8f-99db-2494c4ea8700",
-      "name": "UVC Partners"
-     }
-    ],
-    "participants": [
-     {
-      "id": "3ac66fe6-39ad-4a66-b995-b5da413d1bf3",
-      "name": "BMW i Ventures"
-     },
-     {
-      "id": "c488efcf-c285-4138-bc36-05a64ccabe4f",
-      "name": "Venture Stars"
-     }
-    ],
-    "sources": [
-     {
-      "name": "synera.ai",
-      "url": "https://www.synera.ai/news/synera-raises-eu3-million-seed-round",
-      "rank": "PRIMARY"
-     },
-     {
-      "name": "uvcpartners.com",
-      "url": "https://www.uvcpartners.com/blog/unternehmertum-invests-in-elise",
-      "rank": "PRIMARY"
-     }
-    ],
-    "conflated": false
-   },
-   {
-    "label": "GRANT",
-    "amount": 179935,
-    "currency": "EUR",
-    "date": null,
-    "lead_investors": [
-     {
-      "id": "ce876685-96f1-4a29-85e1-37e674418f31",
-      "name": "Bundesministerium für Wirtschaft und Technologie (BMWi)"
-     }
-    ],
-    "participants": [],
-    "sources": [
-     {
-      "name": "foerderportal.bund.de",
-      "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EUKHB026",
-      "rank": "FILING"
-     }
-    ],
-    "conflated": false
-   },
-   {
-    "label": "GRANT",
-    "amount": 84143,
-    "currency": "EUR",
-    "date": null,
-    "lead_investors": [
-     {
-      "id": "513579d0-766d-5de6-a5d0-5e619d9edf9b",
-      "name": "Bundesministerium für Bildung und Forschung"
-     }
-    ],
-    "participants": [],
-    "sources": [
-     {
-      "name": "foerderportal.bund.de",
-      "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=50RL2065",
-      "rank": "FILING"
-     }
-    ],
-    "conflated": false
-   }
-  ],
-  "why_missed": [
-   {
-    "reason": "Lead investor REVAIA has never co-invested with you"
-   }
-  ],
-  "recent_news": [],
-  "sources": [
-   {
-    "name": "synera.io",
-    "url": "https://synera.io/",
-    "rank": "PRIMARY"
-   },
-   {
-    "name": "linkedin.com",
-    "url": "https://www.linkedin.com/company/syneragmbh/",
-    "rank": "AGGREGATOR"
-   },
-   {
-    "name": "Synera | LinkedIn",
-    "url": "https://www.linkedin.com/company/syneragmbh",
-    "rank": null
-   },
-   {
-    "name": "dns.google",
-    "url": "https://dns.google/query?name=synera.io&type=A",
-    "rank": "PRIMARY"
-   },
-   {
-    "name": "unternehmertum.de",
-    "url": "https://www.unternehmertum.de/presse/ki-unternehmen-synera-erhaelt-35-millionen-euro",
-    "rank": "PRESS"
-   },
-   {
-    "name": "it-production.com",
-    "url": "https://it-production.com/news/maerkte-und-trends/synera-erhaelt-finanzierung-in-hoehe-von-35-millionen-euro/",
-    "rank": "PRESS"
-   },
-   {
-    "name": "synera.ai",
-    "url": "https://www.synera.ai/press/synera-raises-40m-series-b-to-scale-agentic-ai-engineering-for-global-manufacturers",
-    "rank": "PRIMARY"
-   },
-   {
-    "name": "synera.ai",
-    "url": "https://www.synera.ai/news/synera-raises-eu3-million-seed-round",
-    "rank": "PRIMARY"
-   },
-   {
-    "name": "uvcpartners.com",
-    "url": "https://www.uvcpartners.com/blog/unternehmertum-invests-in-elise",
-    "rank": "PRIMARY"
-   },
-   {
-    "name": "synera.ai",
-    "url": "https://www.synera.ai/news/series-a-funding",
-    "rank": "PRIMARY"
-   },
-   {
-    "name": "foerderportal.bund.de",
-    "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=03EUKHB026",
-    "rank": "FILING"
-   },
-   {
-    "name": "foerderportal.bund.de",
-    "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=50RL2065",
-    "rank": "FILING"
-   }
-  ]
- },
- "9f0d6f98-c9e2-4838-855d-defd326a996b": {
-  "id": "9f0d6f98-c9e2-4838-855d-defd326a996b",
-  "name": "SuperAnnotate",
-  "website": "superannotate.com",
-  "description": "Human-data company for frontier AI: a platform plus vetted expert network for multimodal data annotation, evaluation (incl. LLM judges and agent evaluation) and RLHF/fine-tuning dataset creation; c...",
-  "country": "United States",
-  "founded": "2018",
-  "rounds": [
-   {
-    "label": "SERIES_B",
-    "amount": 13500000,
-    "currency": "USD",
-    "date": "2025-07-15",
-    "lead_investors": [
-     {
-      "id": "0dde81a2-08ab-4487-9124-9deaa582a656",
-      "name": "Dell Technologies Capital"
-     }
-    ],
-    "participants": [
-     {
-      "id": "c934f7e3-6ee3-4983-b0e1-f7827df567f9",
-      "name": "Point Nine"
-     }
-    ],
-    "sources": [
-     {
-      "name": "finder.techleap.nl",
-      "url": "https://finder.techleap.nl/news/feed/superannotate-raises-13-5m-in-funding",
-      "rank": "AGGREGATOR"
-     },
-     {
-      "name": "superannotate.com",
-      "url": "https://www.superannotate.com/company",
-      "rank": "PRIMARY"
-     },
-     {
-      "name": "dealroom.co",
-      "url": "https://dealroom.co/companies/superannotate-ai/",
-      "rank": "AGGREGATOR"
-     }
-    ],
-    "conflated": false
-   },
-   {
-    "label": "SERIES_B",
-    "amount": 13500000,
-    "currency": "USD",
-    "date": "2025-07-15",
-    "lead_investors": [
-     {
-      "id": "0dde81a2-08ab-4487-9124-9deaa582a656",
-      "name": "Dell Technologies Capital"
-     }
-    ],
-    "participants": [
-     {
-      "id": "c934f7e3-6ee3-4983-b0e1-f7827df567f9",
-      "name": "Point Nine"
-     }
-    ],
-    "sources": [
-     {
-      "name": "finder.techleap.nl",
-      "url": "https://finder.techleap.nl/news/feed/superannotate-raises-13-5m-in-funding",
+      "name": "web.meetcleo.com",
+      "url": "https://web.meetcleo.com/uk/company",
       "rank": null
      },
      {
-      "name": "superannotate.com",
-      "url": "https://www.superannotate.com/company",
+      "name": "app.dealroom.co",
+      "url": "https://app.dealroom.co/companies/cleo",
       "rank": null
-     },
-     {
-      "name": "dealroom.co",
-      "url": "https://dealroom.co/companies/superannotate-ai/",
-      "rank": null
-     }
-    ],
-    "conflated": false
-   },
-   {
-    "label": "SERIES_B",
-    "amount": 36000000,
-    "currency": "USD",
-    "date": "2024-11-18",
-    "lead_investors": [
-     {
-      "id": "e085768e-4556-48a7-9d2e-e512506d1135",
-      "name": "Socium Ventures"
-     }
-    ],
-    "participants": [
-     {
-      "id": "99f71d5e-967e-47de-b4d8-fd1c95e44e59",
-      "name": "Databricks Ventures"
-     },
-     {
-      "id": "a1c286e5-a151-4f4b-a405-a6e127075802",
-      "name": "GLYNN CAPITAL MANAGEMENT LLC"
-     },
-     {
-      "id": "5f7ca504-01d8-4aa9-b1ac-889202fd17c9",
-      "name": "Nvidia"
-     },
-     {
-      "id": "6327eee4-8a51-4ee3-8578-22564ca7e3f4",
-      "name": "Play Time Ventures I, L.P."
-     },
-     {
-      "id": "c934f7e3-6ee3-4983-b0e1-f7827df567f9",
-      "name": "Point Nine"
-     }
-    ],
-    "sources": [
-     {
-      "name": "techcrunch.com",
-      "url": "https://techcrunch.com/2024/11/18/superannotate-helps-companies-manage-their-ai-data-sets/",
-      "rank": null
-     },
-     {
-      "name": "finsmes.com",
-      "url": "https://www.finsmes.com/2024/11/superannotate-raises-36m-in-series-b-funding.html",
-      "rank": null
-     }
-    ],
-    "conflated": false
-   },
-   {
-    "label": "SERIES_A",
-    "amount": 14500000,
-    "currency": "USD",
-    "date": "2021-07-01",
-    "lead_investors": [
-     {
-      "id": "08275d37-1935-4195-80a5-79dcf46a0dc8",
-      "name": "Base10 Partners"
-     }
-    ],
-    "participants": [],
-    "sources": [
-     {
-      "name": "superannotate.com",
-      "url": "https://superannotate.com/company",
-      "rank": null
-     },
-     {
-      "name": "skydeck.berkeley.edu",
-      "url": "https://skydeck.berkeley.edu/newsletter-july-20-2021",
-      "rank": null
-     },
-     {
-      "name": "dealroom.co",
-      "url": "https://dealroom.co/companies/superannotate-ai/",
-      "rank": null
-     }
-    ],
-    "conflated": false
-   },
-   {
-    "label": "SEED",
-    "amount": 3000000,
-    "currency": "USD",
-    "date": "2020-06-01",
-    "lead_investors": [
-     {
-      "id": "c934f7e3-6ee3-4983-b0e1-f7827df567f9",
-      "name": "Point Nine"
-     }
-    ],
-    "participants": [],
-    "sources": [
-     {
-      "name": "superannotate.com",
-      "url": "https://www.superannotate.com/company",
-      "rank": null
-     },
-     {
-      "name": "dealroom.co",
-      "url": "https://dealroom.co/companies/superannotate-ai/",
-      "rank": null
-     }
-    ],
-    "conflated": false
-   }
-  ],
-  "why_missed": [
-   {
-    "reason": "Lead investor Dell Technologies Capital has never co-invested with you"
-   },
-   {
-    "reason": "United States is outside your top countries (Finland, Germany, Switzerland)"
-   }
-  ],
-  "recent_news": [
-   {
-    "title": "Superannotate raises 36m series b",
-    "date": "2024-11-19",
-    "source": "glynncapital.com",
-    "url": "https://www.glynncapital.com/news/2024/11/19/superannotate-raises-36m-series-b"
-   },
-   {
-    "title": "Superannotate helps companies manage their ai data sets",
-    "date": "2024-11-18",
-    "source": "techcrunch.com",
-    "url": "https://techcrunch.com/2024/11/18/superannotate-helps-companies-manage-their-ai-data-sets/"
-   },
-   {
-    "title": "Superannotate raises 36m in series b funding",
-    "date": null,
-    "source": "finsmes.com",
-    "url": "https://www.finsmes.com/2024/11/superannotate-raises-36m-in-series-b-funding.html"
-   },
-   {
-    "title": "Company",
-    "date": null,
-    "source": "superannotate.com",
-    "url": "https://www.superannotate.com/company"
-   },
-   {
-    "title": "Primary doc.xml",
-    "date": null,
-    "source": "sec.gov",
-    "url": "https://www.sec.gov/Archives/edgar/data/2005024/000200502425000003/primary_doc.xml"
-   }
-  ],
-  "sources": [
-   {
-    "name": "SmartGateVC | Portfolio",
-    "url": "https://smartgate.vc/portfolio",
-    "rank": null
-   },
-   {
-    "name": "superannotate.com",
-    "url": "https://www.superannotate.com/company",
-    "rank": "PRIMARY"
-   },
-   {
-    "name": "dns.google",
-    "url": "https://dns.google/query?name=superannotate.com&type=A",
-    "rank": "PRIMARY"
-   },
-   {
-    "name": "techcrunch.com",
-    "url": "https://techcrunch.com/2024/11/18/superannotate-helps-companies-manage-their-ai-data-sets/",
-    "rank": "PRESS"
-   }
-  ]
- },
- "7aee8784-e220-425c-bff9-56cf5ed5932b": {
-  "id": "7aee8784-e220-425c-bff9-56cf5ed5932b",
-  "name": "Gilion",
-  "website": "gilion.com",
-  "description": "Swedish fintech, software, and venture‑capital firm founded in 2021.",
-  "country": "Sweden",
-  "founded": "2021",
-  "rounds": [
-   {
-    "label": "SEED",
-    "amount": 10000000,
-    "currency": "EUR",
-    "date": "2024-04-10",
-    "lead_investors": [],
-    "participants": [
-     {
-      "id": "a04ff8af-9d8d-5acb-9feb-a773292b2711",
-      "name": "Andrew Konopelski"
-     },
-     {
-      "id": "606040f0-eff6-5342-80e5-8bb73af4e23d",
-      "name": "Annika Falkengren"
-     },
-     {
-      "id": "16a726bc-5fb2-5958-bd57-3502d1f59b17",
-      "name": "Goran Garvner"
-     },
-     {
-      "id": "cc12cc89-3440-598d-9ac4-87a23a90062b",
-      "name": "Henrik Garvner"
-     },
-     {
-      "id": "0a8fb60d-dcf3-5479-95a9-def3a4ed4c5b",
-      "name": "Oscar Werner"
-     }
-    ],
-    "sources": [
-     {
-      "name": "eu-startups.com",
-      "url": "https://www.eu-startups.com/2024/04/stockholm-based-gilion-secures-e10-million-equity-round-to-fuel-expansion-of-its-growth-platform/",
-      "rank": "PRESS"
-     },
-     {
-      "name": "seedtable.com",
-      "url": "https://seedtable.com/companies/gilion/funding-rounds",
-      "rank": "AGGREGATOR"
-     }
-    ],
-    "conflated": false
-   },
-   {
-    "label": "SEED",
-    "amount": 15000000,
-    "currency": "EUR",
-    "date": "2022-09-05",
-    "lead_investors": [
-     {
-      "id": "606040f0-eff6-5342-80e5-8bb73af4e23d",
-      "name": "Annika Falkengren"
-     }
-    ],
-    "participants": [
-     {
-      "id": "6ba00a20-2cb4-4559-8fe2-f39484a9e5f6",
-      "name": "Creandum"
-     },
-     {
-      "id": "c5377720-0284-41e7-8498-6be6335fc0ed",
-      "name": "Hjalmar Winbladh"
-     },
-     {
-      "id": "d2f1e43b-32a1-5104-8a71-83dd98fb2172",
-      "name": "Ilkka Paananen"
-     },
-     {
-      "id": "f90762ed-ed40-5e14-95fc-12fcef6a8975",
-      "name": "Jacob de Geer"
-     },
-     {
-      "id": "1516c337-36cb-4357-ba0c-03b9c6c0d0e0",
-      "name": "LocalGlobe"
-     },
-     {
-      "id": "b9e52c77-2d0c-4392-86cd-688ac043e8dc",
-      "name": "Patrick Söderlund"
-     },
-     {
-      "id": "b0bec62d-ff71-5048-a127-70cacd434907",
-      "name": "Timo Soininen"
-     }
-    ],
-    "sources": [
-     {
-      "name": "gilion.com",
-      "url": "https://gilion.com/news/acceleration-round",
-      "rank": "PRIMARY"
-     },
-     {
-      "name": "privateequitywire.co.uk",
-      "url": "https://www.privateequitywire.co.uk/ark-kapital-raises-eu15m-acceleration-round-led-annika-falkengren/",
-      "rank": "PRESS"
-     }
-    ],
-    "conflated": true
-   },
-   {
-    "label": "DEBT_FINANCING",
-    "amount": 150000000,
-    "currency": "EUR",
-    "date": "2022-03-29",
-    "lead_investors": [],
-    "participants": [
-     {
-      "id": "ecd1ec57-0a2b-448c-a719-d7baecd9ef4e",
-      "name": "POLLEN STREET CAPITAL LIMITED"
-     }
-    ],
-    "sources": [
-     {
-      "name": "tech.eu",
-      "url": "https://tech.eu/2022/03/29/ark-kapital-raises-eur165-million-to-offer-long-term-alternative-financing-options",
-      "rank": "PRESS"
-     },
-     {
-      "name": "tech.eu",
-      "url": "https://tech.eu/2022/07/08/ark-kapital-brings-another-eur150-million-aboard-now-offering-eur300-million-in-revenue-based-financing",
-      "rank": "PRESS"
-     },
-     {
-      "name": "siliconcanals.com",
-      "url": "https://siliconcanals.com/ark-kapital-secures-145-1m/",
-      "rank": "PRESS"
-     }
-    ],
-    "conflated": false
-   },
-   {
-    "label": "SEED",
-    "amount": 15000000,
-    "currency": "EUR",
-    "date": "2022-03-29",
-    "lead_investors": [
-     {
-      "id": "1516c337-36cb-4357-ba0c-03b9c6c0d0e0",
-      "name": "LocalGlobe"
-     }
-    ],
-    "participants": [
-     {
-      "id": "fe7bb20e-534d-5e11-affa-9d28beb76a8b",
-      "name": "Christer Holloman"
-     },
-     {
-      "id": "6ba00a20-2cb4-4559-8fe2-f39484a9e5f6",
-      "name": "Creandum"
-     },
-     {
-      "id": "c5377720-0284-41e7-8498-6be6335fc0ed",
-      "name": "Hjalmar Winbladh"
-     },
-     {
-      "id": "d2f1e43b-32a1-5104-8a71-83dd98fb2172",
-      "name": "Ilkka Paananen"
-     },
-     {
-      "id": "f90762ed-ed40-5e14-95fc-12fcef6a8975",
-      "name": "Jacob de Geer"
-     },
-     {
-      "id": "b9e52c77-2d0c-4392-86cd-688ac043e8dc",
-      "name": "Patrick Söderlund"
-     },
-     {
-      "id": "aab05097-23c4-51ac-a09a-d490694118b1",
-      "name": "Sebastian Knutsson"
-     }
-    ],
-    "sources": [
-     {
-      "name": "tech.eu",
-      "url": "https://tech.eu/2022/03/29/ark-kapital-raises-eur165-million-to-offer-long-term-alternative-financing-options",
-      "rank": "PRESS"
-     },
-     {
-      "name": "tech.eu",
-      "url": "https://tech.eu/2022/07/08/ark-kapital-brings-another-eur150-million-aboard-now-offering-eur300-million-in-revenue-based-financing",
-      "rank": "PRESS"
-     },
-     {
-      "name": "siliconcanals.com",
-      "url": "https://siliconcanals.com/ark-kapital-secures-145-1m/",
-      "rank": "PRESS"
-     }
-    ],
-    "conflated": true
-   }
-  ],
-  "why_missed": [
-   {
-    "reason": "Sweden is outside your top countries (Finland, Germany, Switzerland)"
-   }
-  ],
-  "recent_news": [],
-  "sources": [
-   {
-    "name": "tracxn.com",
-    "url": "https://tracxn.com/d/venture-capital/upfin/__iJJ8WD9mZyHeT3tutM9TNO6e_mGmfC_aOMUby4GNBNw",
-    "rank": null
-   },
-   {
-    "name": "Upfin.vc: The Early Stage Founder's Guide",
-    "url": "https://superscout.co/investor/upfin-vc",
-    "rank": null
-   },
-   {
-    "name": "Gilion – Intelligent Funding With AI Precision",
-    "url": "https://www.gilion.com",
-    "rank": null
-   },
-   {
-    "name": "eu-startups.com",
-    "url": "https://www.eu-startups.com/2024/04/stockholm-based-gilion-secures-e10-million-equity-round-to-fuel-expansion-of-its-growth-platform/",
-    "rank": "PRESS"
-   },
-   {
-    "name": "gilion.com",
-    "url": "https://gilion.com/",
-    "rank": "PRIMARY"
-   },
-   {
-    "name": "dns.google",
-    "url": "https://dns.google/query?name=gilion.com&type=A",
-    "rank": "PRIMARY"
-   },
-   {
-    "name": "seedtable.com",
-    "url": "https://seedtable.com/companies/gilion/funding-rounds",
-    "rank": "AGGREGATOR"
-   },
-   {
-    "name": "tech.eu",
-    "url": "https://tech.eu/2022/03/29/ark-kapital-raises-eur165-million-to-offer-long-term-alternative-financing-options",
-    "rank": "PRESS"
-   },
-   {
-    "name": "tech.eu",
-    "url": "https://tech.eu/2022/07/08/ark-kapital-brings-another-eur150-million-aboard-now-offering-eur300-million-in-revenue-based-financing",
-    "rank": "PRESS"
-   },
-   {
-    "name": "siliconcanals.com",
-    "url": "https://siliconcanals.com/ark-kapital-secures-145-1m/",
-    "rank": "PRESS"
-   },
-   {
-    "name": "gilion.com",
-    "url": "https://gilion.com/news/acceleration-round",
-    "rank": "PRIMARY"
-   },
-   {
-    "name": "privateequitywire.co.uk",
-    "url": "https://www.privateequitywire.co.uk/ark-kapital-raises-eu15m-acceleration-round-led-annika-falkengren/",
-    "rank": "PRESS"
-   }
-  ]
- },
- "3e1f0925-cb71-4859-97f5-01e36eed1718": {
-  "id": "3e1f0925-cb71-4859-97f5-01e36eed1718",
-  "name": "Boardy",
-  "website": "boardy.ai",
-  "description": "AI networking 'superconnector': users talk to an AI agent (phone/voice/chat) that learns their goals and makes double-opt-in introductions to investors, customers, partners and talent; 237K people...",
-  "country": "Canada",
-  "founded": "2024",
-  "rounds": [
-   {
-    "label": "SEED",
-    "amount": 8000000,
-    "currency": "USD",
-    "date": "2025-01-14",
-    "lead_investors": [
-     {
-      "id": "6ba00a20-2cb4-4559-8fe2-f39484a9e5f6",
-      "name": "Creandum"
-     }
-    ],
-    "participants": [
-     {
-      "id": "ed6f3b5f-b951-44fe-ac5c-ecfb350c7ab6",
-      "name": "Andrew Yeung"
-     },
-     {
-      "id": "e9b456c6-4141-4a85-95b4-5951de878825",
-      "name": "Andy Dunn"
-     },
-     {
-      "id": "8fba844d-ab7f-44be-aee0-b3cf1521af31",
-      "name": "Leah Solivan"
-     }
-    ],
-    "sources": [
-     {
-      "name": "techcrunch.com",
-      "url": "https://techcrunch.com/2025/01/14/boardy-ai-raises-8m-seed-round-months-after-closing-pre-seed/",
-      "rank": "PRESS"
-     },
-     {
-      "name": "osler.com",
-      "url": "https://www.osler.com/en/about-us/representative-work/boardy-ai/",
-      "rank": "PRIMARY"
      }
     ],
     "conflated": false
    },
    {
     "label": "PRE_SEED",
-    "amount": 3000000,
-    "currency": "USD",
-    "date": "2024-10-24",
+    "amount": 80000,
+    "currency": "GBP",
+    "date": null,
     "lead_investors": [
      {
-      "id": "2e1b7794-9f0d-4f4c-8427-f0185e120ae6",
-      "name": "HF0"
+      "id": "86d0c8a0-5fa5-4336-a3fc-deda228788de",
+      "name": "ENTREPRENEURS FIRST INVESTMENT MANAGER LLP"
      }
     ],
-    "participants": [
-     {
-      "id": "264110c9-991d-4867-8d80-17e93a483c6a",
-      "name": "8VC"
-     },
-     {
-      "id": "3720410c-8105-4698-9ba1-7c52542da361",
-      "name": "Precursor Ventures"
-     }
-    ],
+    "participants": [],
     "sources": [
      {
-      "name": "techcrunch.com",
-      "url": "https://techcrunch.com/2024/10/24/ai-networking-startup-boardy-raises-3m-pre-seed/",
-      "rank": "PRESS"
+      "name": "app.dealroom.co",
+      "url": "https://app.dealroom.co/companies/cleo",
+      "rank": null
      }
     ],
     "conflated": false
@@ -1312,282 +1296,25 @@
   ],
   "why_missed": [
    {
-    "reason": "Canada is outside your top countries (Finland, Germany, Switzerland)"
+    "reason": "United Kingdom is outside your top countries (Germany, United States, Switzerland)"
    }
   ],
   "recent_news": [],
   "sources": [
-   {
-    "name": "techcrunch.com",
-    "url": "https://techcrunch.com/2024/10/24/ai-networking-startup-boardy-raises-3m-pre-seed/",
-    "rank": "PRESS"
-   },
    {
     "name": "dns.google",
-    "url": "https://dns.google/query?name=boardy.ai&type=A",
-    "rank": "PRIMARY"
-   },
-   {
-    "name": "eomag.io",
-    "url": "https://www.eomag.io/article/boardy-launching",
-    "rank": "PRESS"
-   },
-   {
-    "name": "osler.com",
-    "url": "https://www.osler.com/en/about-us/representative-work/boardy-ai/",
-    "rank": "PRIMARY"
-   },
-   {
-    "name": "techcrunch.com",
-    "url": "https://techcrunch.com/2025/01/14/boardy-ai-raises-8m-seed-round-months-after-closing-pre-seed/",
-    "rank": "PRESS"
-   },
-   {
-    "name": "upstartsmedia.com",
-    "url": "https://www.upstartsmedia.com/p/would-you-trust-ai-to-help-raise",
-    "rank": "PRESS"
-   }
-  ]
- },
- "68950d21-4cef-4e22-92ce-c1651ada6a6a": {
-  "id": "68950d21-4cef-4e22-92ce-c1651ada6a6a",
-  "name": "TesterArmy",
-  "website": "e2e.com",
-  "description": "TesterArmy (now e2e) builds AI software-testing tools: e2e, an open-source agentic end-to-end testing framework for web, iOS and Android; its hosted TesterArmy QA-agent platform is winding down (op...",
-  "country": "United States",
-  "founded": "2026",
-  "rounds": [
-   {
-    "label": "SEED",
-    "amount": 8000000,
-    "currency": "USD",
-    "date": "2026-11-03",
-    "lead_investors": [
-     {
-      "id": "e499cab6-2ed9-4c23-83cc-4dd96fd97d6e",
-      "name": "Baobab Ventures"
-     },
-     {
-      "id": "9642f867-0904-4954-9dea-aada36b650b9",
-      "name": "Credo Ventures"
-     },
-     {
-      "id": "6f2346a2-0f82-4060-b8ab-dd98bf83c6e7",
-      "name": "KAYA"
-     },
-     {
-      "id": "c934f7e3-6ee3-4983-b0e1-f7827df567f9",
-      "name": "Point Nine"
-     },
-     {
-      "id": "7f159297-7277-4418-a2bd-1f4ca708d778",
-      "name": "Script Capital"
-     }
-    ],
-    "participants": [
-     {
-      "id": "f2d8862c-bec4-4739-9e90-d25a008c040d",
-      "name": "AIP SEED ALTERNATYWNA SPÓŁKA INWESTYCYJNA SPÓŁKA AKCYJNA"
-     },
-     {
-      "id": "10f68c11-0d27-56d1-b5f1-f39627d87817",
-      "name": "Adam Pietrasiak"
-     },
-     {
-      "id": "2288b2e7-36fa-4556-b6a2-88e5e79b38ed",
-      "name": "Austen Allred"
-     },
-     {
-      "id": "119755d9-bae7-57f0-8a9e-bc04b690cad9",
-      "name": "Bartek Pucek"
-     },
-     {
-      "id": "bc86588a-f674-5944-8cdd-7cd3feeea1e1",
-      "name": "Benedict Chan"
-     },
-     {
-      "id": "fae82f36-c3bf-5477-a9f2-a45fe4d053ae",
-      "name": "Carles Reina"
-     },
-     {
-      "id": "e3704082-44ce-5399-a5fd-17cca9ef6413",
-      "name": "Chad Byers"
-     },
-     {
-      "id": "36dfe063-46a1-5c50-9bf8-b33c8604419d",
-      "name": "Charlie Cheever"
-     },
-     {
-      "id": "cca845af-2a63-5feb-961d-a75ced3d94c6",
-      "name": "Daniel Dhawan"
-     },
-     {
-      "id": "973eb039-5891-479c-9c66-dafe02543fbf",
-      "name": "Eight Capital"
-     },
-     {
-      "id": "3d0fc5b7-59a1-5313-9bac-714391288424",
-      "name": "Emil Kowalski"
-     },
-     {
-      "id": "9e4453fa-d724-5667-a1d5-9956f0926a0d",
-      "name": "Fernando Rojo"
-     },
-     {
-      "id": "39f23db1-266b-4506-a7a0-b3598f4466a0",
-      "name": "Fryderyk Wiatrowski"
-     },
-     {
-      "id": "48b7ff76-9bc7-4468-abba-4d937f848dfd",
-      "name": "Guillermo Rauch"
-     },
-     {
-      "id": "857c4739-9b37-5547-bd8f-bcbd3b8a8096",
-      "name": "Jakub Pawelski"
-     },
-     {
-      "id": "fd2363b3-101e-5a0f-a84c-972a74df04b8",
-      "name": "Marcin Żukowski"
-     },
-     {
-      "id": "6f8bc5bf-5d75-573b-8334-4d3312f45906",
-      "name": "Matt Swulinski"
-     },
-     {
-      "id": "d45065f8-c5b6-54e0-b35d-045de78c445c",
-      "name": "Michał Pierzchała"
-     },
-     {
-      "id": "2a41683a-97c9-5b61-98ce-7dc4b02a3bc8",
-      "name": "Mike Grabowski"
-     },
-     {
-      "id": "194c6cf7-cfde-4561-b417-e9ed1871ce39",
-      "name": "Oscar Salazar"
-     },
-     {
-      "id": "0c96e1fb-3027-577c-a4b3-c5a3fc4f8c1d",
-      "name": "Piotr Karwatka"
-     },
-     {
-      "id": "93a3462b-3ad2-437c-b183-5a2133fb944b",
-      "name": "Sarup Banskota"
-     },
-     {
-      "id": "ac4c6d37-43ee-55c0-99b8-8478b78064d5",
-      "name": "Theo Browne"
-     },
-     {
-      "id": "92244ce9-f225-5e77-9f6f-002fc61d7799",
-      "name": "Tomasz Karwatka"
-     },
-     {
-      "id": "b93e1bfc-bddd-5b97-a403-19601d777727",
-      "name": "Walden Yan"
-     },
-     {
-      "id": "1e86655e-373d-4fe8-be13-af3713581f73",
-      "name": "Y Combinator"
-     },
-     {
-      "id": "5890d3f2-3877-5ed0-abb9-b8133f271c23",
-      "name": "Zeno Rocha"
-     }
-    ],
-    "sources": [
-     {
-      "name": "e2e.com",
-      "url": "https://e2e.com/blog/seed",
-      "rank": "PRIMARY"
-     },
-     {
-      "name": "therecursive.com",
-      "url": "https://www.therecursive.com/polish-e2e-raises-eur7m-to-develop-ai-powered-software-testing/",
-      "rank": "PRESS"
-     },
-     {
-      "name": "forbes.cz",
-      "url": "https://forbes.cz/ai-napise-kod-e2e-ho-otestuje-mladi-polaci-od-investoru-ziskali-200-milionu-korun/",
-      "rank": "PRESS"
-     },
-     {
-      "name": "cc.cz",
-      "url": "https://cc.cz/je-to-ted-nejvic-hot-mlady-polsky-tym-hlasi-investori-dva-ceske-fondy-sazi-na-dalsi-tamni-raketu/",
-      "rank": "PRESS"
-     },
-     {
-      "name": "xyz.pl",
-      "url": "https://xyz.pl/?p=271347",
-      "rank": "PRESS"
-     }
-    ],
-    "conflated": false
-   }
-  ],
-  "why_missed": [
-   {
-    "reason": "Lead investor Baobab Ventures has never co-invested with you"
-   },
-   {
-    "reason": "United States is outside your top countries (Finland, Germany, Switzerland)"
-   }
-  ],
-  "recent_news": [],
-  "sources": [
-   {
-    "name": "Y Combinator",
-    "url": "https://github.com/yc-oss/api",
+    "url": "https://dns.google/query?name=meetcleo.com&type=A",
     "rank": null
    },
    {
-    "name": "e2e.com",
-    "url": "https://e2e.com/blog/seed",
-    "rank": "PRIMARY"
+    "name": "sacra.com",
+    "url": "https://sacra.com/c/cleo/",
+    "rank": null
    },
    {
-    "name": "e2e.com",
-    "url": "https://e2e.com/privacy",
-    "rank": "PRIMARY"
-   },
-   {
-    "name": "ycombinator.com",
-    "url": "https://www.ycombinator.com/companies/e2e",
-    "rank": "PRIMARY"
-   },
-   {
-    "name": "e2e.com",
-    "url": "https://e2e.com/blog/pre-seed",
-    "rank": "PRIMARY"
-   },
-   {
-    "name": "therecursive.com",
-    "url": "https://therecursive.com/yc-proven-testerarmy-raises-eur1m-for-ai-agents-that-test-software",
-    "rank": "PRESS"
-   },
-   {
-    "name": "xyz.pl",
-    "url": "https://xyz.pl/poland-unpacked/from-test-scripts-to-ai-agents-testerarmy-targets-the-us-market-1132/",
-    "rank": "PRESS"
-   },
-   {
-    "name": "therecursive.com",
-    "url": "https://www.therecursive.com/polish-e2e-raises-eur7m-to-develop-ai-powered-software-testing/",
-    "rank": "PRESS"
-   },
-   {
-    "name": "forbes.cz",
-    "url": "https://forbes.cz/ai-napise-kod-e2e-ho-otestuje-mladi-polaci-od-investoru-ziskali-200-milionu-korun/",
-    "rank": "PRESS"
-   },
-   {
-    "name": "cc.cz",
-    "url": "https://cc.cz/je-to-ted-nejvic-hot-mlady-polsky-tym-hlasi-investori-dva-ceske-fondy-sazi-na-dalsi-tamni-raketu/",
-    "rank": "PRESS"
-   },
-   {
-    "name": "xyz.pl",
-    "url": "https://xyz.pl/?p=271347",
-    "rank": "PRESS"
+    "name": "sifted.eu",
+    "url": "https://sifted.eu/articles/cleo-ceo-teases-ipo",
+    "rank": null
    }
   ]
  },
@@ -1787,72 +1514,6 @@
    }
   ]
  },
- "b615650d-7127-4baa-8553-ef9ad65d4bd8": {
-  "id": "b615650d-7127-4baa-8553-ef9ad65d4bd8",
-  "name": "LizzyAI",
-  "website": "lizzy-ai.com",
-  "description": "AI-native interviewing platform: an adaptive conversational AI ('Lizzy') conducts role-specific candidate interviews, producing structured, skills-based scorecards with fraud detection, bias audits...",
-  "country": "United States",
-  "founded": "2025",
-  "rounds": [
-   {
-    "label": "SEED",
-    "amount": 5000000,
-    "currency": "USD",
-    "date": "2025-12-02",
-    "lead_investors": [
-     {
-      "id": "c96e885a-5a6f-442d-a6e3-2531b238c2a3",
-      "name": "New Enterprise Associates (NEA)"
-     }
-    ],
-    "participants": [
-     {
-      "id": "94e0ca6a-4e39-4181-bd84-11f264d0aa62",
-      "name": "Speedinvest"
-     },
-     {
-      "id": "0e639725-2656-4600-99b6-4a2776faaca8",
-      "name": "Zero Prime Ventures"
-     }
-    ],
-    "sources": [
-     {
-      "name": "businesswire.com",
-      "url": "https://www.businesswire.com/news/home/20251202243223/en/LizzyAI-Raises-$5M-Seed-Round-Led-by-NEA-to-Redefine-the-Interview-in-the-$500B-Recruiting-Market",
-      "rank": "PRIMARY"
-     }
-    ],
-    "conflated": false
-   }
-  ],
-  "why_missed": [
-   {
-    "reason": "Lead investor New Enterprise Associates (NEA) has never co-invested with you"
-   },
-   {
-    "reason": "United States is outside your top countries (Finland, Germany, Switzerland)"
-   }
-  ],
-  "recent_news": [],
-  "sources": [
-   {
-    "name": "Stock Market",
-    "url": "https://markets.financialcontent.com/wral/article/bizwire-2025-12-2-lizzyai-raises-5m-seed-round-led-by-nea-to-redefine-the-interview-in-the-500b-recruiting-market",
-    "rank": null
-   },
-   {
-    "name": "dns.google",
-    "url": "https://dns.google/query?name=lizzy-ai.com&type=A",
-    "rank": "PRIMARY"
-   },
-   {
-    "name": "businesswire.com",
-    "url": "https://www.businesswire.com/news/home/20251202243223/en/LizzyAI-Raises-$5M-Seed-Round-Led-by-NEA-to-Redefine-the-Interview-in-the-$500B-Recruiting-Market",
-    "rank": "PRIMARY"
-   }
-  ]
- },
  "c83207b7-2e55-44af-a4e8-26463e746626": {
   "id": "c83207b7-2e55-44af-a4e8-26463e746626",
   "name": "Forgent AI GmbH",
@@ -1921,312 +1582,67 @@
    }
   ]
  },
- "3006840a-fea6-42d0-a5cc-c6c991f38e69": {
-  "id": "3006840a-fea6-42d0-a5cc-c6c991f38e69",
-  "name": "Prewave GmbH",
-  "website": "prewave.com",
-  "description": "Vienna TU Wien spin-off offering an AI supply-chain risk, sustainability and compliance platform that maps, scores and monitors millions of supplier nodes for 140 risk types from public sources in...",
-  "country": "Austria",
-  "founded": "2017",
+ "f9eb34d4-0152-4726-ad62-48fe0c506fb1": {
+  "id": "f9eb34d4-0152-4726-ad62-48fe0c506fb1",
+  "name": "RIVAL TECHNOLOGIES LTD",
+  "website": "rival.tech",
+  "description": "London spatial-computing startup building a social 3D/VR content platform with a 2D-to-3D foundational AI model that converts ordinary video into immersive 3D for Meta Quest (Apple Vision Pro and P...",
+  "country": "United Kingdom",
+  "founded": "2023",
   "rounds": [
    {
-    "label": "SERIES_B",
-    "amount": null,
-    "currency": null,
-    "date": "2025-04-02",
-    "lead_investors": [],
-    "participants": [
-     {
-      "id": "d8f34189-2e9d-43b4-a10e-c46c178e121f",
-      "name": "Isai"
-     },
-     {
-      "id": "28820555-dac8-4aae-a5c1-ed10269ae9cf",
-      "name": "PERPETUAL LIMITED"
-     },
-     {
-      "id": "94e0ca6a-4e39-4181-bd84-11f264d0aa62",
-      "name": "Speedinvest"
-     },
-     {
-      "id": "7ab9fc5a-2d53-458e-bc8f-ce8dee199dac",
-      "name": "Volvo Group Venture Capital AB"
-     }
-    ],
-    "sources": [
-     {
-      "name": "trendingtopics.eu",
-      "url": "https://www.trendingtopics.eu/prewave-volvo-rolex",
-      "rank": "PRESS"
-     }
-    ],
-    "conflated": false
-   },
-   {
-    "label": "SERIES_B",
-    "amount": 63000000,
-    "currency": "EUR",
-    "date": "2024-06-25",
+    "label": "PRE_SEED",
+    "amount": 4200000,
+    "currency": "USD",
+    "date": "2025-03-25",
     "lead_investors": [
      {
-      "id": "5e842ec1-4ecb-41f9-8e35-c9959b708621",
-      "name": "Hedosophia"
+      "id": "94e0ca6a-4e39-4181-bd84-11f264d0aa62",
+      "name": "Speedinvest"
      }
     ],
     "participants": [
      {
-      "id": "6ba00a20-2cb4-4559-8fe2-f39484a9e5f6",
-      "name": "Creandum"
-     },
-     {
-      "id": "5aa183ac-7b7c-4320-b4d9-8e29e65c0db6",
-      "name": "KOMPAS VC"
-     },
-     {
-      "id": "94e0ca6a-4e39-4181-bd84-11f264d0aa62",
-      "name": "Speedinvest"
-     },
-     {
-      "id": "5a079c02-0e55-4b48-a203-54c69ea16a13",
-      "name": "Ventech"
-     },
-     {
-      "id": "7524731c-e2f3-40a8-98bf-b371b0e2ec00",
-      "name": "Working Capital Fund"
+      "id": "f669f564-26b8-47b4-8f3a-0e78e5fe2533",
+      "name": "New Renaissance Ventures"
      }
     ],
     "sources": [
      {
-      "name": "xista.vc",
-      "url": "https://xista.vc/news/detail/prewave-raises-eur63m-series-b-to-revolutionise-supply-chain-risk-management-with-ai-driven-superintelligence-platform",
-      "rank": "PRIMARY"
-     },
-     {
-      "name": "fyb.de",
-      "url": "https://www.fyb.de/en/scrm-platform-prewave-raises-eur-63-million-in-series-b-financing/",
+      "name": "tech.eu",
+      "url": "https://tech.eu/2025/03/25/rival-emerges-from-stealth-with-ai-powered-3d-content-platform-and-42m-investment/",
       "rank": "PRESS"
      },
      {
-      "name": "prewave.com",
-      "url": "https://www.prewave.com/resources/news-and-press/prewave-raises-euro63m-series-b-to-revolutionise-supply-chain-risk-management-with-ai-driven-superintelligence-platform",
-      "rank": "PRIMARY"
-     }
-    ],
-    "conflated": false
-   },
-   {
-    "label": null,
-    "amount": 18000000,
-    "currency": "EUR",
-    "date": "2023-05-09",
-    "lead_investors": [
-     {
-      "id": "6ba00a20-2cb4-4559-8fe2-f39484a9e5f6",
-      "name": "Creandum"
-     }
-    ],
-    "participants": [
-     {
-      "id": "5aa183ac-7b7c-4320-b4d9-8e29e65c0db6",
-      "name": "KOMPAS VC"
-     },
-     {
-      "id": "45defaa0-fe31-442b-8525-e5cbf3d641b9",
-      "name": "SEGNALITA Ventures GmbH"
-     },
-     {
-      "id": "94e0ca6a-4e39-4181-bd84-11f264d0aa62",
-      "name": "Speedinvest"
-     },
-     {
-      "id": "5a079c02-0e55-4b48-a203-54c69ea16a13",
-      "name": "Ventech"
-     },
-     {
-      "id": "7524731c-e2f3-40a8-98bf-b371b0e2ec00",
-      "name": "Working Capital Fund"
-     },
-     {
-      "id": "113c23cf-e7a4-4dfb-98fc-496e86c1a1bf",
-      "name": "XISTA Science Ventures"
-     },
-     {
-      "id": "420b2ebc-7589-420f-9f5b-ed2dea14a893",
-      "name": "seed + speed Ventures"
-     }
-    ],
-    "sources": [
-     {
-      "name": "deutsche-startups.de",
-      "url": "https://www.deutsche-startups.de/2023/05/09/dealmonitor-prewave-dermanostic/",
+      "name": "uktech.news",
+      "url": "https://www.uktech.news/funding/3d-content-platform-rival-emerges-from-stealth-with-4-2-million-pre-seed-round-20250325",
       "rank": "PRESS"
      },
      {
-      "name": "cfnews.net",
-      "url": "https://www.cfnews.net/L-actualite/International/Operations/Capital-innovation/Prewave-etend-sa-serie-A-441406",
+      "name": "techfundingnews.com",
+      "url": "https://techfundingnews.com/meet-rival-ex-google-and-meta-engineers-scoop-4-2m-to-launch-3d-content-creation-platform-with-2d-to-3d-ai-technology/",
       "rank": "PRESS"
-     }
-    ],
-    "conflated": false
-   },
-   {
-    "label": "SERIES_A",
-    "amount": 18000000,
-    "currency": "EUR",
-    "date": "2023-05-09",
-    "lead_investors": [
-     {
-      "id": "6ba00a20-2cb4-4559-8fe2-f39484a9e5f6",
-      "name": "Creandum"
-     }
-    ],
-    "participants": [
-     {
-      "id": "5aa183ac-7b7c-4320-b4d9-8e29e65c0db6",
-      "name": "KOMPAS VC"
      },
      {
-      "id": "45defaa0-fe31-442b-8525-e5cbf3d641b9",
-      "name": "SEGNALITA Ventures GmbH"
-     },
-     {
-      "id": "94e0ca6a-4e39-4181-bd84-11f264d0aa62",
-      "name": "Speedinvest"
-     },
-     {
-      "id": "5a079c02-0e55-4b48-a203-54c69ea16a13",
-      "name": "Ventech"
-     },
-     {
-      "id": "7524731c-e2f3-40a8-98bf-b371b0e2ec00",
-      "name": "Working Capital Fund"
-     },
-     {
-      "id": "113c23cf-e7a4-4dfb-98fc-496e86c1a1bf",
-      "name": "XISTA Science Ventures"
-     },
-     {
-      "id": "420b2ebc-7589-420f-9f5b-ed2dea14a893",
-      "name": "seed + speed Ventures"
-     }
-    ],
-    "sources": [
-     {
-      "name": "deutsche-startups.de",
-      "url": "https://www.deutsche-startups.de/2023/05/09/dealmonitor-prewave-dermanostic/",
-      "rank": null
-     },
-     {
-      "name": "ceelegalmatters.com",
-      "url": "https://www.ceelegalmatters.com/austria/23218-brandl-talos-and-wmwp-advise-on-creandum-s-usd-20-million-investment-in-prewave",
-      "rank": null
-     }
-    ],
-    "conflated": false
-   },
-   {
-    "label": "SERIES_A",
-    "amount": 11000000,
-    "currency": "EUR",
-    "date": "2022-09-21",
-    "lead_investors": [
-     {
-      "id": "5aa183ac-7b7c-4320-b4d9-8e29e65c0db6",
-      "name": "KOMPAS VC"
-     },
-     {
-      "id": "5a079c02-0e55-4b48-a203-54c69ea16a13",
-      "name": "Ventech"
-     }
-    ],
-    "participants": [
-     {
-      "id": "869860dc-5a8d-4aca-97c8-7736eafaf159",
-      "name": "IST cube"
-     },
-     {
-      "id": "45defaa0-fe31-442b-8525-e5cbf3d641b9",
-      "name": "SEGNALITA Ventures GmbH"
-     },
-     {
-      "id": "94e0ca6a-4e39-4181-bd84-11f264d0aa62",
-      "name": "Speedinvest"
-     },
-     {
-      "id": "7524731c-e2f3-40a8-98bf-b371b0e2ec00",
-      "name": "Working Capital Fund"
-     },
-     {
-      "id": "c4b7fa13-eb16-4ef0-b3dc-d5ce23b84c8e",
-      "name": "aws Gründerfonds Beteiligungs GmbH & Co KG"
-     },
-     {
-      "id": "420b2ebc-7589-420f-9f5b-ed2dea14a893",
-      "name": "seed + speed Ventures"
-     }
-    ],
-    "sources": [
-     {
-      "name": "trendingtopics.eu",
-      "url": "https://www.trendingtopics.eu/prewave-11-mio-euro-fuer-wiener-startup-mit-lieferketten-ki/",
-      "rank": null
-     },
-     {
-      "name": "funding.tech.eu",
-      "url": "https://funding.tech.eu/companies/4A73C9F7-E703-43A1-A507-D98EB515127F",
-      "rank": null
+      "name": "find-and-update.company-information.service.gov.uk",
+      "url": "https://find-and-update.company-information.service.gov.uk/company/15026250/filing-history/MzQyNTYwMzc5NmFkaXF6a2N4/document?format=pdf&download=0",
+      "rank": "FILING"
      }
     ],
     "conflated": false
    },
    {
     "label": "SEED",
-    "amount": null,
-    "currency": null,
-    "date": "2020-01-01",
+    "amount": 373338,
+    "currency": "GBP",
+    "date": null,
     "lead_investors": [],
-    "participants": [
-     {
-      "id": "5a079c02-0e55-4b48-a203-54c69ea16a13",
-      "name": "Ventech"
-     }
-    ],
+    "participants": [],
     "sources": [
      {
-      "name": "trendingtopics.eu",
-      "url": "https://www.trendingtopics.eu/prewave-11-mio-euro-fuer-wiener-startup-mit-lieferketten-ki/",
-      "rank": null
-     }
-    ],
-    "conflated": false
-   },
-   {
-    "label": "SEED",
-    "amount": null,
-    "currency": null,
-    "date": "2018-06-27",
-    "lead_investors": [
-     {
-      "id": "869860dc-5a8d-4aca-97c8-7736eafaf159",
-      "name": "IST cube"
-     }
-    ],
-    "participants": [
-     {
-      "id": "90b2d3e7-6f0a-4af9-b07c-125b7a5da40f",
-      "name": "Pioneers Ventures II GmbH & Co KG"
-     }
-    ],
-    "sources": [
-     {
-      "name": "prewave.com",
-      "url": "https://prewave.com/news/vienna-based-ai-startup-prewave-secures-seed-investment-from-ist-cube-and-pioneers-ventures",
-      "rank": "PRIMARY"
-     },
-     {
-      "name": "globalventuring.com",
-      "url": "https://globalventuring.com/university/prewave-hits-seed-funding-goal/",
-      "rank": "PRESS"
+      "name": "find-and-update.company-information.service.gov.uk",
+      "url": "https://find-and-update.company-information.service.gov.uk/company/15026250/filing-history/MzU0OTQzMzg3OGFkaXF6a2N4/document?format=pdf&download=0",
+      "rank": "FILING"
      }
     ],
     "conflated": false
@@ -2234,39 +1650,201 @@
   ],
   "why_missed": [
    {
-    "reason": "Austria is outside your top countries (Finland, Germany, Switzerland)"
+    "reason": "United Kingdom is outside your top countries (Germany, United States, Switzerland)"
    }
   ],
   "recent_news": [],
   "sources": [
    {
     "name": "GLEIF",
-    "url": "https://search.gleif.org/#/record/984500481E09C9709148",
-    "rank": null
-   },
-   {
-    "name": "Explore the KOMPAS VC Portfolio",
-    "url": "https://kompas.vc/portfolio",
+    "url": "https://search.gleif.org/#/record/254900VILCHYV8OZIV76",
     "rank": null
    },
    {
     "name": "dns.google",
-    "url": "https://dns.google/query?name=prewave.com&type=A",
+    "url": "https://dns.google/query?name=rival.tech&type=A",
     "rank": "PRIMARY"
    },
    {
-    "name": "xista.vc",
-    "url": "https://xista.vc/news/detail/prewave-raises-eur63m-series-b-to-revolutionise-supply-chain-risk-management-with-ai-driven-superintelligence-platform",
-    "rank": "PRIMARY"
+    "name": "vcbacked.co",
+    "url": "https://www.vcbacked.co/company/rival-london",
+    "rank": "AGGREGATOR"
    },
    {
-    "name": "trendingtopics.eu",
-    "url": "https://www.trendingtopics.eu/prewave-11-mio-euro-fuer-wiener-startup-mit-lieferketten-ki/",
+    "name": "find-and-update.company-information.service.gov.uk",
+    "url": "https://find-and-update.company-information.service.gov.uk/company/15026250/filing-history/MzU0OTQzMzg3OGFkaXF6a2N4/document?format=pdf&download=0",
+    "rank": "FILING"
+   },
+   {
+    "name": "tech.eu",
+    "url": "https://tech.eu/2025/03/25/rival-emerges-from-stealth-with-ai-powered-3d-content-platform-and-42m-investment/",
     "rank": "PRESS"
    },
    {
-    "name": "deutsche-startups.de",
-    "url": "https://www.deutsche-startups.de/2023/05/09/dealmonitor-prewave-dermanostic/",
+    "name": "techfundingnews.com",
+    "url": "https://techfundingnews.com/meet-rival-ex-google-and-meta-engineers-scoop-4-2m-to-launch-3d-content-creation-platform-with-2d-to-3d-ai-technology/",
+    "rank": "PRESS"
+   }
+  ]
+ },
+ "b42baef9-5bb9-49de-b32f-88caa2a6a0a0": {
+  "id": "b42baef9-5bb9-49de-b32f-88caa2a6a0a0",
+  "name": "Tornyol",
+  "website": "tornyol.com",
+  "description": "French hardware startup building autonomous ~40 g micro-drones that detect mosquitoes by ultrasonic sonar and physically kill them, for chemical-free mosquito control.",
+  "country": "France",
+  "founded": "2025",
+  "rounds": [
+   {
+    "label": "PRE_SEED",
+    "amount": 3500000,
+    "currency": "USD",
+    "date": "2025-11-07",
+    "lead_investors": [
+     {
+      "id": "c934f7e3-6ee3-4983-b0e1-f7827df567f9",
+      "name": "Point Nine"
+     },
+     {
+      "id": "1e86655e-373d-4fe8-be13-af3713581f73",
+      "name": "Y Combinator"
+     }
+    ],
+    "participants": [
+     {
+      "id": "5fc5e4d4-4138-47b8-93de-8c17a10b3b10",
+      "name": "DG Daiwa Ventures"
+     },
+     {
+      "id": "df646c9d-947b-400d-8242-39d0e879430a",
+      "name": "KIMA VENTURES"
+     },
+     {
+      "id": "26a1ed80-0d2f-49cb-976d-5377f759cbfd",
+      "name": "Long Journey Ventures"
+     },
+     {
+      "id": "9238d2f1-f34e-447a-bda8-f1beb79b3e5a",
+      "name": "Pioneer Fund"
+     }
+    ],
+    "sources": [
+     {
+      "name": "nordic9.com",
+      "url": "https://nordic9.com/news/tornyol-raised-a-35-million-seed-round-led-by/",
+      "rank": "AGGREGATOR"
+     },
+     {
+      "name": "crunchbase.com",
+      "url": "https://www.crunchbase.com/organization/tornyol",
+      "rank": "AGGREGATOR"
+     },
+     {
+      "name": "ycombinator.com",
+      "url": "https://www.ycombinator.com/companies/tornyol",
+      "rank": "PRIMARY"
+     }
+    ],
+    "conflated": false
+   }
+  ],
+  "why_missed": [
+   {
+    "reason": "Lead investor Point Nine has never co-invested with you"
+   },
+   {
+    "reason": "France is outside your top countries (Germany, United States, Switzerland)"
+   }
+  ],
+  "recent_news": [],
+  "sources": [
+   {
+    "name": "Y Combinator",
+    "url": "https://github.com/yc-oss/api",
+    "rank": null
+   },
+   {
+    "name": "ycombinator.com",
+    "url": "https://www.ycombinator.com/companies/tornyol",
+    "rank": "PRIMARY"
+   },
+   {
+    "name": "crunchbase.com",
+    "url": "https://www.crunchbase.com/organization/tornyol",
+    "rank": "AGGREGATOR"
+   },
+   {
+    "name": "dns.google",
+    "url": "https://dns.google/query?name=tornyol.com&type=A",
+    "rank": "PRIMARY"
+   },
+   {
+    "name": "nordic9.com",
+    "url": "https://nordic9.com/news/tornyol-raised-a-35-million-seed-round-led-by/",
+    "rank": "AGGREGATOR"
+   }
+  ]
+ },
+ "db95edaa-058f-494d-a4f4-5f56bf81afd9": {
+  "id": "db95edaa-058f-494d-a4f4-5f56bf81afd9",
+  "name": "Amenitiz",
+  "website": "amenitiz.com",
+  "description": "The all-in-one hotel management system for hoteliers: property management software, channel manager, booking engine in one centralized tool. Book a demo.",
+  "country": "France",
+  "founded": "2017",
+  "rounds": [
+   {
+    "label": "SERIES_B",
+    "amount": 3000000000,
+    "currency": "EUR",
+    "date": "2025-11-11",
+    "lead_investors": [],
+    "participants": [],
+    "sources": [
+     {
+      "name": "eu-startups.com",
+      "url": "https://www.eu-startups.com/2025/11/spains-amenitiz-expands-to-15000-hotels-and-processes-e3-billion-in-bookings-ahead-of-new-e38-9-million-funding/",
+      "rank": "PRESS"
+     },
+     {
+      "name": "techfundingnews.com",
+      "url": "https://techfundingnews.com/amenitiz-raises-45m-series-b-ai-hotel-management/",
+      "rank": "PRESS"
+     }
+    ],
+    "conflated": true
+   }
+  ],
+  "why_missed": [
+   {
+    "reason": "France is outside your top countries (Germany, United States, Switzerland)"
+   }
+  ],
+  "recent_news": [],
+  "sources": [
+   {
+    "name": "Companies | Eight Roads",
+    "url": "https://eightroads.com/companies",
+    "rank": null
+   },
+   {
+    "name": "amenitiz.com",
+    "url": "https://amenitiz.com/",
+    "rank": "PRIMARY"
+   },
+   {
+    "name": "linkedin.com",
+    "url": "https://www.linkedin.com/company/amenitiz",
+    "rank": "AGGREGATOR"
+   },
+   {
+    "name": "dns.google",
+    "url": "https://dns.google/query?name=amenitiz.com&type=A",
+    "rank": "PRIMARY"
+   },
+   {
+    "name": "eu-startups.com",
+    "url": "https://www.eu-startups.com/2025/11/spains-amenitiz-expands-to-15000-hotels-and-processes-e3-billion-in-bookings-ahead-of-new-e38-9-million-funding/",
     "rank": "PRESS"
    }
   ]
@@ -2424,100 +2002,6 @@
     "name": "europeanspaceflight.com",
     "url": "https://europeanspaceflight.com/switzerlands-pave-space-closes-40-million-seed-funding-round/",
     "rank": "PRESS"
-   }
-  ]
- },
- "2b720ccf-3f2a-41b9-b890-742f95760079": {
-  "id": "2b720ccf-3f2a-41b9-b890-742f95760079",
-  "name": "Seltz",
-  "website": "seltz.ai",
-  "description": "Web-knowledge API for AI agents that owns the full search stack (Rust crawler, index, retrieval and ranking models) and returns full, context-engineered documents with sources for LLMs, RAG pipelin...",
-  "country": "United States",
-  "founded": "2025",
-  "rounds": [
-   {
-    "label": "SEED",
-    "amount": 12500000,
-    "currency": "USD",
-    "date": "2026-06-24",
-    "lead_investors": [
-     {
-      "id": "5e638f96-b5c7-42ff-87fb-dfaeb0328d7e",
-      "name": "B Capital"
-     },
-     {
-      "id": "94e0ca6a-4e39-4181-bd84-11f264d0aa62",
-      "name": "Speedinvest"
-     }
-    ],
-    "participants": [
-     {
-      "id": "e5483974-d235-402d-b757-c9397daf7270",
-      "name": "2100 vc"
-     },
-     {
-      "id": "c66ecdbc-5474-430c-af13-b4cce4b1d01b",
-      "name": "Arc Investors LLC"
-     },
-     {
-      "id": "6e5bdf9b-bea3-417c-9884-5e477d3e5281",
-      "name": "FUTURE PRESENT GROUP AS"
-     },
-     {
-      "id": "b2d380bc-523c-4a40-8701-360e526b068c",
-      "name": "Future Back Ventures"
-     },
-     {
-      "id": "82e08d0c-f316-4142-8294-250f89d2b3e5",
-      "name": "ITALIAN FOUNDERS FUND"
-     },
-     {
-      "id": "c2f7544e-1cde-474c-ac48-f441f6972fe4",
-      "name": "MANGO CAPITAL INVESTMENTS LIMITED"
-     },
-     {
-      "id": "e899b9f9-4f16-4c99-a2d2-143de7c1d441",
-      "name": "United Ventures"
-     },
-     {
-      "id": "c97eb974-6dcc-4deb-8015-22028bd21c83",
-      "name": "Vento Ventures"
-     }
-    ],
-    "sources": [
-     {
-      "name": "seltz.ai",
-      "url": "https://seltz.ai/blog/seed-round-announcement",
-      "rank": "PRIMARY"
-     },
-     {
-      "name": "fortune.com",
-      "url": "https://fortune.com/2026/06/24/exclusive-seltz-a-startup-rebuilding-web-search-for-ai-agents-raises-12-5-million-in-seed-funding/",
-      "rank": "PRESS"
-     }
-    ],
-    "conflated": true
-   }
-  ],
-  "why_missed": [
-   {
-    "reason": "Lead investor B Capital has never co-invested with you"
-   },
-   {
-    "reason": "United States is outside your top countries (Finland, Germany, Switzerland)"
-   }
-  ],
-  "recent_news": [],
-  "sources": [
-   {
-    "name": "seltz.ai",
-    "url": "https://seltz.ai/blog/seed-round-announcement",
-    "rank": "PRIMARY"
-   },
-   {
-    "name": "dns.google",
-    "url": "https://dns.google/query?name=seltz.ai&type=A",
-    "rank": "PRIMARY"
    }
   ]
  }

@@ -26,7 +26,23 @@ EQUITY_STAGES = ["PRE_SEED", "SEED", "SERIES_A", "SERIES_B", "SERIES_C", "SERIES
                  "SERIES_G", "SERIES_H"]
 STAGE_RANK = {s: i for i, s in enumerate(EQUITY_STAGES)}
 THESIS_STAGE_MIN_SHARE = 0.10
+# Geography of the market (product rule): all crawled funds are European, so the market only
+# contains companies headquartered in Europe. Within that scope, a region is in the fund's thesis
+# when it holds at least THESIS_REGION_MIN_SHARE of the fund's whole Cala portfolio (companies
+# with a known HQ, all countries in the denominator).
+MARKET_SCOPE = "Europe"
+THESIS_REGION_MIN_SHARE = 0.05
 MAX_NEVER_SEEN = 200
+# Largest plausible round per label (any currency). Anything above is treated as conflated / a data
+# error (e.g. a valuation stored as the round size) and is excluded from counts. Same values as the
+# crawler's CONFLATION_THRESHOLDS; applied again here so they work on already-crawled data.
+MAX_PLAUSIBLE_ROUND = {"PRE_SEED": 5e6, "SEED": 10e6, "SERIES_A": 75e6, "SERIES_B": 250e6,
+                       "SERIES_C": 600e6, "SERIES_D": 1.5e9, "SERIES_E": 2e9, "SERIES_F": 3e9}
+
+
+def is_conflated(r: dict) -> bool:
+    cap = MAX_PLAUSIBLE_ROUND.get(r.get("label") or "")
+    return bool(r.get("conflated")) or bool(cap and isinstance(r.get("amount"), (int, float)) and r["amount"] > cap)
 
 REGIONS = {
     "Nordics": ["Sweden", "Denmark", "Norway", "Finland", "Iceland"],
@@ -38,11 +54,13 @@ REGIONS = {
     "CEE": ["Poland", "Czechia", "Slovakia", "Hungary", "Romania", "Bulgaria", "Croatia", "Slovenia", "Serbia",
             "Ukraine", "Estonia", "Latvia", "Lithuania"],
     "North America": ["United States", "Canada"],
+    "Türkiye": ["Türkiye", "Turkey"],
     "Israel": ["Israel"],
 }
+EUROPE_REGIONS = {"Nordics", "DACH", "UK & Ireland", "France", "Benelux", "Southern Europe", "CEE", "Türkiye"}
 REGION_ADJ = {"Nordics": "Nordic", "DACH": "DACH", "UK & Ireland": "UK & Irish", "France": "French",
               "Benelux": "Benelux", "Southern Europe": "Southern European", "CEE": "CEE",
-              "North America": "North American", "Israel": "Israeli"}
+              "North America": "North American", "Israel": "Israeli", "Türkiye": "Turkish"}
 COUNTRY_REGION = {c: r for r, cs in REGIONS.items() for c in cs}
 
 
@@ -126,13 +144,14 @@ def _profile(fund_id: str) -> dict:
     portfolio = db.fund_portfolio(fund_id)
     comps = db.companies(portfolio)
     rounds = [r for r in db.rounds_for_companies(portfolio)
-              if r["date"] and r["date"] >= PROFILE_FROM and not r["conflated"]]
+              if r["date"] and r["date"] >= PROFILE_FROM and not is_conflated(r)]
     active = sorted({r["company_id"] for r in rounds})
     stage_counts = Counter(r["label"] for r in rounds if r["label"] in STAGE_RANK)
     total = sum(stage_counts.values())
     stages = [{"label": s, "share": round(n / total, 2)}
               for s, n in sorted(stage_counts.items(), key=lambda kv: (-kv[1], STAGE_RANK[kv[0]]))] if total else []
-    countries = Counter(comps[c]["country"] for c in active if c in comps and comps[c]["country"])
+    # Countries over the fund's whole Cala portfolio (a far larger sample than the recent rounds).
+    countries = Counter(c["country"] for c in comps.values() if c["country"])
     industries = Counter(i for c in active if c in comps for i in comps[c]["industries"])
 
     # suggested peers: other crawled funds ranked by shared portfolio companies
@@ -155,7 +174,13 @@ def _profile(fund_id: str) -> dict:
     # (so a PRE_SEED..SERIES_B fund includes SERIES_A), and every region it recently invested in.
     core = [STAGE_RANK[s["label"]] for s in stages if s["share"] >= THESIS_STAGE_MIN_SHARE]
     thesis_stages = set(EQUITY_STAGES[min(core):max(core) + 1]) if core else {"SEED", "SERIES_A"}
-    thesis_regions = {region_of(c) for c in countries} or set(REGIONS)
+    known = sum(countries.values())
+    region_counts = Counter()
+    for country, n in countries.items():
+        region_counts[region_of(country)] += n
+    thesis_regions = {r for r, n in region_counts.items()
+                      if r in EUROPE_REGIONS and known and n / known >= THESIS_REGION_MIN_SHARE}
+    thesis_regions = thesis_regions or set(EUROPE_REGIONS)
     return {
         "fund": fund,
         "investments_since_2022": len(active),
@@ -210,7 +235,7 @@ def run_audit(fund_id: str, peer_ids: list[str], crm_text: str) -> dict:
             continue
         if not r["sources"]:   # every market deal must be backed by at least one Cala source
             continue
-        bucket = conflated_only if r["conflated"] else counted
+        bucket = conflated_only if is_conflated(r) else counted
         cur = bucket.get(c["id"])
         if cur is None or (r["date"], r["amount"] or 0) > (cur["date"], cur["amount"] or 0):
             bucket[c["id"]] = r
@@ -393,7 +418,7 @@ def deal_detail(company_id: str, fund_id: Optional[str], cala=None, news_wait: f
     out_rounds = [{"label": r["label"], "amount": _amount(r["amount"]), "currency": r["currency"], "date": r["date"],
                    "lead_investors": lp.get(r["id"], {}).get("leads", []),
                    "participants": lp.get(r["id"], {}).get("participants", []),
-                   "sources": r["sources"], "conflated": r["conflated"]} for r in rounds]
+                   "sources": r["sources"], "conflated": is_conflated(r)} for r in rounds]
 
     why = []
     if fund_id and db.get_fund(fund_id):

@@ -1,18 +1,30 @@
 # SIMULATED CRM export for the Blind Spot demo. Not real pipeline data of Earlybird Venture Capital.
+# invested = real portfolio companies from Cala; passed/in_review rows and noise rows are simulated.
 company,website,status,date
-Mosaic Grid,mosaicgrid.energy,in_review,2023-01-03
-Pinecrest Labs,pinecrestlabs.co.uk,passed,2023-03-24
-Velora Pay,velorapay.eu,passed,2023-10-22
-Patchbay Audio,patchbay.fm,in_review,2024-03-06
-Cardino,,invested,2024-03-25
-Halvard Security,halvard.no,passed,2024-03-27
-Strata Forms,strataforms.app,passed,2024-04-05
-Arclight Bio,arclightbio.ch,in_review,2024-05-17
-Orchard Ledger,orchardledger.com,in_review,2024-07-14
-Kvarn Logistics,kvarn.se,in_review,2024-09-28
-Lumora Analytics,lumora-analytics.io,passed,2024-10-24
-Quillnest,quillnest.ai,in_review,2025-02-08
-Brisa Mobility,brisa-mobility.es,passed,2025-03-06
-Nimbus Kitchen,nimbuskitchen.fr,in_review,2025-04-14
-Fernwerk Robotics,fernwerk.de,passed,2025-06-24
-Tidewell Health,tidewell.health,in_review,2025-07-05
+Orchard Ledger,orchardledger.com,in_review,2023-01-26
+Halvard Security,halvard.no,passed,2023-04-03
+Lumora Analytics,lumora-analytics.io,passed,2023-10-27
+Brisa Mobility,brisa-mobility.es,passed,2024-01-13
+Cardino,cardino.de,passed,2024-02-14
+Strata Forms,strataforms.app,in_review,2024-03-11
+Fernwerk Robotics,fernwerk.de,passed,2024-04-13
+Quillnest,quillnest.ai,passed,2024-04-17
+Pinecrest Labs,pinecrestlabs.co.uk,passed,2024-07-21
+Patchbay Audio,patchbay.fm,passed,2024-08-14
+Haya Therapeutics SA,hayatx.com,invested,2024-12-19
+Kvarn Logistics,kvarn.se,in_review,2024-12-21
+Prewave GmbH,prewave.com,passed,2024-12-22
+Nimbus Kitchen,nimbuskitchen.fr,in_review,2025-04-01
+Velora Pay,velorapay.eu,passed,2025-06-07
+Arclight Bio,arclightbio.ch,passed,2025-06-15
+Tidewell Health,tidewell.health,in_review,2025-06-16
+PHOEBE TECHNOLOGY LIMITED,,in_review,2025-06-22
+Mosaic Grid,mosaicgrid.energy,in_review,2025-07-01
+OMNEA LIMITED,omnea.co,passed,2025-07-15
+Porters,withporters.com,invested,2025-11-02
+eleQtron,eleqtron.com,invested,2026-01-13
+Synera,synera.io,in_review,2026-01-25
+Avrea,avrea.com,invested,2026-02-21
+"Gemma Biotherapeutics, Inc.",gemmabiotx.com,invested,2026-04-30
+Graph Therapeutics,graphtx.com,in_review,2026-05-28
+Marvel Fusion GmbH,marvelfusion.com,invested,2026-09-21

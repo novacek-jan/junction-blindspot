@@ -31,7 +31,8 @@ from funds import FUNDS  # noqa: E402
 
 WORKERS = 4
 MIN_DATE = "2023-01-01"   # summary window; all rounds are stored
-CONFLATION_THRESHOLDS = {"PRE_SEED": 5_000_000, "SEED": 10_000_000, "SERIES_A": 75_000_000}
+CONFLATION_THRESHOLDS = {"PRE_SEED": 5e6, "SEED": 10e6, "SERIES_A": 75e6, "SERIES_B": 250e6,
+                         "SERIES_C": 600e6, "SERIES_D": 1.5e9, "SERIES_E": 2e9, "SERIES_F": 3e9}  # = audit.MAX_PLAUSIBLE_ROUND
 FUND_ENTITY_TYPES = ["Organization", "Company"]
 
 # Argument lists are kept identical to the v1 crawler so its cached responses are reused.
@@ -51,7 +52,7 @@ def conflation(label, amount, company_total, same_currency) -> str:
     reasons = []
     thr = CONFLATION_THRESHOLDS.get(label or "")
     if thr and isinstance(amount, (int, float)) and amount > thr:
-        reasons.append(f"{label} above {thr / 1e6:.0f}M")
+        reasons.append(f"{label} above {thr / 1e6:.0f}M")  # noqa
     if isinstance(amount, (int, float)) and isinstance(company_total, (int, float)) and same_currency \
             and amount > company_total * 1.05:
         reasons.append("round larger than company total_funding")

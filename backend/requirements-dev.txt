@@ -1,0 +1,2 @@
+# Test tools for Python 3.12 (not installed in the production image)
+pytest==9.0.3

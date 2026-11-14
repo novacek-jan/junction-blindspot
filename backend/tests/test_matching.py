@@ -106,3 +106,12 @@ def test_blind_spot_facts_deterministic():
     assert facts[0] == {"title": "Nordic seed",
                         "detail": "You never saw 3 of 4 Nordic seed rounds your peers did since 2023."}
     assert facts[1]["detail"] == "Creandum led 3 peer deals that never reached your pipeline."
+
+
+def test_implausible_round_sizes_count_as_conflated():
+    from audit import is_conflated
+    assert is_conflated({"label": "SERIES_B", "amount": 3e9, "conflated": 0})       # valuation stored as round
+    assert not is_conflated({"label": "SERIES_B", "amount": 150e6, "conflated": 0})
+    assert is_conflated({"label": "SEED", "amount": 12e6, "conflated": 0})
+    assert is_conflated({"label": "SEED", "amount": 1e6, "conflated": 1})           # crawler flag kept
+    assert not is_conflated({"label": "GRANT", "amount": 5e9, "conflated": 0})       # no cap defined

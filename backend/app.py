@@ -204,6 +204,26 @@ def _rate_limited(ip: str) -> bool:
         return False
 
 
+def client_ip(request: Request) -> str:
+    """Client IP for rate limiting.
+
+    TRUSTED_PROXY_HOPS=0 (default): the TCP peer address; X-Forwarded-For is ignored (it can be forged).
+    TRUSTED_PROXY_HOPS=N: N trusted proxies each append to X-Forwarded-For, so the client is the
+    N-th entry from the right. Entries further left are client-supplied and never trusted.
+    """
+    try:
+        hops = max(0, int(os.environ.get("TRUSTED_PROXY_HOPS", "0")))
+    except ValueError:
+        hops = 0
+    peer = request.client.host if request.client else "unknown"
+    if hops == 0:
+        return peer
+    parts = [p.strip() for p in request.headers.get("x-forwarded-for", "").split(",") if p.strip()]
+    if not parts:
+        return peer
+    return parts[-hops] if len(parts) >= hops else parts[0]
+
+
 def _check_access(request: Request) -> None:
     expected = os.environ.get("AUDIT_ACCESS_CODE", "")
     if not expected:
@@ -229,7 +249,7 @@ async def _read_body_capped(request: Request) -> bytes:
 @app.post("/api/audit")
 async def run_audit(request: Request):
     _check_access(request)
-    ip = request.client.host if request.client else "unknown"
+    ip = client_ip(request)
     if _rate_limited(ip):
         raise ApiError(429, "rate_limited", f"at most {RATE_LIMIT} audits per {RATE_WINDOW_S // 60} minutes")
     if not request.headers.get("content-type", "").startswith("multipart/form-data"):
