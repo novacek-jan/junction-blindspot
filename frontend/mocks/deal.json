@@ -1,0 +1,61 @@
+{
+  "id": "0b6f4c1e-1111-4a0b-9c1d-000000000001",
+  "name": "Vayu Robotics",
+  "website": "vayu-robotics.se",
+  "description": "Autonomous robots for industrial sites.",
+  "country": "Sweden",
+  "founded": "2022",
+  "rounds": [
+    {
+      "id": "a1f0c2d3-1111-4a0b-9c1d-0000000000a1",
+      "label": "SERIES_A",
+      "amount": 12000000,
+      "currency": "EUR",
+      "date": "2025-03-18",
+      "date_kind": "announcement",
+      "qualifying": true,
+      "lead_investors": [
+        {
+          "id": "6ba00a20-2cb4-4559-8fe2-f39484a9e5f6",
+          "name": "Creandum"
+        }
+      ],
+      "participants": [
+        {
+          "id": "c0ffee00-1111-4a0b-9c1d-0000000000b2",
+          "name": "Giant Ventures"
+        }
+      ],
+      "sources": [
+        {
+          "name": "tech.eu",
+          "url": "https://tech.eu/2025/03/18/vayu-robotics-series-a",
+          "rank": "PRESS",
+          "date": "2025-03-18"
+        }
+      ],
+      "conflated": false
+    }
+  ],
+  "why_missed": [
+    {
+      "reason": "Lead investor Creandum has never co-invested with you"
+    }
+  ],
+  "recent_news": [
+    {
+      "title": "Vayu Robotics opens Helsinki office",
+      "date": "2026-10-02",
+      "source": "tech.eu",
+      "url": "https://tech.eu/example"
+    }
+  ],
+  "sources": [
+    {
+      "name": "vayu-robotics.se",
+      "url": "https://vayu-robotics.se",
+      "rank": "PRIMARY",
+      "date": "2026-01-10"
+    }
+  ]
+}

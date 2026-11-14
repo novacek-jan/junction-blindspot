@@ -1,6 +1,6 @@
 // Single API client. NEXT_PUBLIC_USE_MOCKS=true serves frontend/mocks/*.json,
 // otherwise requests go to NEXT_PUBLIC_API_URL (the backend). No keys live here.
-import { isAudit, type Audit, type CrmMapping, type CrmPreview, type FundProfile, type FundSearchResult } from "./types";
+import { isAudit, type Audit, type CrmMapping, type CrmPreview, type DealDetail, type DemoEntry, type FundProfile, type FundSearchResult } from "./types";
 
 export const USE_MOCKS = process.env.NEXT_PUBLIC_USE_MOCKS === "true";
 export const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000").replace(/\/$/, "");
@@ -101,6 +101,8 @@ const mocks = {
   audit: () => import("@/mocks/audit.json").then((m) => m.default as Audit),
   preview: () => import("@/mocks/audit_preview.json").then((m) => m.default as CrmPreview),
   demo: () => import("@/mocks/audit_demo.json").then((m) => m.default as Audit),
+  demos: () => import("@/mocks/demos.json").then((m) => m.default as DemoEntry[]),
+  deal: () => import("@/mocks/deal.json").then((m) => m.default as DealDetail),
 };
 
 const delay = <T>(value: T, ms = 250) =>
@@ -190,9 +192,29 @@ function checkAudit(a: unknown): Audit {
   return a;
 }
 
-export async function getDemoAudit(): Promise<Audit> {
-  if (USE_MOCKS) return delay(await mocks.demo(), 300);
-  return checkAudit(await http("/api/audit/demo"));
+/** The default demo without `fundId`, otherwise the demo of that fund (GET /api/audit/demos lists them). */
+export async function getDemoAudit(fundId?: string): Promise<Audit> {
+  if (USE_MOCKS) {
+    const [audit, demos] = await Promise.all([mocks.demo(), mocks.demos()]);
+    const fund = (fundId ? demos.find((d) => d.fund.id === fundId) : demos.find((d) => d.default))?.fund ?? audit.fund;
+    return delay({ ...audit, fund }, 300);
+  }
+  return checkAudit(await http(fundId ? `/api/audit/demo?fund_id=${encodeURIComponent(fundId)}` : "/api/audit/demo"));
+}
+
+export async function getDemos(): Promise<DemoEntry[]> {
+  if (USE_MOCKS) return delay(await mocks.demos(), 100);
+  const demos = await http<DemoEntry[]>("/api/audit/demos");
+  return Array.isArray(demos) ? demos.filter((d) => d?.fund?.id && d.fund.name) : [];
+}
+
+export async function getDeal(companyId: string, fundId: string): Promise<DealDetail> {
+  if (USE_MOCKS) {
+    const deal = await mocks.deal();
+    if (deal.id !== companyId) throw new ApiError("not_found", 404);
+    return delay(deal, 300);
+  }
+  return http(`/api/deals/${encodeURIComponent(companyId)}?fund_id=${encodeURIComponent(fundId)}`);
 }
 
 /** Rejects with a timeout error if `p` takes longer than REQUEST_TIMEOUT_MS (also covers mock mode and navigation). */

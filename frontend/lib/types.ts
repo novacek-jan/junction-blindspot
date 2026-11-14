@@ -65,8 +65,43 @@ export type Audit = {
     qualifying_companies: number;
     investors_explored: number;
     as_of: string;
-    region?: string; // not in the contract yet, e.g. "Nordic"
+    region?: string; // crawl focus code, e.g. "nordics"
+    region_countries?: string[];
+    region_qualifying_companies?: number;
+    priority_country?: string;
+    priority_country_qualifying_companies?: number;
   };
+  // Being added to the contract by the backend; the page renders without them.
+  breakdown?: unknown;
+  patterns?: unknown;
+};
+
+export type DemoEntry = { fund: OrgRef; default: boolean };
+
+export type DealRound = {
+  id: string;
+  label: Stage | null;
+  amount: number | null;
+  currency: string | null;
+  date: string | null; // null e.g. for EU grants without a date
+  date_kind?: "announcement" | "event";
+  qualifying?: boolean;
+  lead_investors: OrgRef[];
+  participants: OrgRef[];
+  sources: Source[];
+  conflated?: boolean;
+};
+
+export type DealDetail = {
+  id: string;
+  name: string;
+  website?: string | null;
+  description?: string | null;
+  country?: string | null;
+  founded?: string | null;
+  rounds: DealRound[];
+  recent_news?: { title: string; date: string | null; source: string; url: string }[];
+  sources: Source[];
 };
 
 /** True for a v2 audit response (the shape the UI renders). */

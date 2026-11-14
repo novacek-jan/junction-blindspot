@@ -1,0 +1,16 @@
+[
+  {
+    "fund": {
+      "id": "476a73ac-afa2-4713-9f73-188bc7ec0b95",
+      "name": "Lifeline Ventures"
+    },
+    "default": true
+  },
+  {
+    "fund": {
+      "id": "7de3d7d6-af8f-4e95-a949-2befc86938a0",
+      "name": "Earlybird Venture Capital"
+    },
+    "default": false
+  }
+]
