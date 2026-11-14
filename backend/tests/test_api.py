@@ -26,6 +26,8 @@ import db  # noqa: E402
 
 F1, F2, F3 = "f1000000-0000-0000-0000-000000000001", "f2000000-0000-0000-0000-000000000002", "f3000000-0000-0000-0000-000000000003"
 LEAD = {"own1": F1, "own2": "e1-legal", "m3": F3}   # own rounds led by Alpha (incl. its legal entity)
+# own1 adds a second industry: Alpha's thesis is SOFTWARE_AND_SERVICES (2 basis rounds) before ADVERTISING (1)
+INDUSTRIES = {"own1": ["ADVERTISING", "SOFTWARE_AND_SERVICES"]}
 SRC = [{"name": "tech.eu", "url": "https://tech.eu/x", "rank": "PRESS"}]
 
 
@@ -43,7 +45,7 @@ def _seed(path: Path) -> None:
     for cid, name, web, country in comps:
         db.upsert_company({"id": cid, "name": name, "website": "https://" + web, "description": f"{name} does things",
                            "country": country, "founded": "2021", "funding_stage": "SEED", "total_funding": 5e6,
-                           "total_funding_currency": "EUR", "industries": json.dumps(["SOFTWARE_AND_SERVICES"]),
+                           "total_funding_currency": "EUR", "industries": json.dumps(INDUSTRIES.get(cid, ["SOFTWARE_AND_SERVICES"])),
                            "sources": json.dumps(SRC), "fetched_at": 0})
     db.add_portfolio(F1, [("own1", "INVESTED_IN", None), ("own2", "INVESTED_IN", None)])
     db.add_portfolio(F2, [("m1", "INVESTED_IN", None), ("m2", "INVESTED_IN", None), ("cf", "INVESTED_IN", None),
@@ -164,6 +166,8 @@ def test_profile_shape_and_values(client):
     assert body["thesis"]["stages"] == ["SEED", "SERIES_A"]
     assert {"Germany", "Austria", "Switzerland", "Sweden", "Finland"} <= set(body["thesis"]["countries"])
     assert "United States" not in body["thesis"]["countries"]
+    # thesis industries ranked by basis rounds (most first), not alphabetically
+    assert [i["code"] for i in body["thesis"]["industries"]] == ["SOFTWARE_AND_SERVICES", "ADVERTISING"]
     assert sum(c["count"] for c in body["countries"]) == body["investments_since_2022"]
     top = body["suggested_peers"][0]
     assert (top["id"], top["co_investments"]) == (F2, 1)
@@ -192,6 +196,7 @@ def test_audit_numbers_and_shape(client):
                              "text": "1 VC-backed company in your thesis raised since 2022 and never hit your CRM"}
     assert a["period"]["from"] == "2022-01-01"
     assert a["thesis"]["stages"] == ["SEED", "SERIES_A"] and a["thesis"]["basis_rounds"] == 2
+    assert [i["code"] for i in a["thesis"]["industries"]] == ["SOFTWARE_AND_SERVICES", "ADVERTISING"]
     [d] = a["never_seen"]
     assert d["name"] == "Market Three" and d["country"] == "Finland"
     assert d["round"]["label"] == "SEED" and d["round"]["date"] == "2024-09-01"

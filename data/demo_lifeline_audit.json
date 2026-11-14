@@ -24,12 +24,20 @@
   ],
   "industries": [
    {
-    "code": "HARDWARE_AND_EQUIPMENT",
-    "name": "Hardware and equipment"
+    "code": "SOFTWARE_AND_SERVICES",
+    "name": "Software and services"
+   },
+   {
+    "code": "RENEWABLE_ENERGY",
+    "name": "Renewable energy"
    },
    {
     "code": "INTERNET_AND_WEB_SERVICES",
     "name": "Internet and web services"
+   },
+   {
+    "code": "HARDWARE_AND_EQUIPMENT",
+    "name": "Hardware and equipment"
    },
    {
     "code": "MANUFACTURING_AUTOMOTIVE",
@@ -38,14 +46,6 @@
    {
     "code": "RAW_MATERIALS",
     "name": "Raw materials"
-   },
-   {
-    "code": "RENEWABLE_ENERGY",
-    "name": "Renewable energy"
-   },
-   {
-    "code": "SOFTWARE_AND_SERVICES",
-    "name": "Software and services"
    }
   ],
   "basis_rounds": 12
@@ -1582,13 +1582,13 @@
     "kind": "theme",
     "value": 4,
     "total": 19,
-    "title": "AI software for knowledge work",
-    "line": "These sell AI tools to companies for security, patents, deals and geopolitical analysis.",
+    "title": "AI software for enterprise teams",
+    "line": "Pistachio, Redpine, IPRally and Rotomate sell AI software that helps professional teams decide faster.",
     "company_ids": [
+     "331fec23-9c63-4885-a8f5-c2902c9e1b9d",
      "3ee757f1-15c6-4f26-aafd-eba7953589a9",
-     "d17e0abf-0a57-4574-820b-822e5cac6308",
-     "dd64c2b7-b551-4322-ac10-57fa4eead37e",
-     "dfc26dad-408b-4630-8a68-e490d2fbd786"
+     "98ff140a-f183-485a-8d7d-3e02bf137c9b",
+     "dd64c2b7-b551-4322-ac10-57fa4eead37e"
     ],
     "investor_names": []
    },
@@ -1597,7 +1597,7 @@
     "value": 6,
     "total": 19,
     "title": "Many already raised again",
-    "line": "6 of 19 have already closed a new round, so they move fast.",
+    "line": "6 of 19 have raised another round since, so they are moving fast.",
     "company_ids": [
      "3ee757f1-15c6-4f26-aafd-eba7953589a9",
      "41f89a61-54ac-4068-82af-a2d2096efcfc",
@@ -1610,7 +1610,7 @@
    }
   ],
   "model": "claude-sonnet-5-5",
-  "generated_at": "2026-11-14T17:39:28Z"
+  "generated_at": "2026-11-14T18:03:02Z"
  },
  "market_coverage": {
   "european_companies_screened": 2701,

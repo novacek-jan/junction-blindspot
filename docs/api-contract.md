@@ -79,7 +79,9 @@ period (since 2022-01-01) and scope (companies headquartered in Europe).**
 - `stages` / `countries` / `industries`: counts and shares over exactly those rounds.
 - `thesis` is the **hard filter** applied to the market: stages with at least 15% of those rounds, plus every
   stage between the lowest and the highest of them (an early-stage fund never sees Series C); the fund's
-  countries widened to their region (e.g. Germany → DACH); its industries (Cala codes). A company with no
+  countries widened to their region (e.g. Germany → DACH); its industries (Cala codes), **sorted by how many
+  of those rounds fall in each industry (most first, ties by code)**, so the UI can show the first 3 as the
+  fund's top industries. The audit's `thesis.industries` uses the same order. A company with no
   industry in Cala is not excluded by the industry filter.
 - `suggested_peers` (thesis similarity, `backend/peers.py`) is context for the UI only; peers no longer define
   the market.

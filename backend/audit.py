@@ -314,7 +314,8 @@ def _profile(fund_id: str) -> dict:
     thesis_stages = EQUITY_STAGES[min(core):max(core) + 1] if core else ["PRE_SEED", "SEED", "SERIES_A"]
     regions = {region_of(c) for c in countries}
     thesis_countries = sorted({c for r in regions for c in REGIONS.get(r, [r])} & market.EUROPE_COUNTRIES)
-    thesis_industries = sorted(industries)
+    # most basis rounds first (ties by code), so the UI can show the fund's top industries
+    thesis_industries = [k for k, _ in sorted(industries.items(), key=lambda kv: (-kv[1], kv[0]))]
 
     sources, seen = [], set()
     for r in sorted(basis, key=lambda r: r["date"], reverse=True):
@@ -342,6 +343,7 @@ def _profile(fund_id: str) -> dict:
         "_thesis_stages": set(thesis_stages),
         "_thesis_countries": set(thesis_countries),
         "_thesis_industries": set(thesis_industries),
+        "_thesis_industries_ranked": thesis_industries,
         "_top_countries": [k for k, _ in sorted(countries.items(), key=lambda kv: (-kv[1], kv[0]))[:3]],
     }
 
@@ -479,7 +481,7 @@ def run_audit_rows(fund_id: str, peer_ids: list[str], crm_rows: list[dict], simu
         "period": {"from": market.PERIOD_FROM, "to": date.today().isoformat()},
         "thesis": {"stages": sorted(prof["_thesis_stages"], key=STAGE_RANK.get),
                    "countries": sorted(prof["_thesis_countries"]),
-                   "industries": [{"code": k, "name": industry_human(k)} for k in sorted(prof["_thesis_industries"])],
+                   "industries": [{"code": k, "name": industry_human(k)} for k in prof["_thesis_industries_ranked"]],
                    "basis_rounds": len(prof["_basis"])},
         "headline": {"never_seen": n_never,
                      "text": f"{n_never} {noun} in your thesis raised since 2022 and never hit your CRM"},

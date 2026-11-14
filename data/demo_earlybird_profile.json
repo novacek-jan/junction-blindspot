@@ -103,6 +103,22 @@
   ],
   "industries": [
    {
+    "code": "SOFTWARE_AND_SERVICES",
+    "name": "Software and services"
+   },
+   {
+    "code": "HARDWARE_AND_EQUIPMENT",
+    "name": "Hardware and equipment"
+   },
+   {
+    "code": "RENEWABLE_ENERGY",
+    "name": "Renewable energy"
+   },
+   {
+    "code": "UTILITIES",
+    "name": "Utilities"
+   },
+   {
     "code": "BANKING",
     "name": "Banking"
    },
@@ -115,28 +131,12 @@
     "name": "Fintech"
    },
    {
-    "code": "HARDWARE_AND_EQUIPMENT",
-    "name": "Hardware and equipment"
-   },
-   {
     "code": "INTERNET_AND_WEB_SERVICES",
     "name": "Internet and web services"
    },
    {
     "code": "PHARMACEUTICALS",
     "name": "Pharmaceuticals"
-   },
-   {
-    "code": "RENEWABLE_ENERGY",
-    "name": "Renewable energy"
-   },
-   {
-    "code": "SOFTWARE_AND_SERVICES",
-    "name": "Software and services"
-   },
-   {
-    "code": "UTILITIES",
-    "name": "Utilities"
    }
   ]
  },

@@ -172,7 +172,7 @@ def build(fund: dict, prof: dict, never: list[dict], comps: dict, rule, is_confl
         "fund": fund["name"],
         "thesis": {"stages": [stage_human(s) for s in sorted(prof["_thesis_stages"])],
                    "countries": sorted(prof["_thesis_countries"]),
-                   "industries": [industry_human(i) for i in sorted(prof["_thesis_industries"])]},
+                   "industries": [industry_human(i) for i in prof["_thesis_industries_ranked"]]},
         "fund_own_companies_since_2022": [
             {"name": comps_b.get("name"), "description": comps_b.get("description")}
             for comps_b in db.companies({r["company_id"] for r in prof["_basis"]}).values()][:30],

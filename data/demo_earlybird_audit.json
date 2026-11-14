@@ -28,6 +28,22 @@
   ],
   "industries": [
    {
+    "code": "SOFTWARE_AND_SERVICES",
+    "name": "Software and services"
+   },
+   {
+    "code": "HARDWARE_AND_EQUIPMENT",
+    "name": "Hardware and equipment"
+   },
+   {
+    "code": "RENEWABLE_ENERGY",
+    "name": "Renewable energy"
+   },
+   {
+    "code": "UTILITIES",
+    "name": "Utilities"
+   },
+   {
     "code": "BANKING",
     "name": "Banking"
    },
@@ -40,28 +56,12 @@
     "name": "Fintech"
    },
    {
-    "code": "HARDWARE_AND_EQUIPMENT",
-    "name": "Hardware and equipment"
-   },
-   {
     "code": "INTERNET_AND_WEB_SERVICES",
     "name": "Internet and web services"
    },
    {
     "code": "PHARMACEUTICALS",
     "name": "Pharmaceuticals"
-   },
-   {
-    "code": "RENEWABLE_ENERGY",
-    "name": "Renewable energy"
-   },
-   {
-    "code": "SOFTWARE_AND_SERVICES",
-    "name": "Software and services"
-   },
-   {
-    "code": "UTILITIES",
-    "name": "Utilities"
    }
   ],
   "basis_rounds": 8
@@ -2782,8 +2782,8 @@
     "kind": "sourcing",
     "value": 8,
     "total": 35,
-    "title": "A sourcing gap in the Nordics",
-    "line": "Lifeline Ventures and Innovestor backed 8 of 35; you never co-invested with them.",
+    "title": "A sourcing gap in Nordic networks",
+    "line": "Lifeline Ventures and Innovestor backed 8 of 35 of them; you never co-invested.",
     "company_ids": [
      "3254bcd3-da85-4b40-9ccc-7e9a9966d8a4",
      "3d3edba6-f4d7-432b-80d3-d07872e11def",
@@ -2803,13 +2803,13 @@
     "kind": "theme",
     "value": 4,
     "total": 35,
-    "title": "AI software for industrial workflows",
-    "line": "They sell AI tools to engineering, maintenance and field teams in industrial companies.",
+    "title": "Software for energy and industry",
+    "line": "Rotomate, Synergi, Engrate and Nala Earth sell AI software to energy and industrial operators.",
     "company_ids": [
-     "3137bc6d-ad4f-45e1-8b26-83b92ee80ab9",
+     "057c7768-b724-44ef-b63d-e07f9b1a8bc0",
+     "3254bcd3-da85-4b40-9ccc-7e9a9966d8a4",
      "98ff140a-f183-485a-8d7d-3e02bf137c9b",
-     "d2929f0c-d341-487c-a25c-52a1e0df01a2",
-     "d7da9cd1-709a-471c-88f2-801a6b2f06ca"
+     "db82c519-cfd2-47e1-8db0-869988bb3d65"
     ],
     "investor_names": []
    },
@@ -2817,8 +2817,8 @@
     "kind": "momentum",
     "value": 12,
     "total": 35,
-    "title": "Already raising again",
-    "line": "12 of 35 have closed a further round since; they are moving fast.",
+    "title": "Many already raised again",
+    "line": "12 of 35 have already closed a new round, so they move fast.",
     "company_ids": [
      "3254bcd3-da85-4b40-9ccc-7e9a9966d8a4",
      "393abcb1-cecf-4c33-b742-4f648261a98a",
@@ -2837,7 +2837,7 @@
    }
   ],
   "model": "claude-sonnet-5-5",
-  "generated_at": "2026-11-14T17:39:36Z"
+  "generated_at": "2026-11-14T18:03:07Z"
  },
  "market_coverage": {
   "european_companies_screened": 2701,

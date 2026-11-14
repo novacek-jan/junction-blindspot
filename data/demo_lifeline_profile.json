@@ -79,12 +79,20 @@
   ],
   "industries": [
    {
-    "code": "HARDWARE_AND_EQUIPMENT",
-    "name": "Hardware and equipment"
+    "code": "SOFTWARE_AND_SERVICES",
+    "name": "Software and services"
+   },
+   {
+    "code": "RENEWABLE_ENERGY",
+    "name": "Renewable energy"
    },
    {
     "code": "INTERNET_AND_WEB_SERVICES",
     "name": "Internet and web services"
+   },
+   {
+    "code": "HARDWARE_AND_EQUIPMENT",
+    "name": "Hardware and equipment"
    },
    {
     "code": "MANUFACTURING_AUTOMOTIVE",
@@ -93,14 +101,6 @@
    {
     "code": "RAW_MATERIALS",
     "name": "Raw materials"
-   },
-   {
-    "code": "RENEWABLE_ENERGY",
-    "name": "Renewable energy"
-   },
-   {
-    "code": "SOFTWARE_AND_SERVICES",
-    "name": "Software and services"
    }
   ]
  },
