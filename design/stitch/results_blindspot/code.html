@@ -1,0 +1,106 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta content="web_dashboard" name="shell-type">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+    }
+    ::-webkit-scrollbar { display: none; }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "on-surface-variant": "#52525b",
+            "on-surface": "#09090b",
+            "background": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "surface-container-low": "#f8fafc",
+            "surface-container": "#f1f5f9",
+            "surface-container-high": "#e2e8f0",
+            "surface-container-highest": "#cbd5e1",
+            "primary": "#09090b",
+            "primary-container": "#18181b",
+            "on-primary": "#ffffff",
+            "baby-blue": "#bae6fd",
+            "baby-blue-light": "#f0f9ff",
+            "baby-blue-border": "#7dd3fc",
+            "baby-blue-dark": "#0369a1",
+            "baby-green": "#bbf7d0",
+            "baby-green-light": "#f0fdf4",
+            "baby-green-mint": "#dcfce7",
+            "baby-green-border": "#86efac",
+            "baby-green-dark": "#15803d"
+          },
+          fontFamily: {
+            sans: ["Inter", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-[#fafafa] font-sans text-on-surface antialiased min-h-screen">
+<!-- Minimal Left Sidebar: Only Audits -->
+<aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest border-r border-slate-200/80 z-50 flex flex-col justify-between py-6 px-4">
+<div class="flex flex-col gap-6">
+<!-- Logo -->
+<div class="px-3 flex items-center gap-3">
+<img alt="Blindspot VC Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrAKMENxpU4KtsjG5rJTXCQTknFFEf4TU9494whJMfLYimbucHhQSYgWjBPcPyhEkJuEseNGvyVkdFs17-tawZ7a7AUrW_Ge-sYQnMCtMOnXhLMvWB5L8RsN2K22WC86fRgHta8NCt-jdjSmZbjzqI0lsjZHoWM2rN6CmkX_ag9JXVG1im-KOiAYfIRJp9lVIZXYnaYxoNAh_HjYc8jb41o-7j0fK4cX3e6dXeAeNRzl">
+<span class="text-base font-bold tracking-tight text-on-surface">Blindspot</span>
+</div>
+<!-- Navigation: strictly Audits only -->
+<nav class="flex flex-col gap-1">
+<a aria-current="page" class="flex items-center justify-between px-3.5 py-2.5 rounded-lg bg-[#09090b] text-white font-medium text-sm shadow-sm transition-all hover:bg-black" href="#">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[20px] text-white">verified</span>
+<span class="tracking-tight">Audits</span>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-white/20 text-white text-xs font-semibold">1</span>
+</a>
+</nav>
+</div>
+<!-- Minimal Fund Indicator -->
+<div class="px-3 py-2 text-xs text-on-surface-variant font-medium">
+      Fund II · €65M
+    </div>
+</aside>
+<!-- Main Content Layout -->
+<div class="pl-64 flex flex-col min-h-screen">
+<!-- Clean Header: Minimal & Breadcrumb only -->
+<header class="h-16 px-10 flex items-center justify-between border-b border-slate-200/80 bg-surface-container-lowest/90 backdrop-blur-md sticky top-0 z-40">
+<div class="flex items-center gap-2 text-sm text-on-surface-variant">
+<span>Audits</span>
+<span class="material-symbols-outlined text-sm">chevron_right</span>
+<span class="font-semibold text-on-surface">European Seed Thesis (Last 12 Months)</span>
+</div>
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-[#DCFCE7] text-[#15803D] border border-[#BBF7D0]"><span class="w-1.5 h-1.5 rounded-full bg-[#4ADE80]"></span><span class="font-mono text-[11px] font-semibold text-[#16A34A]">Verified by Cala</span></div>
+</header>
+<!-- Page Body: Generous Whitespace & Radical Simplicity -->
+<main class="flex-1 px-10 py-10 max-w-6xl mx-auto w-full flex flex-col gap-10">
+<!-- Hero Section: Headline + Venn Diagram -->
+<div class="bg-white rounded-xl p-8 border border-slate-200/80 shadow-[0_1px_3px_rgba(0,0,0,0.03)] flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8"><div class="flex-1 max-w-2xl"><div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-[#f0f9ff] border border-[#bae6fd] mb-5"><span class="w-1.5 h-1.5 rounded-full bg-[#0284c7] animate-pulse"></span><span class="text-[11px] font-semibold tracking-wider text-[#0284c7] uppercase">Coverage Gap Audit</span><span class="text-[11px] text-on-surface-variant font-mono pl-1 border-l border-[#bae6fd]">62% Blind</span></div><h1 class="text-3xl lg:text-4xl font-extrabold tracking-tight text-[#09090b] leading-[1.15]">You never saw <span class="font-mono text-[#0284c7] underline decoration-2 decoration-[#7dd3fc] underline-offset-8">88</span> of the <span class="font-mono text-[#09090b]">142 deals</span> your peers closed.</h1><p class="mt-4 text-sm text-on-surface-variant leading-relaxed font-normal">Your fund co-evaluated 54 deals in the last 12 months. 88 closed market transactions matched your seed thesis criteria but never entered your pipeline funnel.</p></div><div class="flex flex-col gap-4 w-full lg:w-80 shrink-0 bg-slate-50/80 p-5 rounded-xl border border-slate-200/80"><div class="flex items-center justify-between pb-3 border-b border-slate-200"><div class="flex flex-col"><span class="text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider">Thesis Market Size</span><span class="text-xs text-on-surface-variant">Total closed</span></div><span class="text-xl font-bold font-mono text-[#09090b]">142</span></div><div class="grid grid-cols-2 gap-3"><div class="p-3 bg-white rounded-lg border border-[#BBF7D0] bg-[#DCFCE7]/30"><span class="text-[10px] font-semibold uppercase tracking-wider text-[#16A34A] block">Co-Evaluated</span><span class="text-xl font-bold font-mono text-[#16A34A] mt-0.5 block">54</span><span class="text-[10px] text-slate-600">38% captured</span></div><div class="p-3 bg-white rounded-lg border border-[#bae6fd] bg-[#f0f9ff]/50"><span class="text-[10px] font-semibold uppercase tracking-wider text-[#0369a1] block">Blind Spot</span><span class="text-xl font-bold font-mono text-[#0284c7] mt-0.5 block">88</span><span class="text-[10px] text-[#0369a1]">62% unmapped</span></div></div><div class="space-y-1.5 pt-1"><div class="h-2 w-full bg-slate-200 rounded-full overflow-hidden flex"><div class="h-full bg-[#4ADE80]" style="width: 38%"></div><div class="h-full bg-[#0284c7]" style="width: 62%"></div></div><div class="flex justify-between text-[10px] font-mono text-on-surface-variant pt-0.5"><span class="text-[#16A34A] font-medium flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-[#4ADE80]"></span>Pipeline (38%)</span><span class="text-[#0369a1] font-semibold">Missed (62%)</span></div></div></div></div>
+<!-- Two-Column Section: Small Heatmap & Top 3 Blind Spots -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start"><div class="bg-white rounded-xl p-6 border border-slate-200/80 shadow-[0_1px_3px_rgba(0,0,0,0.03)] flex flex-col gap-4"><div class="flex items-center justify-between pb-3 border-b border-slate-100"><div class="flex flex-col"><h2 class="text-sm font-bold text-[#09090b] uppercase tracking-wide">Missed Deals Matrix</h2><span class="text-xs text-on-surface-variant">Percentage outside pipeline by region &amp; stage</span></div><div class="flex items-center gap-2 text-[10px] font-mono text-on-surface-variant"><span class="flex items-center gap-1"><span class="w-2 h-2 rounded bg-slate-100 border border-slate-200"></span>&lt;50%</span><span class="flex items-center gap-1"><span class="w-2 h-2 rounded bg-slate-200"></span>50-75%</span><span class="flex items-center gap-1"><span class="w-2 h-2 rounded bg-[#e0f2fe] border border-[#bae6fd]"></span>&gt;75%</span></div></div><div class="overflow-hidden"><table class="w-full text-xs text-left border-collapse font-mono"><thead class="text-slate-400 uppercase text-[10px] border-b border-slate-100"><tr class="text-on-surface-variant"><th class="py-2 font-semibold font-sans">Country</th><th class="py-2 px-3 text-center font-semibold font-sans">Pre-Seed</th><th class="py-2 px-3 text-center font-semibold font-sans">Seed</th><th class="py-2 pl-3 text-center font-semibold font-sans">Series A</th></tr></thead><tbody class="divide-y divide-slate-100"><tr class="hover:bg-slate-50/70 transition-colors"><td class="py-2.5 font-sans font-medium text-[#09090b]">Germany</td><td class="py-2.5 px-3 text-center"><span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700">42%</span></td><td class="py-2.5 px-3 text-center"><span class="px-2 py-0.5 rounded bg-slate-200 text-slate-700 font-semibold">64%</span></td><td class="py-2.5 pl-3 text-center"><span class="text-slate-400">31%</span></td></tr><tr class="hover:bg-slate-50/70 transition-colors"><td class="py-2.5 font-sans font-medium text-[#09090b]">Sweden</td><td class="py-2.5 px-3 text-center"><span class="px-2 py-0.5 rounded bg-[#e0f2fe] text-[#0369a1] font-semibold border border-[#bae6fd]">80%</span></td><td class="py-2.5 px-3 text-center"><span class="px-2 py-0.5 rounded bg-[#e0f2fe] text-[#0369a1] font-semibold border border-[#bae6fd]">82%</span></td><td class="py-2.5 pl-3 text-center"><span class="text-slate-400">45%</span></td></tr><tr class="hover:bg-slate-50/70 transition-colors"><td class="py-2.5 font-sans font-medium text-[#09090b]">Finland</td><td class="py-2.5 px-3 text-center"><span class="px-2 py-0.5 rounded bg-[#e0f2fe] text-[#0369a1] font-semibold border border-[#bae6fd]">75%</span></td><td class="py-2.5 px-3 text-center"><span class="px-2 py-0.5 rounded bg-[#e0f2fe] text-[#0369a1] font-semibold border border-[#bae6fd]">90%</span></td><td class="py-2.5 pl-3 text-center"><span class="px-2 py-0.5 rounded bg-slate-200 text-slate-700">50%</span></td></tr><tr class="hover:bg-slate-50/70 transition-colors"><td class="py-2.5 font-sans font-medium text-[#09090b]">Denmark</td><td class="py-2.5 px-3 text-center"><span class="px-2 py-0.5 rounded bg-slate-200 text-slate-700">60%</span></td><td class="py-2.5 px-3 text-center"><span class="px-2 py-0.5 rounded bg-slate-200 text-slate-700 font-semibold">70%</span></td><td class="py-2.5 pl-3 text-center"><span class="text-slate-400">40%</span></td></tr></tbody></table></div></div><div class="bg-white rounded-xl p-6 border border-slate-200/80 shadow-[0_1px_3px_rgba(0,0,0,0.03)] flex flex-col gap-4"><div class="flex items-center justify-between pb-3 border-b border-slate-100"><div class="flex flex-col"><h2 class="text-sm font-bold text-[#09090b] uppercase tracking-wide">Analytical Briefing</h2><span class="text-xs text-on-surface-variant">Key structural leakage vectors identified</span></div><div class="flex items-center gap-2"><span class="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-mono bg-[#DCFCE7] text-[#15803D] border border-[#BBF7D0]"><span class="w-1.5 h-1.5 rounded-full bg-[#4ADE80]"></span>Verified Cala</span><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-100 text-on-surface-variant">P0 Vectors</span></div></div><div class="flex flex-col divide-y divide-slate-100"><div class="py-3 first:pt-0 last:pb-0 flex items-start gap-3"><span class="text-xs font-mono font-bold text-[#0284c7] pt-0.5">01</span><div class="flex-1"><p class="text-xs font-medium text-[#09090b] leading-relaxed">Missed 9 of 11 Nordic seed rounds, primarily co-led by Creandum and Cherry Ventures.</p><span class="text-[10px] font-mono text-[#0284c7] block mt-0.5 font-semibold">CRITICAL VECTOR · 81% CONCENTRATION</span></div></div><div class="py-3 first:pt-0 last:pb-0 flex items-start gap-3"><span class="text-xs font-mono font-bold text-on-surface-variant pt-0.5">02</span><div class="flex-1"><p class="text-xs font-medium text-[#09090b] leading-relaxed">14 AI agent and compiler infrastructure rounds bypassed pipeline via university spinouts.</p><span class="text-[10px] font-mono text-on-surface-variant block mt-0.5">TECHNICAL CLUSTER · NON-STANDARD SOURCING</span></div></div><div class="py-3 first:pt-0 last:pb-0 flex items-start gap-3"><span class="text-xs font-mono font-bold text-on-surface-variant pt-0.5">03</span><div class="flex-1"><p class="text-xs font-medium text-[#09090b] leading-relaxed">21 solo-GP pre-seeds closed without appearing in institutional syndication or inbound flow.</p><span class="text-[10px] font-mono text-on-surface-variant block mt-0.5">ANGEL NETWORK · SYNDICATE ISOLATION</span></div></div></div></div></div>
+<!-- Table: Deals You Never Saw (Strictly 5 columns: Company, Country, Stage, Amount, Lead Investor) -->
+<div class="bg-white rounded-xl border border-slate-200/80 shadow-[0_1px_3px_rgba(0,0,0,0.03)] overflow-hidden flex flex-col"><div class="p-5 border-b border-slate-200/80 flex items-center justify-between"><div class="flex items-center gap-3"><h2 class="text-sm font-bold text-[#09090b] uppercase tracking-wide">Deals You Never Saw</h2><span class="px-2 py-0.5 rounded font-mono text-[11px] font-semibold bg-[#f0f9ff] text-[#0369a1] border border-[#bae6fd]">88 Missed</span></div><span class="text-xs text-on-surface-variant font-mono">Showing latest verified peer transactions</span></div><div class="overflow-x-auto"><table class="w-full text-left border-collapse text-xs"><thead class="bg-slate-50/80 text-[11px] uppercase tracking-wider text-on-surface-variant border-b border-slate-200/80 font-mono"><tr><th class="py-3 px-6 font-semibold font-sans">Company</th><th class="py-3 px-4 font-semibold font-sans">Country</th><th class="py-3 px-4 font-semibold font-sans">Stage</th><th class="py-3 px-4 font-semibold font-sans text-right">Amount</th><th class="py-3 px-6 font-semibold font-sans">Lead Investor</th></tr></thead><tbody class="divide-y divide-slate-100"><tr class="hover:bg-slate-50/70 transition-colors"><td class="py-3 px-6 font-semibold text-[#09090b]"><div class="flex items-center gap-1.5"><span>Vayu Robotics</span><span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#DCFCE7] text-[#16A34A] border border-[#BBF7D0]" title="Verified by Cala"><span class="material-symbols-outlined text-[12px]">check</span></span></div></td><td class="py-3 px-4 text-on-surface-variant">Sweden</td><td class="py-3 px-4"><span class="font-mono text-[#15803D] bg-[#DCFCE7] border border-[#BBF7D0] px-2 py-0.5 rounded text-[11px]">Seed</span></td><td class="py-3 px-4 font-semibold text-[#09090b] font-mono text-right">€4.2M</td><td class="py-3 px-6"><div class="flex items-center gap-2"><span class="text-on-surface font-medium">Creandum</span><span class="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded bg-[#f0f9ff] text-[#0369a1] border border-[#bae6fd]">LEAKAGE</span></div></td></tr><tr class="hover:bg-slate-50/70 transition-colors"><td class="py-3 px-6 font-semibold text-[#09090b]"><div class="flex items-center gap-1.5"><span>Hyperline</span><span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#DCFCE7] text-[#16A34A] border border-[#BBF7D0]" title="Verified by Cala"><span class="material-symbols-outlined text-[12px]">check</span></span></div></td><td class="py-3 px-4 text-on-surface-variant">Germany</td><td class="py-3 px-4"><span class="font-mono text-slate-700 bg-slate-100 px-2 py-0.5 rounded text-[11px]">Series A</span></td><td class="py-3 px-4 font-semibold text-[#09090b] font-mono text-right">€8.5M</td><td class="py-3 px-6"><div class="flex items-center gap-2"><span class="text-on-surface font-medium">Cherry Ventures</span><span class="text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded bg-[#f0f9ff] text-[#0369a1] border border-[#bae6fd]">LEAKAGE</span></div></td></tr><tr class="hover:bg-slate-50/70 transition-colors"><td class="py-3 px-6 font-semibold text-[#09090b]"><div class="flex items-center gap-1.5"><span>Aether Data</span><span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#DCFCE7] text-[#16A34A] border border-[#BBF7D0]" title="Verified by Cala"><span class="material-symbols-outlined text-[12px]">check</span></span></div></td><td class="py-3 px-4 text-on-surface-variant">Finland</td><td class="py-3 px-4"><span class="font-mono text-[#15803D] bg-[#DCFCE7] border border-[#BBF7D0] px-2 py-0.5 rounded text-[11px]">Seed</span></td><td class="py-3 px-4 font-semibold text-[#09090b] font-mono text-right">€3.1M</td><td class="py-3 px-6"><span class="text-on-surface font-medium">EQT Ventures</span></td></tr><tr class="hover:bg-slate-50/70 transition-colors"><td class="py-3 px-6 font-semibold text-[#09090b]"><div class="flex items-center gap-1.5"><span>Kvantum Bio</span><span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#DCFCE7] text-[#16A34A] border border-[#BBF7D0]" title="Verified by Cala"><span class="material-symbols-outlined text-[12px]">check</span></span></div></td><td class="py-3 px-4 text-on-surface-variant">Switzerland</td><td class="py-3 px-4"><span class="font-mono text-slate-700 bg-slate-100 px-2 py-0.5 rounded text-[11px]">Pre-Seed</span></td><td class="py-3 px-4 font-semibold text-[#09090b] font-mono text-right">€1.8M</td><td class="py-3 px-6"><span class="text-on-surface font-medium">Earlybird</span></td></tr><tr class="hover:bg-slate-50/70 transition-colors"><td class="py-3 px-6 font-semibold text-[#09090b]"><div class="flex items-center gap-1.5"><span>Nomi Health</span><span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#DCFCE7] text-[#16A34A] border border-[#BBF7D0]" title="Verified by Cala"><span class="material-symbols-outlined text-[12px]">check</span></span></div></td><td class="py-3 px-4 text-on-surface-variant">Estonia</td><td class="py-3 px-4"><span class="font-mono text-[#15803D] bg-[#DCFCE7] border border-[#BBF7D0] px-2 py-0.5 rounded text-[11px]">Seed</span></td><td class="py-3 px-4 font-semibold text-[#09090b] font-mono text-right">€2.8M</td><td class="py-3 px-6"><span class="text-on-surface font-medium">Atomico</span></td></tr><tr class="hover:bg-slate-50/70 transition-colors"><td class="py-3 px-6 font-semibold text-[#09090b]"><div class="flex items-center gap-1.5"><span>Octave AI</span><span class="inline-flex items-center justify-center w-4 h-4 rounded-full bg-[#DCFCE7] text-[#16A34A] border border-[#BBF7D0]" title="Verified by Cala"><span class="material-symbols-outlined text-[12px]">check</span></span></div></td><td class="py-3 px-4 text-on-surface-variant">Germany</td><td class="py-3 px-4"><span class="font-mono text-[#15803D] bg-[#DCFCE7] border border-[#BBF7D0] px-2 py-0.5 rounded text-[11px]">Seed</span></td><td class="py-3 px-4 font-semibold text-[#09090b] font-mono text-right">€3.6M</td><td class="py-3 px-6"><span class="text-on-surface font-medium">Earlybird</span></td></tr></tbody></table></div></div>
+</main>
+</div>
+
+
+
+
+
+
+
+
+</body></html>
