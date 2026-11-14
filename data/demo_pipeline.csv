@@ -1,29 +1,31 @@
 # SIMULATED CRM export for the Blind Spot demo. Not real pipeline data of Earlybird Venture Capital.
 # invested = real portfolio companies from Cala; passed/in_review rows and noise rows are simulated.
 company,website,status,date
-Orchard Ledger,orchardledger.com,in_review,2023-01-26
-Halvard Security,halvard.no,passed,2023-04-03
-Lumora Analytics,lumora-analytics.io,passed,2023-10-27
-Brisa Mobility,brisa-mobility.es,passed,2024-01-13
-Cardino,cardino.de,passed,2024-02-14
-Strata Forms,strataforms.app,in_review,2024-03-11
-Fernwerk Robotics,fernwerk.de,passed,2024-04-13
-Quillnest,quillnest.ai,passed,2024-04-17
-Pinecrest Labs,pinecrestlabs.co.uk,passed,2024-07-21
-Patchbay Audio,patchbay.fm,passed,2024-08-14
+Brisa Mobility,brisa-mobility.es,passed,2023-09-22
+deeploi,deeploi.io,passed,2023-12-30
+Orchard Ledger,orchardledger.com,in_review,2024-02-12
+Tidewell Health,tidewell.health,in_review,2024-03-11
+Cardino,cardino.de,in_review,2024-03-24
+Fernwerk Robotics,fernwerk.de,passed,2024-05-25
+Halvard Security,halvard.no,in_review,2024-06-09
+Arclight Bio,arclightbio.ch,in_review,2024-06-19
+Quillnest,quillnest.ai,passed,2024-07-31
+Pinecrest Labs,pinecrestlabs.co.uk,passed,2024-08-12
+Lumora Analytics,lumora-analytics.io,in_review,2024-08-22
+The Exploration Company,exploration.space,passed,2024-09-07
+Cleo AI,meetcleo.com,in_review,2024-11-22
 Haya Therapeutics SA,hayatx.com,invested,2024-12-19
-Kvarn Logistics,kvarn.se,in_review,2024-12-21
-Prewave GmbH,prewave.com,passed,2024-12-22
-Nimbus Kitchen,nimbuskitchen.fr,in_review,2025-04-01
-Velora Pay,velorapay.eu,passed,2025-06-07
-Arclight Bio,arclightbio.ch,passed,2025-06-15
-Tidewell Health,tidewell.health,in_review,2025-06-16
-PHOEBE TECHNOLOGY LIMITED,,in_review,2025-06-22
-Mosaic Grid,mosaicgrid.energy,in_review,2025-07-01
-OMNEA LIMITED,omnea.co,passed,2025-07-15
+Velora Pay,velorapay.eu,passed,2025-02-23
+Scalera,,passed,2025-03-10
+Kvarn Logistics,kvarn.se,in_review,2025-04-01
+Mosaic Grid,mosaicgrid.energy,passed,2025-04-04
+Strata Forms,strataforms.app,passed,2025-04-17
+Phoebe Technology,withcoral.com,passed,2025-05-08
+Patchbay Audio,patchbay.fm,passed,2025-06-15
+Nimbus Kitchen,nimbuskitchen.fr,in_review,2025-09-12
 Porters,withporters.com,invested,2025-11-02
+Synera,synera.io,passed,2025-12-30
 eleQtron,eleqtron.com,invested,2026-01-13
-Synera,synera.io,in_review,2026-01-25
 Avrea,avrea.com,invested,2026-02-21
 "Gemma Biotherapeutics, Inc.",gemmabiotx.com,invested,2026-04-30
 Graph Therapeutics,graphtx.com,in_review,2026-05-28

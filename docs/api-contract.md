@@ -58,6 +58,11 @@ Header `X-Access-Code: <code>` is required (the backend's `AUDIT_ACCESS_CODE`; a
   "top_missed_leads": [{ "id": "uuid", "name": "Creandum", "deals": 7 }]
 }
 ```
+Audit semantics:
+- `never_seen_deals` contains only counted deals. Rounds flagged as merged/conflated (implausible size for their label, e.g. a 3B Series B) are excluded entirely, so `never_seen_deals.length == summary.never_seen` (up to 200) and the heatmap counts the same set. `conflated` is therefore always `false` here; conflated rounds remain visible with `conflated: true` in `GET /api/deals/{id}` → `rounds[]`.
+- `peers` lists only peer funds that contributed at least one company to the market; requested peers without market companies are omitted.
+- `top_blind_spots` has 3 items whenever the data has at least 3 distinct facts (fewer only when almost nothing was missed; empty when nothing was).
+- Company and investor `name`s are display names: the brand from Cala aliases instead of an upper-case legal name (e.g. "FIRSTMINUTE CAPITAL LLP" → "Firstminute Capital"), otherwise the legal name in title case without its legal suffix. Fund names are the fund's brand.
 
 ## GET /api/audit/demo
 Returns a precomputed audit (same shape as POST /api/audit) for the demo fund and `data/demo_pipeline.csv`. Must respond in under 1 second.
@@ -79,5 +84,6 @@ Returns a precomputed audit (same shape as POST /api/audit) for the demo fund an
   "sources": [Source]
 }
 ```
+`rounds[].date` is **nullable** (e.g. EU grants without a date); `rounds[]` is sorted newest first with undated rounds last. `rounds[].amount` and `rounds[].currency` can also be `null`.
 `why_missed` is computed by rules (lead never co-invested with the fund, country outside the fund's top countries, stage outside its stages), max 2 items.
 `recent_news` comes from Cala `knowledge_search`, cached.

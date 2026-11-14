@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS round_participants (
     PRIMARY KEY (round_id, entity_id));
 CREATE INDEX IF NOT EXISTS rp_entity ON round_participants(entity_id);
 CREATE TABLE IF NOT EXISTS kv (key TEXT PRIMARY KEY, value TEXT, updated_at REAL);
+CREATE TABLE IF NOT EXISTS display_names (entity_id TEXT PRIMARY KEY, name TEXT, display TEXT, source TEXT);
 """
 
 # table -> (columns, primary key columns)
@@ -57,6 +58,7 @@ TABLES = {
     "round_participants": (["round_id", "entity_id", "name", "entity_type", "role", "is_lead"],
                            ["round_id", "entity_id"]),
     "kv": (["key", "value", "updated_at"], ["key"]),
+    "display_names": (["entity_id", "name", "display", "source"], ["entity_id"]),
     "cache": (["key", "tool", "response", "fetched_at"], ["key"]),
 }
 
@@ -244,6 +246,29 @@ def round_issuers() -> dict[str, str]:
     return {r["id"]: r["company_id"] for r in _rows("SELECT id, company_id FROM rounds")}
 
 
+def display_names() -> dict[str, str]:
+    """entity id -> brand display name (from Cala aliases), see backend/enrich_names.py."""
+    return {r["entity_id"]: r["display"] for r in _rows("SELECT entity_id, display FROM display_names")}
+
+
+def upsert_display_names(rows: list[tuple[str, str, str, str]]) -> None:
+    _upsert("display_names", rows)
+
+
+def shouting_entities() -> list[dict]:
+    """Companies and investors whose name is all upper case and that have no display name yet."""
+    rows = _rows("SELECT id AS entity_id, name FROM companies UNION "
+                 "SELECT DISTINCT entity_id, name FROM round_participants WHERE role != 'ISSUER'")
+    done = set(display_names())
+    seen, out = set(), []
+    for r in rows:
+        n = r["name"] or ""
+        if r["entity_id"] not in done and r["entity_id"] not in seen and any(ch.isalpha() for ch in n) and n == n.upper():
+            seen.add(r["entity_id"])
+            out.append(r)
+    return sorted(out, key=lambda r: r["entity_id"])
+
+
 def kv_put(key: str, value) -> None:
     _upsert("kv", [(key, json.dumps(value), time.time())])
 
@@ -346,7 +371,8 @@ def companies_for_entity(entity_id: str) -> set[str]:
 
 # ------------------------------------------------------------------ SQLite -> Postgres sync
 
-SYNC_TABLES = ["funds", "fund_entities", "fund_portfolio", "companies", "rounds", "round_participants", "kv", "cache"]
+SYNC_TABLES = ["funds", "fund_entities", "fund_portfolio", "companies", "rounds", "round_participants", "kv",
+               "display_names", "cache"]
 
 
 def sync_sqlite_to_postgres(sqlite_path: Optional[Path] = None, pg_url: Optional[str] = None,

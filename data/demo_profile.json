@@ -132,6 +132,11 @@
  ],
  "suggested_peers": [
   {
+   "id": "4a7ccd5d-1310-46b0-bd42-4ff8b409acc5",
+   "name": "Index Ventures",
+   "co_investments": 4
+  },
+  {
    "id": "16bdbb1a-6658-4fa2-9b04-0a48011841d2",
    "name": "Lakestar",
    "co_investments": 4
@@ -149,11 +154,6 @@
   {
    "id": "c06adc97-e2d8-4590-a329-4462750ee4e6",
    "name": "Cherry Ventures",
-   "co_investments": 2
-  },
-  {
-   "id": "8774eb35-b3d0-4d71-8135-a4fe1187a3b6",
-   "name": "HV Capital",
    "co_investments": 2
   }
  ],

@@ -19,6 +19,7 @@ from urllib.parse import urlparse
 import db
 import insights
 from matching import CompanyIndex, classify, normalize_domain
+from names import display
 
 PROFILE_FROM = "2022-01-01"
 MARKET_FROM = "2023-01-01"
@@ -82,25 +83,27 @@ class NotFound(Exception):
 
 # ---------------------------------------------------------------- helpers
 
-def _fund_names() -> tuple[dict[str, str], dict[str, str]]:
+def _fund_names() -> tuple[dict[str, str], dict[str, str], dict[str, str]]:
+    """(fund id -> name, entity id -> fund id, entity id -> brand display name)."""
     funds = {f["id"]: f["name"] for f in db.list_funds()}
-    return funds, db.entity_to_fund()
+    return funds, db.entity_to_fund(), db.display_names()
 
 
-def _investor(entity_id: str, name: str, funds: dict, ent2fund: dict) -> dict:
-    """Collapse a fund's legal entities onto the fund (e.g. 'Creandum Kommanditbolag' -> Creandum)."""
+def _investor(entity_id: str, name: str, funds: dict, ent2fund: dict, known: Optional[dict] = None) -> dict:
+    """Collapse a fund's legal entities onto the fund (e.g. 'Creandum Kommanditbolag' -> Creandum);
+    other investors get their brand name instead of an upper-case legal name."""
     fid = ent2fund.get(entity_id)
-    return {"id": fid, "name": funds[fid]} if fid else {"id": entity_id, "name": name}
+    return {"id": fid, "name": funds[fid]} if fid else {"id": entity_id, "name": display(name, known, entity_id)}
 
 
-def _leads_and_participants(round_ids, funds, ent2fund) -> dict[str, dict]:
+def _leads_and_participants(round_ids, funds, ent2fund, known=None) -> dict[str, dict]:
     out: dict[str, dict] = {}
     for rid, parts in db.participants(round_ids).items():
         leads, others, seen = [], [], set()
         for p in parts:
             if p["role"] == "ISSUER":
                 continue
-            inv = _investor(p["entity_id"], p["name"], funds, ent2fund)
+            inv = _investor(p["entity_id"], p["name"], funds, ent2fund, known)
             if inv["id"] in seen:
                 continue
             seen.add(inv["id"])
@@ -217,7 +220,7 @@ def parse_crm(text: str) -> tuple[list[dict], bool]:
 
 def run_audit(fund_id: str, peer_ids: list[str], crm_text: str) -> dict:
     prof = _profile(fund_id)
-    funds, ent2fund = _fund_names()
+    funds, ent2fund, known = _fund_names()
     peer_ids = [p for p in dict.fromkeys(peer_ids) if p and p != fund_id]
     unknown = [p for p in peer_ids if p not in funds]      # one lookup instead of a query per peer
     if unknown:
@@ -231,22 +234,18 @@ def run_audit(fund_id: str, peer_ids: list[str], crm_text: str) -> dict:
 
     # Market: peers' portfolio companies with an in-thesis round since 2023 (deal = latest such round)
     counted: dict[str, dict] = {}
-    conflated_only: dict[str, dict] = {}
     for r in db.rounds_for_companies(comps):
         c = comps[r["company_id"]]
         if not r["date"] or r["date"] < MARKET_FROM or r["label"] not in stages or region_of(c["country"]) not in regions:
             continue
-        if not r["sources"]:   # every market deal must be backed by at least one Cala source
+        if not r["sources"] or is_conflated(r):   # needs a Cala source; merged/implausible rounds never count
             continue
-        bucket = conflated_only if is_conflated(r) else counted
-        cur = bucket.get(c["id"])
+        cur = counted.get(c["id"])
         if cur is None or (r["date"], r["amount"] or 0) > (cur["date"], cur["amount"] or 0):
-            bucket[c["id"]] = r
-    conflated_only = {k: v for k, v in conflated_only.items() if k not in counted}
+            counted[c["id"]] = r
 
     index = CompanyIndex(comps.values())
     status, pipeline_only = classify(counted, crm_rows, index, known_invested=prof["_portfolio"])
-    status_cf, _ = classify(conflated_only, crm_rows, index, known_invested=prof["_portfolio"])
 
     st = Counter(status.values())
     market = len(counted)
@@ -271,23 +270,22 @@ def run_audit(fund_id: str, peer_ids: list[str], crm_text: str) -> dict:
                           "share": round(cell[(c, s)][1] / cell[(c, s)][0], 2)}
                          for c in hm_countries for s in hm_stages if (c, s) in cell]}
 
-    # Never-seen deals
-    rids = [r["id"] for r in counted.values()] + [r["id"] for r in conflated_only.values()]
-    lp = _leads_and_participants(rids, funds, ent2fund)
+    # Never-seen deals: only counted (non-conflated) deals, so the table, summary and heatmap
+    # describe exactly the same set. Conflated rounds stay visible on the deal page only.
+    lp = _leads_and_participants([r["id"] for r in counted.values()], funds, ent2fund, known)
 
-    def deal(cid, r, conflated):
+    def deal(cid, r):
         c = comps[cid]
-        return {"company_id": cid, "name": c["name"], "website": normalize_domain(c["website"]) or c["website"],
+        return {"company_id": cid, "name": display(c["name"], known, cid),
+                "website": normalize_domain(c["website"]) or c["website"],
                 "country": c["country"], "stage": r["label"], "amount": _amount(r["amount"]),
                 "currency": r["currency"], "date": r["date"],
                 "lead_investors": lp.get(r["id"], {}).get("leads", []),
-                "sources": r["sources"], "conflated": conflated}
+                "sources": r["sources"], "conflated": False}
 
-    never = [deal(cid, r, False) for cid, r in counted.items() if status[cid] == "never_seen"]
-    never.sort(key=lambda d: (-(d["amount"] or 0), d["date"] or ""), reverse=False)
-    never_cf = [deal(cid, r, True) for cid, r in conflated_only.items() if status_cf[cid] == "never_seen"]
-    never_cf.sort(key=lambda d: (-(d["amount"] or 0)))
-    never_seen_deals = (never + never_cf)[:MAX_NEVER_SEEN]
+    never = [deal(cid, r) for cid, r in counted.items() if status[cid] == "never_seen"]
+    never.sort(key=lambda d: (-(d["amount"] or 0), d["date"] or "", d["company_id"]))
+    never_seen_deals = never[:MAX_NEVER_SEEN]
 
     leads = Counter()
     lead_names = {}
@@ -304,7 +302,8 @@ def run_audit(fund_id: str, peer_ids: list[str], crm_text: str) -> dict:
     return {
         "audit_id": audit_id,
         "fund": prof["fund"],
-        "peers": [{"id": p, "name": funds[p]} for p in peer_ids],
+        # Only peers that contributed at least one company to the counted market.
+        "peers": [{"id": p, "name": funds[p]} for p in peer_ids if prof["_portfolios"].get(p, set()) & set(counted)],
         "simulated_crm": simulated,
         "summary": summary,
         "venn": {"pipeline_only": pipeline_only, "overlap": in_pipeline, "market_only": st["never_seen"]},
@@ -316,33 +315,56 @@ def run_audit(fund_id: str, peer_ids: list[str], crm_text: str) -> dict:
 
 
 def blind_spot_facts(counted: dict, status: dict, comps: dict, top_leads: list[dict]) -> list[dict]:
-    """Up to 3 facts, numbers fixed in code: the two worst region x stage pockets plus the top missed lead."""
-    agg = defaultdict(lambda: [0, 0])
+    """3 facts whenever the data allows, numbers fixed in code. In order of strength:
+    region x stage pockets with >= 3 deals and >= 50% unseen (best two), the top missed lead
+    (>= 2 deals), remaining pockets, smaller pockets (>= 2 deals), whole regions, whole stages,
+    and finally a lead with a single missed deal. Facts repeating the same numbers are skipped."""
+    by_cell, by_region, by_stage = defaultdict(lambda: [0, 0]), defaultdict(lambda: [0, 0]), defaultdict(lambda: [0, 0])
     for cid, r in counted.items():
-        k = (region_of(comps[cid]["country"]), r["label"])
-        agg[k][0] += 1
-        agg[k][1] += status[cid] == "never_seen"
-    cells = [(reg, stg, t, ns) for (reg, stg), (t, ns) in agg.items() if t >= 3 and ns / t >= 0.5]
-    cells.sort(key=lambda x: (-x[3], -x[3] / x[2], x[0], STAGE_RANK.get(x[1], 99)))
-    facts = []
-    for reg, stg, t, ns in cells[:2]:
+        reg, ns = region_of(comps[cid]["country"]), status[cid] == "never_seen"
+        for agg, k in ((by_cell, (reg, r["label"])), (by_region, reg), (by_stage, r["label"])):
+            agg[k][0] += 1
+            agg[k][1] += ns
+
+    def cell_fact(reg, stg, t, ns):
+        adj, sh = REGION_ADJ.get(reg, reg), stage_human(stg)
+        return {"title": f"{adj} {sh}", "detail": f"You never saw {ns} of {t} {adj} {sh} rounds your peers did since 2023.",
+                "keep": [adj, sh], "_sig": (ns, t, adj)}
+
+    def lead_fact(l):
+        noun = "deal" if l["deals"] == 1 else "deals"
+        return {"title": f"{l['name']} deals", "keep": [l["name"]], "_sig": ("lead", l["id"]),
+                "detail": f"{l['name']} led {l['deals']} peer {noun} that never reached your pipeline."}
+
+    cells = sorted(((reg, stg, t, ns) for (reg, stg), (t, ns) in by_cell.items() if ns),
+                   key=lambda x: (-x[3], -x[3] / x[2], x[0], STAGE_RANK.get(x[1], 99)))
+    strong = [c for c in cells if c[2] >= 3 and c[3] / c[2] >= 0.5]
+    medium = [c for c in cells if c not in strong and c[2] >= 2]
+    regions = sorted(((reg, t, ns) for reg, (t, ns) in by_region.items() if ns), key=lambda x: (-x[2], x[0]))
+    stages = sorted(((stg, t, ns) for stg, (t, ns) in by_stage.items() if ns), key=lambda x: (-x[2], STAGE_RANK.get(x[0], 99)))
+
+    candidates = [cell_fact(*c) for c in strong[:2]]
+    candidates += [lead_fact(l) for l in top_leads[:1] if l["deals"] >= 2]
+    candidates += [cell_fact(*c) for c in strong[2:] + medium]
+    for reg, t, ns in regions:
         adj = REGION_ADJ.get(reg, reg)
-        facts.append({"title": f"{adj} {stage_human(stg)}",
-                      "detail": f"You never saw {ns} of {t} {adj} {stage_human(stg)} rounds your peers did since 2023.",
-                      "keep": [adj, stage_human(stg)]})
-    if top_leads and top_leads[0]["deals"] >= 2:
-        l = top_leads[0]
-        facts.append({"title": f"{l['name']} deals",
-                      "detail": f"{l['name']} led {l['deals']} peer deals that never reached your pipeline.",
-                      "keep": [l["name"]]})
-    for reg, stg, t, ns in cells[2:]:
-        if len(facts) >= 3:
+        candidates.append({"title": f"{adj} deals", "keep": [adj], "_sig": (ns, t, adj),
+                           "detail": f"You never saw {ns} of {t} {adj} rounds your peers did since 2023."})
+    for stg, t, ns in stages:
+        sh = stage_human(stg)
+        candidates.append({"title": f"{sh[:1].upper() + sh[1:]} rounds", "keep": [sh], "_sig": (ns, t, sh),
+                           "detail": f"You never saw {ns} of {t} {sh} rounds your peers did since 2023."})
+    candidates += [lead_fact(l) for l in top_leads[:2] if l["deals"] == 1]
+
+    facts, sigs = [], set()
+    for f in candidates:
+        if f["_sig"] in sigs:
+            continue
+        sigs.add(f.pop("_sig"))
+        facts.append(f)
+        if len(facts) == 3:
             break
-        adj = REGION_ADJ.get(reg, reg)
-        facts.append({"title": f"{adj} {stage_human(stg)}",
-                      "detail": f"You never saw {ns} of {t} {adj} {stage_human(stg)} rounds your peers did since 2023.",
-                      "keep": [adj, stage_human(stg)]})
-    return facts[:3]
+    return facts
 
 
 # ---------------------------------------------------------------- deal detail
@@ -417,10 +439,10 @@ def deal_detail(company_id: str, fund_id: Optional[str], cala=None, news_wait: f
     if company_id not in comps:
         raise NotFound(f"company {company_id} not found")
     c = comps[company_id]
-    funds, ent2fund = _fund_names()
+    funds, ent2fund, known = _fund_names()
     rounds = db.rounds_for_companies([company_id])
     rounds.sort(key=lambda r: (r["date"] or "", r["amount"] or 0), reverse=True)
-    lp = _leads_and_participants([r["id"] for r in rounds], funds, ent2fund)
+    lp = _leads_and_participants([r["id"] for r in rounds], funds, ent2fund, known)
     out_rounds = [{"label": r["label"], "amount": _amount(r["amount"]), "currency": r["currency"], "date": r["date"],
                    "lead_investors": lp.get(r["id"], {}).get("leads", []),
                    "participants": lp.get(r["id"], {}).get("participants", []),
@@ -443,7 +465,7 @@ def deal_detail(company_id: str, fund_id: Optional[str], cala=None, news_wait: f
         if latest and latest["label"] and latest["label"] not in prof["_thesis_stages"] and len(why) < 2:
             why.append({"reason": f"{stage_human(latest['label'])} is outside your usual stages"})
 
-    return {"id": company_id, "name": c["name"], "website": normalize_domain(c["website"]) or c["website"],
+    return {"id": company_id, "name": display(c["name"], known, company_id), "website": normalize_domain(c["website"]) or c["website"],
             "description": c["description"], "country": c["country"], "founded": c["founded"],
             "rounds": out_rounds, "why_missed": why[:2], "recent_news": recent_news(cala, c["name"], c["website"], wait=news_wait, cache_only=news_cache_only),
             "sources": c["sources"]}

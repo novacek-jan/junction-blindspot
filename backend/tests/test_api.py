@@ -138,8 +138,13 @@ def test_audit_numbers_and_shape(client):
                             "never_seen": 1, "coverage_pct": 75.0}
     assert a["venn"] == {"pipeline_only": 1, "overlap": 3, "market_only": 1}
     names = [d["name"] for d in a["never_seen_deals"]]
-    assert names == ["Market Three", "Conflated Co"]
-    assert [d["conflated"] for d in a["never_seen_deals"]] == [False, True]
+    assert names == ["Market Three"]                       # conflated rounds are not listed at all
+    assert all(d["conflated"] is False for d in a["never_seen_deals"])
+    # table, summary and heatmap describe the same set
+    assert len(a["never_seen_deals"]) == a["summary"]["never_seen"] == sum(c["never_seen"] for c in a["heatmap"]["cells"])
+    assert sum(c["total"] for c in a["heatmap"]["cells"]) == a["summary"]["market_deals"]
+    # only peers that contributed market companies are listed
+    assert {p["id"] for p in a["peers"]} == {F2, F3}
     assert all(d["sources"] for d in a["never_seen_deals"])
     assert a["top_missed_leads"] == [{"id": F3, "name": "Gamma Partners", "deals": 1}]
     assert a["simulated_crm"] is False
@@ -273,3 +278,29 @@ def test_client_ip(monkeypatch, hops, xff, expected):
     import app as app_module
     monkeypatch.setenv("TRUSTED_PROXY_HOPS", hops)
     assert app_module.client_ip(_Req(xff)) == expected
+
+
+def test_peers_without_market_companies_are_not_listed(client):
+    import db as dbm
+    dbm.ALLOW_CREATE = True
+    dbm.upsert_fund("f4000000-0000-0000-0000-000000000004", "Empty Fund", [("f4000000-0000-0000-0000-000000000004", "Empty Fund")])
+    dbm.ALLOW_CREATE = False
+    r = post_audit(client, peers=f"{F2},{F3},f4000000-0000-0000-0000-000000000004")
+    assert r.status_code == 200
+    assert "Empty Fund" not in [p["name"] for p in r.json()["peers"]]
+
+
+def test_deal_detail_uses_brand_names(client):
+    import db as dbm
+    dbm.ALLOW_CREATE = True
+    dbm.upsert_round({"id": "r-m3b", "company_id": "m3", "label": "SEED", "amount": 1e6, "currency": "EUR",
+                      "date": None, "conflated": 0, "conflation_reason": "", "sources": json.dumps(SRC)},
+                     [{"entity_id": "m3", "name": "m3", "role": "ISSUER"},
+                      {"entity_id": "fm", "name": "FIRSTMINUTE CAPITAL LLP", "role": "INVESTOR", "is_lead": True},
+                      {"entity_id": "sl", "name": "SLACK TECHNOLOGIES, INC.", "role": "INVESTOR"}])
+    dbm.upsert_display_names([("sl", "SLACK TECHNOLOGIES, INC.", "Slack Technologies", "cala_alias")])
+    dbm.ALLOW_CREATE = False
+    d = client.get(f"/api/deals/m3?fund_id={F1}").json()
+    undated = next(r for r in d["rounds"] if r["date"] is None)        # EU grants etc. have no date
+    assert undated["lead_investors"] == [{"id": "fm", "name": "Firstminute Capital"}]   # title-case fallback
+    assert {"id": "sl", "name": "Slack Technologies"} in undated["participants"]       # Cala alias

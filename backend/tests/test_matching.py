@@ -119,3 +119,35 @@ def test_implausible_round_sizes_count_as_conflated():
     assert is_conflated({"label": "SEED", "amount": 12e6, "conflated": 0})
     assert is_conflated({"label": "SEED", "amount": 1e6, "conflated": 1})           # crawler flag kept
     assert not is_conflated({"label": "GRANT", "amount": 5e9, "conflated": 0})       # no cap defined
+
+
+def test_sources_of_accepts_string_and_object_documents():
+    from cala_client import sources_of
+    ent = {"properties": {"name": {"value": "X", "sources": [
+        {"name": "tech.eu", "document": "https://tech.eu/a", "source_rank": "PRESS"},
+        {"name": "GLEIF", "document": {"endpoint": "https://api.gleif.org/x", "params": {}}},
+        {"name": "dup", "document": "https://tech.eu/a"},
+        {"name": "empty", "document": {}}]}}}
+    assert sources_of(ent, ["name"]) == [
+        {"name": "tech.eu", "url": "https://tech.eu/a", "rank": "PRESS"},
+        {"name": "GLEIF", "url": "https://api.gleif.org/x", "rank": None}]
+
+
+def test_blind_spots_fill_to_three_when_data_allows():
+    from audit import blind_spot_facts
+    comps = {"a": {"country": "Germany"}, "b": {"country": "France"}, "c": {"country": "France"}}
+    counted = {"a": {"label": "SEED"}, "b": {"label": "SERIES_A"}, "c": {"label": "SEED"}}
+    status = {"a": "never_seen", "b": "never_seen", "c": "passed"}
+    facts = blind_spot_facts(counted, status, comps, [])
+    assert len(facts) == 3
+    assert len({f["detail"] for f in facts}) == 3
+    assert blind_spot_facts(counted, {k: "passed" for k in status}, comps, []) == []   # nothing unseen
+
+
+def test_brand_names():
+    from names import brand_name
+    assert brand_name("FIRSTMINUTE CAPITAL LLP", ["BRENT CAPITAL LLP", "Firstminute Capital", "Firstminute"]) == "Firstminute Capital"
+    assert brand_name("SLACK TECHNOLOGIES, INC.", ["Tiny Speck", "Slack Technologies, LLC", "Slack Technologies"]) == "Slack Technologies"
+    assert brand_name("NEXOS AI LTD") == "Nexos AI"
+    assert brand_name("11X LIMITED") == "11X"
+    assert brand_name("Marvel Fusion GmbH") == "Marvel Fusion GmbH"      # mixed case is left alone

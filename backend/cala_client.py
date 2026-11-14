@@ -188,7 +188,10 @@ def sources_of(entity: dict, props: list[str]) -> list[dict]:
     for prop in props:
         p = (entity.get("properties") or {}).get(prop)
         for s in (p or {}).get("sources", []) if isinstance(p, dict) else []:
-            url = s.get("document") or ""
+            doc = s.get("document") or ""
+            if isinstance(doc, dict):          # API-sourced records (e.g. GLEIF) give a request object
+                doc = doc.get("url") or doc.get("endpoint") or ""
+            url = doc if isinstance(doc, str) else ""
             if url and url not in seen:
                 seen.add(url)
                 out.append({"name": s.get("name") or "", "url": url, "rank": s.get("source_rank")})
