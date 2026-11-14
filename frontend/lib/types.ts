@@ -86,19 +86,20 @@ export type LiveCheck = {
 };
 
 /** Up to 3 insights (coverage, next_round, sourcing). Numbers are computed in code; title/line are Claude's wording. */
+/**
+ * Up to 3 insights Claude picked from code-computed facts. Numbers, company_ids and chips are built in code;
+ * title/line are Claude's wording. company_ids = every never-seen company of the insight (len == value).
+ */
 export type Insight = {
-  kind: "coverage" | "next_round" | "sourcing" | string;
+  kind: "coverage_sector" | "coverage_country" | "coverage_stage" | "co_investors" | "recency" | "top_lead" | "last_round" | string;
+  fact_id?: string;
   value: number;
   total: number;
   title: string;
   line: string;
   company_ids: string[];
-  investor_names: string[];
-  /** coverage: worst- and best-covered thesis industry and their CRM coverage (shown as chips instead of companies). */
-  worst_industry?: string | null;
-  worst_pct?: number | null;
-  best_industry?: string | null;
-  best_pct?: number | null;
+  /** Label chips only (sector/country/stage with %, or VC names); company_id is always null. */
+  chips?: { label: string; company_id?: string | null }[];
 };
 export type Briefing = { insights: Insight[]; model: string; generated_at?: string };
 

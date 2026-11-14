@@ -109,7 +109,7 @@
         "label": "SEED",
         "amount": 4200000,
         "currency": "EUR",
-        "date": "2024-06-14",
+        "date": "2025-06-14",
         "date_kind": "announcement",
         "investors": [
           {
@@ -132,7 +132,7 @@
             "name": "kelvingrid.de",
             "url": "https://kelvingrid.de/news/seed",
             "rank": "PRIMARY",
-            "date": "2024-06-14"
+            "date": "2025-06-14"
           }
         ]
       }
@@ -142,7 +142,9 @@
       "name": "Helix Spinout",
       "website": null,
       "country": "Finland",
-      "industries": [],
+      "industries": [
+        "Software and services"
+      ],
       "round": {
         "id": "a1f0c2d3-1111-4a0b-9c1d-0000000000a3",
         "label": "PRE_SEED",
@@ -248,49 +250,61 @@
   "briefing": {
     "insights": [
       {
-        "kind": "coverage",
-        "value": 3,
+        "kind": "coverage_sector",
+        "fact_id": "coverage_sector",
+        "value": 2,
         "total": 5,
-        "title": "Health care is your blind sector",
-        "line": "Your pipeline saw most of software but under half of health care.",
+        "title": "Software coverage lags energy",
+        "line": "You see 67% of energy deals but only 60% of software deals.",
         "company_ids": [
-          "0b6f4c1e-1111-4a0b-9c1d-000000000001",
           "0b6f4c1e-1111-4a0b-9c1d-000000000002",
-          "0b6f4c1e-1111-4a0b-9c1d-000000000003"
+          "0b6f4c1e-1111-4a0b-9c1d-000000000001"
         ],
-        "investor_names": [],
-        "best_pct": 78,
-        "worst_pct": 40,
-        "best_industry": "Software and services",
-        "worst_industry": "Health care"
+        "chips": [
+          {
+            "label": "energy 67%",
+            "company_id": null
+          },
+          {
+            "label": "software 60%",
+            "company_id": null
+          }
+        ]
       },
       {
-        "kind": "next_round",
-        "value": 3,
-        "total": 8,
-        "title": "They raised their next round",
-        "line": "Companies that raised again after their first round, all outside your CRM.",
-        "company_ids": [
-          "0b6f4c1e-1111-4a0b-9c1d-000000000001",
-          "0b6f4c1e-1111-4a0b-9c1d-000000000002",
-          "0b6f4c1e-1111-4a0b-9c1d-000000000003"
-        ],
-        "investor_names": []
-      },
-      {
-        "kind": "sourcing",
+        "kind": "co_investors",
+        "fact_id": "co_investors",
         "value": 2,
         "total": 3,
-        "title": "Two funds got there first",
-        "line": "Creandum and Voima Ventures backed 2 of them; you never co-invested with either.",
+        "title": "Co-investors you're missing",
+        "line": "Creandum and Voima Ventures backed 2 of them. Neither is in your rounds since 2022.",
         "company_ids": [
-          "0b6f4c1e-1111-4a0b-9c1d-000000000001",
-          "0b6f4c1e-1111-4a0b-9c1d-000000000002"
+          "0b6f4c1e-1111-4a0b-9c1d-000000000002",
+          "0b6f4c1e-1111-4a0b-9c1d-000000000001"
         ],
-        "investor_names": [
-          "Creandum",
-          "Voima Ventures"
+        "chips": [
+          {
+            "label": "Creandum",
+            "company_id": null
+          },
+          {
+            "label": "Voima Ventures",
+            "company_id": null
+          }
         ]
+      },
+      {
+        "kind": "last_round",
+        "fact_id": "last_round",
+        "value": 2,
+        "total": 3,
+        "title": "Last raised over a year ago",
+        "line": "2 of them last raised 12 to 24 months ago.",
+        "company_ids": [
+          "0b6f4c1e-1111-4a0b-9c1d-000000000002",
+          "0b6f4c1e-1111-4a0b-9c1d-000000000001"
+        ],
+        "chips": []
       }
     ],
     "model": "claude-sonnet-5-5",
@@ -314,12 +328,13 @@
     "priority_country_qualifying_companies": 45
   },
   "live_check": {
-    "status": "ok",
     "companies": 3,
-    "seconds": 3.4,
     "updated": 1,
     "updated_company_ids": [
       "0b6f4c1e-1111-4a0b-9c1d-000000000001"
-    ]
+    ],
+    "seconds": 4.2,
+    "checked_at": "2026-11-14T20:45:03Z",
+    "status": "ok"
   }
 }
