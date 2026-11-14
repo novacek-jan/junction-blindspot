@@ -1234,155 +1234,6 @@
    }
   ]
  },
- "0d87c4ad-0f92-48e4-857c-b96571167213": {
-  "id": "0d87c4ad-0f92-48e4-857c-b96571167213",
-  "name": "Omnea",
-  "website": "omnea.co",
-  "description": "A London‑based software and services company founded in 2022.",
-  "country": "United Kingdom",
-  "founded": "2022",
-  "rounds": [
-   {
-    "label": "SERIES_B",
-    "amount": 50000000,
-    "currency": "USD",
-    "date": "2025-09-17",
-    "lead_investors": [
-     {
-      "id": "4e43048b-a45f-4984-a1c2-e70457fcc1ca",
-      "name": "Insight Partners"
-     },
-     {
-      "id": "dc7ff25e-150c-4b1c-a538-77e57af99f71",
-      "name": "Khosla Ventures"
-     }
-    ],
-    "participants": [
-     {
-      "id": "aee065b7-5ae9-45c7-8c30-457f6d339958",
-      "name": "Accel"
-     },
-     {
-      "id": "3ffa8323-3620-4acf-a8e3-1161bfd8085a",
-      "name": "First Round Capital"
-     },
-     {
-      "id": "c934f7e3-6ee3-4983-b0e1-f7827df567f9",
-      "name": "Point Nine"
-     },
-     {
-      "id": "dea0f32c-bbbe-4471-8ca9-6a0b2b1cfea1",
-      "name": "Prosus N.V."
-     }
-    ],
-    "sources": [
-     {
-      "name": "prnewswire.com",
-      "url": "https://www.prnewswire.com/news-releases/omnea-raises-50m-to-make-procurement-every-cfos-competitive-advantage-302559153.html",
-      "rank": null
-     }
-    ],
-    "conflated": false
-   },
-   {
-    "label": "SERIES_A",
-    "amount": 20000000,
-    "currency": "USD",
-    "date": "2024-10-01",
-    "lead_investors": [],
-    "participants": [
-     {
-      "id": "aee065b7-5ae9-45c7-8c30-457f6d339958",
-      "name": "Accel"
-     }
-    ],
-    "sources": [
-     {
-      "name": "prnewswire.com",
-      "url": "https://www.prnewswire.com/news-releases/omnea-raises-50m-to-make-procurement-every-cfos-competitive-advantage-302559153.html",
-      "rank": null
-     },
-     {
-      "name": "clay.com",
-      "url": "https://www.clay.com/dossier/omnea-funding",
-      "rank": null
-     },
-     {
-      "name": "cbinsights.com",
-      "url": "https://www.cbinsights.com/company/omnea/financials",
-      "rank": null
-     }
-    ],
-    "conflated": false
-   },
-   {
-    "label": "SEED",
-    "amount": 5000000,
-    "currency": "USD",
-    "date": "2024-10-01",
-    "lead_investors": [
-     {
-      "id": "3ffa8323-3620-4acf-a8e3-1161bfd8085a",
-      "name": "First Round Capital"
-     },
-     {
-      "id": "c934f7e3-6ee3-4983-b0e1-f7827df567f9",
-      "name": "Point Nine"
-     }
-    ],
-    "participants": [],
-    "sources": [
-     {
-      "name": "pulse2.com",
-      "url": "https://pulse2.com/omnea-procurement-platform-company-raises-20-million-series-a/amp/",
-      "rank": null
-     },
-     {
-      "name": "goodwinlaw.com",
-      "url": "https://www.goodwinlaw.com/en/news-and-events/news/2024/10/announcements-technology-omnea-raises-20-million-series-a",
-      "rank": null
-     },
-     {
-      "name": "clay.com",
-      "url": "https://www.clay.com/dossier/omnea-funding",
-      "rank": null
-     }
-    ],
-    "conflated": false
-   }
-  ],
-  "why_missed": [
-   {
-    "reason": "Lead investor Insight Partners has never co-invested with you"
-   },
-   {
-    "reason": "United Kingdom is outside your top countries (Germany, United States, Switzerland)"
-   }
-  ],
-  "recent_news": [],
-  "sources": [
-   {
-    "name": "Companies House UK",
-    "url": "https://find-and-update.company-information.service.gov.uk/company/13869078",
-    "rank": null
-   },
-   {
-    "name": "dns.google",
-    "url": "https://dns.google/query?name=omnea.co&type=A",
-    "rank": null
-   },
-   {
-    "name": "thesaasnews.com",
-    "url": "https://www.thesaasnews.com/news/omnea-raises-50-million-in-series-b",
-    "rank": null
-   },
-   {
-    "name": "prnewswire.com",
-    "url": "https://www.prnewswire.com/news-releases/omnea-raises-50m-to-make-procurement-every-cfos-competitive-advantage-302559153.html",
-    "rank": null
-   }
-  ]
- },
  "a88c0305-2762-4b19-b7e8-538ab480de26": {
   "id": "a88c0305-2762-4b19-b7e8-538ab480de26",
   "name": "Spektr",
@@ -1399,7 +1250,7 @@
     "lead_investors": [
      {
       "id": "f4c35f2d-da4c-564d-8daa-317dc6e22241",
-      "name": "Nea"
+      "name": "NEA"
      }
     ],
     "participants": [
@@ -1424,7 +1275,7 @@
   ],
   "why_missed": [
    {
-    "reason": "Lead investor Nea has never co-invested with you"
+    "reason": "Lead investor NEA has never co-invested with you"
    },
    {
     "reason": "France is outside your top countries (Germany, United States, Switzerland)"
@@ -1873,61 +1724,39 @@
    }
   ]
  },
- "b42baef9-5bb9-49de-b32f-88caa2a6a0a0": {
-  "id": "b42baef9-5bb9-49de-b32f-88caa2a6a0a0",
-  "name": "Tornyol",
-  "website": "tornyol.com",
-  "description": "French hardware startup building autonomous ~40 g micro-drones that detect mosquitoes by ultrasonic sonar and physically kill them, for chemical-free mosquito control.",
-  "country": "France",
-  "founded": "2025",
+ "1898b7c7-873c-4ab3-ac27-a330ff23cafd": {
+  "id": "1898b7c7-873c-4ab3-ac27-a330ff23cafd",
+  "name": "Phoebe Technology",
+  "website": "withcoral.com",
+  "description": "London AI-infrastructure company (ex-Stripe Europe founders): originally Phoebe, an AI-agent 'immune system for software' for incident diagnosis; now Coral, an open-source (Apache-2.0) SQL query la...",
+  "country": "United Kingdom",
+  "founded": "2023",
   "rounds": [
    {
     "label": "PRE_SEED",
-    "amount": 3500000,
-    "currency": "USD",
-    "date": "2025-11-07",
+    "amount": 4086854.81,
+    "currency": "GBP",
+    "date": "2025-08-20",
     "lead_investors": [
      {
-      "id": "c934f7e3-6ee3-4983-b0e1-f7827df567f9",
-      "name": "Point Nine"
+      "id": "c06adc97-e2d8-4590-a329-4462750ee4e6",
+      "name": "Cherry Ventures"
      },
      {
-      "id": "1e86655e-373d-4fe8-be13-af3713581f73",
-      "name": "Y Combinator"
+      "id": "7727e24d-70f4-4240-8b84-1680b8552be1",
+      "name": "GV"
      }
     ],
-    "participants": [
-     {
-      "id": "5fc5e4d4-4138-47b8-93de-8c17a10b3b10",
-      "name": "DG Daiwa Ventures"
-     },
-     {
-      "id": "df646c9d-947b-400d-8242-39d0e879430a",
-      "name": "Kima Ventures"
-     },
-     {
-      "id": "26a1ed80-0d2f-49cb-976d-5377f759cbfd",
-      "name": "Long Journey Ventures"
-     },
-     {
-      "id": "9238d2f1-f34e-447a-bda8-f1beb79b3e5a",
-      "name": "Pioneer Fund"
-     }
-    ],
+    "participants": [],
     "sources": [
      {
-      "name": "nordic9.com",
-      "url": "https://nordic9.com/news/tornyol-raised-a-35-million-seed-round-led-by/",
-      "rank": "AGGREGATOR"
+      "name": "find-and-update.company-information.service.gov.uk",
+      "url": "https://find-and-update.company-information.service.gov.uk/company/15331837/filing-history",
+      "rank": "FILING"
      },
      {
-      "name": "crunchbase.com",
-      "url": "https://www.crunchbase.com/organization/tornyol",
-      "rank": "AGGREGATOR"
-     },
-     {
-      "name": "ycombinator.com",
-      "url": "https://www.ycombinator.com/companies/tornyol",
+      "name": "blog.phoebe.ai",
+      "url": "https://blog.phoebe.ai/phoebe-raises-17m-to-build-the-first-immune-system-for-software/",
       "rank": "PRIMARY"
      }
     ],
@@ -1936,38 +1765,148 @@
   ],
   "why_missed": [
    {
-    "reason": "Lead investor Point Nine has never co-invested with you"
+    "reason": "Lead investor GV has never co-invested with you"
    },
    {
-    "reason": "France is outside your top countries (Germany, United States, Switzerland)"
+    "reason": "United Kingdom is outside your top countries (Germany, United States, Switzerland)"
    }
   ],
   "recent_news": [],
   "sources": [
    {
-    "name": "Y Combinator",
-    "url": "https://github.com/yc-oss/api",
+    "name": "Companies House UK",
+    "url": "https://find-and-update.company-information.service.gov.uk/company/15331837",
     "rank": null
    },
    {
-    "name": "ycombinator.com",
-    "url": "https://www.ycombinator.com/companies/tornyol",
+    "name": "dns.google",
+    "url": "https://dns.google/query?name=withcoral.com&type=A",
     "rank": "PRIMARY"
    },
    {
-    "name": "crunchbase.com",
-    "url": "https://www.crunchbase.com/organization/tornyol",
-    "rank": "AGGREGATOR"
+    "name": "x.com",
+    "url": "https://x.com/WithCoral_com",
+    "rank": "PRIMARY"
+   },
+   {
+    "name": "blog.phoebe.ai",
+    "url": "https://blog.phoebe.ai/phoebe-raises-17m-to-build-the-first-immune-system-for-software/",
+    "rank": "PRIMARY"
+   }
+  ]
+ },
+ "9d16303b-f854-41e9-b064-0b093fc9f6df": {
+  "id": "9d16303b-f854-41e9-b064-0b093fc9f6df",
+  "name": "Cerebral Adaptive Forecasting",
+  "website": "recurse.ml",
+  "description": "UK developer-tools startup building ML models that find bugs in human- and AI-generated code: a GitHub PR review agent and the rml CLI integrated with Cursor/Claude Code, plus custom 'Recurse Rules...",
+  "country": "United Kingdom",
+  "founded": "2023",
+  "rounds": [
+   {
+    "label": "PRE_SEED",
+    "amount": 2514926,
+    "currency": "GBP",
+    "date": "2024-07-10",
+    "lead_investors": [
+     {
+      "id": "097cd5c6-327f-4802-8108-6cde93fe2d5b",
+      "name": "Entrepreneur First"
+     },
+     {
+      "id": "5b52a635-9b65-4883-b12f-40eb401f1599",
+      "name": "Playfair Capital"
+     },
+     {
+      "id": "aa87dde8-7dc3-4fc0-957f-143da6ddc0b7",
+      "name": "Seedcamp"
+     }
+    ],
+    "participants": [
+     {
+      "id": "54ea9db1-e48b-48dd-a938-274b81924942",
+      "name": "Ventures Together"
+     }
+    ],
+    "sources": [
+     {
+      "name": "find-and-update.company-information.service.gov.uk",
+      "url": "https://find-and-update.company-information.service.gov.uk/company/15030175/filing-history/MzQzODEwNzEwN2FkaXF6a2N4/document?format=pdf&download=0",
+      "rank": "FILING"
+     },
+     {
+      "name": "find-and-update.company-information.service.gov.uk",
+      "url": "https://find-and-update.company-information.service.gov.uk/company/15030175/filing-history/MzQzODEwNTY5MmFkaXF6a2N4/document?format=pdf&download=0",
+      "rank": "FILING"
+     },
+     {
+      "name": "find-and-update.company-information.service.gov.uk",
+      "url": "https://find-and-update.company-information.service.gov.uk/company/15030175/filing-history/MzQzODExMDAyNWFkaXF6a2N4/document?format=pdf&download=0",
+      "rank": "FILING"
+     },
+     {
+      "name": "find-and-update.company-information.service.gov.uk",
+      "url": "https://find-and-update.company-information.service.gov.uk/company/15030175/filing-history/MzQzODExMTMwOWFkaXF6a2N4/document?format=pdf&download=0",
+      "rank": "FILING"
+     },
+     {
+      "name": "seedcamp.com",
+      "url": "https://seedcamp.com/views/recurse-ml-raises-2-5m-to-build-machine-learning-models-for-large-codebase-maintenance/",
+      "rank": "PRIMARY"
+     },
+     {
+      "name": "find-and-update.company-information.service.gov.uk",
+      "url": "https://find-and-update.company-information.service.gov.uk/company/15030175/filing-history/MzUzNzU2ODYyNGFkaXF6a2N4/document?format=pdf&download=0",
+      "rank": "FILING"
+     },
+     {
+      "name": "find-and-update.company-information.service.gov.uk",
+      "url": "https://find-and-update.company-information.service.gov.uk/company/15030175/filing-history/MzQzODM5NTQ1OWFkaXF6a2N4/document?format=pdf&download=0",
+      "rank": "FILING"
+     },
+     {
+      "name": "medium.com",
+      "url": "https://medium.com/playfair-capital-blog/why-we-invested-in-recurse-ml-f2634d41ae4f",
+      "rank": "PRIMARY"
+     }
+    ],
+    "conflated": false
+   }
+  ],
+  "why_missed": [
+   {
+    "reason": "Lead investor Entrepreneur First has never co-invested with you"
+   },
+   {
+    "reason": "United Kingdom is outside your top countries (Germany, United States, Switzerland)"
+   }
+  ],
+  "recent_news": [],
+  "sources": [
+   {
+    "name": "Companies House UK",
+    "url": "https://find-and-update.company-information.service.gov.uk/company/15030175",
+    "rank": null
    },
    {
     "name": "dns.google",
-    "url": "https://dns.google/query?name=tornyol.com&type=A",
+    "url": "https://dns.google/query?name=recurse.ml&type=A",
     "rank": "PRIMARY"
    },
    {
-    "name": "nordic9.com",
-    "url": "https://nordic9.com/news/tornyol-raised-a-35-million-seed-round-led-by/",
+    "name": "seedcamp.com",
+    "url": "https://seedcamp.com/views/recurse-ml-raises-2-5m-to-build-machine-learning-models-for-large-codebase-maintenance/",
+    "rank": "PRIMARY"
+   },
+   {
+    "name": "web.archive.org",
+    "url": "https://web.archive.org/web/20240517105245/https://recurse.ml/",
     "rank": "AGGREGATOR"
+   },
+   {
+    "name": "find-and-update.company-information.service.gov.uk",
+    "url": "https://find-and-update.company-information.service.gov.uk/company/15030175/filing-history",
+    "rank": "FILING"
    }
   ]
  },

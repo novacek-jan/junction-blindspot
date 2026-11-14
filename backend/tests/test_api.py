@@ -4,6 +4,7 @@ Runs against a small synthetic SQLite DB (no network: Cala and Anthropic are nev
 """
 import json
 import os
+import re
 import sys
 import time
 from pathlib import Path
@@ -72,11 +73,16 @@ def client(tmp_path_factory):
     return TestClient(app_module.app)
 
 
+# Fields added to the contract after the frontend mocks were written (documented in docs/api-contract.md).
+ADDED_FIELDS = {"$.suggested_peers[]": {"score", "reasons"}}
+
+
 def same_shape(resp, mock, path="$"):
     """Same keys at every level as the frontend mock; list items compared against the mock's first item."""
     if isinstance(mock, dict):
         assert isinstance(resp, dict), f"{path}: expected object"
-        assert set(resp) == set(mock), f"{path}: keys {sorted(set(resp) ^ set(mock))} differ"
+        extra = ADDED_FIELDS.get(re.sub(r"\[\d+\]", "[]", path), set())
+        assert set(resp) - extra == set(mock), f"{path}: keys {sorted((set(resp) - extra) ^ set(mock))} differ"
         for k in mock:
             if resp[k] is not None and mock[k] is not None:
                 same_shape(resp[k], mock[k], f"{path}.{k}")
@@ -124,7 +130,19 @@ def test_profile_shape_and_values(client):
     same_shape(body, mock("fund_profile.json"))
     assert body["investments_since_2022"] == 2
     assert {s["label"] for s in body["stages"]} == {"SEED", "SERIES_A"}
-    assert body["suggested_peers"][0] == {"id": F2, "name": "Beta Capital", "co_investments": 1}
+    top = body["suggested_peers"][0]
+    assert (top["id"], top["co_investments"]) == (F2, 1)
+    assert set(top) == {"id", "name", "co_investments", "score", "reasons"}
+    assert 0 < top["score"] <= 100 and 1 <= len(top["reasons"]) <= 3
+    assert [p["score"] for p in body["suggested_peers"]] == sorted((p["score"] for p in body["suggested_peers"]), reverse=True)
+
+
+def test_default_peers_by_thesis_when_none_sent(client):
+    r = post_audit(client, peers="")
+    assert r.status_code == 200
+    profile_peers = [p["id"] for p in client.get(f"/api/funds/{F1}/profile").json()["suggested_peers"]]
+    assert {p["id"] for p in r.json()["peers"]} <= set(profile_peers)          # only selected peers contribute
+    assert r.json()["summary"]["market_deals"] >= 1
 
 
 def test_audit_numbers_and_shape(client):

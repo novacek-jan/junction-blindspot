@@ -7,7 +7,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import pytest  # noqa: E402
 
-from audit import blind_spot_facts, parse_crm  # noqa: E402
+from audit import PEER_VERBS, blind_spot_facts, parse_crm  # noqa: E402
 from matching import CompanyIndex, classify, normalize_domain, normalize_name  # noqa: E402
 
 
@@ -108,8 +108,8 @@ def test_blind_spot_facts_deterministic():
     facts = blind_spot_facts(counted, status, comps, [{"id": "x", "name": "Creandum", "deals": 3}])
     assert facts[0] == {"title": "Nordic seed",
                         "detail": "You never saw 3 of 4 Nordic seed rounds your peers did since 2023.",
-                        "keep": ["Nordic", "seed"]}
-    assert facts[1]["keep"] == ["Creandum"]
+                        "keep": ["Nordic", "seed"], "verbs": PEER_VERBS}
+    assert facts[1]["keep"] == ["Creandum"] and facts[1]["verbs"] == ["led"]
     assert facts[1]["detail"] == "Creandum led 3 peer deals that never reached your pipeline."
 
 
@@ -152,3 +152,42 @@ def test_brand_names():
     assert brand_name("NEXOS AI LTD") == "Nexos AI"
     assert brand_name("11X LIMITED") == "11X"
     assert brand_name("Marvel Fusion GmbH") == "Marvel Fusion GmbH"      # mixed case is left alone
+
+
+def test_peer_score_overlap_weights_and_reasons():
+    import peers
+    a = {"country": {"Germany": 1.0}, "region": {"DACH": 1.0}, "stage": {"SEED": 0.5, "SERIES_A": 0.5},
+         "sector": {"SOFTWARE": 1.0}}
+    same = peers.score(a, a, peers.COINVEST_CAP)[0]
+    assert same == 100.0                                           # identical thesis + full co-invest bonus
+    b = {"country": {"Austria": 1.0}, "region": {"DACH": 1.0}, "stage": {"SEED": 1.0}, "sector": {"FINTECH": 1.0}}
+    sc, parts = peers.score(a, b, 0)
+    assert parts == {"geography": 0.5, "stage": 0.5, "sector": 0.0, "coinvest": 0.0}
+    assert sc == round(100 * (peers.W_GEOGRAPHY * 0.5 + peers.W_STAGE * 0.5), 1)
+    empty = {"country": {}, "region": {}, "stage": {}, "sector": {}}
+    assert peers.score(a, empty, 0)[0] == 0.0
+    rs = peers.reasons(a, b, parts, 2, lambda s: s.lower(), lambda s: s.title(), lambda r: r)
+    assert rs[0].startswith("DACH focus: 100% of your deals, 100% of theirs")
+    assert "2 portfolio companies in common" in rs
+    assert abs(peers.W_GEOGRAPHY + peers.W_STAGE + peers.W_SECTOR + peers.W_COINVEST - 1.0) < 1e-9
+
+
+def test_acronyms_survive_title_case():
+    from names import brand_name
+    assert brand_name("NEA") == "NEA"
+    assert brand_name("HV HOLDING GMBH") == "HV Holding"
+    assert brand_name("THE BIO LAB LTD") == "The Bio Lab"
+
+
+def test_reworded_insight_must_keep_the_verb(monkeypatch, tmp_path):
+    import insights
+    fact = {"title": "Nordic seed", "detail": "You never saw 3 of 4 Nordic seed rounds your peers did since 2023.",
+            "keep": ["Nordic", "seed"], "verbs": ["did", "closed"]}
+    good = {"title": "Nordic seed gap", "detail": "Peers closed 3 of 4 Nordic seed rounds since 2023 you never saw."}
+    bad = {"title": "Nordic seed gap", "detail": "Peers reviewed 3 of 4 Nordic seed rounds since 2023 you never saw."}
+    for out, expected in ((good, good), (bad, {"title": fact["title"], "detail": fact["detail"]})):
+        monkeypatch.setattr(insights, "_call_model", lambda facts, o=out: [o])
+        monkeypatch.setattr(insights.db, "kv_get", lambda k: None)
+        monkeypatch.setattr(insights.db, "kv_put", lambda k, v: None)
+        monkeypatch.setenv("ANTHROPIC_API_KEY", "x")
+        assert insights.phrase([fact]) == [expected]

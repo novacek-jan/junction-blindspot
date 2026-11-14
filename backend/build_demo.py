@@ -3,7 +3,7 @@
 
   data/demo_pipeline.csv  - simulated CRM: ~40% of the fund's in-thesis peer deals
                             (a few invested, most passed / in_review) + ~15 out-of-market noise rows
-  data/demo_audit.json    - GET /api/audit/demo response (demo fund vs all other crawled funds)
+  data/demo_audit.json    - GET /api/audit/demo response (demo fund vs its thesis-similar peers)
   data/demo_profile.json  - GET /api/funds/{demo fund}/profile
   data/demo_deals.json    - GET /api/deals/{id} for every demo deal (served when the DB is absent)
 
@@ -47,7 +47,8 @@ NOISE = [
 def demo_fund_and_peers() -> tuple[dict, list[str]]:
     funds = db.list_funds()
     fund = next(f for f in funds if f["name"] == DEMO_FUND)
-    return fund, [f["id"] for f in funds if f["id"] != fund["id"]]
+    # Peers chosen by thesis similarity (peers.py), exactly as the API does when no peers are sent.
+    return fund, [p["id"] for p in audit.select_peers(fund["id"])]
 
 
 def build_csv(fund: dict, peers: list[str]) -> None:

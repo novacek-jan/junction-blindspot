@@ -15,6 +15,8 @@ from matching import LEGAL_SUFFIXES, normalize_name
 
 ACRONYMS = {"AI", "VC", "UK", "US", "USA", "EU", "IT", "HR", "AR", "VR", "XR", "ML", "IO", "IOT", "API", "SAAS",
             "B2B", "B2C", "3D", "TV", "CEO", "GP", "LP", "NYC", "SF", "BCG", "IBM", "SAP", "AWS"}
+SHORT_WORDS = {"THE", "AND", "OF", "FOR", "TO", "IN", "ON", "AT", "BY", "DE", "LA", "LE", "DU", "DER", "DIE",
+               "DAS", "VON", "UND", "ET", "Y", "A", "AN", "MY", "OUR", "NEW", "BIG", "ONE", "TWO", "BIO", "LAB"}
 _TRAILING = re.compile(r"[\s,.;:&-]+$")
 
 
@@ -41,6 +43,8 @@ def title_case(name: str) -> str:
         core = re.sub(r"[^A-Za-z0-9]", "", w)
         if not core or any(ch.isdigit() for ch in core) or core.upper() in ACRONYMS:
             return w
+        if len(core) <= 3 and core.isalpha() and core.upper() not in SHORT_WORDS:
+            return w                                   # NEA, HV, BNP: short all-caps tokens are acronyms
         return "-".join(part[:1].upper() + part[1:].lower() for part in w.split("-"))
     return " ".join(word(w) for w in name.split())
 

@@ -17,6 +17,7 @@ from urllib.parse import urlparse
 import db
 import crm_import
 import insights
+import peers as peerscore
 from matching import CompanyIndex, classify, normalize_domain
 from names import display
 
@@ -33,6 +34,8 @@ THESIS_STAGE_MIN_SHARE = 0.10
 MARKET_SCOPE = "Europe"
 THESIS_REGION_MIN_SHARE = 0.05
 MAX_NEVER_SEEN = 200
+# A reworded insight must keep one of these verbs: peers *did* these rounds (not "reviewed" or "saw").
+PEER_VERBS = ["did", "done", "closed", "backed", "funded", "invested", "led", "made", "completed"]
 # Largest plausible round per label (any currency). Anything above is treated as conflated / a data
 # error (e.g. a valuation stored as the round size) and is excluded from counts. Same values as the
 # crawler's CONFLATION_THRESHOLDS; applied again here so they work on already-crawled data.
@@ -138,7 +141,44 @@ def _fund_or_404(fund_id: str) -> dict:
 
 def profile(fund_id: str) -> dict:
     p = _profile(fund_id)
-    return {k: v for k, v in p.items() if not k.startswith("_")}
+    out = {k: v for k, v in p.items() if not k.startswith("_")}
+    out["suggested_peers"] = select_peers(fund_id, p["_portfolios"])
+    return out
+
+
+def rank_peers(fund_id: str, portfolios: Optional[dict] = None) -> list[dict]:
+    """Every other fund with its thesis-similarity score and reasons (see peers.py), best first."""
+    portfolios = portfolios if portfolios is not None else db.all_fund_portfolios()
+    names = {f["id"]: f["name"] for f in db.list_funds()}
+    all_ids = set().union(*portfolios.values()) if portfolios else set()
+    comps = db.companies(all_ids)
+    by_company: dict[str, list] = defaultdict(list)
+    for r in db.rounds_for_companies(all_ids):
+        by_company[r["company_id"]].append(r)
+    equity = set(EQUITY_STAGES)
+
+    def thesis_of(fid):
+        return peerscore.thesis(portfolios.get(fid, set()), comps, by_company, region_of, equity, is_conflated)
+
+    mine = thesis_of(fund_id)
+    own = portfolios.get(fund_id, set())
+    ranked = []
+    for fid, name in names.items():
+        if fid == fund_id:
+            continue
+        theirs = thesis_of(fid)
+        co = len(own & portfolios.get(fid, set()))
+        sc, parts = peerscore.score(mine, theirs, co)
+        ranked.append({"id": fid, "name": name, "co_investments": co, "score": sc,
+                       "reasons": peerscore.reasons(mine, theirs, parts, co, stage_human, industry_human,
+                                                    lambda r: REGION_ADJ.get(r, r))})
+    ranked.sort(key=lambda p: (-p["score"], p["name"].casefold()))
+    return ranked
+
+
+def select_peers(fund_id: str, portfolios: Optional[dict] = None) -> list[dict]:
+    """Default peers: the top PEER_COUNT funds scoring at least MIN_PEER_SCORE."""
+    return [p for p in rank_peers(fund_id, portfolios) if p["score"] >= peerscore.MIN_PEER_SCORE][:peerscore.peer_count()]
 
 
 def _profile(fund_id: str) -> dict:
@@ -156,15 +196,6 @@ def _profile(fund_id: str) -> dict:
     # Countries over the fund's whole Cala portfolio (a far larger sample than the recent rounds).
     countries = Counter(c["country"] for c in comps.values() if c["country"])
     industries = Counter(i for c in active if c in comps for i in comps[c]["industries"])
-
-    # suggested peers: other crawled funds ranked by shared portfolio companies
-    peers = []
-    for f in db.list_funds():
-        if f["id"] == fund_id:
-            continue
-        n = len(portfolio & portfolios.get(f["id"], set()))
-        peers.append({"id": f["id"], "name": f["name"], "co_investments": n})
-    peers.sort(key=lambda p: (-p["co_investments"], p["name"]))
 
     sources, seen = [], set()
     for r in sorted(rounds, key=lambda r: r["date"], reverse=True):
@@ -191,7 +222,7 @@ def _profile(fund_id: str) -> dict:
         "countries": [{"name": k, "count": v} for k, v in sorted(countries.items(), key=lambda kv: (-kv[1], kv[0]))],
         "industries": [{"name": industry_human(k), "count": v}
                        for k, v in sorted(industries.items(), key=lambda kv: (-kv[1], kv[0]))],
-        "suggested_peers": peers[:5],
+        "suggested_peers": [],          # filled by profile() (thesis similarity, see peers.py)
         "sources": sources,
         "_portfolio": portfolio,
         "_portfolios": portfolios,
@@ -224,6 +255,8 @@ def run_audit_rows(fund_id: str, peer_ids: list[str], crm_rows: list[dict], simu
     prof = _profile(fund_id)
     funds, ent2fund, known = _fund_names()
     peer_ids = [p for p in dict.fromkeys(peer_ids) if p and p != fund_id]
+    if not peer_ids:            # no peers sent: use the thesis-similarity default
+        peer_ids = [p["id"] for p in select_peers(fund_id, prof["_portfolios"])]
     unknown = [p for p in peer_ids if p not in funds]      # one lookup instead of a query per peer
     if unknown:
         raise NotFound(f"fund {unknown[0]} not found")
@@ -330,11 +363,11 @@ def blind_spot_facts(counted: dict, status: dict, comps: dict, top_leads: list[d
     def cell_fact(reg, stg, t, ns):
         adj, sh = REGION_ADJ.get(reg, reg), stage_human(stg)
         return {"title": f"{adj} {sh}", "detail": f"You never saw {ns} of {t} {adj} {sh} rounds your peers did since 2023.",
-                "keep": [adj, sh], "_sig": (ns, t, adj)}
+                "keep": [adj, sh], "verbs": PEER_VERBS, "_sig": (ns, t, adj)}
 
     def lead_fact(l):
         noun = "deal" if l["deals"] == 1 else "deals"
-        return {"title": f"{l['name']} deals", "keep": [l["name"]], "_sig": ("lead", l["id"]),
+        return {"title": f"{l['name']} deals", "keep": [l["name"]], "verbs": ["led"], "_sig": ("lead", l["id"]),
                 "detail": f"{l['name']} led {l['deals']} peer {noun} that never reached your pipeline."}
 
     cells = sorted(((reg, stg, t, ns) for (reg, stg), (t, ns) in by_cell.items() if ns),
@@ -349,11 +382,11 @@ def blind_spot_facts(counted: dict, status: dict, comps: dict, top_leads: list[d
     candidates += [cell_fact(*c) for c in strong[2:] + medium]
     for reg, t, ns in regions:
         adj = REGION_ADJ.get(reg, reg)
-        candidates.append({"title": f"{adj} deals", "keep": [adj], "_sig": (ns, t, adj),
+        candidates.append({"title": f"{adj} deals", "keep": [adj], "verbs": PEER_VERBS, "_sig": (ns, t, adj),
                            "detail": f"You never saw {ns} of {t} {adj} rounds your peers did since 2023."})
     for stg, t, ns in stages:
         sh = stage_human(stg)
-        candidates.append({"title": f"{sh[:1].upper() + sh[1:]} rounds", "keep": [sh], "_sig": (ns, t, sh),
+        candidates.append({"title": f"{sh[:1].upper() + sh[1:]} rounds", "keep": [sh], "verbs": PEER_VERBS, "_sig": (ns, t, sh),
                            "detail": f"You never saw {ns} of {t} {sh} rounds your peers did since 2023."})
     candidates += [lead_fact(l) for l in top_leads[:2] if l["deals"] == 1]
 

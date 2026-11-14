@@ -1,49 +1,41 @@
 {
- "audit_id": "5e7405f8b716",
+ "audit_id": "bc06499e74e5",
  "fund": {
   "id": "7de3d7d6-af8f-4e95-a949-2befc86938a0",
   "name": "Earlybird Venture Capital"
  },
  "peers": [
   {
-   "id": "32e27d54-3922-407f-aa07-2747d94b210c",
-   "name": "Atomico"
-  },
-  {
-   "id": "c96fa533-91c0-5674-bcbe-0d0dc934b7fa",
-   "name": "Balderton Capital"
+   "id": "94e0ca6a-4e39-4181-bd84-11f264d0aa62",
+   "name": "Speedinvest"
   },
   {
    "id": "c06adc97-e2d8-4590-a329-4462750ee4e6",
    "name": "Cherry Ventures"
   },
   {
-   "id": "6ba00a20-2cb4-4559-8fe2-f39484a9e5f6",
-   "name": "Creandum"
-  },
-  {
-   "id": "4a7ccd5d-1310-46b0-bd42-4ff8b409acc5",
-   "name": "Index Ventures"
-  },
-  {
-   "id": "16bdbb1a-6658-4fa2-9b04-0a48011841d2",
-   "name": "Lakestar"
+   "id": "aa87dde8-7dc3-4fc0-957f-143da6ddc0b7",
+   "name": "Seedcamp"
   },
   {
    "id": "10c75ca4-24d6-4a32-8f22-08d4b1dfffce",
    "name": "Northzone"
   },
   {
-   "id": "c934f7e3-6ee3-4983-b0e1-f7827df567f9",
-   "name": "Point Nine"
+   "id": "32e27d54-3922-407f-aa07-2747d94b210c",
+   "name": "Atomico"
   },
   {
-   "id": "aa87dde8-7dc3-4fc0-957f-143da6ddc0b7",
-   "name": "Seedcamp"
+   "id": "16bdbb1a-6658-4fa2-9b04-0a48011841d2",
+   "name": "Lakestar"
   },
   {
-   "id": "94e0ca6a-4e39-4181-bd84-11f264d0aa62",
-   "name": "Speedinvest"
+   "id": "4a7ccd5d-1310-46b0-bd42-4ff8b409acc5",
+   "name": "Index Ventures"
+  },
+  {
+   "id": "c96fa533-91c0-5674-bcbe-0d0dc934b7fa",
+   "name": "Balderton Capital"
   }
  ],
  "simulated_crm": true,
@@ -63,8 +55,8 @@
  },
  "heatmap": {
   "countries": [
-   "Germany",
    "United Kingdom",
+   "Germany",
    "France",
    "Austria",
    "Switzerland"
@@ -78,6 +70,34 @@
   ],
   "cells": [
    {
+    "country": "United Kingdom",
+    "stage": "PRE_SEED",
+    "total": 3,
+    "never_seen": 3,
+    "share": 1.0
+   },
+   {
+    "country": "United Kingdom",
+    "stage": "SEED",
+    "total": 1,
+    "never_seen": 0,
+    "share": 0.0
+   },
+   {
+    "country": "United Kingdom",
+    "stage": "SERIES_B",
+    "total": 1,
+    "never_seen": 1,
+    "share": 1.0
+   },
+   {
+    "country": "United Kingdom",
+    "stage": "SERIES_C",
+    "total": 2,
+    "never_seen": 1,
+    "share": 0.5
+   },
+   {
     "country": "Germany",
     "stage": "PRE_SEED",
     "total": 1,
@@ -87,7 +107,7 @@
    {
     "country": "Germany",
     "stage": "SEED",
-    "total": 2,
+    "total": 1,
     "never_seen": 0,
     "share": 0.0
    },
@@ -104,34 +124,13 @@
     "total": 2,
     "never_seen": 2,
     "share": 1.0
-   },
-   {
-    "country": "United Kingdom",
-    "stage": "PRE_SEED",
-    "total": 2,
-    "never_seen": 1,
-    "share": 0.5
-   },
-   {
-    "country": "United Kingdom",
-    "stage": "SERIES_B",
-    "total": 2,
-    "never_seen": 2,
-    "share": 1.0
-   },
-   {
-    "country": "United Kingdom",
-    "stage": "SERIES_C",
-    "total": 2,
-    "never_seen": 1,
-    "share": 0.5
    },
    {
     "country": "France",
-    "stage": "PRE_SEED",
+    "stage": "SEED",
     "total": 1,
-    "never_seen": 1,
-    "share": 1.0
+    "never_seen": 0,
+    "share": 0.0
    },
    {
     "country": "France",
@@ -179,16 +178,16 @@
  },
  "top_blind_spots": [
   {
-   "title": "Missed Speedinvest Peer Deals",
-   "detail": "Speedinvest led 2 peer deals that never reached your pipeline."
+   "title": "UK & Irish pre-seed",
+   "detail": "You never saw 3 of 3 UK & Irish pre-seed rounds your peers did since 2023."
   },
   {
-   "title": "Missed DACH Series C",
+   "title": "Cherry Ventures Peer Deals",
+   "detail": "Cherry Ventures led 2 peer deals that never reached your pipeline."
+  },
+  {
+   "title": "DACH Series C",
    "detail": "You never saw 2 of 2 DACH Series C rounds your peers did since 2023."
-  },
-  {
-   "title": "Missed UK Series B",
-   "detail": "You never saw 2 of 2 UK & Irish Series B rounds your peers did since 2023."
   }
  ],
  "never_seen_deals": [
@@ -328,34 +327,6 @@
    "conflated": false
   },
   {
-   "company_id": "0d87c4ad-0f92-48e4-857c-b96571167213",
-   "name": "Omnea",
-   "website": "omnea.co",
-   "country": "United Kingdom",
-   "stage": "SERIES_B",
-   "amount": 50000000,
-   "currency": "USD",
-   "date": "2025-09-17",
-   "lead_investors": [
-    {
-     "id": "4e43048b-a45f-4984-a1c2-e70457fcc1ca",
-     "name": "Insight Partners"
-    },
-    {
-     "id": "dc7ff25e-150c-4b1c-a538-77e57af99f71",
-     "name": "Khosla Ventures"
-    }
-   ],
-   "sources": [
-    {
-     "name": "prnewswire.com",
-     "url": "https://www.prnewswire.com/news-releases/omnea-raises-50m-to-make-procurement-every-cfos-competitive-advantage-302559153.html",
-     "rank": null
-    }
-   ],
-   "conflated": false
-  },
-  {
    "company_id": "a88c0305-2762-4b19-b7e8-538ab480de26",
    "name": "Spektr",
    "website": "spektr.com",
@@ -367,7 +338,7 @@
    "lead_investors": [
     {
      "id": "f4c35f2d-da4c-564d-8daa-317dc6e22241",
-     "name": "Nea"
+     "name": "NEA"
     }
    ],
    "sources": [
@@ -492,38 +463,100 @@
    "conflated": false
   },
   {
-   "company_id": "b42baef9-5bb9-49de-b32f-88caa2a6a0a0",
-   "name": "Tornyol",
-   "website": "tornyol.com",
-   "country": "France",
+   "company_id": "1898b7c7-873c-4ab3-ac27-a330ff23cafd",
+   "name": "Phoebe Technology",
+   "website": "withcoral.com",
+   "country": "United Kingdom",
    "stage": "PRE_SEED",
-   "amount": 3500000,
-   "currency": "USD",
-   "date": "2025-11-07",
+   "amount": 4086854.81,
+   "currency": "GBP",
+   "date": "2025-08-20",
    "lead_investors": [
     {
-     "id": "c934f7e3-6ee3-4983-b0e1-f7827df567f9",
-     "name": "Point Nine"
+     "id": "c06adc97-e2d8-4590-a329-4462750ee4e6",
+     "name": "Cherry Ventures"
     },
     {
-     "id": "1e86655e-373d-4fe8-be13-af3713581f73",
-     "name": "Y Combinator"
+     "id": "7727e24d-70f4-4240-8b84-1680b8552be1",
+     "name": "GV"
     }
    ],
    "sources": [
     {
-     "name": "nordic9.com",
-     "url": "https://nordic9.com/news/tornyol-raised-a-35-million-seed-round-led-by/",
-     "rank": "AGGREGATOR"
+     "name": "find-and-update.company-information.service.gov.uk",
+     "url": "https://find-and-update.company-information.service.gov.uk/company/15331837/filing-history",
+     "rank": "FILING"
     },
     {
-     "name": "crunchbase.com",
-     "url": "https://www.crunchbase.com/organization/tornyol",
-     "rank": "AGGREGATOR"
+     "name": "blog.phoebe.ai",
+     "url": "https://blog.phoebe.ai/phoebe-raises-17m-to-build-the-first-immune-system-for-software/",
+     "rank": "PRIMARY"
+    }
+   ],
+   "conflated": false
+  },
+  {
+   "company_id": "9d16303b-f854-41e9-b064-0b093fc9f6df",
+   "name": "Cerebral Adaptive Forecasting",
+   "website": "recurse.ml",
+   "country": "United Kingdom",
+   "stage": "PRE_SEED",
+   "amount": 2514926,
+   "currency": "GBP",
+   "date": "2024-07-10",
+   "lead_investors": [
+    {
+     "id": "097cd5c6-327f-4802-8108-6cde93fe2d5b",
+     "name": "Entrepreneur First"
     },
     {
-     "name": "ycombinator.com",
-     "url": "https://www.ycombinator.com/companies/tornyol",
+     "id": "5b52a635-9b65-4883-b12f-40eb401f1599",
+     "name": "Playfair Capital"
+    },
+    {
+     "id": "aa87dde8-7dc3-4fc0-957f-143da6ddc0b7",
+     "name": "Seedcamp"
+    }
+   ],
+   "sources": [
+    {
+     "name": "find-and-update.company-information.service.gov.uk",
+     "url": "https://find-and-update.company-information.service.gov.uk/company/15030175/filing-history/MzQzODEwNzEwN2FkaXF6a2N4/document?format=pdf&download=0",
+     "rank": "FILING"
+    },
+    {
+     "name": "find-and-update.company-information.service.gov.uk",
+     "url": "https://find-and-update.company-information.service.gov.uk/company/15030175/filing-history/MzQzODEwNTY5MmFkaXF6a2N4/document?format=pdf&download=0",
+     "rank": "FILING"
+    },
+    {
+     "name": "find-and-update.company-information.service.gov.uk",
+     "url": "https://find-and-update.company-information.service.gov.uk/company/15030175/filing-history/MzQzODExMDAyNWFkaXF6a2N4/document?format=pdf&download=0",
+     "rank": "FILING"
+    },
+    {
+     "name": "find-and-update.company-information.service.gov.uk",
+     "url": "https://find-and-update.company-information.service.gov.uk/company/15030175/filing-history/MzQzODExMTMwOWFkaXF6a2N4/document?format=pdf&download=0",
+     "rank": "FILING"
+    },
+    {
+     "name": "seedcamp.com",
+     "url": "https://seedcamp.com/views/recurse-ml-raises-2-5m-to-build-machine-learning-models-for-large-codebase-maintenance/",
+     "rank": "PRIMARY"
+    },
+    {
+     "name": "find-and-update.company-information.service.gov.uk",
+     "url": "https://find-and-update.company-information.service.gov.uk/company/15030175/filing-history/MzUzNzU2ODYyNGFkaXF6a2N4/document?format=pdf&download=0",
+     "rank": "FILING"
+    },
+    {
+     "name": "find-and-update.company-information.service.gov.uk",
+     "url": "https://find-and-update.company-information.service.gov.uk/company/15030175/filing-history/MzQzODM5NTQ1OWFkaXF6a2N4/document?format=pdf&download=0",
+     "rank": "FILING"
+    },
+    {
+     "name": "medium.com",
+     "url": "https://medium.com/playfair-capital-blog/why-we-invested-in-recurse-ml-f2634d41ae4f",
      "rank": "PRIMARY"
     }
    ],
@@ -551,23 +584,23 @@
  ],
  "top_missed_leads": [
   {
+   "id": "c06adc97-e2d8-4590-a329-4462750ee4e6",
+   "name": "Cherry Ventures",
+   "deals": 2
+  },
+  {
    "id": "94e0ca6a-4e39-4181-bd84-11f264d0aa62",
    "name": "Speedinvest",
    "deals": 2
   },
   {
-   "id": "c06adc97-e2d8-4590-a329-4462750ee4e6",
-   "name": "Cherry Ventures",
+   "id": "097cd5c6-327f-4802-8108-6cde93fe2d5b",
+   "name": "Entrepreneur First",
    "deals": 1
   },
   {
-   "id": "4e43048b-a45f-4984-a1c2-e70457fcc1ca",
-   "name": "Insight Partners",
-   "deals": 1
-  },
-  {
-   "id": "dc7ff25e-150c-4b1c-a538-77e57af99f71",
-   "name": "Khosla Ventures",
+   "id": "7727e24d-70f4-4240-8b84-1680b8552be1",
+   "name": "GV",
    "deals": 1
   },
   {

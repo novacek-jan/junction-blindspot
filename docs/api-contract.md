@@ -24,13 +24,17 @@ Thesis inferred from the fund's real investments in Cala. No user input.
   "stages":     [{ "label": "SEED", "share": 0.55 }],
   "countries":  [{ "name": "Germany", "count": 12 }],
   "industries": [{ "name": "Software and services", "count": 18 }],
-  "suggested_peers": [{ "id": "uuid", "name": "Cherry Ventures", "co_investments": 7 }],
+  "suggested_peers": [{ "id": "uuid", "name": "Cherry Ventures", "co_investments": 7, "score": 51.2,
+                       "reasons": ["DACH focus: 80% of your deals, 80% of theirs", "Pre-seed rounds: 43% of your deals, 56% of theirs"] }],
   "sources": [Source]
 }
 ```
 
+`suggested_peers` are the default peers, chosen by **thesis similarity** (`backend/peers.py`): up to 10 funds (`PEER_COUNT`) with `score` >= 25, best first. Each fund's thesis is its share of deals since 2023 by geography (country and region), stage and sector; the score is `100 × (0.35·geography + 0.25·stage + 0.25·sector overlap + 0.15·min(1, co_investments/5))`, where overlap is the histogram intersection of the two funds' shares (0–1). Funds with fewer than 5 deals since 2023 fall back to all their dated deals, then to their portfolio companies. `reasons` (1–3 strings) explain the strongest overlaps for the UI. `score` is 0–100 with one decimal.
+
 ## POST /api/audit  (multipart/form-data)
-Fields: `fund_id` (str), `peer_ids` (comma-separated str), `crm_csv` (file: any CRM export as `.csv` or `.xlsx`), optional `mapping` (JSON string, see below).
+Fields: `fund_id` (str), `peer_ids` (comma-separated str; **empty or omitted = the profile's `suggested_peers`**), `crm_csv` (file: any CRM export as `.csv` or `.xlsx`), optional `mapping` (JSON string, see below).
+The market contains only deals of the selected peers that fall inside the audited fund's thesis (European HQ, thesis regions and stages, announced since 2023). The response's `peers` lists the selected peers that contributed at least one market company.
 Header `X-Access-Code: <code>` is required (the backend's `AUDIT_ACCESS_CODE`; ask the team, never commit it).
 
 **Accepted files.** `.csv` (any delimiter `, ; tab |`, UTF-8/UTF-16/Windows-1252, report title rows above the header are skipped) or `.xlsx` (first sheet only; read with cached cell values, formulas are never calculated, macro workbooks `.xlsm` and legacy `.xls` are rejected). Detection uses the file extension and content; the part's content type may be `text/csv`, `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`, `application/vnd.ms-excel`, `application/octet-stream`, `text/plain` or empty. At most 2 MB and 5,000 data rows. The file is parsed in memory, never stored, and discarded after the request.
