@@ -41,6 +41,8 @@ export function Briefing({
   onOpen: (row: BlindSpot) => void;
 }) {
   const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+  const gridRef = useRef<HTMLDivElement>(null);
+  useEqualCollapsedHeight(gridRef);
   const byId = new Map(rows.map((r) => [r.company_id, r]));
   const insights = briefing.insights
     .filter((i) => i.title && i.value > 0)
@@ -65,6 +67,7 @@ export function Briefing({
         </span>
       </div>
       <div
+        ref={gridRef}
         className={`grid grid-cols-1 items-start gap-5 ${insights.length === 3 ? "lg:grid-cols-3" : insights.length === 2 ? "lg:grid-cols-2" : ""}`}
       >
         {insights.map((ins, i) => {
@@ -113,6 +116,7 @@ function InsightCard({
 
   return (
     <article
+      data-expanded={expanded ? "true" : undefined}
       className={`flex min-w-0 flex-col gap-4 rounded-3xl px-7 pb-7 pt-8 ${style.box}`}
     >
       <div className="flex items-baseline gap-2.5">
@@ -244,11 +248,13 @@ function useAnimatedHeight<T extends HTMLElement>(dep: unknown) {
       window.matchMedia("(prefers-reduced-motion: reduce)").matches
     )
       return;
+    o.dataset.animating = "true";
     o.style.height = `${from + 8}px`; // + p-1 padding (top and bottom)
     void o.offsetHeight; // reflow, so the transition starts from `from`
     o.style.height = `${to + 8}px`;
     const done = () => {
       o.style.height = "";
+      delete o.dataset.animating;
       o.removeEventListener("transitionend", done);
     };
     o.addEventListener("transitionend", done);
@@ -259,6 +265,54 @@ function useAnimatedHeight<T extends HTMLElement>(dep: unknown) {
     };
   }, [dep]);
   return [outer, inner] as const;
+}
+
+/**
+ * Collapsed cards share one height: the tallest collapsed card's natural height becomes every card's min-height
+ * (the grid uses items-start, so an expanded card grows alone and the others never stretch further; the chip
+ * block has mt-auto, so chip rows line up at the bottom). Cards that are expanded or animating keep their last
+ * collapsed measurement. Re-measured on resize; cleared when the cards stack in one column.
+ */
+function useEqualCollapsedHeight(
+  gridRef: React.RefObject<HTMLDivElement | null>,
+) {
+  useLayoutEffect(() => {
+    const grid = gridRef.current;
+    if (!grid) return;
+    const collapsed = new WeakMap<HTMLElement, number>();
+    let frame = 0;
+    const measure = () => {
+      const cards = [...grid.children] as HTMLElement[];
+      const columns = getComputedStyle(grid)
+        .gridTemplateColumns.split(" ")
+        .filter(Boolean).length;
+      if (columns < 2) {
+        cards.forEach((c) => (c.style.minHeight = ""));
+        return;
+      }
+      for (const c of cards) {
+        if (c.dataset.expanded || c.querySelector("[data-animating]")) continue;
+        const prev = c.style.minHeight;
+        c.style.minHeight = "";
+        collapsed.set(c, c.offsetHeight);
+        c.style.minHeight = prev;
+      }
+      const max = Math.max(0, ...cards.map((c) => collapsed.get(c) ?? 0));
+      cards.forEach((c) => (c.style.minHeight = max ? `${max}px` : ""));
+    };
+    const schedule = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(measure);
+    };
+    measure();
+    const ro = new ResizeObserver(schedule);
+    ro.observe(grid);
+    for (const c of grid.children) ro.observe(c);
+    return () => {
+      cancelAnimationFrame(frame);
+      ro.disconnect();
+    };
+  }, [gridRef]);
 }
 
 function SparkIcon() {
