@@ -1,0 +1,70 @@
+{
+  "audit_id": "3f9c2a71b0de",
+  "fund": { "id": "7de3d7d6-af8f-4e95-a949-2befc86938a0", "name": "Earlybird Venture Capital" },
+  "simulated_crm": true,
+  "period": { "from": "2022-01-01", "to": "2026-11-14" },
+  "thesis": {
+    "stages": ["PRE_SEED", "SEED", "SERIES_A"],
+    "countries": ["Austria", "Denmark", "Finland", "France", "Germany", "Iceland", "Liechtenstein", "Monaco", "Norway", "Sweden", "Switzerland"],
+    "industries": [
+      { "code": "SOFTWARE_AND_SERVICES", "name": "Software and services" },
+      { "code": "RENEWABLE_ENERGY", "name": "Renewable energy" },
+      { "code": "BIOTECHNOLOGY", "name": "Biotechnology" }
+    ],
+    "basis_rounds": 9
+  },
+  "headline": { "never_seen": 3, "text": "3 companies in your thesis raised since 2022 and never hit your CRM" },
+  "summary": { "market_companies": 8, "in_crm": 5, "invested": 2, "passed": 2, "in_review": 1, "never_seen": 3, "coverage_pct": 62.5 },
+  "never_seen": [
+    {
+      "company_id": "0b6f4c1e-1111-4a0b-9c1d-000000000001", "name": "Vayu Robotics", "website": "vayu-robotics.se",
+      "country": "Sweden", "industries": ["Software and services"],
+      "round": {
+        "id": "a1f0c2d3-1111-4a0b-9c1d-0000000000a1", "label": "SERIES_A", "amount": 12000000, "currency": "EUR",
+        "date": "2025-03-18", "date_kind": "announcement",
+        "investors": [
+          { "id": "6ba00a20-2cb4-4559-8fe2-f39484a9e5f6", "name": "Creandum", "type": "Organization", "is_lead": true },
+          { "id": "c0ffee00-1111-4a0b-9c1d-0000000000b2", "name": "Giant Ventures", "type": "Organization", "is_lead": false }
+        ],
+        "sources": [
+          { "name": "tech.eu", "url": "https://tech.eu/2025/03/18/vayu-robotics-series-a", "rank": "PRESS", "date": "2025-03-18" },
+          { "name": "bolagsverket.se", "url": "https://bolagsverket.se/example/vayu", "rank": "FILING", "date": "2025-04-02" }
+        ]
+      }
+    },
+    {
+      "company_id": "0b6f4c1e-1111-4a0b-9c1d-000000000002", "name": "Kelvin Grid", "website": "kelvingrid.de",
+      "country": "Germany", "industries": ["Renewable energy"],
+      "round": {
+        "id": "a1f0c2d3-1111-4a0b-9c1d-0000000000a2", "label": "SEED", "amount": 4200000, "currency": "EUR",
+        "date": "2024-06-14", "date_kind": "announcement",
+        "investors": [
+          { "id": "c0ffee00-1111-4a0b-9c1d-0000000000b3", "name": "Climate Angels Network", "type": "Organization", "is_lead": true },
+          { "id": "c0ffee00-1111-4a0b-9c1d-0000000000b4", "name": "Anna Example", "type": "Person", "is_lead": false }
+        ],
+        "sources": [
+          { "name": "kelvingrid.de", "url": "https://kelvingrid.de/news/seed", "rank": "PRIMARY", "date": "2024-06-14" }
+        ]
+      }
+    },
+    {
+      "company_id": "0b6f4c1e-1111-4a0b-9c1d-000000000003", "name": "Helix Spinout", "website": null,
+      "country": "Finland", "industries": [],
+      "round": {
+        "id": "a1f0c2d3-1111-4a0b-9c1d-0000000000a3", "label": "PRE_SEED", "amount": null, "currency": null,
+        "date": "2023-02-01", "date_kind": "event",
+        "investors": [
+          { "id": "c0ffee00-1111-4a0b-9c1d-0000000000b5", "name": "University Of Example Fund", "type": "Organization", "is_lead": false }
+        ],
+        "sources": [
+          { "name": "prh.fi", "url": "https://prh.fi/example/helix", "rank": "FILING", "date": null }
+        ]
+      }
+    }
+  ],
+  "top_investors_in_blind_spots": [
+    { "id": "6ba00a20-2cb4-4559-8fe2-f39484a9e5f6", "name": "Creandum", "companies": 1 },
+    { "id": "c0ffee00-1111-4a0b-9c1d-0000000000b3", "name": "Climate Angels Network", "companies": 1 }
+  ],
+  "market_coverage": { "european_companies_screened": 3100, "qualifying_companies": 260, "investors_explored": 410, "as_of": "2026-11-14" }
+}

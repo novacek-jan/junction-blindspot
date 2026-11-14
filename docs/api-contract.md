@@ -1,4 +1,15 @@
-# Blindspot API contract (v1)
+# Blindspot API contract (v2)
+
+**v2 product model.** The market is every European company with a closed funding round since **2022-01-01**
+that has at least one named investor (VC, angel, accelerator, university fund, ...), as found in Cala by
+snowballing the investor network and `knowledge_search` seeds. It is no longer limited to peer funds' deals.
+A **blind spot** is a market company inside the fund's thesis that never appears in its CRM.
+The period is **since 2022-01-01 everywhere**.
+
+**Transition.** Until the frontend switches, `POST /api/audit` and `GET /api/audit/demo` return the v2 fields
+below **and** the legacy v1 fields (`peers`, `venn`, `heatmap`, `top_blind_spots`, `never_seen_deals`,
+`top_missed_leads`, `summary.market_deals`, `summary.in_pipeline`). Legacy fields are deprecated and will be
+removed; build against v2 only. v2 mocks: `docs/mocks/`.
 
 Single source of truth between `/backend` (FastAPI) and `/frontend` (Next.js).
 Backend base URL: `http://localhost:8000` locally. Frontend reads it from `NEXT_PUBLIC_API_URL` (a URL, never a key).
@@ -6,7 +17,9 @@ All API keys (Cala, Anthropic, database) live ONLY in the backend `.env` / hosti
 Any change to this contract must update this file and `frontend/mocks/` in the same commit.
 
 Common types:
-- `Source = { "name": str, "url": str, "rank": "FILING"|"PRIMARY"|"PRESS"|"AGGREGATOR"|null }`
+- `Source = { "name": str, "url": str, "rank": "FILING"|"PRIMARY"|"PRESS"|"AGGREGATOR"|null, "date": "YYYY-MM-DD"|null }`
+  (`rank`: FILING = registries/regulators, PRIMARY = the company or its investors, PRESS = independent press,
+  AGGREGATOR = funding databases; `date` = publication/retrieval date of the source)
 - Amounts are numbers in the original currency plus a `currency` code. Dates are ISO `YYYY-MM-DD`.
 - Stages use Cala codes: `PRE_SEED, SEED, SERIES_A, SERIES_B, SERIES_C, ...`
 
@@ -16,25 +29,41 @@ Common types:
 ```
 
 ## GET /api/funds/{fund_id}/profile
-Thesis inferred from the fund's real investments in Cala. No user input.
+The fund's thesis, inferred from its own investments in Cala. No user input. **Every number uses the same
+period (since 2022-01-01) and scope (companies headquartered in Europe).**
 ```json
 {
-  "fund": { "id": "uuid", "name": "Point Nine" },
-  "investments_since_2022": 34,
-  "stages":     [{ "label": "SEED", "share": 0.55 }],
-  "countries":  [{ "name": "Germany", "count": 12 }],
-  "industries": [{ "name": "Software and services", "count": 18 }],
+  "fund": { "id": "uuid", "name": "Earlybird Venture Capital" },
+  "period": { "from": "2022-01-01", "to": "2026-11-14" },
+  "scope": "Europe",
+  "investments_since_2022": 9,
+  "out_of_scope_deals": 1,
+  "stages":     [{ "label": "SEED", "share": 0.33 }],
+  "countries":  [{ "name": "Germany", "count": 4 }],
+  "industries": [{ "name": "Software and services", "count": 3 }],
+  "thesis": {
+    "stages": ["PRE_SEED", "SEED", "SERIES_A"],
+    "countries": ["Germany", "Austria", "Switzerland", "Liechtenstein", "Finland", "Sweden", "Denmark", "Norway", "Iceland", "France", "Monaco"],
+    "industries": [{ "code": "SOFTWARE_AND_SERVICES", "name": "Software and services" }]
+  },
   "suggested_peers": [{ "id": "uuid", "name": "Cherry Ventures", "co_investments": 7, "score": 51.2,
-                       "reasons": ["DACH focus: 80% of your deals, 80% of theirs", "Pre-seed rounds: 43% of your deals, 56% of theirs"] }],
+                       "reasons": ["DACH focus: 80% of your deals, 80% of theirs"] }],
   "sources": [Source]
 }
 ```
-
-`suggested_peers` are the default peers, chosen by **thesis similarity** (`backend/peers.py`): up to 10 funds (`PEER_COUNT`) with `score` >= 25, best first. Each fund's thesis is its share of deals since 2023 by geography (country and region), stage and sector; the score is `100 × (0.35·geography + 0.25·stage + 0.25·sector overlap + 0.15·min(1, co_investments/5))`, where overlap is the histogram intersection of the two funds' shares (0–1). Funds with fewer than 5 deals since 2023 fall back to all their dated deals, then to their portfolio companies. `reasons` (1–3 strings) explain the strongest overlaps for the UI. `score` is 0–100 with one decimal.
+- `investments_since_2022`: rounds since 2022-01-01 of European companies in which the fund is a named
+  participant (or, where Cala has no participant list, the first such round of each portfolio company).
+  `out_of_scope_deals`: the same, for companies outside Europe (shown nowhere else).
+- `stages` / `countries` / `industries`: counts and shares over exactly those rounds.
+- `thesis` is the **hard filter** applied to the market: stages with at least 15% of those rounds, plus every
+  stage between the lowest and the highest of them (an early-stage fund never sees Series C); the fund's
+  countries widened to their region (e.g. Germany → DACH); its industries (Cala codes). A company with no
+  industry in Cala is not excluded by the industry filter.
+- `suggested_peers` (thesis similarity, `backend/peers.py`) is context for the UI only; peers no longer define
+  the market.
 
 ## POST /api/audit  (multipart/form-data)
-Fields: `fund_id` (str), `peer_ids` (comma-separated str; **empty or omitted = the profile's `suggested_peers`**), `crm_csv` (file: any CRM export as `.csv` or `.xlsx`), optional `mapping` (JSON string, see below).
-The market contains only deals of the selected peers that fall inside the audited fund's thesis (European HQ, thesis regions and stages, announced since 2023). The response's `peers` lists the selected peers that contributed at least one market company.
+Fields: `fund_id` (str), `crm_csv` (file: any CRM export as `.csv` or `.xlsx`), optional `mapping` (JSON string, see below). `peer_ids` is accepted for backwards compatibility and ignored in v2.
 Header `X-Access-Code: <code>` is required (the backend's `AUDIT_ACCESS_CODE`; ask the team, never commit it).
 
 **Accepted files.** `.csv` (any delimiter `, ; tab |`, UTF-8/UTF-16/Windows-1252, report title rows above the header are skipped) or `.xlsx` (first sheet only; read with cached cell values, formulas are never calculated, macro workbooks `.xlsm` and legacy `.xls` are rejected). Detection uses the file extension and content; the part's content type may be `text/csv`, `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`, `application/vnd.ms-excel`, `application/octet-stream`, `text/plain` or empty. At most 2 MB and 5,000 data rows. The file is parsed in memory, never stored, and discarded after the request.
@@ -75,38 +104,61 @@ Same upload, header, limits and optional `mapping` as `POST /api/audit` (`fund_i
 ```
 `row_count` counts rows with a company name or website; `skipped_rows` the rest. `matched_rows` is how many rows match any crawled Cala company (by domain, then normalized name), or `null` when live data is unavailable. `sample_rows` holds the first 5 rows. `mapping` values and `date`, `raw_status`, `website` may be `null`/empty.
 
-### Response of POST /api/audit
+### Response of POST /api/audit (v2)
 ```json
 {
   "audit_id": "str",
-  "fund": { "id": "uuid", "name": "Point Nine" },
-  "peers": [{ "id": "uuid", "name": "Cherry Ventures" }],
+  "fund": { "id": "uuid", "name": "Earlybird Venture Capital" },
   "simulated_crm": true,
-  "summary": { "market_deals": 142, "in_pipeline": 54, "invested": 6, "passed": 32, "in_review": 16, "never_seen": 88, "coverage_pct": 38.0 },
-  "venn": { "pipeline_only": 130, "overlap": 54, "market_only": 88 },
-  "heatmap": {
-    "countries": ["Germany", "Sweden"],
+  "period": { "from": "2022-01-01", "to": "2026-11-14" },
+  "thesis": {
     "stages": ["PRE_SEED", "SEED", "SERIES_A"],
-    "cells": [{ "country": "Sweden", "stage": "SEED", "total": 11, "never_seen": 9, "share": 0.82 }]
+    "countries": ["Germany", "Austria", "Switzerland"],
+    "industries": [{ "code": "SOFTWARE_AND_SERVICES", "name": "Software and services" }],
+    "basis_rounds": 9
   },
-  "top_blind_spots": [{ "title": "Nordic seed", "detail": "You missed 9 of 11 Nordic seed rounds." }],
-  "never_seen_deals": [{
-    "company_id": "uuid", "name": "Vayu Robotics", "website": "vayu-robotics.se",
-    "country": "Sweden", "stage": "SEED", "amount": 4200000, "currency": "EUR", "date": "2024-06-14",
-    "lead_investors": [{ "id": "uuid", "name": "Creandum" }],
-    "sources": [Source], "conflated": false
+  "headline": { "never_seen": 23, "text": "23 companies in your thesis raised since 2022 and never hit your CRM" },
+  "summary": { "market_companies": 41, "in_crm": 18, "invested": 4, "passed": 9, "in_review": 5,
+               "never_seen": 23, "coverage_pct": 43.9 },
+  "never_seen": [{
+    "company_id": "uuid", "name": "Vayu Robotics", "website": "vayu-robotics.se", "country": "Sweden",
+    "industries": ["Software and services"],
+    "round": {
+      "id": "uuid", "label": "SEED", "amount": 4200000, "currency": "EUR",
+      "date": "2024-06-14", "date_kind": "announcement",
+      "investors": [{ "id": "uuid", "name": "Creandum", "type": "Organization", "is_lead": true }],
+      "sources": [{ "name": "tech.eu", "url": "https://tech.eu/...", "rank": "PRESS", "date": "2024-06-14" }]
+    }
   }],
-  "top_missed_leads": [{ "id": "uuid", "name": "Creandum", "deals": 7 }]
+  "top_investors_in_blind_spots": [{ "id": "uuid", "name": "Creandum", "companies": 4 }],
+  "market_coverage": { "european_companies_screened": 3100, "qualifying_companies": 260,
+                       "investors_explored": 410, "as_of": "2026-11-14" }
 }
 ```
-Audit semantics:
-- `never_seen_deals` contains only counted deals. Rounds flagged as merged/conflated (implausible size for their label, e.g. a 3B Series B) are excluded entirely, so `never_seen_deals.length == summary.never_seen` (up to 200) and the heatmap counts the same set. `conflated` is therefore always `false` here; conflated rounds remain visible with `conflated: true` in `GET /api/deals/{id}` → `rounds[]`.
-- `peers` lists only peer funds that contributed at least one company to the market; requested peers without market companies are omitted.
-- `top_blind_spots` has 3 items whenever the data has at least 3 distinct facts (fewer only when almost nothing was missed; empty when nothing was).
-- Company and investor `name`s are display names: the brand from Cala aliases instead of an upper-case legal name (e.g. "FIRSTMINUTE CAPITAL LLP" → "Firstminute Capital"), otherwise the legal name in title case without its legal suffix. Fund names are the fund's brand.
+Semantics:
+- **Market** (`summary.market_companies`): companies headquartered in Europe with a *qualifying round*: closed
+  since 2022-01-01 (announcement date, else event date), at least one named investor of any type, at least one
+  Cala source, and not flagged as merged/implausible (e.g. a 3B Series B). The market is then cut by the
+  fund's `thesis` (stage of the qualifying round, country, industry). Every number is computed in code.
+- **CRM matching**: by website domain, else normalized company name. The fund's own Cala portfolio counts as
+  `invested` even if missing from the CRM. Statuses: see the CSV import section (`seen` counts as `in_review`).
+  `in_crm = invested + passed + in_review`; `coverage_pct = 100 · in_crm / market_companies` (one decimal).
+- **Blind spots** (`never_seen`): market companies not in the CRM, `never_seen.length == summary.never_seen ==
+  headline.never_seen` (list capped at 200). Sorted by round amount (descending), then date, then id.
+  `round` is the company's latest qualifying round in the thesis. Investors are **context**, not the headline.
+- **Sources are mandatory**: every `round.sources` has at least one entry with `url`, `rank` and `date`
+  (date may be `null` only if Cala has none), so the UI can show "source: PRESS · tech.eu · 2024-06-14".
+- `round.date_kind`: `"announcement"` or `"event"` (which Cala field the date came from). `amount`/`currency`
+  may be `null`. `investors[].type` is the Cala entity type (Organization, Company, Person, ...).
+- `top_investors_in_blind_spots`: investors appearing in the most blind-spot rounds (max 10).
+- `market_coverage`: how much of Cala the crawler has explored, for an honest "market as known today" note.
+- No LLM is involved in the audit; `top_blind_spots`, `venn` and `heatmap` are removed in v2.
+- Company and investor `name`s are display names: the brand from Cala aliases instead of an upper-case legal
+  name (e.g. "FIRSTMINUTE CAPITAL LLP" → "Firstminute Capital"), otherwise the legal name in title case
+  without its legal suffix.
 
 ## GET /api/audit/demo
-Returns a precomputed audit (same shape as POST /api/audit) for the demo fund and `data/demo_pipeline.csv`. Must respond in under 1 second.
+Returns a precomputed audit (same shape as POST /api/audit, v2 + legacy during the transition) for the demo fund (Earlybird Venture Capital) and `data/demo_pipeline.csv`, a **simulated** CRM (`simulated_crm: true`). Must respond in under 1 second. Mock: `docs/mocks/audit_v2.json`.
 
 ## GET /api/deals/{company_id}?fund_id=uuid
 ```json
@@ -115,7 +167,8 @@ Returns a precomputed audit (same shape as POST /api/audit) for the demo fund an
   "description": "Autonomous robots for industrial sites.",
   "country": "Sweden", "founded": "2022",
   "rounds": [{
-    "label": "SEED", "amount": 4200000, "currency": "EUR", "date": "2024-06-14",
+    "id": "uuid", "label": "SEED", "amount": 4200000, "currency": "EUR", "date": "2024-06-14",
+    "date_kind": "announcement", "qualifying": true,
     "lead_investors": [{ "id": "uuid", "name": "Creandum" }],
     "participants": [{ "id": "uuid", "name": "Giant Ventures" }],
     "sources": [Source], "conflated": false
@@ -126,5 +179,6 @@ Returns a precomputed audit (same shape as POST /api/audit) for the demo fund an
 }
 ```
 `rounds[].date` is **nullable** (e.g. EU grants without a date); `rounds[]` is sorted newest first with undated rounds last. `rounds[].amount` and `rounds[].currency` can also be `null`.
+`rounds[].sources` use the v2 `Source` (with `date`). `rounds[].qualifying` marks rounds that count for the market (since 2022-01-01, named investor, sourced, not merged).
 `why_missed` is computed by rules (lead never co-invested with the fund, country outside the fund's top countries, stage outside its stages), max 2 items.
 `recent_news` comes from Cala `knowledge_search`, cached.
