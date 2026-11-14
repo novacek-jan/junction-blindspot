@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { getDeal } from "@/lib/api";
 import type { DealDetail, NeverSeenDeal } from "@/lib/types";
-import { formatAmount, formatDate, stageLabel } from "@/lib/format";
+import { formatAmount, formatDate, safeUrl, stageLabel, websiteUrl } from "@/lib/format";
 import { Icon, type IconName } from "./Icon";
 import { SourceIcons, SourceList } from "./Sources";
 import { ConflatedFlag } from "./DealsTable";
@@ -39,7 +39,7 @@ export function DealPanel({ deal, fundId, onClose }: { deal: NeverSeenDeal; fund
   return (
     <div className="fixed inset-0 z-50" role="dialog" aria-modal="true" aria-label={`${deal.name} deal details`}>
       <div className="animate-fade-in absolute inset-0 bg-black/30 backdrop-blur-[2px]" onClick={onClose} />
-      <aside className="animate-slide-in absolute inset-y-0 right-0 flex w-full max-w-[500px] flex-col border-l border-zinc-200 bg-white shadow-2xl">
+      <aside className="animate-slide-in absolute inset-y-0 right-0 flex w-full max-w-[500px] 2xl:max-w-[560px] flex-col border-l border-zinc-200 bg-white shadow-2xl">
         <div className="flex-1 overflow-y-auto px-6 py-6 sm:px-8 sm:py-8">
           <div className="flex flex-col gap-8">
             <div className="flex items-center justify-between">
@@ -81,16 +81,7 @@ export function DealPanel({ deal, fundId, onClose }: { deal: NeverSeenDeal; fund
                     <span>Founded {detail.founded}</span>
                   </>
                 ) : null}
-                <Dot />
-                <a
-                  href={`https://${(detail?.website ?? deal.website).replace(/^https?:\/\//, "")}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 font-medium text-sky-600 hover:underline"
-                >
-                  {detail?.website ?? deal.website}
-                  <Icon name="external" className="size-3" />
-                </a>
+                <WebsiteLink website={detail?.website ?? deal.website} />
               </div>
             </div>
 
@@ -120,26 +111,38 @@ export function DealPanel({ deal, fundId, onClose }: { deal: NeverSeenDeal; fund
                 <Section icon="bolt" iconClass="text-green-700" title="Recent news">
                   {detail.recent_news.length ? (
                     <div className="divide-y divide-zinc-200 overflow-hidden rounded-xl border border-zinc-200">
-                      {detail.recent_news.map((n) => (
-                        <a
-                          key={n.url}
-                          href={n.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="group flex items-start gap-3 p-3.5 transition-colors hover:bg-zinc-50"
-                        >
-                          <span className="mt-2 size-1.5 shrink-0 rounded-full bg-green-700" />
-                          <span className="flex flex-1 flex-col gap-0.5">
-                            <span className="text-sm font-medium leading-snug text-ink group-hover:underline">{n.title}</span>
-                            <span className="flex items-center gap-2 pt-0.5 font-mono text-xs text-zinc-500">
-                              <span>{n.source}</span>
-                              <Dot />
-                              <span>{formatDate(n.date, true)}</span>
+                      {detail.recent_news.map((n, i) => {
+                        const href = safeUrl(n.url);
+                        const body = (
+                          <>
+                            <span className="mt-2 size-1.5 shrink-0 rounded-full bg-green-700" />
+                            <span className="flex flex-1 flex-col gap-0.5">
+                              <span className="text-sm font-medium leading-snug text-ink group-hover:underline">{n.title}</span>
+                              <span className="flex items-center gap-2 pt-0.5 font-mono text-xs text-zinc-500">
+                                <span>{n.source}</span>
+                                <Dot />
+                                <span>{formatDate(n.date, true)}</span>
+                              </span>
                             </span>
-                          </span>
-                          <Icon name="external" className="mt-1 size-3.5 shrink-0 text-zinc-300 group-hover:text-ink" />
-                        </a>
-                      ))}
+                          </>
+                        );
+                        return href ? (
+                          <a
+                            key={`${n.url}-${i}`}
+                            href={href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group flex items-start gap-3 p-3.5 transition-colors hover:bg-zinc-50"
+                          >
+                            {body}
+                            <Icon name="external" className="mt-1 size-3.5 shrink-0 text-zinc-300 group-hover:text-ink" />
+                          </a>
+                        ) : (
+                          <div key={`${n.url}-${i}`} className="flex items-start gap-3 p-3.5">
+                            {body}
+                          </div>
+                        );
+                      })}
                     </div>
                   ) : (
                     <p className="text-sm text-zinc-500">No recent news found.</p>
@@ -210,6 +213,24 @@ function Section({ icon, iconClass = "text-zinc-500", title, children }: { icon:
       </div>
       {children}
     </section>
+  );
+}
+
+function WebsiteLink({ website }: { website: string }) {
+  const href = websiteUrl(website);
+  if (!website) return null;
+  return (
+    <>
+      <Dot />
+      {href ? (
+        <a href={href} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 font-medium text-sky-600 hover:underline">
+          {website}
+          <Icon name="external" className="size-3" />
+        </a>
+      ) : (
+        <span>{website}</span>
+      )}
+    </>
   );
 }
 

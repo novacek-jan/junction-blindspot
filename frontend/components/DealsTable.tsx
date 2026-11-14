@@ -26,11 +26,13 @@ export function DealsTable({
   deals,
   total,
   selectedId,
+  highlightFirst = false,
   onOpen,
 }: {
   deals: NeverSeenDeal[];
   total: number;
   selectedId?: string | null;
+  highlightFirst?: boolean;
   onOpen: (deal: NeverSeenDeal) => void;
 }) {
   const [sort, setSort] = useState<SortKey>("date");
@@ -68,7 +70,17 @@ export function DealsTable({
       </div>
 
       {sorted.length === 0 ? (
-        <p className="p-6 text-sm text-zinc-500">No never-seen deals in this audit.</p>
+        <div className="flex flex-col items-center gap-2 px-6 py-14 text-center">
+          <span className="flex size-10 items-center justify-center rounded-full bg-green-100 text-green-700">
+            <Icon name="check" className="size-5" />
+          </span>
+          <p className="text-sm font-semibold text-ink">No blind spots found</p>
+          <p className="max-w-sm text-sm text-zinc-500">
+            {total > 0
+              ? `${total} deals were flagged as never seen, but none had verified round data to list here.`
+              : "Every deal your peers closed in this period reached your pipeline."}
+          </p>
+        </div>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full min-w-[760px] border-collapse text-left text-xs">
@@ -84,14 +96,21 @@ export function DealsTable({
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {sorted.slice(0, limit).map((d) => (
+              {sorted.slice(0, limit).map((d, i) => {
+                const hint = highlightFirst && i === 0;
+                return (
                 <tr
                   key={d.company_id}
                   tabIndex={0}
                   onClick={() => onOpen(d)}
                   onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), onOpen(d))}
+                  aria-label={hint ? `${d.name}: open to see why you missed it` : undefined}
                   className={`group cursor-pointer outline-none transition-colors hover:bg-slate-50 focus-visible:bg-sky-50/60 ${
-                    selectedId === d.company_id ? "bg-sky-50/60" : ""
+                    hint
+                      ? "bg-sky-50 shadow-[inset_3px_0_0_#0284c7] hover:bg-sky-100/70"
+                      : selectedId === d.company_id
+                        ? "bg-sky-50/60"
+                        : ""
                   }`}
                 >
                   <td className="px-5 py-3">
@@ -101,6 +120,15 @@ export function DealsTable({
                         {d.conflated ? <ConflatedFlag /> : null}
                       </span>
                       <span className="text-[11px] text-zinc-400">{d.website}</span>
+                      {hint ? (
+                        <span className="mt-1 inline-flex w-fit items-center gap-1 rounded-full bg-sky-600 px-2 py-0.5 text-[10px] font-semibold text-white">
+                          <span className="relative flex size-1.5">
+                            <span className="absolute inline-flex size-full animate-ping rounded-full bg-white opacity-75" />
+                            <span className="relative inline-flex size-1.5 rounded-full bg-white" />
+                          </span>
+                          Start here: see why you missed it
+                        </span>
+                      ) : null}
                     </div>
                   </td>
                   <td className="px-4 py-3 text-zinc-600">{d.country}</td>
@@ -119,7 +147,8 @@ export function DealsTable({
                     </div>
                   </td>
                 </tr>
-              ))}
+                );
+              })}
             </tbody>
           </table>
         </div>

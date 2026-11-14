@@ -6,11 +6,14 @@ import { AppShell } from "@/components/AppShell";
 import { FundSearch } from "@/components/FundSearch";
 import { ProfileCard } from "@/components/ProfileCard";
 import { Icon } from "@/components/Icon";
-import { getDemoAudit, getFundProfile, runAudit } from "@/lib/api";
-import { saveAudit } from "@/lib/auditStore";
+import { getFundProfile, runAudit } from "@/lib/api";
+import { clearAudit, saveAudit } from "@/lib/auditStore";
 import type { FundProfile, FundSearchResult, OrgRef } from "@/lib/types";
 
 type Peer = OrgRef & { co_investments?: number };
+
+const MAX_CSV_BYTES = 2 * 1024 * 1024;
+const CSV_MIME = new Set(["text/csv", "application/vnd.ms-excel", "text/plain", "application/csv"]);
 
 export default function StartPage() {
   const router = useRouter();
@@ -55,22 +58,35 @@ export default function StartPage() {
 
   function acceptFile(f: File | undefined) {
     if (!f) return;
-    if (!/\.csv$/i.test(f.name) && f.type !== "text/csv") {
+    const isCsv = /\.csv$/i.test(f.name) && (f.type === "" || CSV_MIME.has(f.type));
+    if (!isCsv) {
       setError("Please upload a .csv file with columns company, website, status, date.");
+      return;
+    }
+    if (f.size > MAX_CSV_BYTES) {
+      setError(`That file is ${(f.size / 1024 / 1024).toFixed(1)} MB. The limit is 2 MB.`);
+      return;
+    }
+    if (f.size === 0) {
+      setError("That file is empty.");
       return;
     }
     setError(null);
     setCsv(f);
   }
 
-  async function go(kind: "audit" | "demo") {
-    setRunning(kind);
+  function startDemo() {
+    // One click: go straight to Results, which loads the demo audit behind a skeleton.
+    setRunning("demo");
+    clearAudit();
+    router.push("/results");
+  }
+
+  async function runRealAudit() {
+    setRunning("audit");
     setError(null);
     try {
-      const audit =
-        kind === "demo"
-          ? await getDemoAudit()
-          : await runAudit({ fundId: fund!.id, peerIds: peers.map((p) => p.id), crmCsv: csv! });
+      const audit = await runAudit({ fundId: fund!.id, peerIds: peers.map((p) => p.id), crmCsv: csv! });
       saveAudit(audit);
       router.push("/results");
     } catch (e) {
@@ -93,7 +109,7 @@ export default function StartPage() {
           </div>
           <button
             type="button"
-            onClick={() => go("demo")}
+            onClick={startDemo}
             disabled={!!running}
             className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-lg border border-sky-200 bg-sky-100 px-4 text-sm font-semibold text-sky-700 shadow-sm transition-colors hover:border-sky-300 hover:bg-sky-200/70 disabled:opacity-60"
           >
@@ -246,7 +262,7 @@ export default function StartPage() {
             <button
               type="button"
               disabled={!canRun}
-              onClick={() => go("audit")}
+              onClick={runRealAudit}
               className="flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-ink px-6 text-sm font-medium text-white shadow-sm transition-all hover:bg-ink-hover active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-zinc-300"
             >
               {running === "audit" ? (
@@ -267,8 +283,8 @@ export default function StartPage() {
           </div>
         ) : (
           <p className="rounded-lg border border-slate-200 bg-white px-4 py-3 text-xs text-zinc-500">
-            No fund handy? <strong className="font-semibold text-ink">Try the demo</strong> — a precomputed audit of a real fund against
-            five peers, with a simulated CRM.
+            No fund handy? <strong className="font-semibold text-ink">Try the demo.</strong> A precomputed audit of a real fund with a
+            simulated CRM.
           </p>
         )}
       </div>

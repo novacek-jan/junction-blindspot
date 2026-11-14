@@ -17,3 +17,9 @@ export function loadAudit(): Audit | null {
     return null;
   }
 }
+
+export function clearAudit() {
+  try {
+    sessionStorage.removeItem(KEY);
+  } catch {}
+}

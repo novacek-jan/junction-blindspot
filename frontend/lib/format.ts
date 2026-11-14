@@ -44,3 +44,20 @@ export function hostOf(url: string) {
     return url;
   }
 }
+
+/** Returns the URL only if it is http(s); blocks javascript:, data:, etc. */
+export function safeUrl(url: string | null | undefined): string | null {
+  if (!url) return null;
+  try {
+    const u = new URL(url);
+    return u.protocol === "https:" || u.protocol === "http:" ? u.href : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Company websites arrive as bare domains ("vayu-robotics.se"); normalise to https. */
+export function websiteUrl(website: string | null | undefined): string | null {
+  if (!website) return null;
+  return safeUrl(/^[a-z][a-z0-9+.-]*:/i.test(website) ? website : `https://${website}`);
+}
