@@ -162,11 +162,6 @@ export function DealsTable({
         >
           Show more ({sorted.length - limit} remaining)
         </button>
-      ) : deals.length > total ? (
-        <p className="border-t border-slate-100 px-5 py-3 text-[11px] text-zinc-400">
-          {deals.length - total} of these {deals.length} rounds may be merged records in Cala, so they are listed but not counted in the {total}{" "}
-          missed.
-        </p>
       ) : deals.length < total ? (
         <p className="border-t border-slate-100 px-5 py-3 text-[11px] text-zinc-400">
           Showing {deals.length} of {total} never-seen deals with verified round data.
