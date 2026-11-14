@@ -512,7 +512,7 @@ def companies_for_entity(entity_id: str) -> set[str]:
 # ------------------------------------------------------------------ SQLite -> Postgres sync
 
 SYNC_TABLES = ["funds", "fund_entities", "fund_portfolio", "companies", "rounds", "round_participants", "kv",
-               "display_names", "company_investors", "cache"]
+               "display_names", "company_investors", "crawl_queue", "cache"]   # crawl_queue: coverage counts
 
 
 def sync_sqlite_to_postgres(sqlite_path: Optional[Path] = None, pg_url: Optional[str] = None,
