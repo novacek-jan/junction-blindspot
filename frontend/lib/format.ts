@@ -22,11 +22,6 @@ export function stageLabel(code: string): string {
     .replace("Pre Seed", "Pre-Seed");
 }
 
-/** Newest first; missing dates (the backend sends null for some grant rounds) sort last. */
-export function byDateDesc(a: { date: string | null }, b: { date: string | null }): number {
-  return (b.date ?? "").localeCompare(a.date ?? "");
-}
-
 export function formatDate(iso: string | null, withDay = false): string {
   if (!iso) return "Date unknown";
   const d = new Date(iso + (iso.length === 10 ? "T00:00:00Z" : ""));

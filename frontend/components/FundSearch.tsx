@@ -45,13 +45,18 @@ export function FundSearch({
         })
         .catch(() => !cancelled && setResults([]))
         .finally(() => !cancelled && setLoading(false));
-    }, 180);
+    }, 120);
     return () => {
       cancelled = true;
       clearTimeout(t);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [q, searchable, excludeIds.join(",")]);
+
+  // Keep the active option visible when moving through a long list with the arrow keys.
+  useEffect(() => {
+    document.getElementById(listId)?.querySelector('[aria-selected="true"]')?.scrollIntoView({ block: "nearest" });
+  }, [active, listId]);
 
   useEffect(() => {
     const onDoc = (e: MouseEvent) => {
@@ -133,7 +138,10 @@ export function FundSearch({
               }`}
             >
               <span className="font-medium">{f.name}</span>
-              {i === active ? <Icon name="arrowRight" className="size-3.5 text-zinc-400" /> : null}
+              <span className="flex shrink-0 items-center gap-2 text-xs text-zinc-500">
+                {f.basis_rounds != null ? <span className="tabular">based on {f.basis_rounds} rounds</span> : null}
+                <Icon name="arrowRight" className={`size-3.5 text-zinc-400 ${i === active ? "" : "invisible"}`} />
+              </span>
             </li>
           ))}
         </ul>

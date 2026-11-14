@@ -6,7 +6,7 @@ import { AppShell, SimulatedCrmBadge } from "@/components/AppShell";
 import { DealsTable } from "@/components/DealsTable";
 import { ApiError, ERROR_MESSAGES, getDemoAudit, withTimeout } from "@/lib/api";
 import { loadAudit, saveAudit } from "@/lib/auditStore";
-import { stageLabel } from "@/lib/format";
+import { formatDate, stageLabel } from "@/lib/format";
 import type { Audit } from "@/lib/types";
 
 export default function ResultsPage() {
@@ -70,32 +70,51 @@ export default function ResultsPage() {
     );
   }
 
-  const count = audit.summary?.never_seen ?? audit.never_seen_deals.length;
-  const thesis = thesisLine(audit);
+  const { headline, thesis, market_coverage: mc } = audit;
+  const n = String(headline.never_seen);
 
   return (
     <AppShell crumb={audit.fund.name} right={audit.simulated_crm ? <SimulatedCrmBadge /> : null}>
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-6 sm:px-8">
         <div className="flex flex-col gap-3">
           <h1 className="text-4xl font-extrabold leading-tight tracking-tight text-zinc-950 xl:text-5xl">
-            <span className="tabular text-sky-800">{count}</span> companies in your thesis raised since 2022 and never hit your CRM
+            {headline.text.startsWith(n) ? (
+              <>
+                <span className="tabular text-sky-800">{n}</span>
+                {headline.text.slice(n.length)}
+              </>
+            ) : (
+              headline.text
+            )}
           </h1>
-          {thesis ? <p className="text-lg font-medium text-zinc-800">{thesis}</p> : null}
+          <ThesisChips thesis={thesis} />
         </div>
-        <DealsTable deals={audit.never_seen_deals} />
-        <p className="text-sm text-zinc-500">Market data from Cala · every row links to its source</p>
+        <DealsTable rows={audit.never_seen} />
+        <p className="text-sm text-zinc-500">
+          Market: {mc.qualifying_companies.toLocaleString("en-US")} {mc.region ? `${mc.region} ` : ""}companies with an investor-backed round since 2022,
+          from {mc.european_companies_screened.toLocaleString("en-US")} screened · as of {formatDate(mc.as_of, true)} · data from Cala
+        </p>
       </div>
     </AppShell>
   );
 }
 
-// "Thesis: Seed, Series A · Germany, France · Fintech". Prefers audit.thesis, falls back to the heatmap axes.
-function thesisLine(audit: Audit): string | null {
-  const stages = audit.thesis?.stages ?? audit.heatmap?.stages ?? [];
-  const countries = audit.thesis?.countries ?? audit.heatmap?.countries ?? [];
-  const sectors = audit.thesis?.sectors ?? [];
-  const parts = [stages.map(stageLabel).join(", "), countries.join(", "), sectors.join(", ")].filter(Boolean);
-  return parts.length ? `Thesis: ${parts.join(" · ")}` : null;
+function ThesisChips({ thesis }: { thesis: Audit["thesis"] }) {
+  const chips = [...thesis.stages.map(stageLabel), ...thesis.countries, ...thesis.industries.map((x) => x.name)];
+  return (
+    <div className="flex flex-col gap-2">
+      {chips.length ? (
+        <ul className="flex flex-wrap gap-1.5" aria-label="Thesis">
+          {chips.map((c) => (
+            <li key={c} className="rounded-full border border-zinc-300 bg-white px-2.5 py-0.5 text-sm font-medium text-zinc-800">
+              {c}
+            </li>
+          ))}
+        </ul>
+      ) : null}
+      <p className="text-sm text-zinc-600">Thesis based on {thesis.basis_rounds.toLocaleString("en-US")} rounds</p>
+    </div>
+  );
 }
 
 function ResultsSkeleton() {

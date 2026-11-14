@@ -1,100 +1,23 @@
 {
-  "fund": {
-    "id": "4b50fd3b-01b1-4b98-a5cd-7e9d5752d86a",
-    "name": "Point Nine"
-  },
-  "investments_since_2022": 34,
+  "fund": { "id": "7de3d7d6-af8f-4e95-a949-2befc86938a0", "name": "Earlybird Venture Capital" },
+  "period": { "from": "2022-01-01", "to": "2026-11-14" },
+  "scope": "Europe",
+  "investments_since_2022": 9,
+  "out_of_scope_deals": 1,
   "stages": [
-    {
-      "label": "SEED",
-      "share": 0.55
-    },
-    {
-      "label": "PRE_SEED",
-      "share": 0.24
-    },
-    {
-      "label": "SERIES_A",
-      "share": 0.21
-    }
+    { "label": "SEED", "share": 0.33 }, { "label": "SERIES_A", "share": 0.33 }, { "label": "PRE_SEED", "share": 0.22 },
+    { "label": "SERIES_B", "share": 0.11 }
   ],
-  "countries": [
-    {
-      "name": "Germany",
-      "count": 12
-    },
-    {
-      "name": "France",
-      "count": 6
-    },
-    {
-      "name": "United Kingdom",
-      "count": 5
-    },
-    {
-      "name": "Poland",
-      "count": 4
-    },
-    {
-      "name": "Spain",
-      "count": 3
-    }
-  ],
-  "industries": [
-    {
-      "name": "Software and services",
-      "count": 18
-    },
-    {
-      "name": "Fintech",
-      "count": 7
-    },
-    {
-      "name": "Marketplaces",
-      "count": 5
-    },
-    {
-      "name": "AI infrastructure",
-      "count": 4
-    }
-  ],
+  "countries": [ { "name": "Germany", "count": 4 }, { "name": "Finland", "count": 2 }, { "name": "Switzerland", "count": 2 }, { "name": "France", "count": 1 } ],
+  "industries": [ { "name": "Software and services", "count": 3 }, { "name": "Renewable energy", "count": 2 } ],
+  "thesis": {
+    "stages": ["PRE_SEED", "SEED", "SERIES_A"],
+    "countries": ["Austria", "Denmark", "Finland", "France", "Germany", "Iceland", "Liechtenstein", "Monaco", "Norway", "Sweden", "Switzerland"],
+    "industries": [ { "code": "SOFTWARE_AND_SERVICES", "name": "Software and services" }, { "code": "RENEWABLE_ENERGY", "name": "Renewable energy" } ]
+  },
   "suggested_peers": [
-    {
-      "id": "2712e11b-8081-483b-a74c-030760acc1d6",
-      "name": "Cherry Ventures",
-      "co_investments": 7
-    },
-    {
-      "id": "3e3863d8-fb77-4e11-a6f0-21a3481b3289",
-      "name": "Seedcamp",
-      "co_investments": 5
-    },
-    {
-      "id": "df439f7e-0e65-4c38-a51c-16929762f1a4",
-      "name": "Speedinvest",
-      "co_investments": 4
-    },
-    {
-      "id": "a19345b0-e265-47e7-a0b0-275a3c1aa658",
-      "name": "Creandum",
-      "co_investments": 2
-    },
-    {
-      "id": "cd290857-0c09-4c4b-a0b0-24d8f64cda9e",
-      "name": "Earlybird Venture Capital",
-      "co_investments": 2
-    }
+    { "id": "c06adc97-e2d8-4590-a329-4462750ee4e6", "name": "Cherry Ventures", "co_investments": 2, "score": 51.2,
+      "reasons": ["DACH focus: 80% of your deals, 80% of theirs", "Pre-seed rounds: 43% of your deals, 56% of theirs"] }
   ],
-  "sources": [
-    {
-      "name": "Cala · Point Nine investments",
-      "url": "https://cala.ai/entities/point-nine",
-      "rank": "AGGREGATOR"
-    },
-    {
-      "name": "pointnine.com/portfolio",
-      "url": "https://www.pointnine.com/portfolio",
-      "rank": "PRIMARY"
-    }
-  ]
+  "sources": [ { "name": "tech.eu", "url": "https://tech.eu/example", "rank": "PRESS", "date": "2024-06-14" } ]
 }

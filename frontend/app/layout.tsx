@@ -7,7 +7,7 @@ const mono = JetBrains_Mono({ variable: "--font-mono-face", subsets: ["latin"] }
 
 export const metadata: Metadata = {
   title: "Blindspot",
-  description: "See the deals your peers closed that never reached your pipeline.",
+  description: "Find the companies in your thesis that raised money and never hit your CRM.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

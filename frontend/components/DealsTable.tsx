@@ -1,20 +1,15 @@
-import type { NeverSeenDeal, Source } from "@/lib/types";
-import { byDateDesc, formatAmount, formatDate, safeUrl, stageLabel } from "@/lib/format";
+import type { BlindSpot, Investor } from "@/lib/types";
+import { formatAmount, formatDate, safeUrl, stageLabel } from "@/lib/format";
 
-// Best source per row: filing, then press, then primary, aggregator, unranked.
-const RANK_ORDER = ["FILING", "PRESS", "PRIMARY", "AGGREGATOR", null] as const;
 const RANK_LABEL: Record<string, string> = { FILING: "Filing", PRESS: "Press", PRIMARY: "Primary", AGGREGATOR: "Aggregator" };
 
-function primarySource(sources: Source[] | undefined): (Source & { href: string }) | null {
-  for (const rank of RANK_ORDER) {
-    const s = sources?.find((x) => (x.rank ?? null) === rank && safeUrl(x.url));
-    if (s) return { ...s, href: safeUrl(s.url)! };
-  }
-  return null;
+// Lead investors first, otherwise the backend's order.
+function investorNames(investors: Investor[]): string {
+  return [...investors.filter((i) => i.is_lead), ...investors.filter((i) => !i.is_lead)].map((i) => i.name).join(", ");
 }
 
-export function DealsTable({ deals }: { deals: NeverSeenDeal[] }) {
-  const rows = [...deals].sort(byDateDesc);
+/** Rows in the backend's order (round amount, then date). The source is round.sources[0], the strongest one. */
+export function DealsTable({ rows }: { rows: BlindSpot[] }) {
   if (!rows.length) return null;
 
   return (
@@ -24,7 +19,7 @@ export function DealsTable({ deals }: { deals: NeverSeenDeal[] }) {
           <tr>
             <th className="px-4 py-3">Company</th>
             <th className="px-4 py-3">Country</th>
-            <th className="px-4 py-3">Stage</th>
+            <th className="px-4 py-3">Round</th>
             <th className="px-4 py-3">Date</th>
             <th className="px-4 py-3 text-right">Amount</th>
             <th className="px-4 py-3">Investors</th>
@@ -33,28 +28,31 @@ export function DealsTable({ deals }: { deals: NeverSeenDeal[] }) {
         </thead>
         <tbody className="divide-y divide-zinc-200">
           {rows.map((d) => {
-            const src = primarySource(d.sources);
+            const r = d.round;
+            const src = r.sources?.[0];
+            const href = safeUrl(src?.url);
+            const srcLabel = src ? [(src.rank && RANK_LABEL[src.rank]) || "Source", src.date ? formatDate(src.date, true) : null].filter(Boolean).join(" · ") : null;
             return (
               <tr key={d.company_id}>
                 <td className="px-4 py-3 font-semibold">{d.name}</td>
                 <td className="whitespace-nowrap px-4 py-3">{d.country || "—"}</td>
-                <td className="whitespace-nowrap px-4 py-3">{d.stage ? stageLabel(d.stage) : "—"}</td>
-                <td className="tabular whitespace-nowrap px-4 py-3">{formatDate(d.date)}</td>
-                <td className="tabular whitespace-nowrap px-4 py-3 text-right font-semibold">{formatAmount(d.amount, d.currency)}</td>
-                <td className="px-4 py-3">{d.lead_investors?.length ? d.lead_investors.map((l) => l.name).join(", ") : "—"}</td>
+                <td className="whitespace-nowrap px-4 py-3">{r.label ? stageLabel(r.label) : "—"}</td>
+                <td className="tabular whitespace-nowrap px-4 py-3">{formatDate(r.date)}</td>
+                <td className="tabular whitespace-nowrap px-4 py-3 text-right font-semibold">{formatAmount(r.amount, r.currency ?? "")}</td>
+                <td className="px-4 py-3">{r.investors?.length ? investorNames(r.investors) : "—"}</td>
                 <td className="whitespace-nowrap px-4 py-3">
-                  {src ? (
+                  {src && href ? (
                     <a
-                      href={src.href}
+                      href={href}
                       target="_blank"
                       rel="noopener noreferrer"
                       title={src.name}
                       className="font-semibold text-sky-800 underline underline-offset-2 hover:text-sky-950"
                     >
-                      {(src.rank && RANK_LABEL[src.rank]) || "Source"}
+                      {srcLabel}
                     </a>
                   ) : (
-                    "—"
+                    srcLabel ?? "—"
                   )}
                 </td>
               </tr>

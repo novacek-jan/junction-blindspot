@@ -1,12 +1,16 @@
-// Types mirror docs/api-contract.md (v1). Keep in sync with the contract.
+// Types mirror docs/api-contract.md (v2). Keep in sync with the contract.
 
 export type SourceRank = "FILING" | "PRIMARY" | "PRESS" | "AGGREGATOR" | null;
-export type Source = { name: string; url: string; rank: SourceRank };
+export type Source = { name: string; url: string; rank: SourceRank; date?: string | null };
 
 export type Stage = string; // Cala codes: PRE_SEED, SEED, SERIES_A, ...
 export type OrgRef = { id: string; name: string };
 
-export type FundSearchResult = OrgRef;
+// basis_rounds: not in the contract yet; shown as "based on N rounds" when the backend sends it.
+export type FundSearchResult = OrgRef & { basis_rounds?: number };
+
+export type Industry = { code: string; name: string };
+export type Thesis = { stages: Stage[]; countries: string[]; industries: Industry[] };
 
 export type FundProfile = {
   fund: OrgRef;
@@ -14,80 +18,62 @@ export type FundProfile = {
   stages: { label: Stage; share: number }[];
   countries: { name: string; count: number }[];
   industries: { name: string; count: number }[];
-  suggested_peers: (OrgRef & { co_investments: number })[];
+  thesis?: Thesis;
   sources: Source[];
 };
 
-export type NeverSeenDeal = {
+export type Investor = { id: string; name: string; type?: string; is_lead: boolean };
+
+export type BlindSpot = {
   company_id: string;
   name: string;
-  website: string;
-  country: string;
-  stage: Stage;
-  amount: number;
-  currency: string;
-  date: string;
-  lead_investors: OrgRef[];
-  sources: Source[];
-  conflated: boolean;
-};
-
-export type HeatmapCell = {
-  country: string;
-  stage: Stage;
-  total: number;
-  never_seen: number;
-  share: number;
+  website?: string | null;
+  country: string | null;
+  industries?: string[];
+  round: {
+    id: string;
+    label: Stage | null;
+    amount: number | null;
+    currency: string | null;
+    date: string | null;
+    date_kind?: "announcement" | "event";
+    investors: Investor[];
+    sources: Source[];
+  };
 };
 
 export type Audit = {
   audit_id: string;
   fund: OrgRef;
-  peers: OrgRef[];
   simulated_crm: boolean;
+  period: { from: string; to: string };
+  thesis: Thesis & { basis_rounds: number };
+  headline: { never_seen: number; text: string };
   summary: {
-    market_deals: number;
-    in_pipeline: number;
+    market_companies: number;
+    in_crm: number;
     invested: number;
     passed: number;
     in_review: number;
     never_seen: number;
     coverage_pct: number;
   };
-  venn: { pipeline_only: number; overlap: number; market_only: number };
-  heatmap: { countries: string[]; stages: Stage[]; cells: HeatmapCell[] };
-  top_blind_spots: { title: string; detail: string }[];
-  never_seen_deals: NeverSeenDeal[];
-  top_missed_leads: (OrgRef & { deals: number })[];
-  // Optional: not in the contract yet. Filled from the fund profile on a real audit; the demo falls back to heatmap axes.
-  thesis?: Thesis;
+  never_seen: BlindSpot[];
+  top_investors_in_blind_spots: (OrgRef & { companies: number })[];
+  market_coverage: {
+    european_companies_screened: number;
+    qualifying_companies: number;
+    investors_explored: number;
+    as_of: string;
+    region?: string; // not in the contract yet, e.g. "Nordic"
+  };
 };
 
-export type Thesis = { stages?: Stage[]; countries?: string[]; sectors?: string[] };
-
-export type Round = {
-  label: Stage;
-  amount: number;
-  currency: string;
-  date: string | null; // the live backend sends null for some rounds (e.g. EU grants)
-  lead_investors: OrgRef[];
-  participants: OrgRef[];
-  sources: Source[];
-  conflated: boolean;
-};
-
-export type DealDetail = {
-  id: string;
-  name: string;
-  website: string;
-  description: string;
-  country: string;
-  founded: string;
-  rounds: Round[];
-  why_missed: { reason: string }[];
-  recent_news: { title: string; date: string; source: string; url: string }[];
-  sources: Source[];
-};
+/** True for a v2 audit response (the shape the UI renders). */
+export function isAudit(a: unknown): a is Audit {
+  const x = a as Audit | null;
+  return !!x && Array.isArray(x.never_seen) && typeof x.headline?.text === "string" && !!x.thesis && !!x.market_coverage;
+}
 
 // POST /api/audit/preview
 export type CrmField = "company" | "website" | "status" | "date";

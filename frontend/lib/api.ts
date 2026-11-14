@@ -1,6 +1,6 @@
 // Single API client. NEXT_PUBLIC_USE_MOCKS=true serves frontend/mocks/*.json,
 // otherwise requests go to NEXT_PUBLIC_API_URL (the backend). No keys live here.
-import type { Audit, CrmMapping, CrmPreview, DealDetail, FundProfile, FundSearchResult } from "./types";
+import { isAudit, type Audit, type CrmMapping, type CrmPreview, type FundProfile, type FundSearchResult } from "./types";
 
 export const USE_MOCKS = process.env.NEXT_PUBLIC_USE_MOCKS === "true";
 export const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000").replace(/\/$/, "");
@@ -101,13 +101,26 @@ const mocks = {
   audit: () => import("@/mocks/audit.json").then((m) => m.default as Audit),
   preview: () => import("@/mocks/audit_preview.json").then((m) => m.default as CrmPreview),
   demo: () => import("@/mocks/audit_demo.json").then((m) => m.default as Audit),
-  deals: () => import("@/mocks/deal_details.json").then((m) => m.default as Record<string, DealDetail>),
 };
 
 const delay = <T>(value: T, ms = 250) =>
   new Promise<T>((resolve) => setTimeout(() => resolve(structuredClone(value)), ms));
 
-export async function searchFunds(q: string): Promise<FundSearchResult[]> {
+// Fund search results per query, so typing back and forth does not refetch (the list is ~90 funds).
+const searchCache = new Map<string, Promise<FundSearchResult[]>>();
+
+export function searchFunds(q: string): Promise<FundSearchResult[]> {
+  const key = q.trim().toLowerCase();
+  let hit = searchCache.get(key);
+  if (!hit) {
+    hit = fetchFunds(key);
+    searchCache.set(key, hit);
+    hit.catch(() => searchCache.delete(key));
+  }
+  return hit;
+}
+
+async function fetchFunds(q: string): Promise<FundSearchResult[]> {
   if (USE_MOCKS) {
     const needle = q.trim().toLowerCase();
     const funds = await mocks.funds();
@@ -120,7 +133,7 @@ export async function getFundProfile(fundId: string): Promise<FundProfile> {
   if (USE_MOCKS) {
     const [profile, funds] = await Promise.all([mocks.profile(), mocks.funds()]);
     const fund = funds.find((f) => f.id === fundId) ?? profile.fund;
-    return delay({ ...profile, fund, suggested_peers: profile.suggested_peers.filter((p) => p.id !== fund.id) });
+    return delay({ ...profile, fund });
   }
   return http(`/api/funds/${encodeURIComponent(fundId)}/profile`);
 }
@@ -157,7 +170,6 @@ export async function previewCrm(input: { file: File; mapping?: CrmMapping | nul
 
 export async function runAudit(input: {
   fundId: string;
-  peerIds: string[];
   crmFile: File;
   mapping?: CrmMapping | null;
   accessCode?: string;
@@ -165,27 +177,22 @@ export async function runAudit(input: {
   if (USE_MOCKS) {
     const [audit, funds] = await Promise.all([mocks.audit(), mocks.funds()]);
     const fund = funds.find((f) => f.id === input.fundId) ?? audit.fund;
-    const peers = input.peerIds.map((id) => funds.find((f) => f.id === id)).filter(Boolean) as FundSearchResult[];
-    return delay({ ...audit, fund, peers: peers.length ? peers : audit.peers }, 900);
+    return delay({ ...audit, fund: { id: fund.id, name: fund.name } }, 900);
   }
   const form = uploadForm(input.crmFile, input.mapping);
   form.append("fund_id", input.fundId);
-  form.append("peer_ids", input.peerIds.join(","));
-  return http("/api/audit", { method: "POST", body: form, headers: accessHeaders(input.accessCode) });
+  return checkAudit(await http("/api/audit", { method: "POST", body: form, headers: accessHeaders(input.accessCode) }));
+}
+
+// A response without the v2 fields cannot be rendered: report it like an unavailable backend.
+function checkAudit(a: unknown): Audit {
+  if (!isAudit(a)) throw new ApiError("unavailable");
+  return a;
 }
 
 export async function getDemoAudit(): Promise<Audit> {
   if (USE_MOCKS) return delay(await mocks.demo(), 300);
-  return http("/api/audit/demo");
-}
-
-export async function getDeal(companyId: string, fundId: string): Promise<DealDetail> {
-  if (USE_MOCKS) {
-    const detail = (await mocks.deals())[companyId];
-    if (!detail) throw new ApiError("not_found", 404);
-    return delay(detail, 300);
-  }
-  return http(`/api/deals/${encodeURIComponent(companyId)}?fund_id=${encodeURIComponent(fundId)}`);
+  return checkAudit(await http("/api/audit/demo"));
 }
 
 /** Rejects with a timeout error if `p` takes longer than REQUEST_TIMEOUT_MS (also covers mock mode and navigation). */

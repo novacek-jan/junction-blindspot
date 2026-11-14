@@ -10,8 +10,8 @@ npm run dev                  # http://localhost:3000
 
 Set `NEXT_PUBLIC_USE_MOCKS=false` to call the backend at `NEXT_PUBLIC_API_URL`. No API keys live in the frontend.
 
-- `/` start: fund search → Cala profile → peers → CSV → run audit (or **Try the demo** → `GET /api/audit/demo`)
-- `/results`: headline, Venn, country × stage heatmap, top blind spots, never-seen deals table; row click opens the deal panel (`GET /api/deals/{id}`)
+- `/` start: fund search → Cala profile → access code → CRM export → run audit (or **Try the demo** → `GET /api/audit/demo`)
+- `/results` (v2 audit): `headline.text`, thesis chips with "Thesis based on N rounds", the `never_seen` companies (round, investors lead first, `round.sources[0]` as the source link) and a `market_coverage` footer. Legacy v1 fields are not read; a response without the v2 fields shows "Backend unavailable".
 - `lib/api.ts` is the only API client; `lib/types.ts` mirrors the contract.
 
 ## CRM upload, access code and errors

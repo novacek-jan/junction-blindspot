@@ -8,7 +8,7 @@ import { ProfileCard } from "@/components/ProfileCard";
 import { Icon } from "@/components/Icon";
 import { ApiError, DEMO_FALLBACK, ERROR_MESSAGES, getDemoAudit, getFundProfile, previewCrm, runAudit, withTimeout } from "@/lib/api";
 import { saveAudit } from "@/lib/auditStore";
-import type { CrmField, CrmMapping, CrmPreview, FundProfile, FundSearchResult, Thesis } from "@/lib/types";
+import type { CrmField, CrmMapping, CrmPreview, FundProfile, FundSearchResult } from "@/lib/types";
 
 const MAX_FILE_BYTES = 2 * 1024 * 1024;
 const CRM_FIELDS: { key: CrmField; label: string }[] = [
@@ -121,8 +121,8 @@ export default function StartPage() {
     setAuditLoading(true);
     setError(null);
     try {
-      const audit = await runAudit({ fundId: fund!.id, peerIds: [], crmFile: csv!, mapping: preview?.mapping, accessCode });
-      saveAudit({ ...audit, thesis: audit.thesis ?? thesisOf(profile) });
+      const audit = await runAudit({ fundId: fund!.id, crmFile: csv!, mapping: preview?.mapping, accessCode });
+      saveAudit(audit);
       router.push("/results");
     } catch (e) {
       setError(e);
@@ -302,15 +302,6 @@ export default function StartPage() {
       </div>
     </AppShell>
   );
-}
-
-function thesisOf(profile: FundProfile | null): Thesis | undefined {
-  if (!profile) return undefined;
-  return {
-    stages: [...profile.stages].sort((a, b) => b.share - a.share).slice(0, 3).map((x) => x.label),
-    countries: [...profile.countries].sort((a, b) => b.count - a.count).slice(0, 3).map((x) => x.name),
-    sectors: [...profile.industries].sort((a, b) => b.count - a.count).slice(0, 3).map((x) => x.name),
-  };
 }
 
 function PreviewLine({
