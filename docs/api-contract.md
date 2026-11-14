@@ -189,15 +189,18 @@ Same upload, header, limits and optional `mapping` as `POST /api/audit` (`fund_i
       { "kind": "coverage_country", "fact_id": "coverage_country", "value": 10, "total": 12,
         "title": "Sweden is your blind spot",
         "line": "You see 59% of Finnish deals but only 1 in 6 Swedish deals.",
+        "company_ids": ["uuid", "uuid", "uuid", "uuid", "uuid", "uuid", "uuid", "uuid", "uuid", "uuid"],
         "chips": [{ "label": "Finland 59%", "company_id": null }, { "label": "Sweden 17%", "company_id": null }] },
       { "kind": "co_investors", "fact_id": "co_investors", "value": 4, "total": 19,
         "title": "Co-investors you're missing",
         "line": "Icebreaker.vc and Ugly Duckling backed 4 of them. Neither is in your rounds since 2022.",
+        "company_ids": ["uuid", "uuid", "uuid", "uuid"],
         "chips": [{ "label": "Icebreaker.vc", "company_id": null }, { "label": "Ugly Duckling Ventures", "company_id": null }] },
       { "kind": "recency", "fact_id": "recency", "value": 9, "total": 19,
         "title": "Most of them raised recently",
         "line": "9 of the 19 raised a VC round in the last 24 months.",
-        "chips": [{ "label": "Vayu Robotics", "company_id": "uuid" }] }
+        "company_ids": ["uuid", "uuid", "uuid", "uuid", "uuid", "uuid", "uuid", "uuid", "uuid"],
+        "chips": [] }
     ],
     "model": "claude-sonnet-5-5",
     "generated_at": "2026-11-14T19:30:00Z"
@@ -250,20 +253,24 @@ Semantics:
   from candidate facts computed in code, in Claude's order (most actionable first). **No CRM rows or company
   names ever reach an AI model. Claude sees only public Cala data and anonymous counts**: the candidate facts
   (numbers, aggregated coverage percentages, sector/country/stage labels, VC names) and the thesis labels.
-  - Insight: `{kind, fact_id, value, total, title, line, chips}`. `title` max 6 words, `line` max 16 words.
-    `chips: [{label, company_id}]` are built by code (never by the model): sector/country/stage labels with their
-    coverage %, VC names (`company_id: null`), or never-seen companies (display name + `company_id`, newest round
-    first, at most 8).
+  - Insight: `{kind, fact_id, value, total, title, line, company_ids, chips}`. `title` max 6 words, `line` max
+    16 words.
+  - `company_ids`: **every** never-seen company the insight is about, never truncated (truncating is the
+    frontend's job), newest round first (`never_seen[].round.date`, then company id); `len(company_ids) ==
+    value` for every kind. Built by code; never sent to the model.
+  - `chips: [{label, company_id}]`: label chips only, built by code (never by the model): sector/country/stage
+    labels with their coverage % (e.g. "energy 80%"), or VC names. `company_id` is always `null` (kept for shape
+    compatibility); `recency` and `last_round` have no chips (`[]`).
   - Candidate facts (`fact_id` = `kind`, at most one per kind; dropped when weak):
-    | kind | value / total | chips | strength |
+    | kind | value / total; `company_ids` | chips | strength |
     |---|---|---|---|
-    | `coverage_sector` | never-seen / market companies in the worst-covered thesis sector | best and worst sector with % | gap × worst group size |
-    | `coverage_country` | same, by company country | best and worst country with % | gap × worst group size |
-    | `coverage_stage` | same, by stage of the qualifying round | best and worst stage with % | gap × worst group size |
-    | `co_investors` | never-seen companies backed by the top 2 VCs that appear in none of the fund's own rounds since 2022 / `summary.never_seen` | the VCs | value |
-    | `recency` | never-seen companies whose latest qualifying round is within 24 months of the audit date / `summary.never_seen` | companies | value |
-    | `top_lead` | never-seen companies whose `round` the most frequent lead VC led / `summary.never_seen` | the VC | value |
-    | `last_round` | never-seen companies whose latest qualifying round was 12 to 24 months before the audit date / `summary.never_seen` | companies | value |
+    | `coverage_sector` | never-seen / market companies in the worst-covered thesis sector; all never-seen companies in that sector | best and worst sector with % | gap × worst group size |
+    | `coverage_country` | same, by company country; all never-seen companies in that country | best and worst country with % | gap × worst group size |
+    | `coverage_stage` | same, by stage of the qualifying round; all never-seen companies at that stage | best and worst stage with % | gap × worst group size |
+    | `co_investors` | never-seen companies backed by the top 2 VCs that appear in none of the fund's own rounds since 2022 / `summary.never_seen`; all of them | the VCs | value |
+    | `recency` | never-seen companies whose latest qualifying round is within 24 months of the audit date / `summary.never_seen`; all of them | none | value |
+    | `top_lead` | never-seen companies whose `round` the most frequent lead VC led / `summary.never_seen`; all of them | the VC | value |
+    | `last_round` | never-seen companies whose latest qualifying round was 12 to 24 months before the audit date / `summary.never_seen`; all of them | none | value |
     Coverage = market companies in the CRM (invested, passed or in review; own Cala portfolio counts as invested)
     / market companies in the group; only groups with at least 3 market companies; best vs worst group (ties: more
     market companies, then label); dropped unless the gap is at least 10 points and the worst group has at least

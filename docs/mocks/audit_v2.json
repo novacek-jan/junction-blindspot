@@ -256,6 +256,10 @@
         "total": 5,
         "title": "Software coverage lags energy",
         "line": "You see 67% of energy deals but only 60% of software deals.",
+        "company_ids": [
+          "0b6f4c1e-1111-4a0b-9c1d-000000000002",
+          "0b6f4c1e-1111-4a0b-9c1d-000000000001"
+        ],
         "chips": [
           {
             "label": "energy 67%",
@@ -274,6 +278,10 @@
         "total": 3,
         "title": "Co-investors you're missing",
         "line": "Creandum and Voima Ventures backed 2 of them. Neither is in your rounds since 2022.",
+        "company_ids": [
+          "0b6f4c1e-1111-4a0b-9c1d-000000000002",
+          "0b6f4c1e-1111-4a0b-9c1d-000000000001"
+        ],
         "chips": [
           {
             "label": "Creandum",
@@ -292,16 +300,11 @@
         "total": 3,
         "title": "Last raised over a year ago",
         "line": "2 of them last raised 12 to 24 months ago.",
-        "chips": [
-          {
-            "label": "Vayu Robotics",
-            "company_id": "0b6f4c1e-1111-4a0b-9c1d-000000000001"
-          },
-          {
-            "label": "Kelvin Grid",
-            "company_id": "0b6f4c1e-1111-4a0b-9c1d-000000000002"
-          }
-        ]
+        "company_ids": [
+          "0b6f4c1e-1111-4a0b-9c1d-000000000002",
+          "0b6f4c1e-1111-4a0b-9c1d-000000000001"
+        ],
+        "chips": []
       }
     ],
     "model": "claude-sonnet-5-5",
