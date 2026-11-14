@@ -1,0 +1,100 @@
+{
+  "fund": {
+    "id": "4b50fd3b-01b1-4b98-a5cd-7e9d5752d86a",
+    "name": "Point Nine"
+  },
+  "investments_since_2022": 34,
+  "stages": [
+    {
+      "label": "SEED",
+      "share": 0.55
+    },
+    {
+      "label": "PRE_SEED",
+      "share": 0.24
+    },
+    {
+      "label": "SERIES_A",
+      "share": 0.21
+    }
+  ],
+  "countries": [
+    {
+      "name": "Germany",
+      "count": 12
+    },
+    {
+      "name": "France",
+      "count": 6
+    },
+    {
+      "name": "United Kingdom",
+      "count": 5
+    },
+    {
+      "name": "Poland",
+      "count": 4
+    },
+    {
+      "name": "Spain",
+      "count": 3
+    }
+  ],
+  "industries": [
+    {
+      "name": "Software and services",
+      "count": 18
+    },
+    {
+      "name": "Fintech",
+      "count": 7
+    },
+    {
+      "name": "Marketplaces",
+      "count": 5
+    },
+    {
+      "name": "AI infrastructure",
+      "count": 4
+    }
+  ],
+  "suggested_peers": [
+    {
+      "id": "2712e11b-8081-483b-a74c-030760acc1d6",
+      "name": "Cherry Ventures",
+      "co_investments": 7
+    },
+    {
+      "id": "3e3863d8-fb77-4e11-a6f0-21a3481b3289",
+      "name": "Seedcamp",
+      "co_investments": 5
+    },
+    {
+      "id": "df439f7e-0e65-4c38-a51c-16929762f1a4",
+      "name": "Speedinvest",
+      "co_investments": 4
+    },
+    {
+      "id": "a19345b0-e265-47e7-a0b0-275a3c1aa658",
+      "name": "Creandum",
+      "co_investments": 2
+    },
+    {
+      "id": "cd290857-0c09-4c4b-a0b0-24d8f64cda9e",
+      "name": "Earlybird Venture Capital",
+      "co_investments": 2
+    }
+  ],
+  "sources": [
+    {
+      "name": "Cala · Point Nine investments",
+      "url": "https://cala.ai/entities/point-nine",
+      "rank": "AGGREGATOR"
+    },
+    {
+      "name": "pointnine.com/portfolio",
+      "url": "https://www.pointnine.com/portfolio",
+      "rank": "PRIMARY"
+    }
+  ]
+}

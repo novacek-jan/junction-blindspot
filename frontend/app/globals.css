@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+/* Tokens from design/stitch DESIGN.md files (Blindspot / Venture Intelligence).
+   Tailwind's sky/green/slate/zinc scales already match the spec hex values. */
+@theme inline {
+  --color-ink: #09090b;
+  --color-ink-hover: #18181b;
+  --color-canvas: #fafafa;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono-face), ui-monospace, SFMono-Regular, monospace;
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.03);
+  --shadow-overlay: 0 12px 32px -4px rgba(9, 9, 11, 0.08), 0 0 0 1px rgba(9, 9, 11, 0.06);
+}
+
+html {
+  color-scheme: light;
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-feature-settings: "cv11", "ss01";
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes slide-in {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-slide-in { animation: slide-in 220ms cubic-bezier(0.2, 0.8, 0.2, 1); }
+.animate-fade-in { animation: fade-in 180ms ease-out; }

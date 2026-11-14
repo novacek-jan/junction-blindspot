@@ -1,0 +1,46 @@
+const CURRENCY_SYMBOL: Record<string, string> = { EUR: "€", USD: "$", GBP: "£" };
+
+export function formatAmount(amount: number | null | undefined, currency: string): string {
+  if (amount == null || !Number.isFinite(amount)) return "—";
+  const abs = Math.abs(amount);
+  const short =
+    abs >= 1e9 ? `${trim(amount / 1e9)}B` : abs >= 1e6 ? `${trim(amount / 1e6)}M` : abs >= 1e3 ? `${trim(amount / 1e3)}k` : `${amount}`;
+  const sym = CURRENCY_SYMBOL[currency];
+  return sym ? `${sym}${short}` : `${short} ${currency}`;
+}
+
+function trim(n: number) {
+  return n >= 100 ? n.toFixed(0) : n.toFixed(1).replace(/\.0$/, "");
+}
+
+export function stageLabel(code: string): string {
+  return code
+    .toLowerCase()
+    .split("_")
+    .map((w) => (w.length === 1 ? w.toUpperCase() : w[0].toUpperCase() + w.slice(1)))
+    .join(" ")
+    .replace("Pre Seed", "Pre-Seed");
+}
+
+export function formatDate(iso: string, withDay = false): string {
+  const d = new Date(iso + (iso.length === 10 ? "T00:00:00Z" : ""));
+  if (Number.isNaN(d.getTime())) return iso;
+  return d.toLocaleDateString("en-GB", {
+    month: "short",
+    year: "numeric",
+    ...(withDay ? { day: "numeric" } : {}),
+    timeZone: "UTC",
+  });
+}
+
+export function pct(share: number) {
+  return `${Math.round(share * 100)}%`;
+}
+
+export function hostOf(url: string) {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url;
+  }
+}
