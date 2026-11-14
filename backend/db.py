@@ -362,6 +362,11 @@ def participants(round_ids: Iterable[str]) -> dict[str, list[dict]]:
     return out
 
 
+def all_company_names() -> list[dict]:
+    """id, name and website of every crawled company (CRM preview matching)."""
+    return _rows("SELECT id, name, website FROM companies")
+
+
 def companies_for_entity(entity_id: str) -> set[str]:
     """Companies whose rounds an (uncrawled) investor entity participated in."""
     return {r["company_id"] for r in _rows(

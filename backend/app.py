@@ -9,6 +9,7 @@ Two modes:
 """
 from __future__ import annotations
 
+import hashlib
 import hmac
 import json
 import logging
@@ -16,7 +17,7 @@ import os
 import sys
 import threading
 import time
-from collections import defaultdict, deque
+from collections import Counter, defaultdict, deque
 from pathlib import Path
 from typing import Optional
 
@@ -30,8 +31,10 @@ from starlette.exceptions import HTTPException as StarletteHTTPException  # noqa
 from starlette.formparsers import MultiPartParser  # noqa: E402
 
 import audit  # noqa: E402
+import crm_import  # noqa: E402
 import db  # noqa: E402
 from cala_client import Cala  # noqa: E402
+from matching import CompanyIndex  # noqa: E402
 from settings import load_env  # noqa: E402
 
 load_env()
@@ -87,6 +90,11 @@ async def _http_error(_: Request, e: StarletteHTTPException):
 async def _validation_error(_: Request, e: RequestValidationError):
     fields = sorted({".".join(str(p) for p in err.get("loc", [])[1:]) for err in e.errors()})
     return _error(422, "invalid_request", "invalid or missing fields: " + ", ".join(f for f in fields if f))
+
+
+@app.exception_handler(crm_import.ImportError_)
+async def _import_error(_: Request, e: crm_import.ImportError_):
+    return _error(e.status, e.code, e.message)
 
 
 @app.exception_handler(db.DBUnavailable)
@@ -183,19 +191,22 @@ def deal(company_id: str, fund_id: Optional[str] = None):
         raise ApiError(404, "not_found", "deal not found")
 
 
-# ------------------------------------------------------------------ POST /api/audit (protected: it spends Cala/Claude)
+# ------------------------------------------------------------------ POST /api/audit and /api/audit/preview (protected)
 
 _hits: dict[str, deque] = defaultdict(deque)
 _hits_lock = threading.Lock()
+PREVIEW_RATE_LIMIT = int(os.environ.get("PREVIEW_RATE_LIMIT", "30"))   # previews are cheap (no Cala/Claude)
 
 
-def _rate_limited(ip: str) -> bool:
+def _rate_limited(ip: str, bucket: str = "audit", limit: Optional[int] = None) -> bool:
+    limit = RATE_LIMIT if limit is None else limit
     now = time.time()
+    key = f"{bucket}:{ip}"
     with _hits_lock:
-        q = _hits[ip]
+        q = _hits[key]
         while q and q[0] < now - RATE_WINDOW_S:
             q.popleft()
-        if len(q) >= RATE_LIMIT:
+        if len(q) >= limit:
             return True
         q.append(now)
         if len(_hits) > 10_000:   # bound memory
@@ -246,44 +257,104 @@ async def _read_body_capped(request: Request) -> bytes:
     return b"".join(chunks)
 
 
-@app.post("/api/audit")
-async def run_audit(request: Request):
+ALLOWED_UPLOAD_TYPES = {
+    "", "text/csv", "application/csv", "text/plain", "text/tab-separated-values", "application/vnd.ms-excel",
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/octet-stream",
+}
+
+
+async def _receive_crm(request: Request, bucket: str, limit: int):
+    """Shared upload handling: access code, per-IP limit, 2 MB cap, in-memory multipart, CSV/XLSX
+    detection by extension and content. Returns (form, fields, table)."""
     _check_access(request)
-    ip = client_ip(request)
-    if _rate_limited(ip):
-        raise ApiError(429, "rate_limited", f"at most {RATE_LIMIT} audits per {RATE_WINDOW_S // 60} minutes")
+    if _rate_limited(client_ip(request), bucket, limit):
+        raise ApiError(429, "rate_limited", f"at most {limit} requests per {RATE_WINDOW_S // 60} minutes")
     if not request.headers.get("content-type", "").startswith("multipart/form-data"):
         raise ApiError(415, "unsupported_media_type", "send multipart/form-data")
-    body = await _read_body_capped(request)
-    request._body = body                       # parse from memory; nothing is written to disk
+    request._body = await _read_body_capped(request)   # parse from memory; nothing is written to disk
     try:
         form = await request.form(max_files=1, max_fields=10, max_part_size=MAX_BODY_BYTES)
     except Exception:
         raise ApiError(400, "bad_multipart", "could not parse the multipart form")
     try:
         upload = form.get("crm_csv")
-        fund_id = str(form.get("fund_id") or "").strip()
-        peer_ids = [p.strip() for p in str(form.get("peer_ids") or "").split(",") if p.strip()]
-        if upload is None or isinstance(upload, str) or not fund_id:
-            raise ApiError(422, "invalid_request", "fields fund_id and crm_csv (file) are required")
+        if upload is None or isinstance(upload, str):
+            raise ApiError(422, "invalid_request", "field crm_csv (file: .csv or .xlsx) is required")
         ctype = (upload.content_type or "").split(";")[0].strip().lower()
-        if ctype != "text/csv":
-            raise ApiError(415, "unsupported_media_type", "crm_csv must be text/csv")
+        if ctype not in ALLOWED_UPLOAD_TYPES:
+            raise ApiError(415, "unsupported_media_type", "upload a .csv or .xlsx file")
         raw = await upload.read()
         if len(raw) > MAX_CSV_BYTES:
-            raise ApiError(413, "too_large", "CSV must be at most 2 MB")
-        try:
-            text = raw.decode("utf-8-sig")
-        except UnicodeDecodeError:
-            text = raw.decode("latin-1")
+            raise ApiError(413, "too_large", "file must be at most 2 MB")
+        mapping = None
+        if form.get("mapping"):
+            try:
+                mapping = json.loads(str(form.get("mapping")))
+                assert isinstance(mapping, dict) and all(isinstance(v, (str, type(None))) for v in mapping.values())
+            except (ValueError, AssertionError):
+                raise ApiError(422, "invalid_mapping", "mapping must be a JSON object of field -> column header")
+        table = crm_import.load_table(upload.filename or "", raw)
+        mapping = crm_import.resolve_mapping(table, mapping)
+        rows = crm_import.normalize_rows(table, mapping)
+        fields = {"fund_id": str(form.get("fund_id") or "").strip(),
+                  "peer_ids": [p.strip() for p in str(form.get("peer_ids") or "").split(",") if p.strip()],
+                  "fingerprint": hashlib.sha1(raw).hexdigest()}
         del raw
-        rows, _ = audit.parse_crm(text)
-        if len(rows) > MAX_CSV_ROWS:
-            raise ApiError(413, "too_many_rows", f"CSV must have at most {MAX_CSV_ROWS} rows")
+        return form, fields, table, mapping, rows
+    except BaseException:
+        await form.close()
+        raise
+
+
+@app.post("/api/audit/preview")
+async def audit_preview(request: Request):
+    """Detected column mapping, row count, Cala match count and 5 sample rows. Spends nothing."""
+    form, fields, table, mapping, rows = await _receive_crm(request, "preview", PREVIEW_RATE_LIMIT)
+    try:
+        matched_flags = None
+        warnings = []
+        if db.available():
+            index = CompanyIndex(db.all_company_names())
+            matched_flags = [bool(index.match(r["company"], r["website"])) for r in rows]
+        else:
+            warnings.append("live data is not available on this deployment: matches were not counted")
+        if not mapping["status"]:
+            warnings.append("no status column found: every row counts as seen (in review)")
+        if not mapping["website"]:
+            warnings.append("no website column found: companies are matched by name only")
+        skipped = len(table["rows"]) - len(rows)
+        if skipped:
+            warnings.append(f"{skipped} rows without company name or website were skipped")
+        counts = Counter(r["status"] for r in rows)
+        return {
+            "file_type": table["kind"],
+            "columns": table["headers"],
+            "mapping": mapping,
+            "row_count": len(rows),
+            "skipped_rows": skipped,
+            "matched_rows": sum(matched_flags) if matched_flags is not None else None,
+            "status_counts": {k: counts.get(k, 0) for k in ("invested", "passed", "in_review", "seen")},
+            "sample_rows": [{"company": r["company"], "website": r["website"], "status": r["status"],
+                             "raw_status": r["raw_status"], "date": r["date"],
+                             "matched": matched_flags[i] if matched_flags is not None else None}
+                            for i, r in enumerate(rows[:5])],
+            "warnings": warnings,
+        }
+    finally:
+        await form.close()                      # the CRM data is discarded after the preview
+
+
+@app.post("/api/audit")
+async def run_audit(request: Request):
+    form, fields, table, mapping, rows = await _receive_crm(request, "audit", RATE_LIMIT)
+    try:
+        if not fields["fund_id"]:
+            raise ApiError(422, "invalid_request", "field fund_id is required")
         if not db.available():
             raise db.DBUnavailable()
         try:
-            return audit.run_audit(fund_id, peer_ids[:50], text)
+            return audit.run_audit_rows(fields["fund_id"], fields["peer_ids"][:50], rows, table["simulated"],
+                                        fields["fingerprint"])
         except audit.NotFound:
             raise ApiError(404, "not_found", "fund or peer not found")
     finally:

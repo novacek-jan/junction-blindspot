@@ -6,9 +6,7 @@ after the facts and numbers are fixed.
 """
 from __future__ import annotations
 
-import csv
 import hashlib
-import io
 import re
 from collections import Counter, defaultdict
 from concurrent.futures import Future, ThreadPoolExecutor
@@ -17,6 +15,7 @@ from typing import Optional
 from urllib.parse import urlparse
 
 import db
+import crm_import
 import insights
 from matching import CompanyIndex, classify, normalize_domain
 from names import display
@@ -205,27 +204,29 @@ def _profile(fund_id: str) -> dict:
 # ---------------------------------------------------------------- audit
 
 def parse_crm(text: str) -> tuple[list[dict], bool]:
-    """CSV with columns company,website,status,date. Lines starting with '#' are comments;
-    a comment containing 'SIMULATED' marks the file as simulated."""
-    lines = text.splitlines()
-    simulated = any(l.lstrip().startswith("#") and "SIMULATED" in l.upper() for l in lines)
-    body = "\n".join(l for l in lines if not l.lstrip().startswith("#"))
-    rows = []
-    for row in csv.DictReader(io.StringIO(body)):
-        row = {(k or "").strip().lower(): (v or "").strip() for k, v in row.items()}
-        if row.get("company") or row.get("website"):
-            rows.append(row)
-    return rows, simulated
+    """CRM CSV text -> (normalized rows, simulated flag), using the same column detection as uploads.
+    Lines starting with '#' are comments; a comment containing 'SIMULATED' marks the file as simulated."""
+    table = crm_import.load_table("crm.csv", text.encode("utf-8"))
+    rows = crm_import.normalize_rows(table, crm_import.resolve_mapping(table))
+    return rows, table["simulated"]
 
 
 def run_audit(fund_id: str, peer_ids: list[str], crm_text: str) -> dict:
+    """Audit from CRM CSV text (demo builder, tests)."""
+    rows, simulated = parse_crm(crm_text)
+    return run_audit_rows(fund_id, peer_ids, rows, simulated, crm_text)
+
+
+def run_audit_rows(fund_id: str, peer_ids: list[str], crm_rows: list[dict], simulated: bool,
+                   fingerprint: str) -> dict:
+    """Audit from normalized CRM rows ({company, website, status, date}). Status "seen" (no status
+    recorded) counts as in_review: the company reached the pipeline without a decision."""
     prof = _profile(fund_id)
     funds, ent2fund, known = _fund_names()
     peer_ids = [p for p in dict.fromkeys(peer_ids) if p and p != fund_id]
     unknown = [p for p in peer_ids if p not in funds]      # one lookup instead of a query per peer
     if unknown:
         raise NotFound(f"fund {unknown[0]} not found")
-    crm_rows, simulated = parse_crm(crm_text)
 
     peer_portfolio = set().union(*(prof["_portfolios"].get(p, set()) for p in peer_ids)) if peer_ids else set()
     comps = db.companies(peer_portfolio)
@@ -298,7 +299,7 @@ def run_audit(fund_id: str, peer_ids: list[str], crm_text: str) -> dict:
                         for k, n in sorted(leads.items(), key=lambda kv: (-kv[1], lead_names[kv[0]]))[:5]]
 
     facts = blind_spot_facts(counted, status, comps, top_missed_leads)
-    audit_id = hashlib.sha1("|".join([fund_id, ",".join(sorted(peer_ids)), crm_text]).encode()).hexdigest()[:12]
+    audit_id = hashlib.sha1("|".join([fund_id, ",".join(sorted(peer_ids)), fingerprint]).encode()).hexdigest()[:12]
     return {
         "audit_id": audit_id,
         "fund": prof["fund"],

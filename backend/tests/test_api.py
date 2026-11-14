@@ -304,3 +304,68 @@ def test_deal_detail_uses_brand_names(client):
     undated = next(r for r in d["rounds"] if r["date"] is None)        # EU grants etc. have no date
     assert undated["lead_investors"] == [{"id": "fm", "name": "Firstminute Capital"}]   # title-case fallback
     assert {"id": "sl", "name": "Slack Technologies"} in undated["participants"]       # Cala alias
+
+
+# ---------------------------------------------------------------- any CRM export: preview + audit
+
+FIXTURES = Path(__file__).resolve().parent / "fixtures"
+XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+
+
+def upload(client, path, name=None, ctype=None, url="/api/audit/preview", mapping=None, code="test-code"):
+    name = name or path.name
+    ctype = ctype or (XLSX if name.endswith(".xlsx") else "text/csv")
+    data = {"fund_id": F1, "peer_ids": f"{F2},{F3}"}
+    if mapping is not None:
+        data["mapping"] = json.dumps(mapping)
+    return client.post(url, data=data, files={"crm_csv": (name, path.read_bytes(), ctype)},
+                       headers={"X-Access-Code": code} if code else {})
+
+
+@pytest.mark.parametrize("fixture,rows,matched", [
+    ("affinity_export.csv", 4, 2), ("hubspot_deals.xlsx", 4, 4), ("pipedrive_deals.csv", 3, 2),
+    ("excel_tracker_no_status.xlsx", 3, 2), ("salesforce_report.csv", 3, 3), ("attio_list.csv", 3, 2),
+])
+def test_preview_every_export(client, fixture, rows, matched):
+    r = upload(client, FIXTURES / fixture)
+    assert r.status_code == 200, r.text
+    p = r.json()
+    assert set(p) == {"file_type", "columns", "mapping", "row_count", "skipped_rows", "matched_rows",
+                      "status_counts", "sample_rows", "warnings"}
+    assert p["row_count"] == rows and p["matched_rows"] == matched
+    assert len(p["sample_rows"]) == min(5, rows)
+    assert set(p["mapping"]) == {"company", "website", "status", "date"}
+    assert sum(p["status_counts"].values()) == rows
+
+
+def test_preview_warns_when_status_missing(client):
+    p = upload(client, FIXTURES / "excel_tracker_no_status.xlsx").json()
+    assert p["status_counts"]["seen"] == 3
+    assert any("no status column" in w for w in p["warnings"])
+
+
+def test_audit_accepts_xlsx_and_mapping_override(client):
+    r = upload(client, FIXTURES / "hubspot_deals.xlsx", url="/api/audit")
+    assert r.status_code == 200, r.text
+    s = r.json()["summary"]
+    # market m1, m2, m3, own1: m1 invested (Closed won), m2 passed (Closed lost), m3 in_review (DD), own1 invested
+    assert s == {"market_deals": 4, "in_pipeline": 4, "invested": 2, "passed": 1, "in_review": 1,
+                 "never_seen": 0, "coverage_pct": 100.0}
+    # Override: match on the deal title column instead, which matches nothing -> 3 never seen
+    r2 = upload(client, FIXTURES / "hubspot_deals.xlsx", url="/api/audit",
+                mapping={"company": "Deal Name", "website": None})
+    assert r2.status_code == 200 and r2.json()["summary"]["never_seen"] == 3
+
+
+def test_upload_errors(client, tmp_path):
+    bad = tmp_path / "legacy.xls"
+    bad.write_bytes(b"\xd0\xcf\x11\xe0" + b"\x00" * 64)
+    assert upload(client, bad, ctype="application/vnd.ms-excel").status_code == 415
+    assert upload(client, FIXTURES / "attio_list.csv", ctype="application/pdf").status_code == 415
+    nocol = tmp_path / "numbers.csv"
+    nocol.write_text("Amount,Probability\n1,2\n")
+    r = upload(client, nocol)
+    assert r.status_code == 422 and r.json()["error"] == "no_company_column"
+    r = upload(client, FIXTURES / "attio_list.csv", mapping={"company": "Nope"})
+    assert r.status_code == 422 and r.json()["error"] == "invalid_mapping"
+    assert upload(client, FIXTURES / "attio_list.csv", code=None).status_code == 401

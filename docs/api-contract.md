@@ -30,11 +30,48 @@ Thesis inferred from the fund's real investments in Cala. No user input.
 ```
 
 ## POST /api/audit  (multipart/form-data)
-Fields: `fund_id` (str), `peer_ids` (comma-separated str), `crm_csv` (file; columns `company,website,status,date`; status in `invested|passed|in_review`).
+Fields: `fund_id` (str), `peer_ids` (comma-separated str), `crm_csv` (file: any CRM export as `.csv` or `.xlsx`), optional `mapping` (JSON string, see below).
 Header `X-Access-Code: <code>` is required (the backend's `AUDIT_ACCESS_CODE`; ask the team, never commit it).
-`crm_csv` must be sent as `text/csv`, at most 2 MB and 5,000 rows. Errors are JSON `{ "error": str, "detail": str }`:
-401 missing/wrong code, 413 too large / too many rows, 415 not text/csv, 429 rate limit (10 audits per 10 min per IP),
-503 audits disabled or no live data on this deployment. `GET /api/audit/demo` stays public.
+
+**Accepted files.** `.csv` (any delimiter `, ; tab |`, UTF-8/UTF-16/Windows-1252, report title rows above the header are skipped) or `.xlsx` (first sheet only; read with cached cell values, formulas are never calculated, macro workbooks `.xlsm` and legacy `.xls` are rejected). Detection uses the file extension and content; the part's content type may be `text/csv`, `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet`, `application/vnd.ms-excel`, `application/octet-stream`, `text/plain` or empty. At most 2 MB and 5,000 data rows. The file is parsed in memory, never stored, and discarded after the request.
+
+**Column detection** (deterministic rules, no LLM): header synonyms plus sample values select one column per field:
+- `company`: e.g. Company, Company Name, Organization (Name), Account Name, Startup, Name, Associated Company; deal titles (Deal Name, Opportunity Name) only as a last resort; person/owner columns are never used.
+- `website`: e.g. Website, Domain(s), URL, Company Domain Name, Homepage; values must look like domains.
+- `status`: e.g. Status, Stage, Deal Stage, Pipeline Stage, List Status, Outcome, Decision; a column holding decisions (won/lost, passed) beats a pure pipeline-stage column.
+- `date`: e.g. Date Added, Created (At/Date), Create Date, First Contact, Added At; dates become ISO `YYYY-MM-DD` (d/m vs m/d decided per column).
+Only `company` or `website` is required (422 `no_company_column` otherwise).
+
+**Status mapping** (case-insensitive, whole words; passed terms are checked first, so "Not invested" and "Closed Lost" are passed):
+- `invested`: Portfolio, Portfolio Company, Portco, Invested, Investment Made, Closed Won, Won, Funded, Signed, Closed Deal
+- `passed`: Pass, Passed, Declined, Lost, Closed Lost, Rejected, Dead, Killed, No Go, Turned Down, Not Interested, Not a Fit, Dropped, Not Invested, Abandoned, Dismissed
+- `in_review`: everything else (Due Diligence, IC, Term Sheet, Lead, Contacted, Open, ...)
+- `seen`: empty status cell or no status column. In the audit `summary`, seen rows count as `in_review` (the company reached the pipeline without a decision).
+
+**`mapping` override** (optional, both endpoints): `{"company": "<header>", "website": "<header>"|null, "status": "<header>"|null, "date": "<header>"|null}`. Keys must be those four fields and values existing headers (as returned by the preview's `columns`); `null` disables a field. 422 `invalid_mapping` otherwise.
+
+Errors are JSON `{ "error": str, "detail": str }`: 401 missing/wrong code, 413 too large / too many rows / workbook expands beyond 64 MB, 415 not `.csv`/`.xlsx` (or macros, legacy `.xls`), 422 no company column / invalid mapping, 429 rate limit (10 audits per 10 min per IP), 503 audits disabled or no live data on this deployment. `GET /api/audit/demo` stays public.
+
+## POST /api/audit/preview  (multipart/form-data)
+Same upload, header, limits and optional `mapping` as `POST /api/audit` (`fund_id` / `peer_ids` are ignored). Spends no Cala or Claude calls; own rate limit (30 per 10 min per IP). Returns what the import detected so the user can confirm or override the mapping before running the audit:
+```json
+{
+  "file_type": "xlsx",
+  "columns": ["Deal Name", "Associated Company", "Company Domain Name", "Deal Stage", "Create Date"],
+  "mapping": { "company": "Associated Company", "website": "Company Domain Name", "status": "Deal Stage", "date": "Create Date" },
+  "row_count": 412,
+  "skipped_rows": 3,
+  "matched_rows": 187,
+  "status_counts": { "invested": 12, "passed": 240, "in_review": 151, "seen": 9 },
+  "sample_rows": [
+    { "company": "Vayu Robotics", "website": "vayu-robotics.se", "status": "passed", "raw_status": "Closed lost", "date": "2024-06-14", "matched": true }
+  ],
+  "warnings": ["no website column found: companies are matched by name only"]
+}
+```
+`row_count` counts rows with a company name or website; `skipped_rows` the rest. `matched_rows` is how many rows match any crawled Cala company (by domain, then normalized name), or `null` when live data is unavailable. `sample_rows` holds the first 5 rows. `mapping` values and `date`, `raw_status`, `website` may be `null`/empty.
+
+### Response of POST /api/audit
 ```json
 {
   "audit_id": "str",

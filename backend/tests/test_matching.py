@@ -96,7 +96,8 @@ def test_parse_crm_comments_and_simulated_flag():
     text = "# SIMULATED CRM export\ncompany,website,status,date\nVayu,vayu.se,passed,2024-01-01\n,,,\n"
     rows, simulated = parse_crm(text)
     assert simulated is True
-    assert rows == [{"company": "Vayu", "website": "vayu.se", "status": "passed", "date": "2024-01-01"}]
+    assert rows == [{"company": "Vayu", "website": "vayu.se", "status": "passed", "raw_status": "passed",
+                     "date": "2024-01-01"}]
     assert parse_crm("Company,Website,Status,Date\nA,a.com,invested,2024-01-01\n")[1] is False
 
 
