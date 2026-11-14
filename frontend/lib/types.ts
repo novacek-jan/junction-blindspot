@@ -75,15 +75,20 @@ export type Audit = {
   briefing?: Briefing | null;
 };
 
-/** Up to 3 insights (sourcing, theme, momentum). Numbers are computed in code; title/line are Claude's wording. */
+/** Up to 3 insights (coverage, next_round, sourcing). Numbers are computed in code; title/line are Claude's wording. */
 export type Insight = {
-  kind: "sourcing" | "theme" | "momentum" | string;
+  kind: "coverage" | "next_round" | "sourcing" | string;
   value: number;
   total: number;
   title: string;
   line: string;
   company_ids: string[];
   investor_names: string[];
+  /** coverage: worst- and best-covered thesis industry and their CRM coverage (shown as chips instead of companies). */
+  worst_industry?: string;
+  worst_pct?: number;
+  best_industry?: string;
+  best_pct?: number;
 };
 export type Briefing = { insights: Insight[]; model: string; generated_at?: string };
 

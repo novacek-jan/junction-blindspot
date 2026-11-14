@@ -9,40 +9,31 @@ import { DealPanel } from "@/components/DealPanel";
 import { DealsTable } from "@/components/DealsTable";
 import { DotField } from "@/components/DotField";
 import { ApiError, ERROR_MESSAGES, getDemoAudit, getDemos, withTimeout } from "@/lib/api";
-import { dropIfDifferent, loadUploadedAudit, takeDemo } from "@/lib/auditStore";
+import { loadUploadedAudit } from "@/lib/auditStore";
 import { longDate, regionLabel, sectorLabel, stageRange } from "@/lib/present";
 import type { Audit, BlindSpot } from "@/lib/types";
 
 /**
- * /results shows, in this order:
- * - ?demo=earlybird: that precomputed demo, picked by fund name and always fetched fresh (no visible switch);
- * - the audit of a real upload made in this tab (session storage, flagged `fromUpload`);
- * - the demo "/" just fetched (in-memory hand-off, consumed once), else the default demo fetched fresh.
- * A fetched demo is never stored, and it drops a stored upload whose audit_id differs.
+ * /results ("Audits") shows the audit run in this tab (session storage, flagged `fromUpload`), else an empty state.
+ * ?demo=lifeline / ?demo=earlybird is an unlinked backup URL: that precomputed demo, picked by fund name and always
+ * fetched fresh and never stored (it leaves the tab's own audit untouched).
  */
-async function loadForUrl(): Promise<Audit> {
+async function loadForUrl(): Promise<Audit | null> {
   const wanted = new URLSearchParams(window.location.search).get("demo");
   if (wanted != null) {
     const key = slug(wanted);
     const demos = key ? await withTimeout(getDemos()).catch(() => []) : [];
     const match = demos.find((d) => slug(d.fund.name).startsWith(key)) ?? demos.find((d) => slug(d.fund.name).includes(key));
-    return fresh(withTimeout(getDemoAudit(match?.fund.id)));
+    return withTimeout(getDemoAudit(match?.fund.id));
   }
-  const handedDemo = takeDemo();
-  if (handedDemo) return handedDemo;
-  return loadUploadedAudit() ?? fresh(withTimeout(getDemoAudit()));
-}
-
-async function fresh(p: Promise<Audit>): Promise<Audit> {
-  const audit = await p;
-  dropIfDifferent(audit.audit_id);
-  return audit;
+  return loadUploadedAudit();
 }
 
 const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
 
 export default function ResultsPage() {
   const [audit, setAudit] = useState<Audit | null>(null);
+  const [empty, setEmpty] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [attempt, setAttempt] = useState(0);
   const [open, setOpen] = useState<BlindSpot | null>(null);
@@ -52,7 +43,9 @@ export default function ResultsPage() {
     let cancelled = false;
     loadForUrl()
       .then((a) => {
-        if (!cancelled) setAudit(a);
+        if (cancelled) return;
+        setAudit(a);
+        setEmpty(!a);
       })
       .catch((e) => !cancelled && setError(loadError(e)));
     return () => {
@@ -83,6 +76,14 @@ export default function ResultsPage() {
             </Link>
           </div>
         </div>
+      </AppShell>
+    );
+  }
+
+  if (empty) {
+    return (
+      <AppShell active="audits">
+        <EmptyState />
       </AppShell>
     );
   }
@@ -174,6 +175,32 @@ function marketSentence(audit: Audit): string {
   const count = (region ? mc.region_qualifying_companies! : mc.qualifying_companies).toLocaleString("en-US");
   const adj = region ? `${REGION_ADJ[region.toLowerCase()] ?? region.replace(/_/g, " ")} ` : "";
   return `Market built from Cala: ${count} ${adj}VC-backed companies since 2022, from ${mc.european_companies_screened.toLocaleString("en-US")} European companies screened. Updated ${longDate(mc.as_of)}.`;
+}
+
+// Empty state in the design's style: soft dot field, big display heading, one line, ink pill button back to "/".
+function EmptyState() {
+  return (
+    <div className="mx-auto flex max-w-xl flex-col items-center gap-6 px-5 pb-24 pt-16 text-center sm:pt-24">
+      <div className="grid grid-cols-6 gap-2" aria-hidden="true">
+        {Array.from({ length: 18 }, (_, i) => (
+          <span key={i} className={`size-3.5 rounded-full ${i % 7 === 3 ? "bg-sky-mid" : i % 5 === 1 ? "bg-mint-mid" : "bg-line"}`} />
+        ))}
+      </div>
+      <h1 className="m-0 font-display text-[40px] font-bold leading-[1.05] tracking-[-0.04em] sm:text-[52px]">No audits yet</h1>
+      <p className="m-0 max-w-md text-[17px] leading-normal text-body">
+        Pick your fund and upload a CRM export to see which companies in your thesis never reached your pipeline.
+      </p>
+      <Link
+        href="/"
+        className="mt-2 inline-flex h-14 items-center gap-2.5 rounded-[14px] bg-ink px-7 font-display text-lg font-semibold text-white no-underline transition-colors hover:bg-ink-hover"
+      >
+        Run your first audit
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <path d="M5 12h14M13 6l6 6-6 6" />
+        </svg>
+      </Link>
+    </div>
+  );
 }
 
 function ResultsSkeleton() {

@@ -6,8 +6,8 @@ import { AppShell } from "@/components/AppShell";
 import { FundSearch } from "@/components/FundSearch";
 import { Chip } from "@/components/Chip";
 import { Icon } from "@/components/Icon";
-import { ApiError, DEMO_FALLBACK, ERROR_MESSAGES, getDemoAudit, getFundProfile, previewCrm, runAudit, withTimeout } from "@/lib/api";
-import { handOffDemo, saveUploadedAudit } from "@/lib/auditStore";
+import { ApiError, ERROR_MESSAGES, getFundProfile, previewCrm, runAudit } from "@/lib/api";
+import { saveUploadedAudit } from "@/lib/auditStore";
 import { regionLabel, sectorLabel, stageRange } from "@/lib/present";
 import type { CrmField, CrmMapping, CrmPreview, FundProfile, FundSearchResult } from "@/lib/types";
 
@@ -30,12 +30,8 @@ export default function StartPage() {
   const previewSeq = useRef(0);
   const codeRejected = useRef(false); // last preview failed with 401: retry once a new code is entered
   const [dragOver, setDragOver] = useState(false);
-  // Demo and audit load independently: neither blocks the other's button.
-  const [demoLoading, setDemoLoading] = useState(false);
-  const [demoError, setDemoError] = useState<string | null>(null);
-  const demoSeq = useRef(0);
   const [auditLoading, setAuditLoading] = useState(false);
-  const [error, setErrorState] = useState<{ message: string; offerDemo: boolean } | null>(null);
+  const [error, setErrorState] = useState<{ message: string } | null>(null);
   // Access code for a real audit: React state only (never localStorage, sessionStorage or the URL).
   const [accessCode, setAccessCode] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
@@ -43,9 +39,9 @@ export default function StartPage() {
 
   function setError(e: unknown) {
     if (e == null) return setErrorState(null);
-    if (typeof e === "string") return setErrorState({ message: e, offerDemo: false });
-    if (e instanceof ApiError) return setErrorState({ message: e.message, offerDemo: DEMO_FALLBACK.has(e.kind) });
-    setErrorState({ message: ERROR_MESSAGES.other, offerDemo: false });
+    if (typeof e === "string") return setErrorState({ message: e });
+    if (e instanceof ApiError) return setErrorState({ message: e.message });
+    setErrorState({ message: ERROR_MESSAGES.other });
   }
 
   async function selectFund(f: FundSearchResult) {
@@ -98,23 +94,6 @@ export default function StartPage() {
   function changeMapping(field: CrmField, column: string) {
     if (!csv || !preview) return;
     void loadPreview(csv, { ...preview.mapping, [field]: column || null });
-  }
-
-  // Loads the default demo here (15 s timeout) and only then opens Results, so a hang shows an error with Retry.
-  async function startDemo() {
-    const seq = ++demoSeq.current;
-    setDemoLoading(true);
-    setDemoError(null);
-    try {
-      const audit = await withTimeout(getDemoAudit());
-      if (seq !== demoSeq.current) return;
-      handOffDemo(audit);
-      router.push("/results");
-    } catch (e) {
-      if (seq !== demoSeq.current) return;
-      setDemoError(e instanceof ApiError && e.kind === "timeout" ? "The sample didn't load: no response after 15 seconds." : "The sample didn't load: backend unavailable.");
-      setDemoLoading(false);
-    }
   }
 
   async function runRealAudit() {
@@ -258,11 +237,6 @@ export default function StartPage() {
                 <Icon name="warning" className="mt-0.5 size-4 shrink-0" />
                 {error.message}
               </span>
-              {error.offerDemo ? (
-                <button type="button" onClick={startDemo} className="h-9 rounded-full bg-white px-4 text-sm font-semibold text-ink hover:bg-chip">
-                  See a sample audit
-                </button>
-              ) : null}
             </div>
           ) : null}
 
@@ -286,31 +260,6 @@ export default function StartPage() {
               <LockIcon />
               Matched on our server, never sent to an AI model
             </p>
-            <p className="text-center text-[15px] text-muted">
-              No export at hand?{" "}
-              <button type="button" onClick={startDemo} disabled={demoLoading} className="font-semibold text-link hover:text-sky-ink disabled:opacity-60">
-                {demoLoading ? (
-                  <span className="inline-flex items-center gap-1.5">
-                    <Icon name="spinner" className="size-3.5 animate-spin" /> Loading sample…
-                  </span>
-                ) : (
-                  "See a sample audit"
-                )}
-              </button>
-            </p>
-            {demoError ? (
-              <div role="alert" className="flex items-center justify-between gap-3 rounded-xl border border-red-200 bg-red-50 px-4 py-2.5 text-sm text-red-800">
-                {demoError}
-                <button
-                  type="button"
-                  onClick={startDemo}
-                  disabled={demoLoading}
-                  className="h-8 rounded-full border border-red-300 bg-white px-3 text-xs font-semibold text-red-800 hover:bg-red-100 disabled:opacity-60"
-                >
-                  Retry
-                </button>
-              </div>
-            ) : null}
           </div>
         </form>
       </div>

@@ -28,15 +28,12 @@ export const ERROR_MESSAGES: Record<ApiErrorKind, string> = {
   invalid_mapping: "Those columns don't match this file. Pick them again.",
   unreadable: "We couldn't read this file.",
   rate_limited: "Too many requests, try again in a minute.",
-  live_off: "Live audits are temporarily unavailable. Try the demo instead.",
-  unavailable: "Backend unavailable. Try the demo instead.",
-  timeout: "No response after 15 seconds. Try the demo instead.",
+  live_off: "Live audits are temporarily unavailable.",
+  unavailable: "Backend unavailable.",
+  timeout: "No response after 15 seconds.",
   not_found: "Not found.",
   other: "Something went wrong. Please try again.",
 };
-
-/** Errors after which "Run the demo" is offered. */
-export const DEMO_FALLBACK: ReadonlySet<ApiErrorKind> = new Set(["live_off", "unavailable", "timeout"]);
 
 export class ApiError extends Error {
   constructor(public kind: ApiErrorKind, public status?: number) {

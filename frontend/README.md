@@ -11,8 +11,9 @@ npm run dev                  # http://localhost:3000
 Set `NEXT_PUBLIC_USE_MOCKS=false` to call the backend at `NEXT_PUBLIC_API_URL`. No API keys live in the frontend.
 
 - Design: `design/claude/` (Main = `/`, Results = `/results`, DealPanel = side panel). Space Grotesk for headings and numbers, Inter for text. Blue = never seen, green = in your CRM.
-- `/` start: fund search with the thesis summary from the profile, CRM upload (preview + column mapping), access code, Run audit; "See a sample audit" loads `GET /api/audit/demo`.
-- `/results`: hero headline and thesis chips, dot field (one dot per market company), "Why they slipped through" from `audit.briefing` (hidden when null), the never-seen table newest first, side panel from `GET /api/deals/{id}?fund_id=`, market sentence from `market_coverage`. `?demo=earlybird` picks another demo from `GET /api/audit/demos` by fund name.
+- `/` start: fund search with the thesis summary from the profile, CRM upload (preview + column mapping), access code, Run audit. No sample audit is linked anywhere in the UI.
+- `/results` ("Audits"): the audit run in this tab (sessionStorage key `blindspot:audit:v3`, only audits from a real upload), otherwise a "No audits yet" empty state. Hero eyebrow "{Fund} · audit of {date}", thesis chips (sectors in API order, first 3 + "+N"), dot field, "Why they slipped through" from `audit.briefing` (any insight kind; "of {total}" under the number; coverage shows its worst- and best-covered sectors (`worst_industry`, `best_industry` with `%` seen) as chips; hidden when null), the never-seen table newest first, side panel from `GET /api/deals/{id}?fund_id=`, market sentence from `market_coverage`.
+- Backup URL (unlinked): `/results?demo=lifeline` or `?demo=earlybird` fetches that precomputed demo fresh from `GET /api/audit/demo` (never stored).
 - `lib/api.ts` is the only API client; `lib/types.ts` mirrors the contract.
 
 ## CRM upload, access code and errors
@@ -29,9 +30,9 @@ Both calls send the optional access code as the `X-Access-Code` header. It lives
 | 422 `no_company_column` | No company or website column found in this file. |
 | 422 `invalid_mapping` | Those columns don't match this file. Pick them again. |
 | 429 | Too many requests, try again in a minute. |
-| 503 | Live audits are temporarily unavailable. Try the demo instead. (+ Run the demo button) |
-| other 5xx, network error | Backend unavailable. Try the demo instead. (+ Run the demo button) |
-| no response in 15 s | No response after 15 seconds. Try the demo instead. (+ Run the demo button) |
+| 503 | Live audits are temporarily unavailable. |
+| other 5xx, network error | Backend unavailable. |
+| no response in 15 s | No response after 15 seconds. |
 
 In mock mode, add `?mockError=401` (or `413`, `415`, `422`, `invalid_mapping`, `429`, `503`, `500`, `network`) to the start page URL to simulate these when a file is uploaded.
 

@@ -248,6 +248,36 @@
   "briefing": {
     "insights": [
       {
+        "kind": "coverage",
+        "value": 3,
+        "total": 5,
+        "title": "Health care is your blind sector",
+        "line": "Your pipeline saw most of software but under half of health care.",
+        "company_ids": [
+          "0b6f4c1e-1111-4a0b-9c1d-000000000001",
+          "0b6f4c1e-1111-4a0b-9c1d-000000000002",
+          "0b6f4c1e-1111-4a0b-9c1d-000000000003"
+        ],
+        "investor_names": [],
+        "best_pct": 78,
+        "worst_pct": 40,
+        "best_industry": "Software and services",
+        "worst_industry": "Health care"
+      },
+      {
+        "kind": "next_round",
+        "value": 3,
+        "total": 8,
+        "title": "They raised their next round",
+        "line": "Companies that raised again after their first round, all outside your CRM.",
+        "company_ids": [
+          "0b6f4c1e-1111-4a0b-9c1d-000000000001",
+          "0b6f4c1e-1111-4a0b-9c1d-000000000002",
+          "0b6f4c1e-1111-4a0b-9c1d-000000000003"
+        ],
+        "investor_names": []
+      },
+      {
         "kind": "sourcing",
         "value": 2,
         "total": 3,
@@ -261,18 +291,6 @@
           "Creandum",
           "Voima Ventures"
         ]
-      },
-      {
-        "kind": "momentum",
-        "value": 2,
-        "total": 3,
-        "title": "They raised again",
-        "line": "2 of them closed another VC round since 2022.",
-        "company_ids": [
-          "0b6f4c1e-1111-4a0b-9c1d-000000000001",
-          "0b6f4c1e-1111-4a0b-9c1d-000000000003"
-        ],
-        "investor_names": []
       }
     ],
     "model": "claude-sonnet-5-5",
