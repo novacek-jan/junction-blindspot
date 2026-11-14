@@ -1566,7 +1566,7 @@
     "value": 17,
     "total": 33,
     "title": "Software coverage lags energy",
-    "line": "You see 80% of renewable energy deals but only 48% of software deals.",
+    "line": "You see 80% of energy deals but only 48% of software deals.",
     "company_ids": [
      "dfc26dad-408b-4630-8a68-e490d2fbd786",
      "d17e0abf-0a57-4574-820b-822e5cac6308",
@@ -1589,15 +1589,15 @@
     "investor_names": [],
     "best_pct": 80,
     "worst_pct": 48,
-    "best_industry": "Renewable energy",
-    "worst_industry": "Software and services"
+    "best_industry": "energy",
+    "worst_industry": "software"
    },
    {
     "kind": "next_round",
     "value": 6,
     "total": 19,
     "title": "Meet them before they raise",
-    "line": "6 of 19 last raised over a year ago; meet them first.",
+    "line": "6 of the 19 last raised over a year ago; meet them first.",
     "company_ids": [
      "8502a550-46b3-4790-b869-c450eb925672",
      "76689e08-32d7-4003-bb02-1f2b7bd3cf77",
@@ -1616,7 +1616,7 @@
     "kind": "sourcing",
     "value": 4,
     "total": 19,
-    "title": "A sourcing gap with other funds",
+    "title": "A gap in your sourcing",
     "line": "Icebreaker.vc and Ugly Duckling Ventures backed 4 of them; you never co-invested.",
     "company_ids": [
      "5466f036-ebe0-4171-ae24-643c83cfef6b",
@@ -1635,7 +1635,7 @@
    }
   ],
   "model": "claude-sonnet-5-5",
-  "generated_at": "2026-11-14T18:25:56Z"
+  "generated_at": "2026-11-14T18:31:18Z"
  },
  "market_coverage": {
   "european_companies_screened": 2701,

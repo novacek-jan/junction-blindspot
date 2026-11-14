@@ -490,10 +490,10 @@ def run_audit_rows(fund_id: str, peer_ids: list[str], crm_rows: list[dict], simu
         "top_investors_in_blind_spots": top_investors,
         "breakdown": breakdown(prof, chosen, comps, status),
         "patterns": patterns(never, top_investors, n_never),
-        # The model gets computed facts only (no CRM rows, no company names); numbers come from code. "none": skip.
+        # The CRM never reaches an AI model: coverage is deterministic; Claude words next_round/sourcing. "none": skip.
         "briefing": (None if briefing_mode == "none" else
                      briefing.build(prof["fund"], prof, never, chosen, comps, status, n_never, rule,
-                                    is_conflated, industry_human, generate=briefing_mode == "generate",
+                                    is_conflated, generate=briefing_mode == "generate",
                                     attempts=briefing_attempts)),
         "market_coverage": db.market_coverage(n_qualifying),
     }

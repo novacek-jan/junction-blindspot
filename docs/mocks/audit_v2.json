@@ -253,8 +253,8 @@
         "kind": "coverage",
         "value": 2,
         "total": 5,
-        "title": "Software is your weak spot",
-        "line": "You see 67% of renewable energy deals but only 60% of software.",
+        "title": "Software coverage lags energy",
+        "line": "You see 67% of energy deals but only 60% of software deals.",
         "company_ids": [
           "0b6f4c1e-1111-4a0b-9c1d-000000000001",
           "0b6f4c1e-1111-4a0b-9c1d-000000000003"
@@ -262,8 +262,8 @@
         "investor_names": [],
         "best_pct": 67,
         "worst_pct": 60,
-        "best_industry": "Renewable energy",
-        "worst_industry": "Software and services"
+        "best_industry": "energy",
+        "worst_industry": "software"
       },
       {
         "kind": "next_round",

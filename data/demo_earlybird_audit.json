@@ -2782,8 +2782,8 @@
     "kind": "coverage",
     "value": 11,
     "total": 14,
-    "title": "Coverage is uneven across sectors",
-    "line": "You see 83% of biotechnology, 21% of internet and web services.",
+    "title": "Internet coverage lags biotech",
+    "line": "You see 83% of biotech deals but only 21% of internet deals.",
     "company_ids": [
      "3d3edba6-f4d7-432b-80d3-d07872e11def",
      "e2ca4eed-eb90-4bc8-ad76-f711dd5f80df",
@@ -2800,14 +2800,14 @@
     "investor_names": [],
     "best_pct": 83,
     "worst_pct": 21,
-    "best_industry": "Biotechnology",
-    "worst_industry": "Internet and web services"
+    "best_industry": "biotech",
+    "worst_industry": "internet"
    },
    {
     "kind": "next_round",
     "value": 11,
     "total": 35,
-    "title": "Raising again soon",
+    "title": "Meet them before they raise",
     "line": "11 of them last raised over a year ago; meet them first.",
     "company_ids": [
      "76689e08-32d7-4003-bb02-1f2b7bd3cf77",
@@ -2832,8 +2832,8 @@
     "kind": "sourcing",
     "value": 8,
     "total": 35,
-    "title": "A sourcing gap",
-    "line": "Lifeline Ventures and Innovestor backed 8 of them; you never co-invested with either.",
+    "title": "A gap in your sourcing",
+    "line": "Lifeline Ventures and Innovestor backed 8 of them; you never co-invested.",
     "company_ids": [
      "3254bcd3-da85-4b40-9ccc-7e9a9966d8a4",
      "3d3edba6-f4d7-432b-80d3-d07872e11def",
@@ -2855,7 +2855,7 @@
    }
   ],
   "model": "claude-sonnet-5-5",
-  "generated_at": "2026-11-14T18:26:03Z"
+  "generated_at": "2026-11-14T18:31:20Z"
  },
  "market_coverage": {
   "european_companies_screened": 2701,

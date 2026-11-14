@@ -517,13 +517,15 @@ def test_briefing_facts_and_fallback_without_key(client, audit_day):
         assert set(i) == {"kind", "value", "total", "title", "line", "company_ids", "investor_names",
                           "best_pct", "worst_pct", "best_industry", "worst_industry"}
         assert i["value"] >= 2 and set(i["company_ids"]) <= never_ids
-        assert briefing_text_ok(i)
+        assert len(i["title"].split()) <= 6 and len(i["line"].split()) <= 14
     cov = ins["coverage"]
-    # software coverage depends on rows other tests add (44% on the base fixture); advertising is fixed
-    assert (cov["best_industry"], cov["worst_industry"], cov["worst_pct"]) == ("Software and services", "Advertising", 25)
+    # software coverage depends on rows other tests add (44% on the base fixture); advertising is fixed.
+    # Short sector labels: "Software and services" -> "software"; unlisted ADVERTISING -> "advertising".
+    assert (cov["best_industry"], cov["worst_industry"], cov["worst_pct"]) == ("software", "advertising", 25)
     assert cov["best_pct"] > 25
     assert (cov["value"], cov["total"]) == (3, 4) and cov["company_ids"] == ["bs-3", "bs-1", "bs-2"]   # newest round first
-    assert cov["line"] == f"You see {cov['best_pct']}% of software and services, 25% of advertising."
+    assert cov["title"] == "Advertising coverage lags software"
+    assert cov["line"] == f"You see {cov['best_pct']}% of software deals but only 25% of advertising deals."
     nxt = ins["next_round"]
     # bs-4 / bs-2 last raised 2024-03 (in the window); bs-1 / bs-3 raised again in 2025-03 (too recent)
     assert {"bs-4", "bs-2"} <= set(nxt["company_ids"]) and not {"bs-1", "bs-3"} & set(nxt["company_ids"])
@@ -537,41 +539,53 @@ def test_briefing_facts_and_fallback_without_key(client, audit_day):
     assert [i["name"] for i in boat["round"]["investors"]] == ["Butterfly Ventures"]   # "BVF Venture Fund IV AB"
 
 
-def briefing_text_ok(i):
+def _fake_model(monkeypatch, reply):
     import briefing
-    names = tuple(i["investor_names"]) + tuple(x for x in (i["best_industry"], i["worst_industry"]) if x)
-    return briefing.text_ok(i["title"], i["line"], i["value"], i["total"], names, i["best_pct"], i["worst_pct"])
+    calls = []
+
+    def fake(payload):
+        calls.append(payload)
+        return reply(payload)
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "test")
+    monkeypatch.setattr(briefing, "_call_model", fake)
+    monkeypatch.setattr(briefing.db, "kv_get", lambda k: None)
+    monkeypatch.setattr(briefing.db, "kv_put", lambda k, v: None)
+    return calls
 
 
 def test_briefing_uses_model_text_only_when_valid(client, monkeypatch, audit_day):
     import briefing
     _seed_briefing_data()
-    seen_payloads = []
-
-    def fake(payload):
-        seen_payloads.append(payload)
-        c = payload["insights"]["coverage"]
-        return {"coverage": {"title": "Advertising slips past you",
-                             "line": f"You see {c['best_pct']}% of software but {c['worst_pct']}% of advertising."},
-                "next_round": {"title": "Due again soon", "line": "They raised 18 months ago."},   # 18: invalid
-                "sourcing": {"title": "Seed funds you never meet", "line": "They backed most of them before you."}}
-    monkeypatch.setenv("ANTHROPIC_API_KEY", "test")
-    monkeypatch.setattr(briefing, "_call_model", fake)
-    monkeypatch.setattr(briefing.db, "kv_get", lambda k: None)
-    monkeypatch.setattr(briefing.db, "kv_put", lambda k, v: None)
+    calls = _fake_model(monkeypatch, lambda p: {
+        "coverage": {"title": "Model coverage title", "line": "Model coverage line."},   # never used
+        "next_round": {"title": "Due again soon", "line": "They raised 18 months ago."},   # 18: invalid
+        "sourcing": {"title": "Seed funds you never meet", "line": "They backed most of them before you."}})
     a = post_audit(client).json()
     ins = {i["kind"]: i for i in a["briefing"]["insights"]}
     assert [i["kind"] for i in a["briefing"]["insights"]] == ["coverage", "next_round", "sourcing"]
-    c = seen_payloads[0]["insights"]["coverage"]
-    assert ins["coverage"]["line"] == f"You see {c['best_pct']}% of software but 25% of advertising."   # model text kept
+    assert ins["coverage"]["title"] == "Advertising coverage lags software"        # deterministic, never the model
     assert ins["next_round"]["title"] == "Due for their next round"               # invalid -> template
-    assert ins["sourcing"]["title"] == "Seed funds you never meet"
+    assert ins["sourcing"]["title"] == "Seed funds you never meet"                # valid model text kept
     assert a["briefing"]["model"] == briefing.MODEL
-    # the model gets computed facts only: no CRM rows, no company names or ids
-    sent = json.dumps(seen_payloads)
-    for leak in ("Unrelated Startup", "Market One", "Market Two", "Patent AI", "bs-1", "market-one.de"):
-        assert leak not in sent
-    assert set(seen_payloads[0]["insights"]) == {"coverage", "next_round", "sourcing"}
+    # the CRM never reaches the model: no coverage facts, no CRM rows, no company names or ids
+    assert [set(p["insights"]) for p in calls] == [{"next_round", "sourcing"}]
+    sent = json.dumps(calls)
+    for leak in ("coverage", "pct", "advertising", "Unrelated Startup", "Market One", "Patent AI", "bs-1",
+                 "market-one.de"):
+        assert leak.lower() not in sent.lower()
+
+
+def test_briefing_coverage_alone_makes_no_api_call(client, monkeypatch, audit_day):
+    """Coverage is computed from the CRM: with only a coverage insight there is no model call at all."""
+    import briefing
+    _seed_briefing_data()
+    calls = _fake_model(monkeypatch, lambda p: {})
+    monkeypatch.setattr(briefing, "next_round_fact", lambda *a, **k: None)
+    monkeypatch.setattr(briefing, "sourcing_fact", lambda *a, **k: None)
+    b = post_audit(client).json()["briefing"]
+    assert calls == []
+    assert [i["kind"] for i in b["insights"]] == ["coverage"] and b["model"] == "template"
+    assert b["insights"][0]["title"] == "Advertising coverage lags software"
 
 
 def test_briefing_text_rules():
@@ -579,31 +593,30 @@ def test_briefing_text_rules():
     assert briefing.text_ok("Seed funds got there first", "They backed 6 of the 16 before you.", 6, 16)
     assert not briefing.text_ok("Two seed funds got there", "They backed 6 of the 16.", 6, 16)     # "two"
     assert not briefing.text_ok("Seed funds", "They backed 7 of them.", 6, 16)                      # 7
+    assert not briefing.text_ok("Seed funds", "Under half of them.", 6, 16)                         # "half"
     assert not briefing.text_ok("A title that is far too long here", "Fine.", 6, 16)                # > 6 words
     assert briefing.text_ok("20VC got there first", "20VC backed 6 of them.", 6, 16, names=("20VC",))
-    # coverage: the two percentages are allowed; "half" only when worst < 50 < best
-    assert briefing.text_ok("Software slips past you", "You see 80% of energy but 36% of software.", 9, 14,
-                            best_pct=80, worst_pct=36)
-    assert briefing.text_ok("Software slips past you", "You see most energy deals but under half of software.",
-                            9, 14, best_pct=80, worst_pct=36)
-    assert not briefing.text_ok("Software slips past you", "Under half of software deals reach you.", 9, 14,
-                                best_pct=45, worst_pct=36)
-    assert not briefing.text_ok("Software slips past you", "Under half of software deals reach you.", 9, 14)
-    assert not briefing.text_ok("Software slips past you", "You see 81% of energy deals.", 9, 14,
-                                best_pct=80, worst_pct=36)
 
 
 def test_briefing_templates_respect_word_limits():
     import briefing
+    assert all(len(v.split()) <= 2 for v in briefing.SECTOR_SHORT.values())
+    assert briefing.sector_short("SOFTWARE_AND_SERVICES") == "software"
+    assert briefing.sector_short("RENEWABLE_ENERGY") == "energy"
+    assert briefing.sector_short("INTERNET_AND_WEB_SERVICES") == "internet"
+    assert briefing.sector_short("BIOTECHNOLOGY") == "biotech"
+    assert briefing.sector_short("SPACE_AND_SATELLITES") == "space"                    # unlisted code
     facts = [{"kind": "sourcing", "value": 4, "total": 19, "investor_names": ["Icebreaker.vc", "Ugly Duckling Ventures"]},
-             {"kind": "next_round", "value": 6, "total": 19, "investor_names": []},
-             {"kind": "coverage", "value": 9, "total": 14, "investor_names": [], "best_pct": 100, "worst_pct": 7,
-              "best_industry": "Internet and web services", "worst_industry": "Government and public admin"}]
+             {"kind": "next_round", "value": 6, "total": 19, "investor_names": []}]
     for fact in facts:
         title, line = briefing.fallback_text(fact)
-        names = tuple(fact["investor_names"]) + tuple(fact.get(k, "") for k in ("best_industry", "worst_industry"))
-        assert briefing.text_ok(title, line, fact["value"], fact["total"], names, fact.get("best_pct"),
-                                fact.get("worst_pct")), (title, line)
+        assert briefing.text_ok(title, line, fact["value"], fact["total"], tuple(fact["investor_names"])), (title, line)
+    title, line = briefing.fallback_text({"kind": "coverage", "value": 9, "total": 14, "investor_names": [],
+                                          "best_pct": 100, "worst_pct": 7, "best_industry": "venture capital",
+                                          "worst_industry": "asset management"})
+    assert title == "Asset management coverage lags venture capital" and len(title.split()) <= 6
+    assert line == "You see 100% of venture capital deals but only 7% of asset management deals."
+    assert len(line.split()) <= 14
 
 
 def test_months_before():
