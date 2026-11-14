@@ -582,7 +582,17 @@ def _facts(payload):
     return {f["id"]: f for f in payload["facts"]}
 
 
-INSIGHT_KEYS = {"kind", "fact_id", "value", "total", "title", "line", "chips"}
+INSIGHT_KEYS = {"kind", "fact_id", "value", "total", "title", "line", "company_ids", "chips"}
+
+
+def check_company_ids(audit_json, insight):
+    """Every insight: all its never-seen companies, no duplicates, newest round first, len == value."""
+    rows = {d["company_id"]: d for d in audit_json["never_seen"]}
+    ids = insight["company_ids"]
+    assert len(ids) == insight["value"] == len(set(ids)) and set(ids) <= set(rows)
+    dates = [(rows[c]["round"]["date"] or "", c) for c in ids]
+    assert dates == sorted(dates, reverse=True)
+    assert all(c["company_id"] is None for c in insight["chips"])           # chips are labels only
 
 
 @pytest.fixture
@@ -609,14 +619,26 @@ def test_briefing_facts_and_fallback_without_key(client, audit_day, captured_fac
     assert b and b["model"] == "template"
     ins = b["insights"]
     assert len(ins) == 3 and len({i["fact_id"] for i in ins}) == 3
-    never_ids = {d["company_id"]: d["name"] for d in a["never_seen"]}
     for i in ins:
         assert set(i) == INSIGHT_KEYS and i["fact_id"] == i["kind"] and i["value"] >= 2
         assert len(i["title"].split()) <= 6 and len(i["line"].split()) <= 16
-        for c in i["chips"]:
-            assert set(c) == {"label", "company_id"}
-            if c["company_id"] is not None:
-                assert never_ids[c["company_id"]] == c["label"]          # company chips: real never-seen rows
+        assert all(set(c) == {"label", "company_id"} for c in i["chips"])
+        check_company_ids(a, i)
+    # every candidate fact (not only the picked ones) carries its full company list
+    rows = {d["company_id"]: d for d in a["never_seen"]}
+    for f in facts:
+        assert len(f["company_ids"]) == f["value"] and set(f["company_ids"]) <= set(rows)
+        assert all(c["company_id"] is None for c in f["chips"])
+        if f["kind"] in ("recency", "last_round"):
+            assert f["chips"] == []
+    co = next(f for f in facts if f["kind"] == "co_investors")
+    backed = {d["company_id"] for d in a["never_seen"]
+              if any(i["name"] in co["vcs"] for i in d["round"]["investors"])}
+    assert set(co["company_ids"]) == backed                              # all companies backed by the named VCs
+    lead = next(f for f in facts if f["kind"] == "top_lead")
+    led = {d["company_id"] for d in a["never_seen"]
+           if any(i["name"] == lead["vc"] and i["is_lead"] for i in d["round"]["investors"])}
+    assert set(lead["company_ids"]) == led
     assert [i["fact_id"] for i in ins] == [f["id"] for f in briefing.top_by_strength(facts)]
     families = [briefing.FAMILY.get(i["kind"], i["kind"]) for i in ins]
     assert len(set(families)) == 3                                                # different kinds first
@@ -646,8 +668,8 @@ def test_briefing_candidate_facts_and_privacy(client, monkeypatch, audit_day):
     assert payload["thesis"]["sectors"][0] == "software" and "Finland" in payload["thesis"]["countries"]
     # only facts: no chips, no company names or ids, no CRM rows
     sent = json.dumps(payload)
-    for leak in ("chips", "company_id", "Patent AI", "Boat Parts", "bs-1", "Unrelated Startup", "Market One",
-                 "market-one.de"):
+    for leak in ("chips", "company_id", "company_ids", "Patent AI", "Boat Parts", "bs-1", "bs-4", "m3",
+                 "Unrelated Startup", "Market One", "market-one.de"):
         assert leak not in sent
 
 
@@ -674,6 +696,8 @@ def test_briefing_model_picks_validated(client, monkeypatch, audit_day, captured
     assert (ins[2]["title"], ins[2]["line"]) == briefing.template(next(f for f in captured_facts[-1]
                                                                        if f["id"] == strongest_other))
     assert ins[0]["chips"][1] == {"label": "advertising 25%", "company_id": None}
+    # coverage: all never-seen companies in the worst sector (advertising: bs-1..bs-3), newest round first
+    assert ins[0]["company_ids"] == ["bs-3", "bs-1", "bs-2"] and ins[0]["value"] == 3
     assert b["model"] == briefing.MODEL
 
 

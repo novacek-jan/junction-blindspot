@@ -1568,40 +1568,23 @@
     "total": 19,
     "title": "Most missed deals are recent",
     "line": "14 of 19 missed startups raised their VC rounds within the last 24 months.",
-    "chips": [
-     {
-      "label": "Comparables.ai",
-      "company_id": "dfc26dad-408b-4630-8a68-e490d2fbd786"
-     },
-     {
-      "label": "Clock&Cloud",
-      "company_id": "d17e0abf-0a57-4574-820b-822e5cac6308"
-     },
-     {
-      "label": "Rotomate",
-      "company_id": "98ff140a-f183-485a-8d7d-3e02bf137c9b"
-     },
-     {
-      "label": "Skyfora",
-      "company_id": "5466f036-ebe0-4171-ae24-643c83cfef6b"
-     },
-     {
-      "label": "Redpine Technology AB",
-      "company_id": "331fec23-9c63-4885-a8f5-c2902c9e1b9d"
-     },
-     {
-      "label": "Groundhawk",
-      "company_id": "d7da9cd1-709a-471c-88f2-801a6b2f06ca"
-     },
-     {
-      "label": "Kuva Space",
-      "company_id": "41f89a61-54ac-4068-82af-a2d2096efcfc"
-     },
-     {
-      "label": "Gosta Labs",
-      "company_id": "25a97622-eed9-4289-bde6-2d191e44c06d"
-     }
-    ]
+    "company_ids": [
+     "dfc26dad-408b-4630-8a68-e490d2fbd786",
+     "d17e0abf-0a57-4574-820b-822e5cac6308",
+     "98ff140a-f183-485a-8d7d-3e02bf137c9b",
+     "5466f036-ebe0-4171-ae24-643c83cfef6b",
+     "331fec23-9c63-4885-a8f5-c2902c9e1b9d",
+     "d7da9cd1-709a-471c-88f2-801a6b2f06ca",
+     "25a97622-eed9-4289-bde6-2d191e44c06d",
+     "8502a550-46b3-4790-b869-c450eb925672",
+     "76689e08-32d7-4003-bb02-1f2b7bd3cf77",
+     "51e1482f-31e9-4f8c-a79e-71192f9545bb",
+     "3ee757f1-15c6-4f26-aafd-eba7953589a9",
+     "f17072d7-d371-4e9e-822e-50ceef8cfef7",
+     "6623017a-9e19-4729-a887-0a9ee38c1e3c",
+     "41f89a61-54ac-4068-82af-a2d2096efcfc"
+    ],
+    "chips": []
    },
    {
     "kind": "coverage_sector",
@@ -1610,6 +1593,25 @@
     "total": 33,
     "title": "Software coverage lags energy",
     "line": "You see 80% of energy deals but only 48% of software deals.",
+    "company_ids": [
+     "dfc26dad-408b-4630-8a68-e490d2fbd786",
+     "d17e0abf-0a57-4574-820b-822e5cac6308",
+     "98ff140a-f183-485a-8d7d-3e02bf137c9b",
+     "5466f036-ebe0-4171-ae24-643c83cfef6b",
+     "331fec23-9c63-4885-a8f5-c2902c9e1b9d",
+     "d7da9cd1-709a-471c-88f2-801a6b2f06ca",
+     "25a97622-eed9-4289-bde6-2d191e44c06d",
+     "8502a550-46b3-4790-b869-c450eb925672",
+     "76689e08-32d7-4003-bb02-1f2b7bd3cf77",
+     "51e1482f-31e9-4f8c-a79e-71192f9545bb",
+     "3ee757f1-15c6-4f26-aafd-eba7953589a9",
+     "f17072d7-d371-4e9e-822e-50ceef8cfef7",
+     "6623017a-9e19-4729-a887-0a9ee38c1e3c",
+     "53e80375-1967-4c14-b4e5-ac33b016e110",
+     "41f89a61-54ac-4068-82af-a2d2096efcfc",
+     "8a099aee-049b-4bd9-b4fa-a318542dc867",
+     "dd64c2b7-b551-4322-ac10-57fa4eead37e"
+    ],
     "chips": [
      {
       "label": "energy 80%",
@@ -1628,6 +1630,12 @@
     "total": 19,
     "title": "Co-investors you're missing",
     "line": "Icebreaker.vc and Ugly Duckling Ventures backed 4 of them. Neither is in your rounds since 2022.",
+    "company_ids": [
+     "d17e0abf-0a57-4574-820b-822e5cac6308",
+     "5466f036-ebe0-4171-ae24-643c83cfef6b",
+     "8502a550-46b3-4790-b869-c450eb925672",
+     "dd64c2b7-b551-4322-ac10-57fa4eead37e"
+    ],
     "chips": [
      {
       "label": "Icebreaker.vc",
@@ -1641,7 +1649,7 @@
    }
   ],
   "model": "claude-sonnet-5-5",
-  "generated_at": "2026-11-14T21:10:48Z"
+  "generated_at": "2026-11-14T21:16:13Z"
  },
  "market_coverage": {
   "european_companies_screened": 2701,

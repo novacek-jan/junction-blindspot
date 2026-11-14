@@ -7,7 +7,8 @@ Rules (docs/api-contract.md, audit.briefing):
 - Claude returns 3 picks {fact_id, title (<= 6 words), line (<= 16 words)}. Every number and label in a text must
   belong to the picked fact, and no predictive wording; otherwise that fact gets its template text. If the call
   fails, the top 3 facts by strength (different kinds first) get template texts.
-- Chips ([{label, company_id}]) are built here, never by the model.
+- company_ids (every never-seen company an insight is about, newest round first, len == value) and label-only
+  chips ([{label, company_id: null}]) are built here, never by the model, and never sent to it.
 """
 from __future__ import annotations
 
@@ -31,7 +32,6 @@ MIN_GROUP = 3                      # coverage groups need at least this many mar
 MIN_GAP = 0.10                     # coverage facts need at least a 10-point gap
 RECENT_MONTHS = 24
 LAST_ROUND_MONTHS = (12, 24)
-MAX_COMPANY_CHIPS = 8
 SINCE_YEAR = 2022
 FAMILY = {"coverage_sector": "coverage", "coverage_country": "coverage", "coverage_stage": "coverage"}
 STAGE_ORDER = {s: i for i, s in enumerate(["PRE_SEED", "SEED", "SERIES_A", "SERIES_B", "SERIES_C", "SERIES_D",
@@ -142,7 +142,12 @@ def _one_in(pct: int) -> Optional[int]:
 
 # ---------------------------------------------------------------- facts (computed in code)
 
-def _coverage(kind: str, groups: dict, status: dict, word_of) -> Optional[dict]:
+def newest_first(ids, when: dict) -> list[str]:
+    """Company ids ordered by the date of their row's round (newest first), then company id."""
+    return sorted(set(ids), key=lambda c: (when.get(c) or "", c), reverse=True)
+
+
+def _coverage(kind: str, groups: dict, status: dict, word_of, when: dict) -> Optional[dict]:
     """Best vs worst group (>= MIN_GROUP market companies). groups: label -> market company ids."""
     stats = []
     for label, cids in groups.items():
@@ -166,6 +171,7 @@ def _coverage(kind: str, groups: dict, status: dict, word_of) -> Optional[dict]:
             "best_adjective": words[0], "worst_adjective": words[1],
             "best_one_in": _one_in(bp), "worst_one_in": _one_in(wp),
             "strength": round(gap * worst["market"], 2), "labels": labels,
+            "company_ids": newest_first(worst["never"], when),
             "chips": [{"label": f"{best['label']} {bp}%", "company_id": None},
                       {"label": f"{worst['label']} {wp}%", "company_id": None}]}
 
@@ -181,9 +187,10 @@ def coverage_facts(prof: dict, chosen: dict, comps: dict, status: dict) -> list[
             by_country[comps[cid]["country"]].append(cid)
         if r["label"]:
             by_stage[stage_human(r["label"])].append(cid)
-    out = [_coverage("coverage_sector", by_sector, status, lambda k: k),
-           _coverage("coverage_country", by_country, status, lambda k: DEMONYM.get(k, k)),
-           _coverage("coverage_stage", by_stage, status, lambda k: k)]
+    when = {cid: r["date"] for cid, r in chosen.items()}          # the round shown in each row
+    out = [_coverage("coverage_sector", by_sector, status, lambda k: k, when),
+           _coverage("coverage_country", by_country, status, lambda k: DEMONYM.get(k, k), when),
+           _coverage("coverage_stage", by_stage, status, lambda k: k, when)]
     for f in out:
         if f and f["kind"] != "coverage_country":
             f.pop("best_adjective"), f.pop("worst_adjective")
@@ -204,13 +211,10 @@ def _latest_qualifying(never: list[dict], rule, is_conflated) -> dict[str, str]:
 
 
 def count_facts(never: list[dict], total: int, latest: dict, basis_vc_names: set, fund: dict) -> list[dict]:
-    names = {d["company_id"]: d["name"] for d in never}
+    when = {d["company_id"]: d["round"]["date"] for d in never}    # the round shown in each row
 
     def newest(ids):
-        return sorted(ids, key=lambda c: (latest.get(c) or "", c), reverse=True)
-
-    def company_chips(ids):
-        return [{"label": names[c], "company_id": c} for c in ids[:MAX_COMPANY_CHIPS]]
+        return newest_first(ids, when)
 
     def not_the_fund(i):
         return i["id"] != fund["id"] and i["name"].casefold() != fund["name"].casefold()
@@ -231,14 +235,15 @@ def count_facts(never: list[dict], total: int, latest: dict, basis_vc_names: set
         ids = set().union(*(companies[k] for k in top))
         vcs = [vc_names[k] for k in top]
         out.append({"id": "co_investors", "kind": "co_investors", "value": len(ids), "total": total, "vcs": vcs,
+                    "company_ids": newest(ids),
                     "companies_per_vc": {vc_names[k]: len(companies[k]) for k in top}, "since_year": SINCE_YEAR,
                     "strength": len(ids), "labels": vcs, "chips": [{"label": v, "company_id": None} for v in vcs]})
 
     # recency: latest qualifying round within the last 24 months
     lo = _months_before(today, RECENT_MONTHS).isoformat()
-    recent = newest([c for c in names if latest.get(c) and latest[c] >= lo])
+    recent = newest([c for c in when if latest.get(c) and latest[c] >= lo])
     out.append({"id": "recency", "kind": "recency", "value": len(recent), "total": total, "months": RECENT_MONTHS,
-                "strength": len(recent), "labels": [], "chips": company_chips(recent)})
+                "strength": len(recent), "labels": [], "company_ids": recent, "chips": []})
 
     # top lead VC across the never-seen rounds
     leads, lead_names = defaultdict(set), {}
@@ -252,15 +257,16 @@ def count_facts(never: list[dict], total: int, latest: dict, basis_vc_names: set
         out.append({"id": "top_lead", "kind": "top_lead", "value": len(leads[k]), "total": total,
                     "vc": lead_names[k], "vc_in_your_rounds_since_2022": k in basis_vc_names,
                     "since_year": SINCE_YEAR, "strength": len(leads[k]), "labels": [lead_names[k]],
+                    "company_ids": newest(leads[k]),
                     "chips": [{"label": lead_names[k], "company_id": None}]})
 
     # last round 12 to 24 months before the audit date
     lo = _months_before(today, LAST_ROUND_MONTHS[1]).isoformat()
     hi = _months_before(today, LAST_ROUND_MONTHS[0]).isoformat()
-    due = newest([c for c in names if latest.get(c) and lo <= latest[c] <= hi])
+    due = newest([c for c in when if latest.get(c) and lo <= latest[c] <= hi])
     out.append({"id": "last_round", "kind": "last_round", "value": len(due), "total": total,
                 "months_from": LAST_ROUND_MONTHS[0], "months_to": LAST_ROUND_MONTHS[1],
-                "strength": len(due), "labels": [], "chips": company_chips(due)})
+                "strength": len(due), "labels": [], "company_ids": due, "chips": []})
     return [f for f in out if f["value"] >= 2]
 
 
@@ -380,8 +386,8 @@ def top_by_strength(facts: list[dict], n: int = PICKS, exclude=frozenset()) -> l
 # ---------------------------------------------------------------- Claude
 
 def _model_fact(f: dict) -> dict:
-    """What the model sees of one fact: numbers and public labels (no chips, so no company ids or names)."""
-    return {k: v for k, v in f.items() if k not in ("chips", "labels")}
+    """What the model sees of one fact: numbers and public labels (no chips, no company ids or names)."""
+    return {k: v for k, v in f.items() if k not in ("chips", "labels", "company_ids")}
 
 
 def _call_model(payload: dict) -> dict:
@@ -421,7 +427,7 @@ def assemble(facts: list[dict], picks: Optional[list], universe: set) -> tuple[l
         f = by_id[fid]
         title, line = texts.get(fid) or template(f)
         out.append({"kind": f["kind"], "fact_id": fid, "value": f["value"], "total": f["total"],
-                    "title": title, "line": line, "chips": f["chips"]})
+                    "title": title, "line": line, "company_ids": list(f["company_ids"]), "chips": f["chips"]})
     return out, sum(1 for fid in chosen[:n] if fid in texts)
 
 

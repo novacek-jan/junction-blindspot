@@ -2784,41 +2784,36 @@
     "value": 26,
     "total": 35,
     "title": "Recent rounds slipped past you",
-    "line": "26 of 35 missed startups raised their VC round within the last 24 months.",
-    "chips": [
-     {
-      "label": "Pliant GmbH",
-      "company_id": "a98a18cc-854a-4357-b049-91585d4afb40"
-     },
-     {
-      "label": "Comparables.ai",
-      "company_id": "dfc26dad-408b-4630-8a68-e490d2fbd786"
-     },
-     {
-      "label": "Clock&Cloud",
-      "company_id": "d17e0abf-0a57-4574-820b-822e5cac6308"
-     },
-     {
-      "label": "Verda",
-      "company_id": "3d3edba6-f4d7-432b-80d3-d07872e11def"
-     },
-     {
-      "label": "Rotomate",
-      "company_id": "98ff140a-f183-485a-8d7d-3e02bf137c9b"
-     },
-     {
-      "label": "Skyfora",
-      "company_id": "5466f036-ebe0-4171-ae24-643c83cfef6b"
-     },
-     {
-      "label": "Redpine Technology AB",
-      "company_id": "331fec23-9c63-4885-a8f5-c2902c9e1b9d"
-     },
-     {
-      "label": "Synera",
-      "company_id": "d2929f0c-d341-487c-a25c-52a1e0df01a2"
-     }
-    ]
+    "line": "26 of 35 missed startups raised their VC-backed round within the last 24 months.",
+    "company_ids": [
+     "dfc26dad-408b-4630-8a68-e490d2fbd786",
+     "d17e0abf-0a57-4574-820b-822e5cac6308",
+     "98ff140a-f183-485a-8d7d-3e02bf137c9b",
+     "5466f036-ebe0-4171-ae24-643c83cfef6b",
+     "331fec23-9c63-4885-a8f5-c2902c9e1b9d",
+     "3d3edba6-f4d7-432b-80d3-d07872e11def",
+     "e2ca4eed-eb90-4bc8-ad76-f711dd5f80df",
+     "3137bc6d-ad4f-45e1-8b26-83b92ee80ab9",
+     "4a4f5af0-8919-414c-af16-8b976ba8ebc2",
+     "1cec901d-20d1-4e4b-adb5-611141810031",
+     "d7da9cd1-709a-471c-88f2-801a6b2f06ca",
+     "25a97622-eed9-4289-bde6-2d191e44c06d",
+     "76689e08-32d7-4003-bb02-1f2b7bd3cf77",
+     "49a2e9fa-9824-4546-8b24-15eaf98e05b2",
+     "51e1482f-31e9-4f8c-a79e-71192f9545bb",
+     "057c7768-b724-44ef-b63d-e07f9b1a8bc0",
+     "3ee757f1-15c6-4f26-aafd-eba7953589a9",
+     "b488fe95-8f45-40be-ab57-f8f96da242fe",
+     "393abcb1-cecf-4c33-b742-4f648261a98a",
+     "09d7fa77-4315-4185-927b-af05e9fca8c3",
+     "4e91b640-41bb-45f7-b82c-711a94a2e0e5",
+     "6623017a-9e19-4729-a887-0a9ee38c1e3c",
+     "db82c519-cfd2-47e1-8db0-869988bb3d65",
+     "41f89a61-54ac-4068-82af-a2d2096efcfc",
+     "a98a18cc-854a-4357-b049-91585d4afb40",
+     "d2929f0c-d341-487c-a25c-52a1e0df01a2"
+    ],
+    "chips": []
    },
    {
     "kind": "co_investors",
@@ -2827,6 +2822,16 @@
     "total": 35,
     "title": "Co-investors you're missing",
     "line": "Lifeline Ventures and Innovestor backed 8 of them. Neither is in your rounds since 2022.",
+    "company_ids": [
+     "3d3edba6-f4d7-432b-80d3-d07872e11def",
+     "e2ca4eed-eb90-4bc8-ad76-f711dd5f80df",
+     "49a2e9fa-9824-4546-8b24-15eaf98e05b2",
+     "b488fe95-8f45-40be-ab57-f8f96da242fe",
+     "3254bcd3-da85-4b40-9ccc-7e9a9966d8a4",
+     "53e80375-1967-4c14-b4e5-ac33b016e110",
+     "e628510b-d41c-439d-ac68-f6bbd966214b",
+     "7028e46d-9ffe-4972-84ee-2cfae31983e5"
+    ],
     "chips": [
      {
       "label": "Lifeline Ventures",
@@ -2845,6 +2850,19 @@
     "total": 14,
     "title": "Internet coverage lags biotech",
     "line": "You see 83% of biotech deals but only 1 in 5 internet deals.",
+    "company_ids": [
+     "3d3edba6-f4d7-432b-80d3-d07872e11def",
+     "e2ca4eed-eb90-4bc8-ad76-f711dd5f80df",
+     "4a4f5af0-8919-414c-af16-8b976ba8ebc2",
+     "76689e08-32d7-4003-bb02-1f2b7bd3cf77",
+     "51e1482f-31e9-4f8c-a79e-71192f9545bb",
+     "393abcb1-cecf-4c33-b742-4f648261a98a",
+     "4e91b640-41bb-45f7-b82c-711a94a2e0e5",
+     "e628510b-d41c-439d-ac68-f6bbd966214b",
+     "b5431f33-ad55-44e4-87ed-3e791698e54a",
+     "7028e46d-9ffe-4972-84ee-2cfae31983e5",
+     "5dcfdc22-c000-43d1-b745-a9248a11a488"
+    ],
     "chips": [
      {
       "label": "biotech 83%",
@@ -2858,7 +2876,7 @@
    }
   ],
   "model": "claude-sonnet-5-5",
-  "generated_at": "2026-11-14T21:10:56Z"
+  "generated_at": "2026-11-14T21:16:22Z"
  },
  "market_coverage": {
   "european_companies_screened": 2701,
