@@ -1,0 +1,6 @@
+{"introspection_series_d_5b1ca0bb":{"properties":["announcement_date","pre_money_valuation_units","name","annotations","pre_money_valuation","transaction_value","instrument","id","round_label","transaction_value_units"],"relationships":{"outgoing":[],"incoming":["PARTICIPATES_IN_FUNDING_ROUND"]},"numerical_observations":{}},
+"note":"Both 404s below were caller error: the relationship's properties.id (edge id) was passed instead of the top-level entity id. Retrying with the entity id worked (see 12/13/14).",
+"errors":[
+{"call":"entity_introspection 81726b2d-af8a-571c-a53c-467d9d687f9d (edge id of Aiven->Series D)","error":"HTTP error 404: Not Found - {'response_type': 'ERROR', 'error': {'error_type': 'entity_not_found_error', 'message': 'Entity with id 81726b2d-af8a-571c-a53c-467d9d687f9d was not found'}}"},
+{"call":"entity_retrieval bf31f1e7-b530-5492-95b9-19fb55342384 (edge id of Aiven->Series C)","error":"HTTP error 404: Not Found - {'response_type': 'ERROR', 'error': {'error_type': 'entity_not_found_error', 'message': 'Entity with id bf31f1e7-b530-5492-95b9-19fb55342384 was not found'}}"}
+]}

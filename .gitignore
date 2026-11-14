@@ -1,0 +1,32 @@
+# Environment / secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*secret*
+*secrets*
+*credentials*
+*apikey*
+*api_key*
+.mcp.json
+.claude/
+
+# Dependencies / build
+node_modules/
+__pycache__/
+*.pyc
+.venv/
+venv/
+dist/
+build/
+
+# Local data
+*.db
+*.sqlite
+*.sqlite3
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
