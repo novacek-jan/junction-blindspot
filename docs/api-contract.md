@@ -217,10 +217,10 @@ Semantics:
   `stage` (the stage with most: "<value> of the <total> raised a <stage> round"). `total` = `summary.never_seen`.
   Ties break alphabetically. No LLM.
 - `briefing` ("Why they slipped through"): `null` or up to 3 insights, always in the order **coverage,
-  next_round, sourcing**, each only when its `value >= 2`. Every number is computed in code. **The CRM never
-  reaches an AI model**: `coverage` (computed from the CRM) is fully deterministic, with fixed wording and no model
-  call. Claude writes only `title` (max 6 words) and `line` (max 14 words) of `next_round` and `sourcing`, from
-  their counts and VC names (no company names). Sectors use short labels throughout the briefing ("Software and
+  next_round, sourcing**, each only when its `value >= 2`. Every number is computed in code. **No CRM rows or
+  company names ever reach an AI model. Claude sees only public Cala data and anonymous counts.** `coverage` is
+  fully deterministic, with fixed wording and no model call. Claude writes only `title` (max 6 words) and `line`
+  (max 14 words) of `next_round` and `sourcing` (demos and uploads alike), from their counts and VC names. Sectors use short labels throughout the briefing ("Software and
   services" → "software", "Renewable energy" → "energy", "Internet and web services" → "internet",
   "Biotechnology" → "biotech"; at most 2 words; `backend/briefing.py` `SECTOR_SHORT`). Every insight has the same
   keys; `best_pct`, `worst_pct`, `best_industry`, `worst_industry` are `null` except on `coverage`.
