@@ -14,18 +14,24 @@ Set `NEXT_PUBLIC_USE_MOCKS=false` to call the backend at `NEXT_PUBLIC_API_URL`. 
 - `/results`: headline, Venn, country × stage heatmap, top blind spots, never-seen deals table; row click opens the deal panel (`GET /api/deals/{id}`)
 - `lib/api.ts` is the only API client; `lib/types.ts` mirrors the contract.
 
-## Access code and errors
+## CRM upload, access code and errors
 
-A real audit can send an optional access code as the `X-Access-Code` header on `POST /api/audit`. It lives in React state only (never storage or the URL). The backend must allow that header in CORS.
+The upload takes any CRM export as `.csv` or `.xlsx` (max 2 MB). The file is sent with its own content type to `POST /api/audit/preview`, which shows "We read N companies, M matched in Cala." and the detected columns as dropdowns; a changed column re-runs the preview, and the final mapping is sent with `POST /api/audit`.
+
+Both calls send the optional access code as the `X-Access-Code` header. It lives in React state only (never storage or the URL).
 
 | Backend response | Message shown |
 |---|---|
 | 401 | Invalid access code. |
-| 413 / 422 | CSV too large or invalid. Max 2 MB and 5,000 rows. |
-| 429 | Too many audits, try again in a minute. |
-| 5xx, network error, no response in 15 s | Backend unavailable. Try the demo instead. (+ Run the demo button) |
+| 413 | File too large. Max 2 MB and 5,000 rows. |
+| 415 | Upload a .csv or .xlsx file. Legacy .xls and macro workbooks are not supported. |
+| 422 `no_company_column` | No company or website column found in this file. |
+| 422 `invalid_mapping` | Those columns don't match this file. Pick them again. |
+| 429 | Too many requests, try again in a minute. |
+| 503 | Live audits are temporarily unavailable. Try the demo instead. (+ Run the demo button) |
+| other 5xx, network error, no response in 15 s | Backend unavailable. Try the demo instead. (+ Run the demo button) |
 
-In mock mode, add `?mockError=401` (or `413`, `422`, `429`, `500`, `network`) to the start page URL to simulate these on "Run audit".
+In mock mode, add `?mockError=401` (or `413`, `415`, `422`, `invalid_mapping`, `429`, `503`, `500`, `network`) to the start page URL to simulate these when a file is uploaded.
 
 ## Deploy
 

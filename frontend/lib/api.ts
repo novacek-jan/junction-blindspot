@@ -1,21 +1,40 @@
 // Single API client. NEXT_PUBLIC_USE_MOCKS=true serves frontend/mocks/*.json,
 // otherwise requests go to NEXT_PUBLIC_API_URL (the backend). No keys live here.
-import type { Audit, DealDetail, FundProfile, FundSearchResult } from "./types";
+import type { Audit, CrmMapping, CrmPreview, DealDetail, FundProfile, FundSearchResult } from "./types";
 
 export const USE_MOCKS = process.env.NEXT_PUBLIC_USE_MOCKS === "true";
 export const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000").replace(/\/$/, "");
 export const REQUEST_TIMEOUT_MS = 15_000;
 
-export type ApiErrorKind = "auth" | "invalid_csv" | "rate_limited" | "unavailable" | "not_found" | "other";
+export type ApiErrorKind =
+  | "auth"
+  | "too_large"
+  | "bad_format"
+  | "no_company"
+  | "invalid_mapping"
+  | "unreadable"
+  | "rate_limited"
+  | "live_off"
+  | "unavailable"
+  | "not_found"
+  | "other";
 
 export const ERROR_MESSAGES: Record<ApiErrorKind, string> = {
   auth: "Invalid access code.",
-  invalid_csv: "CSV too large or invalid. Max 2 MB and 5,000 rows.",
-  rate_limited: "Too many audits, try again in a minute.",
+  too_large: "File too large. Max 2 MB and 5,000 rows.",
+  bad_format: "Upload a .csv or .xlsx file. Legacy .xls and macro workbooks are not supported.",
+  no_company: "No company or website column found in this file.",
+  invalid_mapping: "Those columns don't match this file. Pick them again.",
+  unreadable: "We couldn't read this file.",
+  rate_limited: "Too many requests, try again in a minute.",
+  live_off: "Live audits are temporarily unavailable. Try the demo instead.",
   unavailable: "Backend unavailable. Try the demo instead.",
   not_found: "Not found.",
   other: "Something went wrong. Please try again.",
 };
+
+/** Errors after which "Run the demo" is offered. */
+export const DEMO_FALLBACK: ReadonlySet<ApiErrorKind> = new Set(["live_off", "unavailable"]);
 
 export class ApiError extends Error {
   constructor(public kind: ApiErrorKind, public status?: number) {
@@ -23,11 +42,15 @@ export class ApiError extends Error {
   }
 }
 
-export function errorKindForStatus(status: number): ApiErrorKind {
+/** Maps a status (and the backend's `error` code from `{ error, detail }`) to a message. */
+export function errorKindFor(status: number, code?: string): ApiErrorKind {
   if (status === 401 || status === 403) return "auth";
-  if (status === 413 || status === 415 || status === 422) return "invalid_csv";
+  if (status === 413) return "too_large";
+  if (status === 415) return "bad_format";
+  if (status === 422) return code === "invalid_mapping" ? "invalid_mapping" : code === "no_company_column" ? "no_company" : "unreadable";
   if (status === 429) return "rate_limited";
   if (status === 404) return "not_found";
+  if (status === 503) return "live_off";
   if (status >= 500) return "unavailable";
   return "other";
 }
@@ -44,7 +67,10 @@ async function http<T>(path: string, init?: RequestInit): Promise<T> {
   } finally {
     clearTimeout(timer);
   }
-  if (!res.ok) throw new ApiError(errorKindForStatus(res.status), res.status);
+  if (!res.ok) {
+    const code = await res.json().then((b: { error?: unknown }) => (typeof b?.error === "string" ? b.error : undefined), () => undefined);
+    throw new ApiError(errorKindFor(res.status, code), res.status);
+  }
   try {
     return (await res.json()) as T;
   } catch {
@@ -53,16 +79,17 @@ async function http<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 /**
- * Mock mode only: simulate backend errors on POST /api/audit via the page URL,
- * e.g. /?mockError=401 | 413 | 422 | 429 | 500 | network.
+ * Mock mode only: simulate backend errors on the upload preview via the page URL,
+ * e.g. /?mockError=401 | 413 | 415 | 422 | invalid_mapping | 429 | 503 | 500 | network.
  */
-function mockAuditError(): ApiError | null {
+function mockUploadError(): ApiError | null {
   if (typeof window === "undefined") return null;
   const v = new URLSearchParams(window.location.search).get("mockError");
   if (!v) return null;
   if (v === "network") return new ApiError("unavailable");
+  if (v === "invalid_mapping") return new ApiError("invalid_mapping", 422);
   const status = Number(v);
-  return Number.isInteger(status) && status >= 400 ? new ApiError(errorKindForStatus(status), status) : null;
+  return Number.isInteger(status) && status >= 400 ? new ApiError(errorKindFor(status, status === 422 ? "no_company_column" : undefined), status) : null;
 }
 
 // Mocks are loaded lazily so a build with NEXT_PUBLIC_USE_MOCKS!=true does not ship them.
@@ -70,6 +97,7 @@ const mocks = {
   funds: () => import("@/mocks/funds_search.json").then((m) => m.default as FundSearchResult[]),
   profile: () => import("@/mocks/fund_profile.json").then((m) => m.default as FundProfile),
   audit: () => import("@/mocks/audit.json").then((m) => m.default as Audit),
+  preview: () => import("@/mocks/audit_preview.json").then((m) => m.default as CrmPreview),
   demo: () => import("@/mocks/audit_demo.json").then((m) => m.default as Audit),
   deals: () => import("@/mocks/deal_details.json").then((m) => m.default as Record<string, DealDetail>),
 };
@@ -95,34 +123,53 @@ export async function getFundProfile(fundId: string): Promise<FundProfile> {
   return http(`/api/funds/${encodeURIComponent(fundId)}/profile`);
 }
 
+function uploadForm(file: File, mapping?: CrmMapping | null): FormData {
+  const form = new FormData();
+  form.append("crm_csv", file); // sent with the browser's own content type; the backend detects .csv/.xlsx itself
+  if (mapping) form.append("mapping", JSON.stringify(mapping));
+  return form;
+}
+
+function accessHeaders(accessCode?: string): HeadersInit | undefined {
+  const code = accessCode?.trim();
+  return code ? { "X-Access-Code": code } : undefined;
+}
+
+export async function previewCrm(input: { file: File; mapping?: CrmMapping | null; accessCode?: string }): Promise<CrmPreview> {
+  if (USE_MOCKS) {
+    const simulated = mockUploadError();
+    if (simulated) {
+      await delay(null, 400);
+      throw simulated;
+    }
+    const preview = await mocks.preview();
+    const mapping = input.mapping ?? preview.mapping;
+    return delay({ ...preview, file_type: /\.xlsx$/i.test(input.file.name) ? "xlsx" : "csv", mapping }, 400);
+  }
+  return http("/api/audit/preview", {
+    method: "POST",
+    body: uploadForm(input.file, input.mapping),
+    headers: accessHeaders(input.accessCode),
+  });
+}
+
 export async function runAudit(input: {
   fundId: string;
   peerIds: string[];
-  crmCsv: File;
+  crmFile: File;
+  mapping?: CrmMapping | null;
   accessCode?: string;
 }): Promise<Audit> {
   if (USE_MOCKS) {
-    const simulated = mockAuditError();
-    if (simulated) {
-      await delay(null, 600);
-      throw simulated;
-    }
     const [audit, funds] = await Promise.all([mocks.audit(), mocks.funds()]);
     const fund = funds.find((f) => f.id === input.fundId) ?? audit.fund;
     const peers = input.peerIds.map((id) => funds.find((f) => f.id === id)).filter(Boolean) as FundSearchResult[];
     return delay({ ...audit, fund, peers: peers.length ? peers : audit.peers }, 900);
   }
-  const form = new FormData();
+  const form = uploadForm(input.crmFile, input.mapping);
   form.append("fund_id", input.fundId);
   form.append("peer_ids", input.peerIds.join(","));
-  // The backend only accepts text/csv; browsers report CSVs as "", text/plain or application/vnd.ms-excel.
-  form.append("crm_csv", new File([input.crmCsv], input.crmCsv.name, { type: "text/csv" }));
-  const code = input.accessCode?.trim();
-  return http("/api/audit", {
-    method: "POST",
-    body: form,
-    headers: code ? { "X-Access-Code": code } : undefined,
-  });
+  return http("/api/audit", { method: "POST", body: form, headers: accessHeaders(input.accessCode) });
 }
 
 export async function getDemoAudit(): Promise<Audit> {

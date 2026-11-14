@@ -1,0 +1,13 @@
+{
+  "file_type": "xlsx",
+  "columns": ["Deal Name", "Associated Company", "Company Domain Name", "Deal Stage", "Create Date", "Deal Owner"],
+  "mapping": { "company": "Associated Company", "website": "Company Domain Name", "status": "Deal Stage", "date": "Create Date" },
+  "row_count": 412,
+  "skipped_rows": 3,
+  "matched_rows": 389,
+  "status_counts": { "invested": 12, "passed": 240, "in_review": 151, "seen": 9 },
+  "sample_rows": [
+    { "company": "Vayu Robotics", "website": "vayu-robotics.se", "status": "passed", "raw_status": "Closed lost", "date": "2024-06-14", "matched": true }
+  ],
+  "warnings": []
+}

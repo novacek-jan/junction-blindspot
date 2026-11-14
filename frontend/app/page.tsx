@@ -6,14 +6,19 @@ import { AppShell } from "@/components/AppShell";
 import { FundSearch } from "@/components/FundSearch";
 import { ProfileCard } from "@/components/ProfileCard";
 import { Icon } from "@/components/Icon";
-import { ApiError, ERROR_MESSAGES, getFundProfile, runAudit } from "@/lib/api";
+import { ApiError, DEMO_FALLBACK, ERROR_MESSAGES, getFundProfile, previewCrm, runAudit } from "@/lib/api";
 import { clearAudit, saveAudit } from "@/lib/auditStore";
-import type { FundProfile, FundSearchResult, OrgRef } from "@/lib/types";
+import type { CrmField, CrmMapping, CrmPreview, FundProfile, FundSearchResult, OrgRef } from "@/lib/types";
 
 type Peer = OrgRef & { co_investments?: number };
 
-const MAX_CSV_BYTES = 2 * 1024 * 1024;
-const CSV_MIME = new Set(["text/csv", "application/vnd.ms-excel", "text/plain", "application/csv"]);
+const MAX_FILE_BYTES = 2 * 1024 * 1024;
+const CRM_FIELDS: { key: CrmField; label: string }[] = [
+  { key: "company", label: "Company" },
+  { key: "website", label: "Website" },
+  { key: "status", label: "Status" },
+  { key: "date", label: "Date" },
+];
 
 export default function StartPage() {
   const router = useRouter();
@@ -24,6 +29,9 @@ export default function StartPage() {
   const [removed, setRemoved] = useState<Peer[]>([]);
   const [addingPeer, setAddingPeer] = useState(false);
   const [csv, setCsv] = useState<File | null>(null);
+  const [preview, setPreview] = useState<CrmPreview | null>(null);
+  const [previewing, setPreviewing] = useState(false);
+  const previewSeq = useRef(0);
   const [dragOver, setDragOver] = useState(false);
   const [running, setRunning] = useState<"audit" | "demo" | null>(null);
   const [error, setErrorState] = useState<{ message: string; offerDemo: boolean } | null>(null);
@@ -35,7 +43,7 @@ export default function StartPage() {
   function setError(e: unknown) {
     if (e == null) return setErrorState(null);
     if (typeof e === "string") return setErrorState({ message: e, offerDemo: false });
-    if (e instanceof ApiError) return setErrorState({ message: e.message, offerDemo: e.kind === "unavailable" });
+    if (e instanceof ApiError) return setErrorState({ message: e.message, offerDemo: DEMO_FALLBACK.has(e.kind) });
     setErrorState({ message: ERROR_MESSAGES.other, offerDemo: false });
   }
 
@@ -68,21 +76,36 @@ export default function StartPage() {
 
   function acceptFile(f: File | undefined) {
     if (!f) return;
-    const isCsv = /\.csv$/i.test(f.name) && (f.type === "" || CSV_MIME.has(f.type));
-    if (!isCsv) {
-      setError("Please upload a .csv file with columns company, website, status, date.");
-      return;
-    }
-    if (f.size > MAX_CSV_BYTES) {
-      setError(`That file is ${(f.size / 1024 / 1024).toFixed(1)} MB. The limit is 2 MB.`);
-      return;
-    }
-    if (f.size === 0) {
-      setError("That file is empty.");
-      return;
-    }
+    if (!/\.(csv|xlsx)$/i.test(f.name)) return setError(ERROR_MESSAGES.bad_format);
+    if (f.size > MAX_FILE_BYTES) return setError(ERROR_MESSAGES.too_large);
+    if (f.size === 0) return setError("That file is empty.");
     setError(null);
     setCsv(f);
+    setPreview(null);
+    void loadPreview(f, null);
+  }
+
+  // Reads the upload on the backend (no Cala calls) so the user can confirm the detected columns.
+  async function loadPreview(file: File, mapping: CrmMapping | null) {
+    const seq = ++previewSeq.current;
+    setPreviewing(true);
+    setError(null);
+    try {
+      const p = await previewCrm({ file, mapping, accessCode });
+      if (seq === previewSeq.current) setPreview(p);
+    } catch (e) {
+      if (seq !== previewSeq.current) return;
+      setPreview(null);
+      setError(e);
+      if (e instanceof ApiError && e.kind === "auth") accessRef.current?.focus();
+    } finally {
+      if (seq === previewSeq.current) setPreviewing(false);
+    }
+  }
+
+  function changeMapping(field: CrmField, column: string) {
+    if (!csv || !preview) return;
+    void loadPreview(csv, { ...preview.mapping, [field]: column || null });
   }
 
   function startDemo() {
@@ -96,7 +119,7 @@ export default function StartPage() {
     setRunning("audit");
     setError(null);
     try {
-      const audit = await runAudit({ fundId: fund!.id, peerIds: peers.map((p) => p.id), crmCsv: csv!, accessCode });
+      const audit = await runAudit({ fundId: fund!.id, peerIds: peers.map((p) => p.id), crmFile: csv!, mapping: preview?.mapping, accessCode });
       saveAudit(audit);
       router.push("/results");
     } catch (e) {
@@ -106,7 +129,7 @@ export default function StartPage() {
     }
   }
 
-  const canRun = !!fund && !!csv && peers.length > 0 && !running;
+  const canRun = !!fund && !!csv && !!preview && !previewing && peers.length > 0 && !running;
 
   return (
     <AppShell crumb="New audit">
@@ -204,6 +227,31 @@ export default function StartPage() {
           </div>
         ) : null}
 
+        {/* Access code: only part of the real-audit flow, never the demo */}
+        {profile ? (
+          <div className="animate-fade-in flex flex-col gap-2">
+            <label htmlFor="access-code" className="flex items-center justify-between">
+              <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Access code</span>
+              <span className="text-[11px] text-slate-400">Optional · required for real audits on the live backend</span>
+            </label>
+            <input
+              id="access-code"
+              ref={accessRef}
+              type="password"
+              autoComplete="off"
+              spellCheck={false}
+              value={accessCode}
+              onChange={(e) => setAccessCode(e.target.value)}
+              onBlur={() => {
+                // Retry reading the file once a code is entered after a 401.
+                if (csv && !preview && !previewing && accessCode.trim()) void loadPreview(csv, null);
+              }}
+              placeholder="Enter the code you were given"
+              className="h-10 w-full max-w-xs rounded-lg border border-slate-200 bg-white px-3 text-sm text-ink outline-none transition-all placeholder:text-slate-400 focus:border-ink focus:shadow-[0_0_0_2px_rgba(2,132,199,0.15)]"
+            />
+          </div>
+        ) : null}
+
         {/* 3. CSV */}
         {profile ? (
           <div className="animate-fade-in flex flex-col gap-2">
@@ -242,43 +290,28 @@ export default function StartPage() {
               ) : (
                 <span className="flex flex-col gap-0.5">
                   <span className="text-sm font-medium text-ink">
-                    Drop your CRM export (CSV) or <span className="text-sky-600 underline underline-offset-2">browse files</span>
+                    Drop your CRM export or <span className="text-sky-600 underline underline-offset-2">browse files</span>
                   </span>
-                  <span className="text-xs text-slate-400">Columns: company, website, status (invested | passed | in_review), date</span>
+                  <span className="text-xs text-slate-400">.csv or .xlsx · max 2 MB</span>
                 </span>
               )}
             </button>
             <input
               ref={fileRef}
               type="file"
-              accept=".csv,text/csv"
+              accept=".csv,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
               className="hidden"
               onChange={(e) => {
                 acceptFile(e.target.files?.[0]);
                 e.target.value = "";
               }}
             />
-          </div>
-        ) : null}
-
-        {/* Access code: only part of the real-audit flow, never the demo */}
-        {profile ? (
-          <div className="animate-fade-in flex flex-col gap-2">
-            <label htmlFor="access-code" className="flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Access code</span>
-              <span className="text-[11px] text-slate-400">Optional · required for real audits on the live backend</span>
-            </label>
-            <input
-              id="access-code"
-              ref={accessRef}
-              type="password"
-              autoComplete="off"
-              spellCheck={false}
-              value={accessCode}
-              onChange={(e) => setAccessCode(e.target.value)}
-              placeholder="Enter the code you were given"
-              className="h-10 w-full max-w-xs rounded-lg border border-slate-200 bg-white px-3 text-sm text-ink outline-none transition-all placeholder:text-slate-400 focus:border-ink focus:shadow-[0_0_0_2px_rgba(2,132,199,0.15)]"
-            />
+            {previewing && !preview ? (
+              <p className="flex items-center gap-2 text-xs text-zinc-500">
+                <Icon name="spinner" className="size-3.5 animate-spin" /> Reading file…
+              </p>
+            ) : null}
+            {preview ? <PreviewLine preview={preview} busy={previewing} onChange={changeMapping} /> : null}
           </div>
         ) : null}
 
@@ -321,7 +354,7 @@ export default function StartPage() {
             </button>
             {!canRun && !running ? (
               <p className="text-center text-xs text-zinc-400">
-                {!csv ? "Add your CRM export to run the audit." : "Pick at least one peer fund."}
+                {!csv ? "Add your CRM export to run the audit." : !preview ? (previewing ? "" : "Upload the file again.") : "Pick at least one peer fund."}
               </p>
             ) : null}
           </div>
@@ -333,6 +366,45 @@ export default function StartPage() {
         )}
       </div>
     </AppShell>
+  );
+}
+
+function PreviewLine({
+  preview,
+  busy,
+  onChange,
+}: {
+  preview: CrmPreview;
+  busy: boolean;
+  onChange: (field: CrmField, column: string) => void;
+}) {
+  return (
+    <div className="flex flex-col gap-2" aria-busy={busy}>
+      <p className="text-sm text-ink" role="status">
+        We read {preview.row_count.toLocaleString("en-US")} companies
+        {preview.matched_rows != null ? `, ${preview.matched_rows.toLocaleString("en-US")} matched in Cala` : ""}.
+      </p>
+      <div className="flex flex-wrap gap-2">
+        {CRM_FIELDS.map(({ key, label }) => (
+          <label key={key} className="flex items-center gap-1.5 text-[11px] text-zinc-500">
+            {label}
+            <select
+              value={preview.mapping[key] ?? ""}
+              disabled={busy}
+              onChange={(e) => onChange(key, e.target.value)}
+              className="h-7 max-w-[11rem] rounded-md border border-slate-200 bg-white px-1.5 text-xs text-ink outline-none focus:border-ink disabled:opacity-60"
+            >
+              <option value="">—</option>
+              {preview.columns.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </select>
+          </label>
+        ))}
+      </div>
+    </div>
   );
 }
 

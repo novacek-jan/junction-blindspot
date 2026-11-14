@@ -84,3 +84,25 @@ export type DealDetail = {
   recent_news: { title: string; date: string; source: string; url: string }[];
   sources: Source[];
 };
+
+// POST /api/audit/preview
+export type CrmField = "company" | "website" | "status" | "date";
+export type CrmMapping = Record<CrmField, string | null>;
+export type CrmPreview = {
+  file_type: "csv" | "xlsx";
+  columns: string[];
+  mapping: CrmMapping;
+  row_count: number;
+  skipped_rows: number;
+  matched_rows: number | null; // null when the backend has no live data
+  status_counts: Record<"invested" | "passed" | "in_review" | "seen", number>;
+  sample_rows: {
+    company: string;
+    website: string | null;
+    status: string;
+    raw_status: string | null;
+    date: string | null;
+    matched: boolean;
+  }[];
+  warnings: string[];
+};
