@@ -773,7 +773,7 @@ def test_live_cala_client_fails_fast_on_429(monkeypatch):
 
     def boom(*a, **k):
         raise urllib.error.HTTPError(cala_client.MCP_URL, 429, "Too Many Requests", {}, io.BytesIO(b""))
-    monkeypatch.setattr(cala_client.urllib.request, "urlopen", boom)
+    monkeypatch.setattr(cala_client, "open_url", boom)
     t0 = time.perf_counter()
     assert c.call("entity_retrieval", {"entity_id": "x"}, cache=False) is None
     assert time.perf_counter() - t0 < 0.5
@@ -902,10 +902,64 @@ def test_health_cala_http_answer_counts_as_reachable(client, probe_env, monkeypa
                         lambda *a, **k: [(socket.AF_INET, socket.SOCK_STREAM, 6, "", ("16.170.186.71", 443))])
     monkeypatch.setattr(probe_env.socket, "create_connection", lambda *a, **k: Sock())
     monkeypatch.setattr(probe_env.ssl, "create_default_context", lambda: Ctx())
-    monkeypatch.setattr(probe_env.urllib.request, "urlopen", answer)
+    monkeypatch.setattr(probe_env, "open_url", answer)
     r = client.get("/api/health?cala=1")
     c = r.json()["cala"]
     assert c["tcp_connect"] and c["tls"] and c["reachable"] and c["http_status"] == 403
     assert seen["timeout"] == 3.0 and c["cached"] is False
+    assert c["ip_family"] == "ipv4" and set(c["steps_ms"]) == {"dns", "tcp", "tls", "http"}
+    assert all(isinstance(v, int) for v in c["steps_ms"].values()) and c["total_ms"] >= c["steps_ms"]["http"]
     assert client.get("/api/health?cala=1").json()["cala"]["cached"] is True     # at most once per 30 s
     assert "secret-key-123" not in r.text
+
+
+# ---------------------------------------------------------------- IPv4-only Cala HTTPS
+
+def test_cala_connections_resolve_ipv4_only(monkeypatch):
+    import socket
+    import cala_client
+    asked = []
+
+    class FakeSock:
+        def __init__(self, *a):
+            self.family = a[0]
+
+        def settimeout(self, t):
+            self.timeout = t
+
+        def connect(self, addr):
+            self.addr = addr
+
+    def getaddrinfo(host, port, family=0, type=0, *a):
+        asked.append(family)
+        return [(socket.AF_INET, socket.SOCK_STREAM, 6, "", ("16.170.186.71", port))]
+    monkeypatch.setattr(cala_client.socket, "getaddrinfo", getaddrinfo)
+    monkeypatch.setattr(cala_client.socket, "socket", FakeSock)
+    sock = cala_client.ipv4_create_connection(("api.cala.ai", 443), 3.0)
+    assert asked == [socket.AF_INET] and sock.addr == ("16.170.186.71", 443) and sock.timeout == 3.0
+
+
+def test_cala_https_keeps_sni_and_certificate_checks(monkeypatch):
+    import ssl
+    import cala_client
+    wrapped = {}
+
+    class Ctx:
+        check_hostname, verify_mode = True, ssl.CERT_REQUIRED
+
+        def wrap_socket(self, sock, server_hostname=None):
+            wrapped["server_hostname"] = server_hostname
+            return sock
+
+    class Sock:
+        def setsockopt(self, *a):
+            pass
+    monkeypatch.setattr(cala_client, "ipv4_create_connection", lambda addr, timeout, src: Sock())
+    conn = cala_client.IPv4HTTPSConnection("api.cala.ai", 443, timeout=3, context=Ctx())
+    conn.connect()
+    assert wrapped["server_hostname"] == "api.cala.ai"                 # SNI is the host name, not the IP
+    default = cala_client.IPv4HTTPSConnection("api.cala.ai", 443)._context
+    assert default.check_hostname and default.verify_mode == ssl.CERT_REQUIRED   # verification stays on
+    # every Cala call goes through the IPv4 opener
+    handlers = [type(h).__name__ for h in cala_client._opener.handlers]
+    assert "_IPv4HTTPSHandler" in handlers and "HTTPSHandler" not in handlers

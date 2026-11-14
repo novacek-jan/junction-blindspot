@@ -61,7 +61,9 @@ The Aiven PostgreSQL service must allow connections from your machine (*check* *
   names the step that fails (`dns`, `tcp`, `tls`, `http`) and `error_type` how (`timeout` = packets silently
   dropped). Aiven Runtime documents only blocked outbound ports 23, 25, 119, 135, 137-139, 179, 445, 465 and 631
   ([ports](https://aiven.io/docs/products/runtime/ports)); 443 is not among them and no egress setting is
-  documented. While Cala is unreachable the live check is paused for 60 s at a time and audits use stored data.
+  documented. While Cala is unreachable the live check is paused for 60 s at a time and audits use stored data. All Cala calls connect over IPv4 only: on Aiven `api.cala.ai`
+  also resolves to IPv6 addresses but the container has no working IPv6 route, and trying them first cost ~9 s
+  per call (`ip_family: "ipv4"` in the probe). Expected `steps_ms.http` is well under 1 s.
 - **`TRUSTED_PROXY_HOPS` check:** open the application logs and look at the client address in the uvicorn access log lines.
   - If every request shows the same private address (10.x, 172.16–31.x, 192.168.x), there is a proxy in front: set `TRUSTED_PROXY_HOPS=1` and redeploy.
   - If you see real public client IPs, keep `0`.

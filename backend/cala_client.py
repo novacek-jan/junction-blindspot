@@ -6,8 +6,10 @@ Relationship items must be followed by their top-level `id` (entity id), never b
 """
 from __future__ import annotations
 
+import http.client
 import json
 import os
+import socket
 import threading
 import time
 import urllib.error
@@ -21,6 +23,60 @@ MCP_URL = "https://api.cala.ai/mcp/"
 PAGE = 100
 MIN_INTERVAL = 0.25   # seconds between request starts, shared by all threads
 MAX_ATTEMPTS = 8
+
+
+# ---------------------------------------------------------------- IPv4-only HTTPS
+# Aiven Runtime resolves api.cala.ai to IPv6 addresses too but has no working IPv6 route: the default resolver order
+# tries every IPv6 address first and each times out before IPv4 (~9 s). All Cala HTTP calls therefore connect over
+# IPv4 only. TLS is unchanged: SNI and certificate/hostname checks use the host name, not the IP.
+
+def ipv4_create_connection(address, timeout=socket._GLOBAL_DEFAULT_TIMEOUT, source_address=None):
+    """socket.create_connection restricted to AF_INET addresses."""
+    host, port = address
+    err = None
+    for family, socktype, proto, _, sockaddr in socket.getaddrinfo(host, port, socket.AF_INET, socket.SOCK_STREAM):
+        sock = None
+        try:
+            sock = socket.socket(family, socktype, proto)
+            if timeout is not socket._GLOBAL_DEFAULT_TIMEOUT:
+                sock.settimeout(timeout)
+            if source_address:
+                sock.bind(source_address)
+            sock.connect(sockaddr)
+            return sock
+        except OSError as e:
+            err = e
+            if sock is not None:
+                sock.close()
+    raise err or OSError(f"no IPv4 address for {host}")
+
+
+class IPv4HTTPSConnection(http.client.HTTPSConnection):
+    """HTTPSConnection that connects over IPv4 only; the TLS wrap (SNI = host name, certificate and hostname
+    verification from the default context) is the standard library's."""
+
+    def connect(self):
+        self.sock = ipv4_create_connection((self.host, self.port), self.timeout, self.source_address)
+        try:
+            self.sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+        except OSError:
+            pass
+        if self._tunnel_host:
+            self._tunnel()
+        self.sock = self._context.wrap_socket(self.sock, server_hostname=self._tunnel_host or self.host)
+
+
+class _IPv4HTTPSHandler(urllib.request.HTTPSHandler):
+    def https_open(self, req):
+        return self.do_open(IPv4HTTPSConnection, req, context=self._context)
+
+
+_opener = urllib.request.build_opener(_IPv4HTTPSHandler())
+
+
+def open_url(req: urllib.request.Request, timeout: float):
+    """urlopen for Cala: IPv4 only (see above)."""
+    return _opener.open(req, timeout=timeout)
 
 
 class PaymentRequired(Exception):
@@ -82,7 +138,7 @@ class Cala:
                 self.api_calls += 1
             try:
                 req = urllib.request.Request(MCP_URL, data=body, headers=headers, method="POST")
-                with urllib.request.urlopen(req, timeout=self.http_timeout) as resp:
+                with open_url(req, timeout=self.http_timeout) as resp:
                     raw = resp.read().decode()
             except urllib.error.HTTPError as e:
                 if e.code in (401, 402, 403):

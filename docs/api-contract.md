@@ -43,12 +43,16 @@ Common types:
 30 s, `cached` says whether this is a reused result; every step capped at 3 s; never the key):
 ```json
 { "ok": true, "live_data": true,
-  "cala": { "key_set": true, "host": "api.cala.ai", "dns_resolves": true, "dns_ms": 156, "ipv4": 3, "ipv6": 0,
-            "tcp_connect": true, "tcp_ms": 40, "tls": true, "tls_ms": 35,
-            "reachable": true, "http_status": 200, "ms": 535, "error_type": null, "failed_step": null,
+  "cala": { "key_set": true, "host": "api.cala.ai", "ip_family": "ipv4", "dns_resolves": true, "dns_ms": 62,
+            "ipv4": 3, "ipv6": 0, "tcp_connect": true, "tcp_ms": 16, "tls": true, "tls_ms": 33,
+            "reachable": true, "http_status": 200, "ms": 379, "error_type": null, "failed_step": null,
+            "total_ms": 491, "steps_ms": { "dns": 62, "tcp": 16, "tls": 33, "http": 379 },
             "cached": false, "live_check_paused": false } }
 ```
-Steps: DNS → TCP connect to 443 → TLS handshake → one `entity_search` call. `failed_step` (`dns`, `tcp`, `tls`,
+Steps: DNS → TCP connect to 443 → TLS handshake → one `entity_search` call. **Every Cala call connects over
+IPv4 only** (`ip_family`; the hosting has no working IPv6 route), with TLS SNI and certificate checks on the host
+name. `ipv4`/`ipv6` count the addresses DNS returned; `steps_ms` holds each step's time (`ms` = the HTTP step),
+`total_ms` the whole probe. `failed_step` (`dns`, `tcp`, `tls`,
 `http`) is the first step that failed, `error_type` its exception class (`timeout`, `gaierror`, `HTTPError`, ...).
 `reachable` is true for any HTTP answer, also 401/402/403/429 (`http_status`). `live_check_paused`: the live check
 is in its 60 s pause after a refusal or an offline result.
