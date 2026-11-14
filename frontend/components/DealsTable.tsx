@@ -7,12 +7,12 @@ export function sourceLabel(s: Source): string {
   return [(s.rank && RANK_LABEL[s.rank]) || "Source", s.date ? formatDate(s.date, true) : null].filter(Boolean).join(" · ");
 }
 
-// Investor organisations first (leads first); individuals only when a round names no organisation.
+// VCs first (is_vc from the backend's VC rule; older responses: organisations), leads first within them.
 function vcInvestors(investors: Investor[] = []): { names: string; angelsOnly: boolean } {
-  const orgs = investors.filter((i) => i.type !== "Person");
-  const list = orgs.length ? orgs : investors;
+  const vcs = investors.filter((i) => (i.is_vc ?? i.type !== "Person"));
+  const list = vcs.length ? vcs : investors;
   const sorted = [...list.filter((i) => i.is_lead), ...list.filter((i) => !i.is_lead)];
-  return { names: sorted.map((i) => i.name).join(", "), angelsOnly: !orgs.length && investors.length > 0 };
+  return { names: sorted.map((i) => i.name).join(", "), angelsOnly: !vcs.length && investors.length > 0 };
 }
 
 /** "Companies you never saw". Rows keep the backend's order (round amount, then date); a click opens the side panel. */

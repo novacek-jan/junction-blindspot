@@ -16,17 +16,8 @@
       "SERIES_A"
     ],
     "countries": [
-      "Austria",
-      "Denmark",
       "Finland",
-      "France",
-      "Germany",
-      "Iceland",
-      "Liechtenstein",
-      "Monaco",
-      "Norway",
-      "Sweden",
-      "Switzerland"
+      "Sweden"
     ],
     "industries": [
       {
@@ -46,7 +37,7 @@
   },
   "headline": {
     "never_seen": 3,
-    "text": "3 companies in your thesis raised since 2022 and never hit your CRM"
+    "text": "3 VC-backed companies in your thesis raised since 2022 and never hit your CRM"
   },
   "summary": {
     "market_companies": 8,
@@ -78,13 +69,15 @@
             "id": "6ba00a20-2cb4-4559-8fe2-f39484a9e5f6",
             "name": "Creandum",
             "type": "Organization",
-            "is_lead": true
+            "is_lead": true,
+            "is_vc": true
           },
           {
             "id": "c0ffee00-1111-4a0b-9c1d-0000000000b2",
             "name": "Giant Ventures",
             "type": "Organization",
-            "is_lead": false
+            "is_lead": false,
+            "is_vc": true
           }
         ],
         "sources": [
@@ -107,7 +100,7 @@
       "company_id": "0b6f4c1e-1111-4a0b-9c1d-000000000002",
       "name": "Kelvin Grid",
       "website": "kelvingrid.de",
-      "country": "Germany",
+      "country": "Finland",
       "industries": [
         "Renewable energy"
       ],
@@ -120,16 +113,18 @@
         "date_kind": "announcement",
         "investors": [
           {
-            "id": "c0ffee00-1111-4a0b-9c1d-0000000000b3",
-            "name": "Climate Angels Network",
+            "id": "c0ffee00-1111-4a0b-9c1d-0000000000b6",
+            "name": "Voima Ventures",
             "type": "Organization",
-            "is_lead": true
+            "is_lead": true,
+            "is_vc": true
           },
           {
             "id": "c0ffee00-1111-4a0b-9c1d-0000000000b4",
             "name": "Anna Example",
             "type": "Person",
-            "is_lead": false
+            "is_lead": false,
+            "is_vc": false
           }
         ],
         "sources": [
@@ -157,10 +152,18 @@
         "date_kind": "event",
         "investors": [
           {
+            "id": "c0ffee00-1111-4a0b-9c1d-0000000000b7",
+            "name": "Maki.vc",
+            "type": "Company",
+            "is_lead": true,
+            "is_vc": true
+          },
+          {
             "id": "c0ffee00-1111-4a0b-9c1d-0000000000b5",
             "name": "University Of Example Fund",
             "type": "Organization",
-            "is_lead": false
+            "is_lead": false,
+            "is_vc": false
           }
         ],
         "sources": [
@@ -181,9 +184,65 @@
       "companies": 1
     },
     {
-      "id": "c0ffee00-1111-4a0b-9c1d-0000000000b3",
-      "name": "Climate Angels Network",
+      "id": "c0ffee00-1111-4a0b-9c1d-0000000000b2",
+      "name": "Giant Ventures",
       "companies": 1
+    },
+    {
+      "id": "c0ffee00-1111-4a0b-9c1d-0000000000b7",
+      "name": "Maki.vc",
+      "companies": 1
+    },
+    {
+      "id": "c0ffee00-1111-4a0b-9c1d-0000000000b6",
+      "name": "Voima Ventures",
+      "companies": 1
+    }
+  ],
+  "breakdown": [
+    {
+      "country": "Finland",
+      "stage": "PRE_SEED",
+      "market": 1,
+      "never_seen": 1
+    },
+    {
+      "country": "Finland",
+      "stage": "SEED",
+      "market": 2,
+      "never_seen": 1
+    },
+    {
+      "country": "Finland",
+      "stage": "SERIES_A",
+      "market": 0,
+      "never_seen": 0
+    },
+    {
+      "country": "Sweden",
+      "stage": "PRE_SEED",
+      "market": 0,
+      "never_seen": 0
+    },
+    {
+      "country": "Sweden",
+      "stage": "SEED",
+      "market": 2,
+      "never_seen": 0
+    },
+    {
+      "country": "Sweden",
+      "stage": "SERIES_A",
+      "market": 3,
+      "never_seen": 1
+    }
+  ],
+  "patterns": [
+    {
+      "kind": "country",
+      "text": "2 of the 3 are in Finland",
+      "value": 2,
+      "total": 3
     }
   ],
   "market_coverage": {

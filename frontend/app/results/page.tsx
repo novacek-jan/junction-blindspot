@@ -106,10 +106,7 @@ export default function ResultsPage() {
         <Hero neverSeen={s.never_seen} market={s.market_companies} />
         <Stats audit={audit} />
 
-        <div className="grid grid-cols-1 items-start gap-8 empty:hidden xl:grid-cols-2">
-          <BreakdownMatrix breakdown={audit.breakdown} />
-          <KeyPatterns patterns={audit.patterns} />
-        </div>
+        <BreakdownAndPatterns audit={audit} />
 
         <DealsTable rows={audit.never_seen} onOpen={setOpen} />
 
@@ -117,6 +114,19 @@ export default function ResultsPage() {
       </div>
       {open ? <DealPanel row={open} fundId={audit.fund.id} onClose={closePanel} /> : null}
     </AppShell>
+  );
+}
+
+// Side by side when both exist, otherwise the one that exists takes the full width.
+function BreakdownAndPatterns({ audit }: { audit: Audit }) {
+  const hasMatrix = (audit.breakdown ?? []).some((c) => c.market > 0);
+  const hasPatterns = (audit.patterns ?? []).length > 0;
+  if (!hasMatrix && !hasPatterns) return null;
+  return (
+    <div className={`grid grid-cols-1 items-start gap-8 ${hasMatrix && hasPatterns ? "xl:grid-cols-[3fr_2fr]" : ""}`}>
+      {hasMatrix ? <BreakdownMatrix cells={audit.breakdown!} /> : null}
+      {hasPatterns ? <KeyPatterns patterns={audit.patterns!} /> : null}
+    </div>
   );
 }
 

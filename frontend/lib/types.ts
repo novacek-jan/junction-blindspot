@@ -22,7 +22,7 @@ export type FundProfile = {
   sources: Source[];
 };
 
-export type Investor = { id: string; name: string; type?: string; is_lead: boolean };
+export type Investor = { id: string; name: string; type?: string; is_lead: boolean; is_vc?: boolean };
 
 export type BlindSpot = {
   company_id: string;
@@ -71,10 +71,14 @@ export type Audit = {
     priority_country?: string;
     priority_country_qualifying_companies?: number;
   };
-  // Being added to the contract by the backend; the page renders without them.
-  breakdown?: unknown;
-  patterns?: unknown;
+  // Newer fields: the page renders without them.
+  breakdown?: BreakdownCell[];
+  patterns?: Pattern[];
 };
+
+/** One thesis country × thesis stage: `market` companies, of which `never_seen`. */
+export type BreakdownCell = { country: string; stage: Stage; market: number; never_seen: number };
+export type Pattern = { kind: string; text: string; value: number; total: number };
 
 export type DemoEntry = { fund: OrgRef; default: boolean };
 
