@@ -1,0 +1,6 @@
+# SQLite database and its WAL/SHM side files never leave this machine
+*.db
+*.db-wal
+*.db-shm
+*.db-journal
+*.sqlite*
