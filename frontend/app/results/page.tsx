@@ -8,6 +8,7 @@ import { Chip } from "@/components/Chip";
 import { DealPanel } from "@/components/DealPanel";
 import { DealsTable } from "@/components/DealsTable";
 import { DotField } from "@/components/DotField";
+import { ResultsSkeleton } from "@/components/ResultsSkeleton";
 import { ApiError, ERROR_MESSAGES, getDemoAudit, getDemos, withTimeout } from "@/lib/api";
 import { loadUploadedAudit } from "@/lib/auditStore";
 import { liveUpdatedIds, longDate, regionLabel, sectorLabel, stageRange } from "@/lib/present";
@@ -165,7 +166,7 @@ function LiveLine({ check }: { check: LiveCheck }) {
     ? [
         "Rounds re-checked live with Cala",
         companies != null ? `${companies.toLocaleString("en-US")} ${companies === 1 ? "company" : "companies"}` : null,
-        seconds != null ? `${seconds < 10 ? Math.round(seconds * 10) / 10 : Math.round(seconds)} s` : null,
+        seconds != null ? (seconds < 1 ? "<1 s" : `${seconds < 10 ? Math.round(seconds * 10) / 10 : Math.round(seconds)} s`) : null,
       ]
     : [partial ? "Partly re-checked with Cala" : "Using stored Cala data"];
   if (updated > 0) parts.push(`${updated.toLocaleString("en-US")} new ${updated === 1 ? "round" : "rounds"} found`);
@@ -232,20 +233,3 @@ function EmptyState() {
   );
 }
 
-function ResultsSkeleton() {
-  return (
-    <div className="mx-auto flex w-full max-w-[1240px] animate-pulse flex-col gap-12 px-5 pb-16 pt-6 sm:px-10 2xl:max-w-[1480px]" aria-busy="true" aria-label="Loading audit">
-      <div className="flex flex-wrap gap-12">
-        <div className="flex flex-[1_1_520px] flex-col gap-5">
-          <div className="h-4 w-64 rounded bg-line" />
-          <div className="h-14 w-full rounded-lg bg-line" />
-          <div className="h-14 w-4/5 rounded-lg bg-line" />
-          <div className="h-8 w-2/3 rounded-full bg-line" />
-        </div>
-        <div className="h-72 flex-[1_1_420px] rounded-3xl bg-line/70" />
-      </div>
-      <div className="h-64 rounded-3xl bg-line/60" />
-      <div className="h-96 rounded-3xl bg-line/50" />
-    </div>
-  );
-}

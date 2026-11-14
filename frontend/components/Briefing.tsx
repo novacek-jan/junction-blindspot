@@ -75,9 +75,12 @@ export function Briefing({ briefing, rows, onOpen }: { briefing: BriefingT; rows
   );
 }
 
-/** Coverage: "Software · 22% seen" (worst first, then best), shown as chips instead of companies. */
+/** Coverage: "Software · 22% seen" (first letter capitalised) (worst first, then best), shown as chips instead of companies. */
 function sectorNames(ins: BriefingT["insights"][number]): string[] {
-  const chip = (name?: string | null, pct?: number | null) => (name ? (typeof pct === "number" ? `${name} · ${pct}% seen` : name) : null);
+  const chip = (raw?: string | null, pct?: number | null) => {
+    const name = raw?.trim() ? raw.trim()[0].toUpperCase() + raw.trim().slice(1) : null;
+    return name ? (typeof pct === "number" ? `${name} · ${pct}% seen` : name) : null;
+  };
   return [chip(ins.worst_industry, ins.worst_pct), chip(ins.best_industry, ins.best_pct)].filter((x): x is string => !!x);
 }
 

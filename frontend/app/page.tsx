@@ -6,6 +6,7 @@ import { AppShell } from "@/components/AppShell";
 import { FundSearch } from "@/components/FundSearch";
 import { Chip } from "@/components/Chip";
 import { Icon } from "@/components/Icon";
+import { ResultsSkeleton } from "@/components/ResultsSkeleton";
 import { ApiError, ERROR_MESSAGES, getFundProfile, previewCrm, runAudit } from "@/lib/api";
 import { saveUploadedAudit } from "@/lib/auditStore";
 import { regionLabel, sectorLabel, stageRange } from "@/lib/present";
@@ -99,6 +100,7 @@ export default function StartPage() {
   async function runRealAudit() {
     setAuditLoading(true);
     setError(null);
+    window.scrollTo({ top: 0 });
     try {
       const audit = await runAudit({ fundId: fund!.id, crmFile: csv!, mapping: preview?.mapping, accessCode });
       saveUploadedAudit(audit);
@@ -106,11 +108,21 @@ export default function StartPage() {
     } catch (e) {
       setError(e);
       setAuditLoading(false);
-      if (e instanceof ApiError && e.kind === "auth") accessRef.current?.focus();
+      if (e instanceof ApiError && e.kind === "auth") requestAnimationFrame(() => accessRef.current?.focus()); // the form remounts after the skeleton
     }
   }
 
   const canRun = !!fund && !!csv && !!preview && !previewing && !auditLoading;
+
+  // While the audit runs (matching, live re-check, briefing: can take 20 s+) show the results layout as a skeleton.
+  // Form state is kept; on an error the form comes back with the message.
+  if (auditLoading) {
+    return (
+      <AppShell active="new">
+        <ResultsSkeleton message={`Running the audit${fund ? ` for ${fund.name}` : ""}: re-checking rounds with Cala…`} />
+      </AppShell>
+    );
+  }
 
   return (
     <AppShell active="new">
