@@ -9,7 +9,8 @@ Cala has no investor-type field, so this is our rule, applied to round participa
      universities/research institutes, family offices/holdings/syndicates/angel networks;
   6. VC name patterns: state/regional VC, growth/PE, corporate VC arms (a corporate name + ventures/capital),
      then generic VC words (ventures, venture capital, capital, partners, fund, kapital, invest, .vc, ...);
-  7. anything else (corporates investing directly, persons typed as organisations, unknown names) is NOT a VC.
+  7. a name that looks like a person's (2-3 capitalised words, no organisation words) -> angel;
+  8. anything else (corporates investing directly, unknown names) is "other": NOT a VC.
 VC categories: vc, state_vc, cvc, growth_pe. Review list: data/vc_check.md (backend/vc_report.py).
 """
 from __future__ import annotations
@@ -86,7 +87,23 @@ def classify(name: Optional[str], entity_type: Optional[str] = None, role: Optio
         return "corporate", False
     if re.search(VC_WORDS, n):
         return "vc", True
+    if looks_like_person(name):
+        return "angel", False      # an individual Cala typed as an organisation (e.g. Elad Gil, Nat Friedman)
     return "other", False
+
+
+ORG_WORDS = re.compile(r"\b(ab|oy|as|aps|gmbh|ag|ltd|llc|inc|sa|bv|nv|group|labs?|capital|ventures?|fund|partners|"
+                       r"holding|invest|global|collective|club|network|studio|systems|technologies|bank|the|of|and|"
+                       r"for|vc|tech|ai|energy|health|bio|media|digital|foundation|institute|university)\b", re.I)
+
+
+def looks_like_person(name: Optional[str]) -> bool:
+    """Two or three capitalised words without organisation words: 'Cal Henderson', 'Ilkka Paananen'.
+    Only used as the last step for names nothing else matched (both outcomes are 'not a VC')."""
+    tokens = (name or "").replace("-", " ").split()
+    if not 2 <= len(tokens) <= 3 or ORG_WORDS.search(name or ""):
+        return False
+    return all(t[:1].isupper() and t[1:].islower() and t.isalpha() for t in tokens)
 
 
 class VCRule:

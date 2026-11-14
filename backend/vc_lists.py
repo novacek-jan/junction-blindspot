@@ -27,6 +27,23 @@ ALLOW = {
     "crv": "vc", "daphni": "vc", "compound": "vc", "squareone": "vc", "visionaries tomorrow": "vc",
     "corundum open innovation": "vc", "anthemis group": "vc", "xdeck management": "vc",
     "capitalg": "cvc", "nventures": "cvc",
+    # added after review of data/vc_check.md (2026-11-14)
+    "inventure": "vc", "inventure aktiebolag": "vc",   # Cala links Finnish Inventure's rounds to the Swedish AB
+    "pale blue dot": "vc", "expeditions": "vc", "superlyst": "vc", "kinnevik": "vc", "vnv global": "vc",
+    "katapult ocean": "vc", "nsi nordic science i": "vc", "nordic science investments": "vc",
+    "nsi nordic science investments": "vc", "play": "vc", "gv": "cvc", "gradient": "cvc", "forbion": "vc",
+    "healthcap": "vc", "partech": "vc", "project a": "vc", "kfund": "vc", "quantonation": "vc",
+    "global brain": "vc", "mmc": "vc", "g squared": "growth_pe", "hedosophia": "growth_pe", "eurazeo": "vc",
+    "seaya nova": "vc", "samsara biocapital l p": "vc", "advent life sciences": "vc", "iris": "vc",
+    "nfdg": "vc", "20vc product": "vc", "20vc fund": "vc", "kima": "vc", "kaya": "vc",
+    "founders factory": "vc", "fintech collective": "vc", "factorial funds management": "vc",
+    "factorial funds": "vc", "huggingfund by factorial": "vc", "newfund": "vc", "newfund heka": "vc",
+    "venturefriends": "vc", "runwayvc": "vc", "seedx": "vc", "heliad": "vc", "augmentum fintech": "vc",
+    "xora innovation": "vc", "in q tel": "cvc", "siegerlandfonds": "state_vc", "haatch": "vc",
+    "phasechange": "vc", "satgana": "vc", "sistafund": "vc", "shapers": "vc", "superlative": "vc",
+    "york ie": "vc", "betaworks": "vc", "amino collective": "vc", "crossventures": "vc", "earth": "vc",
+    "earth vc": "vc", "dreamhaven": "vc", "founders edge": "vc", "revent": "vc", "pitchdrive": "vc",
+    "protagonist": "vc", "bernina bioinvest": "vc",
     # state / regional VC
     "high tech grunderfonds": "state_vc", "htgf": "state_vc", "tesi": "state_vc", "tesi s p a": "state_vc",
     "bayern kapital": "state_vc", "bayern kapit": "state_vc", "aws grunderfonds": "state_vc", "bgf": "state_vc",

@@ -189,7 +189,13 @@ def test_reworded_insight_must_keep_the_verb(monkeypatch, tmp_path):
     ("University of Helsinki", "Organization", "INVESTOR", ("university_research", False)),
     ("Tencent Holdings", "Organization", "INVESTOR", ("corporate", False)),
     ("Eli Lilly and Company", "Company", "INVESTOR", ("corporate", False)),
-    ("Daniel Gross", "Organization", "INVESTOR", ("other", False)),
+    ("Daniel Gross", "Organization", "INVESTOR", ("angel", False)),
+    ("Ilkka Paananen", "Organization", "INVESTOR", ("angel", False)),
+    ("Kima", "Organization", "INVESTOR", ("vc", True)),
+    ("Pale Blue Dot", "Organization", "INVESTOR", ("vc", True)),
+    ("In-Q-Tel", "Organization", "INVESTOR", ("cvc", True)),
+    ("Siegerlandfonds", "Organization", "INVESTOR", ("state_vc", True)),
+    ("Playrix", "Company", "INVESTOR", ("other", False)),
 ])
 def test_vc_rule(name, etype, role, expected):
     from vc import classify
