@@ -39,7 +39,7 @@ class Cala:
 
     # -- core
 
-    def call(self, tool: str, args: dict, cache: bool = True) -> Optional[dict]:
+    def call(self, tool: str, args: dict, cache: bool = True, cache_only: bool = False) -> Optional[dict]:
         key = tool + ":" + json.dumps(args, sort_keys=True)
         if cache:
             hit = db.cache_get(key)
@@ -47,6 +47,8 @@ class Cala:
                 with self._lock:
                     self.cache_hits += 1
                 return hit
+        if cache_only:
+            return None
         if not self._key:
             self._err(f"{tool}: CALA_API_KEY missing")
             return None
@@ -129,8 +131,8 @@ class Cala:
         res = self.call("entity_search", {"name": name, "entity_types": types, "limit": limit})
         return (res or {}).get("entities", [])
 
-    def knowledge_search(self, question: str) -> Optional[dict]:
-        return self.call("knowledge_search", {"input": question})
+    def knowledge_search(self, question: str, cache_only: bool = False) -> Optional[dict]:
+        return self.call("knowledge_search", {"input": question}, cache_only=cache_only)
 
     def retrieve(self, entity_id: str, properties: list[str], out: list[str] = (), inc: list[str] = ()) -> dict:
         """Retrieve properties plus *all* items of the given relationships (paged with limit/offset)."""

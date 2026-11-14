@@ -84,41 +84,38 @@
  ],
  "simulated_crm": true,
  "summary": {
-  "market_deals": 4,
+  "market_deals": 14,
   "in_pipeline": 2,
   "invested": 2,
   "passed": 0,
   "in_review": 0,
-  "never_seen": 2,
-  "coverage_pct": 50.0
+  "never_seen": 12,
+  "coverage_pct": 14.3
  },
  "venn": {
   "pipeline_only": 15,
   "overlap": 2,
-  "market_only": 2
+  "market_only": 12
  },
  "heatmap": {
   "countries": [
-   "United States",
    "Germany",
-   "Switzerland"
+   "United States",
+   "Switzerland",
+   "Austria",
+   "Canada",
+   "Sweden"
   ],
   "stages": [
    "PRE_SEED",
    "SEED",
-   "SERIES_B"
+   "SERIES_B",
+   "SERIES_C"
   ],
   "cells": [
    {
-    "country": "United States",
-    "stage": "SEED",
-    "total": 1,
-    "never_seen": 1,
-    "share": 1.0
-   },
-   {
-    "country": "United States",
-    "stage": "SERIES_B",
+    "country": "Germany",
+    "stage": "PRE_SEED",
     "total": 1,
     "never_seen": 1,
     "share": 1.0
@@ -126,9 +123,37 @@
    {
     "country": "Germany",
     "stage": "SEED",
+    "total": 2,
+    "never_seen": 1,
+    "share": 0.5
+   },
+   {
+    "country": "Germany",
+    "stage": "SERIES_B",
     "total": 1,
-    "never_seen": 0,
-    "share": 0.0
+    "never_seen": 1,
+    "share": 1.0
+   },
+   {
+    "country": "Germany",
+    "stage": "SERIES_C",
+    "total": 1,
+    "never_seen": 1,
+    "share": 1.0
+   },
+   {
+    "country": "United States",
+    "stage": "SEED",
+    "total": 2,
+    "never_seen": 2,
+    "share": 1.0
+   },
+   {
+    "country": "United States",
+    "stage": "SERIES_B",
+    "total": 2,
+    "never_seen": 2,
+    "share": 1.0
    },
    {
     "country": "Switzerland",
@@ -136,11 +161,153 @@
     "total": 1,
     "never_seen": 0,
     "share": 0.0
+   },
+   {
+    "country": "Switzerland",
+    "stage": "SEED",
+    "total": 1,
+    "never_seen": 1,
+    "share": 1.0
+   },
+   {
+    "country": "Austria",
+    "stage": "SERIES_B",
+    "total": 1,
+    "never_seen": 1,
+    "share": 1.0
+   },
+   {
+    "country": "Canada",
+    "stage": "SEED",
+    "total": 1,
+    "never_seen": 1,
+    "share": 1.0
+   },
+   {
+    "country": "Sweden",
+    "stage": "SEED",
+    "total": 1,
+    "never_seen": 1,
+    "share": 1.0
    }
   ]
  },
- "top_blind_spots": [],
+ "top_blind_spots": [
+  {
+   "title": "North American seed",
+   "detail": "You never saw 3 of 3 North American seed rounds your peers did since 2023."
+  },
+  {
+   "title": "DACH seed",
+   "detail": "You never saw 2 of 3 DACH seed rounds your peers did since 2023."
+  },
+  {
+   "title": "Speedinvest deals",
+   "detail": "Speedinvest led 2 peer deals that never reached your pipeline."
+  }
+ ],
  "never_seen_deals": [
+  {
+   "company_id": "a98a18cc-854a-4357-b049-91585d4afb40",
+   "name": "Pliant GmbH",
+   "website": "getpliant.com",
+   "country": "Germany",
+   "stage": "SERIES_C",
+   "amount": 80000000,
+   "currency": "USD",
+   "date": "2026-11-04",
+   "lead_investors": [
+    {
+     "id": "ef0faddc-af4a-4028-8209-dd81731d5e51",
+     "name": "Seaya Nova"
+    },
+    {
+     "id": "94e0ca6a-4e39-4181-bd84-11f264d0aa62",
+     "name": "Speedinvest"
+    }
+   ],
+   "sources": [
+    {
+     "name": "getpliant.com",
+     "url": "https://www.getpliant.com/en/press/80-million-series-c",
+     "rank": "PRIMARY"
+    },
+    {
+     "name": "thenextweb.com",
+     "url": "https://thenextweb.com/news/pliant-80m-series-c-ai-agents-b2b-payments-seaya-speedinvest",
+     "rank": "PRESS"
+    }
+   ],
+   "conflated": false
+  },
+  {
+   "company_id": "f724426d-a26e-4596-a8de-50ead5b290e5",
+   "name": "11X LIMITED",
+   "website": "11x.ai",
+   "country": "United States",
+   "stage": "SERIES_B",
+   "amount": 50000000,
+   "currency": "USD",
+   "date": "2024-11-12",
+   "lead_investors": [
+    {
+     "id": "daebf7ee-cf07-459c-a3c6-65523efcefa7",
+     "name": "Andreessen Horowitz"
+    }
+   ],
+   "sources": [
+    {
+     "name": "maginative.com",
+     "url": "https://www.maginative.com/article/11x-raises-50m-series-b-led-by-a16z-for-ai-digital-workers/",
+     "rank": null
+    },
+    {
+     "name": "mitrade.com",
+     "url": "https://www.mitrade.com/insights/news/live-news/article-3-462705-20241112",
+     "rank": null
+    }
+   ],
+   "conflated": false
+  },
+  {
+   "company_id": "d2929f0c-d341-487c-a25c-52a1e0df01a2",
+   "name": "Synera",
+   "website": "synera.io",
+   "country": "Germany",
+   "stage": "SERIES_B",
+   "amount": 35000000,
+   "currency": "EUR",
+   "date": "2026-04-14",
+   "lead_investors": [
+    {
+     "id": "a26bb0b0-a564-47ab-acf9-cdc54284b3ca",
+     "name": "REVAIA"
+    }
+   ],
+   "sources": [
+    {
+     "name": "unternehmertum.de",
+     "url": "https://www.unternehmertum.de/presse/ki-unternehmen-synera-erhaelt-35-millionen-euro",
+     "rank": "PRESS"
+    },
+    {
+     "name": "it-production.com",
+     "url": "https://it-production.com/news/maerkte-und-trends/synera-erhaelt-finanzierung-in-hoehe-von-35-millionen-euro/",
+     "rank": "PRESS"
+    },
+    {
+     "name": "synera.ai",
+     "url": "https://www.synera.ai/press/synera-raises-40m-series-b-to-scale-agentic-ai-engineering-for-global-manufacturers",
+     "rank": "PRIMARY"
+    },
+    {
+     "name": "businesswire.com",
+     "url": "https://www.businesswire.com/news/home/20260414992407/en/",
+     "rank": "PRESS"
+    }
+   ],
+   "conflated": false
+  },
   {
    "company_id": "9f0d6f98-c9e2-4838-855d-defd326a996b",
    "name": "SuperAnnotate",
@@ -171,6 +338,59 @@
      "name": "dealroom.co",
      "url": "https://dealroom.co/companies/superannotate-ai/",
      "rank": "AGGREGATOR"
+    }
+   ],
+   "conflated": false
+  },
+  {
+   "company_id": "7aee8784-e220-425c-bff9-56cf5ed5932b",
+   "name": "Gilion",
+   "website": "gilion.com",
+   "country": "Sweden",
+   "stage": "SEED",
+   "amount": 10000000,
+   "currency": "EUR",
+   "date": "2024-04-10",
+   "lead_investors": [],
+   "sources": [
+    {
+     "name": "eu-startups.com",
+     "url": "https://www.eu-startups.com/2024/04/stockholm-based-gilion-secures-e10-million-equity-round-to-fuel-expansion-of-its-growth-platform/",
+     "rank": "PRESS"
+    },
+    {
+     "name": "seedtable.com",
+     "url": "https://seedtable.com/companies/gilion/funding-rounds",
+     "rank": "AGGREGATOR"
+    }
+   ],
+   "conflated": false
+  },
+  {
+   "company_id": "3e1f0925-cb71-4859-97f5-01e36eed1718",
+   "name": "Boardy",
+   "website": "boardy.ai",
+   "country": "Canada",
+   "stage": "SEED",
+   "amount": 8000000,
+   "currency": "USD",
+   "date": "2025-01-14",
+   "lead_investors": [
+    {
+     "id": "6ba00a20-2cb4-4559-8fe2-f39484a9e5f6",
+     "name": "Creandum"
+    }
+   ],
+   "sources": [
+    {
+     "name": "techcrunch.com",
+     "url": "https://techcrunch.com/2025/01/14/boardy-ai-raises-8m-seed-round-months-after-closing-pre-seed/",
+     "rank": "PRESS"
+    },
+    {
+     "name": "osler.com",
+     "url": "https://www.osler.com/en/about-us/representative-work/boardy-ai/",
+     "rank": "PRIMARY"
     }
    ],
    "conflated": false
@@ -234,32 +454,267 @@
     }
    ],
    "conflated": false
+  },
+  {
+   "company_id": "8ed70720-1766-486d-8d45-f37da5ffee32",
+   "name": "Scalera",
+   "website": "scalera.ai",
+   "country": "Switzerland",
+   "stage": "SEED",
+   "amount": 6500000,
+   "currency": "USD",
+   "date": "2025-05-08",
+   "lead_investors": [
+    {
+     "id": "6cca8302-1a04-4175-925f-ce50636fc28c",
+     "name": "FIRSTMINUTE CAPITAL LLP"
+    },
+    {
+     "id": "94e0ca6a-4e39-4181-bd84-11f264d0aa62",
+     "name": "Speedinvest"
+    }
+   ],
+   "sources": [
+    {
+     "name": "vestbee.com",
+     "url": "https://www.vestbee.com/insights/articles/scalera-raises-6-5-m",
+     "rank": "PRESS"
+    },
+    {
+     "name": "scalera.ai",
+     "url": "https://www.scalera.ai/en/ueber-uns",
+     "rank": "PRIMARY"
+    },
+    {
+     "name": "tech.eu",
+     "url": "https://tech.eu/2025/05/09/zurich-based-scalera-raises-6-5m-to-simplify-construction-procurement/",
+     "rank": "PRESS"
+    },
+    {
+     "name": "netzwoche.ch",
+     "url": "https://www.netzwoche.ch/news/2025-05-16/scalera-sammelt-65-millionen-us-dollar-in-finanzierungsrunde",
+     "rank": "PRESS"
+    }
+   ],
+   "conflated": false
+  },
+  {
+   "company_id": "740ec1be-1981-4b1d-a014-18f0a12c8fed",
+   "name": "deeploi",
+   "website": "deeploi.io",
+   "country": "Germany",
+   "stage": "SEED",
+   "amount": 6000000,
+   "currency": "EUR",
+   "date": "2024-01-24",
+   "lead_investors": [
+    {
+     "id": "32e27d54-3922-407f-aa07-2747d94b210c",
+     "name": "Atomico"
+    }
+   ],
+   "sources": [
+    {
+     "name": "finsmes.com",
+     "url": "https://www.finsmes.com/2024/01/deeploi-closes-e6m-seed-funding-round.html",
+     "rank": null
+    },
+    {
+     "name": "techcrunch.com",
+     "url": "https://techcrunch.com/2024/01/24/deeploi-it-as-a-service-atomico/",
+     "rank": null
+    }
+   ],
+   "conflated": false
+  },
+  {
+   "company_id": "b615650d-7127-4baa-8553-ef9ad65d4bd8",
+   "name": "LizzyAI",
+   "website": "lizzy-ai.com",
+   "country": "United States",
+   "stage": "SEED",
+   "amount": 5000000,
+   "currency": "USD",
+   "date": "2025-12-02",
+   "lead_investors": [
+    {
+     "id": "c96e885a-5a6f-442d-a6e3-2531b238c2a3",
+     "name": "New Enterprise Associates (NEA)"
+    }
+   ],
+   "sources": [
+    {
+     "name": "businesswire.com",
+     "url": "https://www.businesswire.com/news/home/20251202243223/en/LizzyAI-Raises-$5M-Seed-Round-Led-by-NEA-to-Redefine-the-Interview-in-the-$500B-Recruiting-Market",
+     "rank": "PRIMARY"
+    }
+   ],
+   "conflated": false
+  },
+  {
+   "company_id": "c83207b7-2e55-44af-a4e8-26463e746626",
+   "name": "Forgent AI GmbH",
+   "website": "forgent.ai",
+   "country": "Germany",
+   "stage": "PRE_SEED",
+   "amount": 4300000,
+   "currency": "EUR",
+   "date": "2025-09-23",
+   "lead_investors": [
+    {
+     "id": "c06adc97-e2d8-4590-a329-4462750ee4e6",
+     "name": "Cherry Ventures"
+    }
+   ],
+   "sources": [
+    {
+     "name": "thesaasnews.com",
+     "url": "https://www.thesaasnews.com/news/forgent-ai-secures-4-3-million-pre-seed/",
+     "rank": "PRESS"
+    },
+    {
+     "name": "preqin.com",
+     "url": "https://www.preqin.com/data/profile/asset/forgent-ai-gmbh/769464",
+     "rank": "AGGREGATOR"
+    }
+   ],
+   "conflated": false
+  },
+  {
+   "company_id": "3006840a-fea6-42d0-a5cc-c6c991f38e69",
+   "name": "Prewave GmbH",
+   "website": "prewave.com",
+   "country": "Austria",
+   "stage": "SERIES_B",
+   "amount": null,
+   "currency": null,
+   "date": "2025-04-02",
+   "lead_investors": [],
+   "sources": [
+    {
+     "name": "trendingtopics.eu",
+     "url": "https://www.trendingtopics.eu/prewave-volvo-rolex",
+     "rank": "PRESS"
+    }
+   ],
+   "conflated": false
+  },
+  {
+   "company_id": "b83744c2-5f25-4df7-98fd-c0b3d96e49f0",
+   "name": "PAVE Space",
+   "website": "pave.space",
+   "country": "Switzerland",
+   "stage": "SEED",
+   "amount": 40000000,
+   "currency": "USD",
+   "date": "2025-05-05",
+   "lead_investors": [
+    {
+     "id": "6ba00a20-2cb4-4559-8fe2-f39484a9e5f6",
+     "name": "Creandum"
+    },
+    {
+     "id": "43e37758-3cd9-4559-b3e4-ad94ece9f6f9",
+     "name": "Visionaries Club GmbH"
+    }
+   ],
+   "sources": [
+    {
+     "name": "tech.eu",
+     "url": "https://tech.eu/2026/03/25/pave-space-secures-40m-to-fast-track-satellite-deployment/",
+     "rank": "PRESS"
+    },
+    {
+     "name": "legal500.com",
+     "url": "https://www.legal500.com/firms/10418-niederer-kraft-frey-ltd/c-switzerland/news-and-developments/pave-space-raises-usd-40m-in-seed-financing",
+     "rank": "PRIMARY"
+    },
+    {
+     "name": "b2venture.vc",
+     "url": "https://b2venture.vc/stories/building-the-logistics-backbone-of-the-space-economy---why-we-invested-in-pave-space",
+     "rank": "PRIMARY"
+    },
+    {
+     "name": "payloadspace.com",
+     "url": "https://payloadspace.com/pave-space-raises-40m-for-in-space-propulsion-tech/",
+     "rank": "PRESS"
+    },
+    {
+     "name": "europeanspaceflight.com",
+     "url": "https://europeanspaceflight.com/switzerlands-pave-space-closes-40-million-seed-funding-round/",
+     "rank": "PRESS"
+    },
+    {
+     "name": "vcbacked.co",
+     "url": "https://www.vcbacked.co/company/pave-space",
+     "rank": "AGGREGATOR"
+    },
+    {
+     "name": "zefix.admin.ch",
+     "url": "https://www.zefix.admin.ch/ZefixREST/api/v1/firm/1614124.json",
+     "rank": "FILING"
+    }
+   ],
+   "conflated": true
+  },
+  {
+   "company_id": "2b720ccf-3f2a-41b9-b890-742f95760079",
+   "name": "Seltz",
+   "website": "seltz.ai",
+   "country": "United States",
+   "stage": "SEED",
+   "amount": 12500000,
+   "currency": "USD",
+   "date": "2026-06-24",
+   "lead_investors": [
+    {
+     "id": "5e638f96-b5c7-42ff-87fb-dfaeb0328d7e",
+     "name": "B Capital"
+    },
+    {
+     "id": "94e0ca6a-4e39-4181-bd84-11f264d0aa62",
+     "name": "Speedinvest"
+    }
+   ],
+   "sources": [
+    {
+     "name": "seltz.ai",
+     "url": "https://seltz.ai/blog/seed-round-announcement",
+     "rank": "PRIMARY"
+    },
+    {
+     "name": "fortune.com",
+     "url": "https://fortune.com/2026/06/24/exclusive-seltz-a-startup-rebuilding-web-search-for-ai-agents-raises-12-5-million-in-seed-funding/",
+     "rank": "PRESS"
+    }
+   ],
+   "conflated": true
   }
  ],
  "top_missed_leads": [
+  {
+   "id": "94e0ca6a-4e39-4181-bd84-11f264d0aa62",
+   "name": "Speedinvest",
+   "deals": 2
+  },
+  {
+   "id": "daebf7ee-cf07-459c-a3c6-65523efcefa7",
+   "name": "Andreessen Horowitz",
+   "deals": 1
+  },
+  {
+   "id": "32e27d54-3922-407f-aa07-2747d94b210c",
+   "name": "Atomico",
+   "deals": 1
+  },
   {
    "id": "e499cab6-2ed9-4c23-83cc-4dd96fd97d6e",
    "name": "Baobab Ventures",
    "deals": 1
   },
   {
-   "id": "9642f867-0904-4954-9dea-aada36b650b9",
-   "name": "Credo Ventures",
-   "deals": 1
-  },
-  {
-   "id": "0dde81a2-08ab-4487-9124-9deaa582a656",
-   "name": "Dell Technologies Capital",
-   "deals": 1
-  },
-  {
-   "id": "6f2346a2-0f82-4060-b8ab-dd98bf83c6e7",
-   "name": "KAYA",
-   "deals": 1
-  },
-  {
-   "id": "c934f7e3-6ee3-4983-b0e1-f7827df567f9",
-   "name": "Point Nine",
+   "id": "c06adc97-e2d8-4590-a329-4462750ee4e6",
+   "name": "Cherry Ventures",
    "deals": 1
   }
  ]

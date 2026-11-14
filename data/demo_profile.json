@@ -1,0 +1,164 @@
+{
+ "fund": {
+  "id": "7de3d7d6-af8f-4e95-a949-2befc86938a0",
+  "name": "Earlybird Venture Capital"
+ },
+ "investments_since_2022": 7,
+ "stages": [
+  {
+   "label": "PRE_SEED",
+   "share": 0.3
+  },
+  {
+   "label": "SERIES_A",
+   "share": 0.3
+  },
+  {
+   "label": "SERIES_B",
+   "share": 0.2
+  },
+  {
+   "label": "SEED",
+   "share": 0.1
+  },
+  {
+   "label": "SERIES_D",
+   "share": 0.1
+  }
+ ],
+ "countries": [
+  {
+   "name": "Finland",
+   "count": 2
+  },
+  {
+   "name": "Germany",
+   "count": 2
+  },
+  {
+   "name": "Switzerland",
+   "count": 2
+  },
+  {
+   "name": "United States",
+   "count": 1
+  }
+ ],
+ "industries": [
+  {
+   "name": "Software and services",
+   "count": 4
+  },
+  {
+   "name": "Biotechnology",
+   "count": 2
+  },
+  {
+   "name": "Banking",
+   "count": 1
+  },
+  {
+   "name": "Fintech",
+   "count": 1
+  },
+  {
+   "name": "Hardware and equipment",
+   "count": 1
+  },
+  {
+   "name": "Internet and web services",
+   "count": 1
+  },
+  {
+   "name": "Pharmaceuticals",
+   "count": 1
+  },
+  {
+   "name": "Renewable energy",
+   "count": 1
+  },
+  {
+   "name": "Utilities",
+   "count": 1
+  }
+ ],
+ "suggested_peers": [
+  {
+   "id": "16bdbb1a-6658-4fa2-9b04-0a48011841d2",
+   "name": "Lakestar",
+   "co_investments": 4
+  },
+  {
+   "id": "94e0ca6a-4e39-4181-bd84-11f264d0aa62",
+   "name": "Speedinvest",
+   "co_investments": 4
+  },
+  {
+   "id": "c06adc97-e2d8-4590-a329-4462750ee4e6",
+   "name": "Cherry Ventures",
+   "co_investments": 2
+  },
+  {
+   "id": "8774eb35-b3d0-4d71-8135-a4fe1187a3b6",
+   "name": "HV Capital",
+   "co_investments": 2
+  },
+  {
+   "id": "32e27d54-3922-407f-aa07-2747d94b210c",
+   "name": "Atomico",
+   "co_investments": 1
+  }
+ ],
+ "sources": [
+  {
+   "name": "marvelfusion.com",
+   "url": "https://marvelfusion.com/newsroom/marvel-fusion-wins-second-us-department-of-energy-infuse-award",
+   "rank": "PRIMARY"
+  },
+  {
+   "name": "foerderportal.bund.de",
+   "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=13F1052B",
+   "rank": "FILING"
+  },
+  {
+   "name": "marvelfusion.com",
+   "url": "https://marvelfusion.com/newsroom/german-federal-government-backs-laser-fusion",
+   "rank": "PRIMARY"
+  },
+  {
+   "name": "packgene.com",
+   "url": "https://www.packgene.com/frontier/070926-arpa-h-awards-43m/",
+   "rank": "PRESS"
+  },
+  {
+   "name": "inquirer.com",
+   "url": "https://inquirer.com/health/philadelphia-gene-therapy-research-federal-government-funding-rare-disease-treatment-20260710.html",
+   "rank": "PRESS"
+  },
+  {
+   "name": "prnewswire.com",
+   "url": "https://www.prnewswire.com/news-releases/gemmabio-awarded-arpa-h-funding-to-pursue-innovative-base-editing-strategy-for-rare-liver-diseases-302822136.html",
+   "rank": "PRIMARY"
+  },
+  {
+   "name": "whyy.org",
+   "url": "https://whyy.org/articles/philadelphia-labs-rare-disease-treatment-federal-funding/",
+   "rank": "PRESS"
+  },
+  {
+   "name": "avrea.com",
+   "url": "https://avrea.com/blog/launching-avrea",
+   "rank": "PRIMARY"
+  },
+  {
+   "name": "earlybird.com",
+   "url": "https://earlybird.com/perspectives/the-ai-native-ci-cd-platform-why-were-backing-avrea",
+   "rank": "PRIMARY"
+  },
+  {
+   "name": "tech.eu",
+   "url": "https://tech.eu/2026/05/26/avrea-emerges-from-stealth-with-47m-to-reinvent-cicd-for-the-ai-coding-era/",
+   "rank": "PRESS"
+  }
+ ]
+}

@@ -4,6 +4,8 @@
   data/demo_pipeline.csv  - simulated CRM: ~40% of the fund's in-thesis peer deals
                             (a few invested, most passed / in_review) + ~15 out-of-market noise rows
   data/demo_audit.json    - GET /api/audit/demo response (demo fund vs all other crawled funds)
+  data/demo_profile.json  - GET /api/funds/{demo fund}/profile
+  data/demo_deals.json    - GET /api/deals/{id} for every demo deal (served when the DB is absent)
 
 Deterministic: a fixed random seed, so the same data gives the same CSV.
 Usage:  backend/.venv/bin/python backend/build_demo.py [--regen-csv]
@@ -24,6 +26,8 @@ import db  # noqa: E402
 DEMO_FUND = "Earlybird Venture Capital"  # most 2023+ round coverage among the early-stage funds
 CSV_PATH = db.ROOT / "data" / "demo_pipeline.csv"
 JSON_PATH = db.ROOT / "data" / "demo_audit.json"
+PROFILE_PATH = db.ROOT / "data" / "demo_profile.json"
+DEALS_PATH = db.ROOT / "data" / "demo_deals.json"
 SEED = 2026
 SHARE_IN_PIPELINE = 0.40
 NEWS_PREFETCH = 20
@@ -73,16 +77,25 @@ def main() -> None:
     if "--regen-csv" in sys.argv or not CSV_PATH.exists():
         build_csv(fund, peers)
     result = audit.run_audit(fund["id"], peers, CSV_PATH.read_text())
+    assert result["simulated_crm"] is True, "demo CSV must carry the SIMULATED marker"
+    missing = [d["name"] for d in result["never_seen_deals"] if not d["sources"]]
+    assert not missing, f"deals without a Cala source: {missing}"
     JSON_PATH.write_text(json.dumps(result, indent=1, ensure_ascii=False))
     print(f"wrote {JSON_PATH}: {json.dumps(result['summary'])}")
-    if "--no-news" not in sys.argv:   # warm the knowledge_search cache for the deals a demo will click
-        from cala_client import Cala
-        cala = Cala()
-        top = [d for d in result["never_seen_deals"] if not d["conflated"]][:NEWS_PREFETCH]
-        for d in top:
-            audit.recent_news(cala, d["name"], d["website"], wait=180)
-        print(f"news cached for top {len(top)} never-seen deals")
 
+    from cala_client import Cala
+    cala = Cala()
+    deals = [d for d in result["never_seen_deals"]]
+    if "--no-news" not in sys.argv:   # fetch news (knowledge_search) for the deals a demo will click first
+        for d in [d for d in deals if not d["conflated"]][:NEWS_PREFETCH]:
+            audit.recent_news(cala, d["name"], d["website"], wait=180)
+    # Every demo deal's detail is bundled so /api/deals works on a server without the DB.
+    details = {d["company_id"]: audit.deal_detail(d["company_id"], fund["id"], cala, news_cache_only=True)
+               for d in deals}
+    PROFILE_PATH.write_text(json.dumps(audit.profile(fund["id"]), indent=1, ensure_ascii=False))
+    DEALS_PATH.write_text(json.dumps(details, indent=1, ensure_ascii=False))
+    print(f"wrote {PROFILE_PATH} and {DEALS_PATH} ({len(details)} deals, "
+          f"{sum(1 for v in details.values() if v['recent_news'])} with news)")
 
 if __name__ == "__main__":
     main()

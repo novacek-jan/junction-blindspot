@@ -40,6 +40,18 @@ CREATE TABLE IF NOT EXISTS kv (key TEXT PRIMARY KEY, value TEXT, updated_at REAL
 
 _local = threading.local()
 
+# The API sets this to False: on a server without the crawled DB it must not create an
+# empty one (the demo is then served from the precomputed JSON in data/).
+ALLOW_CREATE = True
+
+
+class DBUnavailable(Exception):
+    pass
+
+
+def available() -> bool:
+    return db_path().exists()
+
 
 def db_path() -> Path:
     return Path(os.environ.get("BLINDSPOT_DB", DEFAULT_DB))
@@ -50,7 +62,10 @@ def conn() -> sqlite3.Connection:
     c = getattr(_local, "conn", None)
     if c is None:
         path = db_path()
-        path.parent.mkdir(parents=True, exist_ok=True)
+        if not path.exists():
+            if not ALLOW_CREATE:
+                raise DBUnavailable("crawled data is not available on this deployment")
+            path.parent.mkdir(parents=True, exist_ok=True)
         c = sqlite3.connect(path, timeout=30, check_same_thread=False)
         c.row_factory = sqlite3.Row
         c.execute("PRAGMA journal_mode=WAL")

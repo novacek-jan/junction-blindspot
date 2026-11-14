@@ -17,12 +17,12 @@ The API contract shared with the frontend is in `docs/api-contract.md`. `cala_re
 
 ## Run the backend locally
 
-Requires Python 3.9+.
+Works on Python 3.9 (pinned in `backend/requirements.txt`). For a server, use Python 3.12: some known CVEs in starlette, python-multipart and anyio are only fixed in releases that need Python 3.10 or newer.
 
 ```bash
 git clone https://github.com/novacek-jan/junction-blindspot.git
 cd junction-blindspot
-cp .env.example .env            # fill in CALA_API_KEY; ANTHROPIC_API_KEY is optional
+cp backend/.env.example .env    # CALA_API_KEY, AUDIT_ACCESS_CODE, ALLOWED_ORIGINS; ANTHROPIC_API_KEY is optional
 python3 -m venv backend/.venv
 backend/.venv/bin/pip install -r backend/requirements.txt
 
@@ -41,11 +41,23 @@ cd backend && .venv/bin/uvicorn app:app --port 8000
 
 The API can serve requests while the crawler is writing, because SQLite runs in WAL mode.
 
+**Without the database** (e.g. on a server: `*.db` is never committed), the API serves the demo from the committed `data/demo_audit.json`, `data/demo_profile.json` and `data/demo_deals.json`. Live-data endpoints return 503 in that mode.
+
+| Env var | Purpose |
+|---|---|
+| `CALA_API_KEY` | Crawler and live news (`knowledge_search`) |
+| `ANTHROPIC_API_KEY` | Optional. Claude Haiku rewords the blind-spot insights; without it a template is used |
+| `AUDIT_ACCESS_CODE` | Required for `POST /api/audit` (`X-Access-Code` header). If unset, audits are disabled |
+| `ALLOWED_ORIGINS` | Comma-separated CORS origins, e.g. `http://localhost:3000,https://your-app.vercel.app`. `*` is ignored |
+| `AUDIT_RATE_LIMIT`, `AUDIT_RATE_WINDOW_S` | Per-IP limit for `POST /api/audit` (default 10 per 600 s) |
+
+`POST /api/audit` accepts only `text/csv`, at most 2 MB and 5,000 rows. The upload is parsed in memory, is never written to disk or logs, and is discarded after the audit.
+
 | Endpoint | What it returns |
 |---|---|
 | `GET /api/funds/search?q=` | Crawled funds matching the query |
 | `GET /api/funds/{fund_id}/profile` | Inferred thesis: stages, countries, industries, suggested peers |
-| `POST /api/audit` | Multipart: `fund_id`, `peer_ids` (comma-separated), `crm_csv` (`company,website,status,date`) |
+| `POST /api/audit` | Multipart: `fund_id`, `peer_ids` (comma-separated), `crm_csv` (`company,website,status,date`). Needs `X-Access-Code` |
 | `GET /api/audit/demo` | Precomputed audit for the demo fund (Earlybird) vs. all other crawled funds |
 | `GET /api/deals/{company_id}?fund_id=` | Company, rounds with leads and participants, why it was missed, recent news |
 

@@ -208,6 +208,8 @@ def run_audit(fund_id: str, peer_ids: list[str], crm_text: str) -> dict:
         c = comps[r["company_id"]]
         if not r["date"] or r["date"] < MARKET_FROM or r["label"] not in stages or region_of(c["country"]) not in regions:
             continue
+        if not r["sources"]:   # every market deal must be backed by at least one Cala source
+            continue
         bucket = conflated_only if r["conflated"] else counted
         cur = bucket.get(c["id"])
         if cur is None or (r["date"], r["amount"] or 0) > (cur["date"], cur["amount"] or 0):
@@ -325,7 +327,7 @@ def _news_date(url: str) -> Optional[str]:
     return None
 
 
-NEWS_TIMEOUT_S = 8.0
+NEWS_TIMEOUT_S = 3.0   # first view waits at most 3 s; the fetch finishes in the background and is cached
 _news_pool = ThreadPoolExecutor(2)
 _news_inflight: dict[str, Future] = {}
 
@@ -355,13 +357,17 @@ def _news_from(res: Optional[dict]) -> list[dict]:
     return news[:5]
 
 
-def recent_news(cala, name: str, website: Optional[str], wait: float = NEWS_TIMEOUT_S) -> list[dict]:
+def recent_news(cala, name: str, website: Optional[str], wait: float = NEWS_TIMEOUT_S,
+                cache_only: bool = False) -> list[dict]:
     """Cala knowledge_search, cached. A slow first fetch keeps running in the background
-    (its result is cached for the next request) while this call returns [] after `wait` seconds."""
+    (its result is cached for the next request) while this call returns [] after `wait` seconds.
+    `cache_only` never calls Cala (used when bundling the demo)."""
     if cala is None:
         return []
     domain = normalize_domain(website)
     q = f"Latest news about the startup {name}" + (f" ({domain})" if domain else "")
+    if cache_only:
+        return _news_from(cala.knowledge_search(q, cache_only=True))
     fut = _news_inflight.get(q)
     if fut is None or fut.done():
         fut = _news_pool.submit(cala.knowledge_search, q)
@@ -374,7 +380,8 @@ def recent_news(cala, name: str, website: Optional[str], wait: float = NEWS_TIME
         return []
 
 
-def deal_detail(company_id: str, fund_id: Optional[str], cala=None) -> dict:
+def deal_detail(company_id: str, fund_id: Optional[str], cala=None, news_wait: float = NEWS_TIMEOUT_S,
+                news_cache_only: bool = False) -> dict:
     comps = db.companies([company_id])
     if company_id not in comps:
         raise NotFound(f"company {company_id} not found")
@@ -407,5 +414,5 @@ def deal_detail(company_id: str, fund_id: Optional[str], cala=None) -> dict:
 
     return {"id": company_id, "name": c["name"], "website": normalize_domain(c["website"]) or c["website"],
             "description": c["description"], "country": c["country"], "founded": c["founded"],
-            "rounds": out_rounds, "why_missed": why[:2], "recent_news": recent_news(cala, c["name"], c["website"]),
+            "rounds": out_rounds, "why_missed": why[:2], "recent_news": recent_news(cala, c["name"], c["website"], wait=news_wait, cache_only=news_cache_only),
             "sources": c["sources"]}

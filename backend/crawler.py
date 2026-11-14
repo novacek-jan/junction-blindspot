@@ -37,7 +37,10 @@ FUND_ENTITY_TYPES = ["Organization", "Company"]
 # Argument lists are kept identical to the v1 crawler so its cached responses are reused.
 COMPANY_FIELDS = ["name", "website", "funding_stage", "total_funding", "total_funding_units"]
 COMPANY_RELS = ["HAS_HEADQUARTERS_IN", "PARTICIPATES_IN_FUNDING_ROUND"]
-ROUND_FIELDS = ["round_label", "transaction_value", "transaction_value_units", "announcement_date"]
+ROUND_FIELDS = ["round_label", "transaction_value", "transaction_value_units", "announcement_date", "event_date"]
+# Rounds fetched by earlier runs used this list; it is the fallback if Cala rejects event_date.
+# Note: adding event_date changes the cache key, so the next run refetches every round once.
+ROUND_FIELDS_V1 = ["round_label", "transaction_value", "transaction_value_units", "announcement_date"]
 
 
 def log(msg: str) -> None:
@@ -63,6 +66,7 @@ class Crawler:
         self.pool = ThreadPoolExecutor(WORKERS)
         self.done_companies: set[str] = set()
         self.done_rounds: dict[str, dict] = {}
+        self.failed_companies: list[str] = []
 
     # -- rounds
 
@@ -70,6 +74,8 @@ class Crawler:
         if rid in self.done_rounds:
             return self.done_rounds[rid]
         r = self.cala.retrieve(rid, ROUND_FIELDS, inc=["PARTICIPATES_IN_FUNDING_ROUND"])
+        if not r.get("_ok"):
+            r = self.cala.retrieve(rid, ROUND_FIELDS_V1, inc=["PARTICIPATES_IN_FUNDING_ROUND"])
         self.done_rounds[rid] = r
         return r
 
@@ -87,16 +93,24 @@ class Crawler:
                             cur is not None and cur == val(company, "total_funding_units"))
         db.upsert_round({
             "id": rnd["id"], "company_id": company_id, "label": label, "amount": amount, "currency": cur,
-            "date": val(rnd, "announcement_date"), "conflated": int(bool(reason)), "conflation_reason": reason,
+            "date": val(rnd, "announcement_date") or val(rnd, "event_date"), "conflated": int(bool(reason)), "conflation_reason": reason,
             "sources": json.dumps(sources_of(rnd, ["transaction_value", "round_label", "announcement_date"])),
         }, parts)
 
     # -- companies
 
     def company(self, cid: str) -> None:
+        """Process one company; any failure is logged with the company id and the crawl continues."""
         if cid in self.done_companies:
             return
         self.done_companies.add(cid)
+        try:
+            self._company(cid)
+        except Exception as e:  # noqa: BLE001 - one bad company must not stop the crawl
+            self.failed_companies.append(cid)
+            log(f"[error] company {cid}: {type(e).__name__}: {e}")
+
+    def _company(self, cid: str) -> None:
         c = self.cala.retrieve(cid, COMPANY_FIELDS, out=COMPANY_RELS)
         if not c.get("_ok"):
             return
@@ -167,6 +181,7 @@ class Crawler:
               f"| ...flagged conflated | {sum(r['conflated'] for r in rounds)} |",
               f"| API calls this run | {self.cala.api_calls} (rate-limited and retried: {self.cala.rate_limited}) |",
               f"| Cache hits this run | {self.cala.cache_hits} |", f"| API errors | {len(self.cala.errors)} |",
+              f"| Companies that failed processing | {len(self.failed_companies)} |",
               f"| Run time | {elapsed:.0f} s |", "", "## Rounds by HQ country", "", "| Country | Rounds |", "|---|---|"]
         md += [f"| {k} | {v} |" for k, v in Counter(r["country"] or "Unknown" for r in rounds).most_common()]
         md += ["", "## Rounds by label", "", "| Label | Rounds |", "|---|---|"]

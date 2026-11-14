@@ -31,6 +31,10 @@ Thesis inferred from the fund's real investments in Cala. No user input.
 
 ## POST /api/audit  (multipart/form-data)
 Fields: `fund_id` (str), `peer_ids` (comma-separated str), `crm_csv` (file; columns `company,website,status,date`; status in `invested|passed|in_review`).
+Header `X-Access-Code: <code>` is required (the backend's `AUDIT_ACCESS_CODE`; ask the team, never commit it).
+`crm_csv` must be sent as `text/csv`, at most 2 MB and 5,000 rows. Errors are JSON `{ "error": str, "detail": str }`:
+401 missing/wrong code, 413 too large / too many rows, 415 not text/csv, 429 rate limit (10 audits per 10 min per IP),
+503 audits disabled or no live data on this deployment. `GET /api/audit/demo` stays public.
 ```json
 {
   "audit_id": "str",
