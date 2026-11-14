@@ -250,55 +250,58 @@
   "briefing": {
     "insights": [
       {
-        "kind": "coverage",
+        "kind": "coverage_sector",
+        "fact_id": "coverage_sector",
         "value": 2,
         "total": 5,
         "title": "Software coverage lags energy",
         "line": "You see 67% of energy deals but only 60% of software deals.",
-        "company_ids": [
-          "0b6f4c1e-1111-4a0b-9c1d-000000000001",
-          "0b6f4c1e-1111-4a0b-9c1d-000000000003"
-        ],
-        "investor_names": [],
-        "best_pct": 67,
-        "worst_pct": 60,
-        "best_industry": "energy",
-        "worst_industry": "software"
+        "chips": [
+          {
+            "label": "energy 67%",
+            "company_id": null
+          },
+          {
+            "label": "software 60%",
+            "company_id": null
+          }
+        ]
       },
       {
-        "kind": "next_round",
+        "kind": "co_investors",
+        "fact_id": "co_investors",
         "value": 2,
         "total": 3,
-        "title": "Due for their next round",
-        "line": "2 of them last raised over a year ago and may raise soon.",
-        "company_ids": [
-          "0b6f4c1e-1111-4a0b-9c1d-000000000002",
-          "0b6f4c1e-1111-4a0b-9c1d-000000000001"
-        ],
-        "investor_names": [],
-        "best_pct": null,
-        "worst_pct": null,
-        "best_industry": null,
-        "worst_industry": null
+        "title": "Co-investors you're missing",
+        "line": "Creandum and Voima Ventures backed 2 of them. Neither is in your rounds since 2022.",
+        "chips": [
+          {
+            "label": "Creandum",
+            "company_id": null
+          },
+          {
+            "label": "Voima Ventures",
+            "company_id": null
+          }
+        ]
       },
       {
-        "kind": "sourcing",
+        "kind": "last_round",
+        "fact_id": "last_round",
         "value": 2,
         "total": 3,
-        "title": "Other funds got there first",
-        "line": "Creandum and Voima Ventures backed 2 of them; you never co-invested.",
-        "company_ids": [
-          "0b6f4c1e-1111-4a0b-9c1d-000000000001",
-          "0b6f4c1e-1111-4a0b-9c1d-000000000002"
-        ],
-        "investor_names": [
-          "Creandum",
-          "Voima Ventures"
-        ],
-        "best_pct": null,
-        "worst_pct": null,
-        "best_industry": null,
-        "worst_industry": null
+        "title": "Last raised over a year ago",
+        "line": "2 of them last raised 12 to 24 months ago.",
+        "chips": [
+          {
+            "label": "Vayu Robotics",
+            "company_id": "0b6f4c1e-1111-4a0b-9c1d-000000000001"
+          },
+          {
+            "label": "Kelvin Grid",
+            "company_id": "0b6f4c1e-1111-4a0b-9c1d-000000000002"
+          }
+        ]
       }
     ],
     "model": "claude-sonnet-5-5",

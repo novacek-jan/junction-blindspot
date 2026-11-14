@@ -186,18 +186,18 @@ Same upload, header, limits and optional `mapping` as `POST /api/audit` (`fund_i
   "breakdown": [{ "country": "Finland", "stage": "SEED", "market": 9, "never_seen": 6 }],
   "briefing": {
     "insights": [
-      { "kind": "coverage", "value": 9, "total": 14, "title": "Software coverage lags energy",
-        "line": "You see 80% of energy deals but only 36% of software deals.",
-        "company_ids": ["uuid"], "investor_names": [],
-        "best_pct": 80, "worst_pct": 36, "best_industry": "energy", "worst_industry": "software" },
-      { "kind": "next_round", "value": 5, "total": 16, "title": "Due for their next round",
-        "line": "5 of them last raised over a year ago and may raise soon.",
-        "company_ids": ["uuid"], "investor_names": [],
-        "best_pct": null, "worst_pct": null, "best_industry": null, "worst_industry": null },
-      { "kind": "sourcing", "value": 6, "total": 16, "title": "Seed funds got there first",
-        "line": "Icebreaker.vc and Innovestor backed 6 of them; you never co-invested with either.",
-        "company_ids": ["uuid"], "investor_names": ["Icebreaker.vc", "Innovestor"],
-        "best_pct": null, "worst_pct": null, "best_industry": null, "worst_industry": null }
+      { "kind": "coverage_country", "fact_id": "coverage_country", "value": 10, "total": 12,
+        "title": "Sweden is your blind spot",
+        "line": "You see 59% of Finnish deals but only 1 in 6 Swedish deals.",
+        "chips": [{ "label": "Finland 59%", "company_id": null }, { "label": "Sweden 17%", "company_id": null }] },
+      { "kind": "co_investors", "fact_id": "co_investors", "value": 4, "total": 19,
+        "title": "Co-investors you're missing",
+        "line": "Icebreaker.vc and Ugly Duckling backed 4 of them. Neither is in your rounds since 2022.",
+        "chips": [{ "label": "Icebreaker.vc", "company_id": null }, { "label": "Ugly Duckling Ventures", "company_id": null }] },
+      { "kind": "recency", "fact_id": "recency", "value": 9, "total": 19,
+        "title": "Most of them raised recently",
+        "line": "9 of the 19 raised a VC round in the last 24 months.",
+        "chips": [{ "label": "Vayu Robotics", "company_id": "uuid" }] }
     ],
     "model": "claude-sonnet-5-5",
     "generated_at": "2026-11-14T19:30:00Z"
@@ -246,34 +246,40 @@ Semantics:
   `country` (the country with most never-seen companies: "<value> of the <total> are in <country>"),
   `stage` (the stage with most: "<value> of the <total> raised a <stage> round"). `total` = `summary.never_seen`.
   Ties break alphabetically. No LLM.
-- `briefing` ("Why they slipped through"): `null` or up to 3 insights, always in the order **coverage,
-  next_round, sourcing**, each only when its `value >= 2`. Every number is computed in code. **No CRM rows or
-  company names ever reach an AI model. Claude sees only public Cala data and anonymous counts.** `coverage` is
-  fully deterministic, with fixed wording and no model call. Claude writes only `title` (max 6 words) and `line`
-  (max 14 words) of `next_round` and `sourcing` (demos and uploads alike), from their counts and VC names. Sectors use short labels throughout the briefing ("Software and
-  services" → "software", "Renewable energy" → "energy", "Internet and web services" → "internet",
-  "Biotechnology" → "biotech"; at most 2 words; `backend/briefing.py` `SECTOR_SHORT`). Every insight has the same
-  keys; `best_pct`, `worst_pct`, `best_industry`, `worst_industry` are `null` except on `coverage`.
-  - `coverage`: for each thesis industry with at least 3 market companies, coverage = market companies in the CRM
-    (invested, passed or in review; the fund's own Cala portfolio counts as invested) / market companies in that
-    industry. A company in several industries counts in each. `best_*` / `worst_*` = the best- and worst-covered
-    industry (percent, rounded to an integer; short sector label; ties: more market companies first, then
-    label). Text, always: title `"{Worst} coverage lags {best}"`, line
-    `"You see {best_pct}% of {best} deals but only {worst_pct}% of {worst} deals."` `value` = never-seen
-    companies in the worst industry, `total` = market companies in it; `company_ids` = those never-seen companies,
-    newest round first. Omitted when fewer than 2 industries qualify or both have the same coverage.
-  - `next_round`: never-seen companies whose latest qualifying (VC-backed) round was 12 to 24 months before the
-    audit date (`period.to`, both ends inclusive), so they are likely to raise again soon. `value` = their count,
-    `total` = `summary.never_seen`, `company_ids` newest round first.
-  - `sourcing`: VCs that backed never-seen companies but appear in **none** of the fund's own rounds since 2022;
-    the top 2 by companies; `value` = distinct never-seen companies they backed together; `total` =
-    `summary.never_seen`; `investor_names` = those VCs; `company_ids` = those companies.
-  - Validation (model texts): any number other than `value` or `total` (digits or number words) is rejected. On
-    any failure, a 20 s timeout or a rejected text, that insight uses a fixed template text (the insight is never
-    dropped because of the model).
-  - `model`: the Claude model that wrote at least one text, or `"template"` when every text is fixed wording.
-  - Demo audits carry a precomputed briefing (never waits on the API). For `POST /api/audit` it is generated
-    during the request (up to 20 s); `briefing` may be `null`.
+- `briefing` ("Why they slipped through"): `null`, or up to **3 insights that Claude picks as the most actionable**
+  from candidate facts computed in code, in Claude's order (most actionable first). **No CRM rows or company
+  names ever reach an AI model. Claude sees only public Cala data and anonymous counts**: the candidate facts
+  (numbers, aggregated coverage percentages, sector/country/stage labels, VC names) and the thesis labels.
+  - Insight: `{kind, fact_id, value, total, title, line, chips}`. `title` max 6 words, `line` max 16 words.
+    `chips: [{label, company_id}]` are built by code (never by the model): sector/country/stage labels with their
+    coverage %, VC names (`company_id: null`), or never-seen companies (display name + `company_id`, newest round
+    first, at most 8).
+  - Candidate facts (`fact_id` = `kind`, at most one per kind; dropped when weak):
+    | kind | value / total | chips | strength |
+    |---|---|---|---|
+    | `coverage_sector` | never-seen / market companies in the worst-covered thesis sector | best and worst sector with % | gap × worst group size |
+    | `coverage_country` | same, by company country | best and worst country with % | gap × worst group size |
+    | `coverage_stage` | same, by stage of the qualifying round | best and worst stage with % | gap × worst group size |
+    | `co_investors` | never-seen companies backed by the top 2 VCs that appear in none of the fund's own rounds since 2022 / `summary.never_seen` | the VCs | value |
+    | `recency` | never-seen companies whose latest qualifying round is within 24 months of the audit date / `summary.never_seen` | companies | value |
+    | `top_lead` | never-seen companies whose `round` the most frequent lead VC led / `summary.never_seen` | the VC | value |
+    | `last_round` | never-seen companies whose latest qualifying round was 12 to 24 months before the audit date / `summary.never_seen` | companies | value |
+    Coverage = market companies in the CRM (invested, passed or in review; own Cala portfolio counts as invested)
+    / market companies in the group; only groups with at least 3 market companies; best vs worst group (ties: more
+    market companies, then label); dropped unless the gap is at least 10 points and the worst group has at least
+    2 never-seen companies. Other facts are dropped when `value < 2`. Percentages are rounded to integers.
+  - Prompt rules: pick the most actionable for a VC partner, prefer different kinds, never suggest anything
+    outside the fund's thesis, state facts not predictions, plain English.
+  - Validation, per pick: the `fact_id` exists and is not picked twice; word limits; every number in the text
+    belongs to the picked fact (its value, total, percentages, a "1 in N" form of a percentage within 3 points,
+    the 12/24-month window, 2022, the number of VCs named); every sector, country (or adjective such as
+    "Swedish"), stage or VC name in the text belongs to the picked fact; no predictive wording ("will", "soon",
+    "likely", ...). A pick that fails gets the fact's template text; an unknown or repeated `fact_id` is replaced
+    by the strongest unpicked fact (template text). If the call fails, times out (20 s) or returns no valid pick,
+    the briefing is the top 3 facts by strength (preferring different kinds) with template texts.
+  - `model`: the Claude model when at least one text is the model's, else `"template"`.
+  - Demo audits carry a precomputed briefing. For `POST /api/audit` it is generated during the request (up to
+    20 s); `briefing` may be `null` (fewer than 2 never-seen companies or no fact).
 - Investor `name`s are cleaned display names: legal suffixes (GmbH, Oy, AB, OÜ, s.r.o., ApS, A/S, LLC, Ltd, Ky,
   ...), a trailing "Management" and fund-vehicle tails ("Fund IV", "II") are removed, and vehicles of the same
   fund are merged under one name (e.g. "Butterfly Venture Fund IV Ky" and "BVF Venture Fund IV AB" →
