@@ -44,7 +44,22 @@ CREATE TABLE IF NOT EXISTS round_participants (
 CREATE INDEX IF NOT EXISTS rp_entity ON round_participants(entity_id);
 CREATE TABLE IF NOT EXISTS kv (key TEXT PRIMARY KEY, value TEXT, updated_at REAL);
 CREATE TABLE IF NOT EXISTS display_names (entity_id TEXT PRIMARY KEY, name TEXT, display TEXT, source TEXT);
+CREATE TABLE IF NOT EXISTS company_investors (company_id TEXT, investor_id TEXT, name TEXT, entity_type TEXT, via TEXT,
+                                              PRIMARY KEY (company_id, investor_id, via));
+CREATE INDEX IF NOT EXISTS ci_investor ON company_investors(investor_id);
+CREATE TABLE IF NOT EXISTS crawl_queue (entity_id TEXT PRIMARY KEY, kind TEXT, priority REAL, status TEXT,
+                                        discovered_from TEXT, note TEXT, updated_at REAL);
+CREATE INDEX IF NOT EXISTS cq_status ON crawl_queue(status, priority);
 """
+
+# Columns added after the first release: (table, column, type). Applied to existing databases on connect.
+MIGRATIONS = [
+    ("companies", "screened_at", "REAL"),
+    ("companies", "prefilter", "TEXT"),          # pass | out_of_europe | too_old | no_hq
+    ("companies", "qualifies", "INTEGER"),       # has a qualifying round since 2022 (see snowball.py)
+    ("companies", "discovered_via", "TEXT"),     # fund:<id> | investor:<id> | knowledge_search | seed
+    ("rounds", "date_kind", "TEXT"),             # announcement | event
+]
 
 # table -> (columns, primary key columns)
 TABLES = {
@@ -52,9 +67,13 @@ TABLES = {
     "fund_entities": (["fund_id", "entity_id", "name"], ["fund_id", "entity_id"]),
     "fund_portfolio": (["fund_id", "company_id", "via", "valid_since"], ["fund_id", "company_id", "via"]),
     "companies": (["id", "name", "website", "description", "country", "founded", "funding_stage", "total_funding",
-                   "total_funding_currency", "industries", "sources", "fetched_at"], ["id"]),
+                   "total_funding_currency", "industries", "sources", "fetched_at",
+                   "screened_at", "prefilter", "qualifies", "discovered_via"], ["id"]),
     "rounds": (["id", "company_id", "label", "amount", "currency", "date", "conflated", "conflation_reason",
-                "sources"], ["id"]),
+                "sources", "date_kind"], ["id"]),
+    "company_investors": (["company_id", "investor_id", "name", "entity_type", "via"],
+                          ["company_id", "investor_id", "via"]),
+    "crawl_queue": (["entity_id", "kind", "priority", "status", "discovered_from", "note", "updated_at"], ["entity_id"]),
     "round_participants": (["round_id", "entity_id", "name", "entity_type", "role", "is_lead"],
                            ["round_id", "entity_id"]),
     "kv": (["key", "value", "updated_at"], ["key"]),
@@ -118,6 +137,11 @@ def _sqlite_conn(path: Optional[Path] = None) -> sqlite3.Connection:
     c.execute("PRAGMA synchronous=NORMAL")
     c.execute("PRAGMA busy_timeout=30000")
     c.executescript(SCHEMA)
+    for table, col, typ in MIGRATIONS:
+        cols = {r[1] for r in c.execute(f"PRAGMA table_info({table})")}
+        if col not in cols:
+            c.execute(f"ALTER TABLE {table} ADD COLUMN {col} {typ}")
+    c.commit()
     return c
 
 
@@ -136,6 +160,8 @@ def _pg_connect(url: Optional[str] = None):
     c.execute(SCHEMA.replace(" REAL", " DOUBLE PRECISION"))   # Postgres REAL is only 4-byte float
     for table, col in PG_DOUBLE_COLUMNS:
         c.execute(f"ALTER TABLE {table} ALTER COLUMN {col} TYPE DOUBLE PRECISION")   # migrate old REAL columns
+    for table, col, typ in MIGRATIONS:
+        c.execute(f"ALTER TABLE {table} ADD COLUMN IF NOT EXISTS {col} {typ.replace('REAL', 'DOUBLE PRECISION')}")
     return c
 
 
@@ -269,6 +295,61 @@ def shouting_entities() -> list[dict]:
     return sorted(out, key=lambda r: r["entity_id"])
 
 
+# ------------------------------------------------------------------ snowball crawler state
+
+def upsert_company_fields(company_id: str, **fields) -> None:
+    """Update selected columns of an existing company (screening results)."""
+    cols = [k for k in fields if k in TABLES["companies"][0] and k != "id"]
+    if cols:
+        _execute(f"UPDATE companies SET {', '.join(f'{k}=?' for k in cols)} WHERE id=?",
+                 [fields[k] for k in cols] + [company_id])
+        if backend() == "sqlite":
+            conn().commit()
+
+
+def add_company_investors(rows: list[tuple[str, str, str, str, str]]) -> None:
+    _upsert("company_investors", rows)
+
+
+def queue_add(items: list[tuple[str, str, float, str]]) -> int:
+    """Enqueue (entity_id, kind, priority, discovered_from) unless already queued; returns how many are new."""
+    if not items:
+        return 0
+    existing = {r["entity_id"] for r in _rows("SELECT entity_id FROM crawl_queue")}
+    now, seen, new = time.time(), set(), []
+    for entity_id, kind, priority, source in items:
+        if entity_id not in existing and entity_id not in seen:
+            seen.add(entity_id)
+            new.append((entity_id, kind, priority, "pending", source, None, now))
+    _upsert("crawl_queue", new)
+    return len(new)
+
+
+def queue_bump(entity_ids: list[str], by: float = 1.0) -> None:
+    """Raise the priority of pending items (an investor seen in one more qualifying company)."""
+    for eid in entity_ids:
+        _execute("UPDATE crawl_queue SET priority = priority + ? WHERE entity_id=? AND status='pending'", [by, eid])
+    if backend() == "sqlite":
+        conn().commit()
+
+
+def queue_next(limit: int) -> list[dict]:
+    return _rows("SELECT * FROM crawl_queue WHERE status='pending' ORDER BY priority DESC, updated_at ASC, entity_id "
+                 "LIMIT ?", [limit])
+
+
+def queue_set(entity_id: str, status: str, note: Optional[str] = None) -> None:
+    _execute("UPDATE crawl_queue SET status=?, note=?, updated_at=? WHERE entity_id=?",
+             [status, note, time.time(), entity_id])
+    if backend() == "sqlite":
+        conn().commit()
+
+
+def queue_stats() -> dict:
+    return {f"{r['kind']}:{r['status']}": r["n"] for r in
+            _rows("SELECT kind, status, COUNT(*) AS n FROM crawl_queue GROUP BY kind, status")}
+
+
 def kv_put(key: str, value) -> None:
     _upsert("kv", [(key, json.dumps(value), time.time())])
 
@@ -377,7 +458,7 @@ def companies_for_entity(entity_id: str) -> set[str]:
 # ------------------------------------------------------------------ SQLite -> Postgres sync
 
 SYNC_TABLES = ["funds", "fund_entities", "fund_portfolio", "companies", "rounds", "round_participants", "kv",
-               "display_names", "cache"]
+               "display_names", "company_investors", "cache"]
 
 
 def sync_sqlite_to_postgres(sqlite_path: Optional[Path] = None, pg_url: Optional[str] = None,

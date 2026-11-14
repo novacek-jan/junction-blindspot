@@ -194,5 +194,6 @@ def sources_of(entity: dict, props: list[str]) -> list[dict]:
             url = doc if isinstance(doc, str) else ""
             if url and url not in seen:
                 seen.add(url)
-                out.append({"name": s.get("name") or "", "url": url, "rank": s.get("source_rank")})
+                out.append({"name": s.get("name") or "", "url": url, "rank": s.get("source_rank"),
+                            "date": (str(s.get("date"))[:10] if s.get("date") else None)})
     return out
