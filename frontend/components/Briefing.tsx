@@ -65,7 +65,7 @@ export function Briefing({
         </span>
       </div>
       <div
-        className={`grid grid-cols-1 gap-5 ${insights.length === 3 ? "lg:grid-cols-3" : insights.length === 2 ? "lg:grid-cols-2" : ""}`}
+        className={`grid grid-cols-1 items-start gap-5 ${insights.length === 3 ? "lg:grid-cols-3" : insights.length === 2 ? "lg:grid-cols-2" : ""}`}
       >
         {insights.map((ins, i) => {
           const key = `${ins.fact_id ?? ins.kind}-${i}`;
