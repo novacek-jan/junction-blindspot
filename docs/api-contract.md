@@ -146,8 +146,11 @@ Semantics:
 - **Blind spots** (`never_seen`): market companies not in the CRM, `never_seen.length == summary.never_seen ==
   headline.never_seen` (list capped at 200). Sorted by round amount (descending), then date, then id.
   `round` is the company's latest qualifying round in the thesis. Investors are **context**, not the headline.
-- **Sources are mandatory**: every `round.sources` has at least one entry with `url`, `rank` and `date`
-  (date may be `null` only if Cala has none), so the UI can show "source: PRESS · tech.eu · 2024-06-14".
+- **Sources are mandatory**: every `round.sources` has at least one entry (a round without a Cala source never
+  enters the market). Every entry has the keys `name`, `url`, `rank`, `date`; `rank` or `date` is `null` only
+  when Cala has none (e.g. some press sources carry no rank). Sources are ordered strongest first: FILING,
+  PRIMARY, PRESS, AGGREGATOR, unranked; newest first within a rank, so `sources[0]` is the one to show as
+  "source: PRESS · tech.eu · 2024-06-14".
 - `round.date_kind`: `"announcement"` or `"event"` (which Cala field the date came from). `amount`/`currency`
   may be `null`. `investors[].type` is the Cala entity type (Organization, Company, Person, ...).
 - `top_investors_in_blind_spots`: investors appearing in the most blind-spot rounds (max 10).

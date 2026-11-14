@@ -198,6 +198,15 @@ def _rows(sql: str, params: Iterable = ()) -> list[dict]:
     return [dict(r) for r in _execute(sql, params)]
 
 
+def _sources(raw) -> list[dict]:
+    """Stored sources as contract-shaped dicts; every key present (date may be None for old rows)."""
+    out = []
+    for src in (json.loads(raw) if isinstance(raw, str) else (raw or [])):
+        out.append({"name": src.get("name") or "", "url": src.get("url") or "", "rank": src.get("rank"),
+                    "date": src.get("date")})
+    return out
+
+
 def _in(ids: Iterable[str]) -> tuple[str, list[str]]:
     ids = list(ids)
     return ",".join("?" * len(ids)) or "NULL", ids
@@ -420,7 +429,7 @@ def companies(ids: Iterable[str]) -> dict[str, dict]:
     out = {}
     for r in _rows(f"SELECT * FROM companies WHERE id IN ({ph})", ids):
         r["industries"] = json.loads(r["industries"] or "[]")
-        r["sources"] = json.loads(r["sources"] or "[]")
+        r["sources"] = _sources(r["sources"])
         out[r["id"]] = r
     return out
 
@@ -429,7 +438,7 @@ def rounds_for_companies(ids: Iterable[str]) -> list[dict]:
     ph, ids = _in(ids)
     rows = _rows(f"SELECT * FROM rounds WHERE company_id IN ({ph})", ids)
     for r in rows:
-        r["sources"] = json.loads(r["sources"] or "[]")
+        r["sources"] = _sources(r["sources"])
         r["conflated"] = bool(r["conflated"])
     return rows
 
@@ -441,6 +450,26 @@ def participants(round_ids: Iterable[str]) -> dict[str, list[dict]]:
         r["is_lead"] = bool(r["is_lead"])
         out.setdefault(r["round_id"], []).append(r)
     return out
+
+
+def market_rounds(since: str) -> list[dict]:
+    """Every round dated on/after `since` (the audit applies market.py's rules to them)."""
+    rows = _rows("SELECT * FROM rounds WHERE date >= ?", [since])
+    for r in rows:
+        r["sources"] = _sources(r["sources"])
+        r["conflated"] = bool(r["conflated"])
+    return rows
+
+
+def market_coverage(qualifying: int) -> dict:
+    """How much of Cala the crawler has explored (for an honest 'market as known today' note)."""
+    eu = _rows("SELECT COUNT(*) AS n FROM companies WHERE prefilter IS NOT NULL AND prefilter != 'out_of_europe' "
+               "AND prefilter != 'no_hq'")[0]["n"]
+    inv = _rows("SELECT COUNT(*) AS n FROM crawl_queue WHERE kind='investor' AND status='done'")[0]["n"]
+    last = _rows("SELECT MAX(fetched_at) AS t FROM companies")[0]["t"]
+    as_of = time.strftime("%Y-%m-%d", time.gmtime(last)) if last else None
+    return {"european_companies_screened": eu, "qualifying_companies": qualifying, "investors_explored": inv,
+            "as_of": as_of}
 
 
 def all_company_names() -> list[dict]:

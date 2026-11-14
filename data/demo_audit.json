@@ -1,164 +1,483 @@
 {
- "audit_id": "bc06499e74e5",
+ "audit_id": "4e384d910b60",
  "fund": {
   "id": "7de3d7d6-af8f-4e95-a949-2befc86938a0",
   "name": "Earlybird Venture Capital"
  },
- "peers": [
+ "simulated_crm": true,
+ "period": {
+  "from": "2022-01-01",
+  "to": "2026-11-14"
+ },
+ "thesis": {
+  "stages": [
+   "PRE_SEED",
+   "SEED",
+   "SERIES_A"
+  ],
+  "countries": [
+   "Austria",
+   "Denmark",
+   "Finland",
+   "Germany",
+   "Iceland",
+   "Liechtenstein",
+   "Norway",
+   "Sweden",
+   "Switzerland"
+  ],
+  "industries": [
+   {
+    "code": "BANKING",
+    "name": "Banking"
+   },
+   {
+    "code": "BIOTECHNOLOGY",
+    "name": "Biotechnology"
+   },
+   {
+    "code": "FINTECH",
+    "name": "Fintech"
+   },
+   {
+    "code": "HARDWARE_AND_EQUIPMENT",
+    "name": "Hardware and equipment"
+   },
+   {
+    "code": "INTERNET_AND_WEB_SERVICES",
+    "name": "Internet and web services"
+   },
+   {
+    "code": "PHARMACEUTICALS",
+    "name": "Pharmaceuticals"
+   },
+   {
+    "code": "RENEWABLE_ENERGY",
+    "name": "Renewable energy"
+   },
+   {
+    "code": "SOFTWARE_AND_SERVICES",
+    "name": "Software and services"
+   },
+   {
+    "code": "UTILITIES",
+    "name": "Utilities"
+   }
+  ],
+  "basis_rounds": 8
+ },
+ "headline": {
+  "never_seen": 5,
+  "text": "5 companies in your thesis raised since 2022 and never hit your CRM"
+ },
+ "summary": {
+  "market_companies": 14,
+  "in_crm": 9,
+  "invested": 5,
+  "passed": 3,
+  "in_review": 1,
+  "never_seen": 5,
+  "coverage_pct": 64.3,
+  "market_deals": 14,
+  "in_pipeline": 9
+ },
+ "never_seen": [
   {
-   "id": "94e0ca6a-4e39-4181-bd84-11f264d0aa62",
-   "name": "Speedinvest"
+   "company_id": "a98a18cc-854a-4357-b049-91585d4afb40",
+   "name": "Pliant GmbH",
+   "website": "getpliant.com",
+   "country": "Germany",
+   "industries": [
+    "Fintech",
+    "Software and services"
+   ],
+   "round": {
+    "id": "b8fce2b2-fc3f-5a45-84dc-9f687b668a45",
+    "label": "SERIES_A",
+    "amount": 50000000,
+    "currency": "EUR",
+    "date": "2023-02-17",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "f36abff9-79ae-4fef-990f-9fedc1d51fb5",
+      "name": "ALSTIN Capital",
+      "type": "Organization",
+      "is_lead": false
+     },
+     {
+      "id": "c36e36db-95bf-43cd-93aa-5a026dfd9a73",
+      "name": "Motive Ventures",
+      "type": "Organization",
+      "is_lead": false
+     }
+    ],
+    "sources": [
+     {
+      "name": "newsroom.paypal-corp.com",
+      "url": "https://newsroom.paypal-corp.com/2024-04-17-PayPal-Ventures-Leads-Pliants-18-Million-Series-A-Extension-Financing",
+      "rank": "PRIMARY",
+      "date": "2024-04-17"
+     },
+     {
+      "name": "getpliant.com",
+      "url": "https://www.getpliant.com/en/press/pliant-concludes-a-successful-2023",
+      "rank": "PRIMARY",
+      "date": "2024-01-16"
+     },
+     {
+      "name": "getpliant.com",
+      "url": "https://www.getpliant.com/nl/pers/pliant-raises-28-million-in-series-a-funding-round",
+      "rank": "PRIMARY",
+      "date": "2023-02-17"
+     }
+    ]
+   }
   },
+  {
+   "company_id": "d2929f0c-d341-487c-a25c-52a1e0df01a2",
+   "name": "Synera",
+   "website": "synera.io",
+   "country": "Germany",
+   "industries": [
+    "Software and services"
+   ],
+   "round": {
+    "id": "d79083a7-94bd-5cee-87c4-2cd259053997",
+    "label": "SERIES_A",
+    "amount": 14500000,
+    "currency": "EUR",
+    "date": "2022-09-07",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "61f378b9-5a27-40bb-bcfb-62d90f61dc8b",
+      "name": "Spark Capital",
+      "type": "Organization",
+      "is_lead": true
+     },
+     {
+      "id": "3ac66fe6-39ad-4a66-b995-b5da413d1bf3",
+      "name": "BMW i Ventures",
+      "type": "Company",
+      "is_lead": false
+     },
+     {
+      "id": "c06adc97-e2d8-4590-a329-4462750ee4e6",
+      "name": "Cherry Ventures",
+      "type": "Company",
+      "is_lead": false
+     },
+     {
+      "id": "cedda44c-1f23-4c8f-99db-2494c4ea8700",
+      "name": "UVC Partners",
+      "type": "Company",
+      "is_lead": false
+     },
+     {
+      "id": "c488efcf-c285-4138-bc36-05a64ccabe4f",
+      "name": "Venture Stars",
+      "type": "Company",
+      "is_lead": false
+     }
+    ],
+    "sources": [
+     {
+      "name": "synera.ai",
+      "url": "https://www.synera.ai/news/series-a-funding",
+      "rank": "PRIMARY",
+      "date": "2022-09-07"
+     },
+     {
+      "name": "businesswire.com",
+      "url": "https://www.businesswire.com/news/home/20220907005348/en/ELISE-raises-14.8-million-Series-A-to-scale-connected-engineering",
+      "rank": "PRESS",
+      "date": "2022-09-07"
+     }
+    ]
+   }
+  },
+  {
+   "company_id": "7aee8784-e220-425c-bff9-56cf5ed5932b",
+   "name": "Gilion",
+   "website": "gilion.com",
+   "country": "Sweden",
+   "industries": [
+    "Fintech",
+    "Software and services",
+    "Venture capital"
+   ],
+   "round": {
+    "id": "51db1bf1-d5c2-586d-98ab-f21c931b07ad",
+    "label": "SEED",
+    "amount": 10000000,
+    "currency": "EUR",
+    "date": "2024-04-10",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "a04ff8af-9d8d-5acb-9feb-a773292b2711",
+      "name": "Andrew Konopelski",
+      "type": "Person",
+      "is_lead": false
+     },
+     {
+      "id": "606040f0-eff6-5342-80e5-8bb73af4e23d",
+      "name": "Annika Falkengren",
+      "type": "Person",
+      "is_lead": false
+     },
+     {
+      "id": "16a726bc-5fb2-5958-bd57-3502d1f59b17",
+      "name": "Goran Garvner",
+      "type": "Person",
+      "is_lead": false
+     },
+     {
+      "id": "cc12cc89-3440-598d-9ac4-87a23a90062b",
+      "name": "Henrik Garvner",
+      "type": "Person",
+      "is_lead": false
+     },
+     {
+      "id": "0a8fb60d-dcf3-5479-95a9-def3a4ed4c5b",
+      "name": "Oscar Werner",
+      "type": "Person",
+      "is_lead": false
+     }
+    ],
+    "sources": [
+     {
+      "name": "eu-startups.com",
+      "url": "https://www.eu-startups.com/2024/04/stockholm-based-gilion-secures-e10-million-equity-round-to-fuel-expansion-of-its-growth-platform/",
+      "rank": "PRESS",
+      "date": "2024-04-10"
+     },
+     {
+      "name": "seedtable.com",
+      "url": "https://seedtable.com/companies/gilion/funding-rounds",
+      "rank": "AGGREGATOR",
+      "date": "2026-11-04"
+     }
+    ]
+   }
+  },
+  {
+   "company_id": "740ec1be-1981-4b1d-a014-18f0a12c8fed",
+   "name": "deeploi",
+   "website": "deeploi.io",
+   "country": "Germany",
+   "industries": [
+    "Software and services"
+   ],
+   "round": {
+    "id": "111aed44-6f2e-586b-9ece-2c65593ebf6f",
+    "label": "SEED",
+    "amount": 6000000,
+    "currency": "EUR",
+    "date": "2024-01-24",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "32e27d54-3922-407f-aa07-2747d94b210c",
+      "name": "Atomico",
+      "type": "Company",
+      "is_lead": true
+     },
+     {
+      "id": "c06adc97-e2d8-4590-a329-4462750ee4e6",
+      "name": "Cherry Ventures",
+      "type": "Company",
+      "is_lead": false
+     }
+    ],
+    "sources": [
+     {
+      "name": "techcrunch.com",
+      "url": "https://techcrunch.com/2024/01/24/deeploi-it-as-a-service-atomico/",
+      "rank": null,
+      "date": "2024-01-24"
+     },
+     {
+      "name": "finsmes.com",
+      "url": "https://www.finsmes.com/2024/01/deeploi-closes-e6m-seed-funding-round.html",
+      "rank": null,
+      "date": "2024-01-24"
+     }
+    ]
+   }
+  },
+  {
+   "company_id": "c83207b7-2e55-44af-a4e8-26463e746626",
+   "name": "Forgent AI GmbH",
+   "website": "forgent.ai",
+   "country": "Germany",
+   "industries": [
+    "Government and public admin",
+    "Software and services"
+   ],
+   "round": {
+    "id": "89aecaa6-dc3c-585b-af1c-b163da6b74a8",
+    "label": "PRE_SEED",
+    "amount": 4300000,
+    "currency": "EUR",
+    "date": "2025-09-23",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "c06adc97-e2d8-4590-a329-4462750ee4e6",
+      "name": "Cherry Ventures",
+      "type": "Company",
+      "is_lead": true
+     },
+     {
+      "id": "e811f1f6-6ecf-4f98-aa99-e3a9e2211458",
+      "name": "Charlie Songhurst",
+      "type": "Person",
+      "is_lead": false
+     },
+     {
+      "id": "3575b080-b535-420c-9284-b09481e8a793",
+      "name": "Katrin Suder",
+      "type": "Person",
+      "is_lead": false
+     },
+     {
+      "id": "abd3d254-3a98-4569-b867-2bc1e6e3e110",
+      "name": "Rethink Ventures",
+      "type": "Company",
+      "is_lead": false
+     }
+    ],
+    "sources": [
+     {
+      "name": "thesaasnews.com",
+      "url": "https://www.thesaasnews.com/news/forgent-ai-secures-4-3-million-pre-seed/",
+      "rank": "PRESS",
+      "date": "2025-09-22"
+     },
+     {
+      "name": "preqin.com",
+      "url": "https://www.preqin.com/data/profile/asset/forgent-ai-gmbh/769464",
+      "rank": "AGGREGATOR",
+      "date": "2025-10-01"
+     }
+    ]
+   }
+  }
+ ],
+ "top_investors_in_blind_spots": [
   {
    "id": "c06adc97-e2d8-4590-a329-4462750ee4e6",
-   "name": "Cherry Ventures"
+   "name": "Cherry Ventures",
+   "companies": 3
   },
   {
-   "id": "aa87dde8-7dc3-4fc0-957f-143da6ddc0b7",
-   "name": "Seedcamp"
+   "id": "f36abff9-79ae-4fef-990f-9fedc1d51fb5",
+   "name": "ALSTIN Capital",
+   "companies": 1
   },
   {
-   "id": "10c75ca4-24d6-4a32-8f22-08d4b1dfffce",
-   "name": "Northzone"
+   "id": "a04ff8af-9d8d-5acb-9feb-a773292b2711",
+   "name": "Andrew Konopelski",
+   "companies": 1
+  },
+  {
+   "id": "606040f0-eff6-5342-80e5-8bb73af4e23d",
+   "name": "Annika Falkengren",
+   "companies": 1
   },
   {
    "id": "32e27d54-3922-407f-aa07-2747d94b210c",
-   "name": "Atomico"
+   "name": "Atomico",
+   "companies": 1
   },
   {
-   "id": "16bdbb1a-6658-4fa2-9b04-0a48011841d2",
-   "name": "Lakestar"
+   "id": "3ac66fe6-39ad-4a66-b995-b5da413d1bf3",
+   "name": "BMW i Ventures",
+   "companies": 1
   },
   {
-   "id": "4a7ccd5d-1310-46b0-bd42-4ff8b409acc5",
-   "name": "Index Ventures"
+   "id": "e811f1f6-6ecf-4f98-aa99-e3a9e2211458",
+   "name": "Charlie Songhurst",
+   "companies": 1
   },
   {
-   "id": "c96fa533-91c0-5674-bcbe-0d0dc934b7fa",
-   "name": "Balderton Capital"
+   "id": "16a726bc-5fb2-5958-bd57-3502d1f59b17",
+   "name": "Goran Garvner",
+   "companies": 1
+  },
+  {
+   "id": "cc12cc89-3440-598d-9ac4-87a23a90062b",
+   "name": "Henrik Garvner",
+   "companies": 1
+  },
+  {
+   "id": "3575b080-b535-420c-9284-b09481e8a793",
+   "name": "Katrin Suder",
+   "companies": 1
   }
  ],
- "simulated_crm": true,
- "summary": {
-  "market_deals": 20,
-  "in_pipeline": 9,
-  "invested": 1,
-  "passed": 5,
-  "in_review": 3,
-  "never_seen": 11,
-  "coverage_pct": 45.0
+ "market_coverage": {
+  "european_companies_screened": 806,
+  "qualifying_companies": 44,
+  "investors_explored": 0,
+  "as_of": "2026-11-14"
  },
+ "peers": [],
  "venn": {
-  "pipeline_only": 20,
+  "pipeline_only": 17,
   "overlap": 9,
-  "market_only": 11
+  "market_only": 5
  },
  "heatmap": {
   "countries": [
-   "United Kingdom",
    "Germany",
-   "France",
    "Austria",
-   "Switzerland"
+   "Switzerland",
+   "Finland",
+   "Sweden"
   ],
   "stages": [
    "PRE_SEED",
    "SEED",
-   "SERIES_A",
-   "SERIES_B",
-   "SERIES_C"
+   "SERIES_A"
   ],
   "cells": [
    {
-    "country": "United Kingdom",
+    "country": "Germany",
     "stage": "PRE_SEED",
-    "total": 3,
-    "never_seen": 3,
-    "share": 1.0
-   },
-   {
-    "country": "United Kingdom",
-    "stage": "SEED",
-    "total": 1,
-    "never_seen": 0,
-    "share": 0.0
-   },
-   {
-    "country": "United Kingdom",
-    "stage": "SERIES_B",
     "total": 1,
     "never_seen": 1,
     "share": 1.0
    },
    {
-    "country": "United Kingdom",
-    "stage": "SERIES_C",
+    "country": "Germany",
+    "stage": "SEED",
     "total": 2,
     "never_seen": 1,
     "share": 0.5
    },
    {
     "country": "Germany",
-    "stage": "PRE_SEED",
-    "total": 1,
-    "never_seen": 1,
-    "share": 1.0
-   },
-   {
-    "country": "Germany",
-    "stage": "SEED",
-    "total": 1,
-    "never_seen": 0,
-    "share": 0.0
-   },
-   {
-    "country": "Germany",
-    "stage": "SERIES_B",
-    "total": 2,
-    "never_seen": 0,
-    "share": 0.0
-   },
-   {
-    "country": "Germany",
-    "stage": "SERIES_C",
-    "total": 2,
+    "stage": "SERIES_A",
+    "total": 5,
     "never_seen": 2,
-    "share": 1.0
+    "share": 0.4
    },
    {
-    "country": "France",
+    "country": "Austria",
     "stage": "SEED",
     "total": 1,
     "never_seen": 0,
     "share": 0.0
    },
    {
-    "country": "France",
+    "country": "Austria",
     "stage": "SERIES_A",
     "total": 1,
-    "never_seen": 1,
-    "share": 1.0
-   },
-   {
-    "country": "France",
-    "stage": "SERIES_B",
-    "total": 1,
-    "never_seen": 1,
-    "share": 1.0
-   },
-   {
-    "country": "Austria",
-    "stage": "SEED",
-    "total": 1,
     "never_seen": 0,
     "share": 0.0
-   },
-   {
-    "country": "Austria",
-    "stage": "SERIES_B",
-    "total": 1,
-    "never_seen": 1,
-    "share": 1.0
    },
    {
     "country": "Switzerland",
@@ -169,227 +488,145 @@
    },
    {
     "country": "Switzerland",
-    "stage": "SEED",
+    "stage": "SERIES_A",
     "total": 1,
     "never_seen": 0,
     "share": 0.0
+   },
+   {
+    "country": "Finland",
+    "stage": "PRE_SEED",
+    "total": 1,
+    "never_seen": 0,
+    "share": 0.0
+   },
+   {
+    "country": "Sweden",
+    "stage": "SEED",
+    "total": 1,
+    "never_seen": 1,
+    "share": 1.0
    }
   ]
  },
- "top_blind_spots": [
-  {
-   "title": "UK & Irish pre-seed",
-   "detail": "You never saw 3 of 3 UK & Irish pre-seed rounds your peers did since 2023."
-  },
-  {
-   "title": "Cherry Ventures Peer Deals",
-   "detail": "Cherry Ventures led 2 peer deals that never reached your pipeline."
-  },
-  {
-   "title": "DACH Series C",
-   "detail": "You never saw 2 of 2 DACH Series C rounds your peers did since 2023."
-  }
- ],
+ "top_blind_spots": [],
  "never_seen_deals": [
-  {
-   "company_id": "05c683f3-4032-4b91-9152-5fb8b2871c06",
-   "name": "Flink",
-   "website": "goflink.com",
-   "country": "Germany",
-   "stage": "SERIES_C",
-   "amount": 100000000,
-   "currency": "USD",
-   "date": "2026-03-03",
-   "lead_investors": [
-    {
-     "id": "dea0f32c-bbbe-4471-8ca9-6a0b2b1cfea1",
-     "name": "Prosus N.V."
-    }
-   ],
-   "sources": [
-    {
-     "name": "sifted.eu",
-     "url": "https://sifted.eu/articles/flink-100m-900m-valuation",
-     "rank": null
-    },
-    {
-     "name": "tracxn.com",
-     "url": "https://tracxn.com/d/companies/flink/__8bTRHHwA10zZDik_b_GwEEGM3OrNacqCEQbW1Zk64HU",
-     "rank": null
-    }
-   ],
-   "conflated": false
-  },
-  {
-   "company_id": "fa1dd1c6-b1b0-44a6-99da-09fbfd908c90",
-   "name": "Spiko",
-   "website": "spiko.io",
-   "country": "France",
-   "stage": "SERIES_B",
-   "amount": 90000000,
-   "currency": "USD",
-   "date": "2026-10-06",
-   "lead_investors": [
-    {
-     "id": "672cb768-589c-4a36-addf-e4345bdffbc2",
-     "name": "New Enterprise Associates, Inc."
-    }
-   ],
-   "sources": [
-    {
-     "name": "spiko.io",
-     "url": "https://www.spiko.io/blog/weve-raised-90m-to-make-cash-earn-for-everyone",
-     "rank": null
-    },
-    {
-     "name": "crypto.news",
-     "url": "https://crypto.news/spiko-raises-90m-as-its-tokenized-funds-hit-2-7b/",
-     "rank": null
-    },
-    {
-     "name": "cryptoast.fr",
-     "url": "https://cryptoast.fr/spiko-leve-90-millions-dollars-serie-b-nea/",
-     "rank": null
-    },
-    {
-     "name": "boersen-zeitung.de",
-     "url": "https://www.boersen-zeitung.de/banken-finanzen/axel-weber-steigt-bei-fintech-spiko-ein",
-     "rank": null
-    }
-   ],
-   "conflated": false
-  },
   {
    "company_id": "a98a18cc-854a-4357-b049-91585d4afb40",
    "name": "Pliant GmbH",
    "website": "getpliant.com",
    "country": "Germany",
-   "stage": "SERIES_C",
-   "amount": 80000000,
-   "currency": "USD",
-   "date": "2026-11-04",
-   "lead_investors": [
-    {
-     "id": "ef0faddc-af4a-4028-8209-dd81731d5e51",
-     "name": "Seaya Nova"
-    },
-    {
-     "id": "94e0ca6a-4e39-4181-bd84-11f264d0aa62",
-     "name": "Speedinvest"
-    }
-   ],
-   "sources": [
-    {
-     "name": "getpliant.com",
-     "url": "https://www.getpliant.com/en/press/80-million-series-c",
-     "rank": "PRIMARY"
-    },
-    {
-     "name": "thenextweb.com",
-     "url": "https://thenextweb.com/news/pliant-80m-series-c-ai-agents-b2b-payments-seaya-speedinvest",
-     "rank": "PRESS"
-    }
-   ],
-   "conflated": false
-  },
-  {
-   "company_id": "70819912-06d6-4b58-b152-56dd9029ae2d",
-   "name": "Vertice",
-   "website": "vertice.one",
-   "country": "United Kingdom",
-   "stage": "SERIES_C",
-   "amount": 50000000,
-   "currency": "USD",
-   "date": "2025-01-22",
-   "lead_investors": [
-    {
-     "id": "16bdbb1a-6658-4fa2-9b04-0a48011841d2",
-     "name": "Lakestar"
-    }
-   ],
-   "sources": [
-    {
-     "name": "fintechfutures.com",
-     "url": "https://www.fintechfutures.com/venture-capital-funding/procurement-spend-optimisation-platform-vertice-raises-50m-series-c-funding-round",
-     "rank": null
-    },
-    {
-     "name": "pymnts.com",
-     "url": "https://www.pymnts.com/spend-management/2025/vertice-raises-50-million-to-expand-procurement-platform",
-     "rank": null
-    },
-    {
-     "name": "fintechmagazine.com",
-     "url": "https://fintechmagazine.com/articles/vertice-series-c-funding",
-     "rank": null
-    }
-   ],
-   "conflated": false
-  },
-  {
-   "company_id": "a88c0305-2762-4b19-b7e8-538ab480de26",
-   "name": "Spektr",
-   "website": "spektr.com",
-   "country": "France",
    "stage": "SERIES_A",
-   "amount": 20000000,
-   "currency": "USD",
-   "date": "2026-04-17",
-   "lead_investors": [
-    {
-     "id": "f4c35f2d-da4c-564d-8daa-317dc6e22241",
-     "name": "NEA"
-    }
-   ],
-   "sources": [
-    {
-     "name": "thesaasnews.com",
-     "url": "https://www.thesaasnews.com/news/spektr-raises-20-million-series-a/",
-     "rank": "PRESS"
-    }
-   ],
-   "conflated": false
-  },
-  {
-   "company_id": "76ca82be-fdd7-45d3-9cd5-c4d6f005328d",
-   "name": "Wordsmith",
-   "website": "wordsmith.ai",
-   "country": "United Kingdom",
-   "stage": "SERIES_B",
-   "amount": 10400000,
-   "currency": "GBP",
-   "date": "2026-08-05",
+   "amount": 50000000,
+   "currency": "EUR",
+   "date": "2023-02-17",
    "lead_investors": [],
    "sources": [
     {
-     "name": "sifted.eu",
-     "url": "https://sifted.eu/articles/wordsmith-14m-series-b-extension/",
-     "rank": "PRESS"
+     "name": "newsroom.paypal-corp.com",
+     "url": "https://newsroom.paypal-corp.com/2024-04-17-PayPal-Ventures-Leads-Pliants-18-Million-Series-A-Extension-Financing",
+     "rank": "PRIMARY",
+     "date": "2024-04-17"
     },
     {
-     "name": "dealroom.co",
-     "url": "https://dealroom.co/news/143227-wordsmith-ai-extends-series-b-with-14m-from-intact-private-capital-and-f/",
-     "rank": "AGGREGATOR"
+     "name": "getpliant.com",
+     "url": "https://www.getpliant.com/en/press/pliant-concludes-a-successful-2023",
+     "rank": "PRIMARY",
+     "date": "2024-01-16"
     },
     {
-     "name": "legaltechnologyhub.com",
-     "url": "https://www.legaltechnologyhub.com/vendors/wordsmith-ai/",
-     "rank": "AGGREGATOR"
+     "name": "getpliant.com",
+     "url": "https://www.getpliant.com/nl/pers/pliant-raises-28-million-in-series-a-funding-round",
+     "rank": "PRIMARY",
+     "date": "2023-02-17"
+    }
+   ],
+   "conflated": false
+  },
+  {
+   "company_id": "d2929f0c-d341-487c-a25c-52a1e0df01a2",
+   "name": "Synera",
+   "website": "synera.io",
+   "country": "Germany",
+   "stage": "SERIES_A",
+   "amount": 14500000,
+   "currency": "EUR",
+   "date": "2022-09-07",
+   "lead_investors": [
+    {
+     "id": "61f378b9-5a27-40bb-bcfb-62d90f61dc8b",
+     "name": "Spark Capital"
+    }
+   ],
+   "sources": [
+    {
+     "name": "synera.ai",
+     "url": "https://www.synera.ai/news/series-a-funding",
+     "rank": "PRIMARY",
+     "date": "2022-09-07"
     },
     {
-     "name": "uktech.news",
-     "url": "https://www.uktech.news/legal/legal-ai-group-wordsmith-extends-series-b-with-10m-boost-20260806",
-     "rank": "PRESS"
+     "name": "businesswire.com",
+     "url": "https://www.businesswire.com/news/home/20220907005348/en/ELISE-raises-14.8-million-Series-A-to-scale-connected-engineering",
+     "rank": "PRESS",
+     "date": "2022-09-07"
+    }
+   ],
+   "conflated": false
+  },
+  {
+   "company_id": "7aee8784-e220-425c-bff9-56cf5ed5932b",
+   "name": "Gilion",
+   "website": "gilion.com",
+   "country": "Sweden",
+   "stage": "SEED",
+   "amount": 10000000,
+   "currency": "EUR",
+   "date": "2024-04-10",
+   "lead_investors": [],
+   "sources": [
+    {
+     "name": "eu-startups.com",
+     "url": "https://www.eu-startups.com/2024/04/stockholm-based-gilion-secures-e10-million-equity-round-to-fuel-expansion-of-its-growth-platform/",
+     "rank": "PRESS",
+     "date": "2024-04-10"
     },
     {
-     "name": "wordsmith.ai",
-     "url": "https://www.wordsmith.ai/blog/wordsmith-extends-series-b-with-investment-from-intact-private-capital-and-ft-ventures",
-     "rank": "PRIMARY"
+     "name": "seedtable.com",
+     "url": "https://seedtable.com/companies/gilion/funding-rounds",
+     "rank": "AGGREGATOR",
+     "date": "2026-11-04"
+    }
+   ],
+   "conflated": false
+  },
+  {
+   "company_id": "740ec1be-1981-4b1d-a014-18f0a12c8fed",
+   "name": "deeploi",
+   "website": "deeploi.io",
+   "country": "Germany",
+   "stage": "SEED",
+   "amount": 6000000,
+   "currency": "EUR",
+   "date": "2024-01-24",
+   "lead_investors": [
+    {
+     "id": "32e27d54-3922-407f-aa07-2747d94b210c",
+     "name": "Atomico"
+    }
+   ],
+   "sources": [
+    {
+     "name": "techcrunch.com",
+     "url": "https://techcrunch.com/2024/01/24/deeploi-it-as-a-service-atomico/",
+     "rank": null,
+     "date": "2024-01-24"
     },
     {
-     "name": "pulse2.com",
-     "url": "https://pulse2.com/wordsmith-ai-raises-14-million-series-b-extension-led-by-intact-private-capital/",
-     "rank": "PRESS"
+     "name": "finsmes.com",
+     "url": "https://www.finsmes.com/2024/01/deeploi-closes-e6m-seed-funding-round.html",
+     "rank": null,
+     "date": "2024-01-24"
     }
    ],
    "conflated": false
@@ -413,170 +650,14 @@
     {
      "name": "thesaasnews.com",
      "url": "https://www.thesaasnews.com/news/forgent-ai-secures-4-3-million-pre-seed/",
-     "rank": "PRESS"
+     "rank": "PRESS",
+     "date": "2025-09-22"
     },
     {
      "name": "preqin.com",
      "url": "https://www.preqin.com/data/profile/asset/forgent-ai-gmbh/769464",
-     "rank": "AGGREGATOR"
-    }
-   ],
-   "conflated": false
-  },
-  {
-   "company_id": "f9eb34d4-0152-4726-ad62-48fe0c506fb1",
-   "name": "Rival Technologies",
-   "website": "rival.tech",
-   "country": "United Kingdom",
-   "stage": "PRE_SEED",
-   "amount": 4200000,
-   "currency": "USD",
-   "date": "2025-03-25",
-   "lead_investors": [
-    {
-     "id": "94e0ca6a-4e39-4181-bd84-11f264d0aa62",
-     "name": "Speedinvest"
-    }
-   ],
-   "sources": [
-    {
-     "name": "tech.eu",
-     "url": "https://tech.eu/2025/03/25/rival-emerges-from-stealth-with-ai-powered-3d-content-platform-and-42m-investment/",
-     "rank": "PRESS"
-    },
-    {
-     "name": "uktech.news",
-     "url": "https://www.uktech.news/funding/3d-content-platform-rival-emerges-from-stealth-with-4-2-million-pre-seed-round-20250325",
-     "rank": "PRESS"
-    },
-    {
-     "name": "techfundingnews.com",
-     "url": "https://techfundingnews.com/meet-rival-ex-google-and-meta-engineers-scoop-4-2m-to-launch-3d-content-creation-platform-with-2d-to-3d-ai-technology/",
-     "rank": "PRESS"
-    },
-    {
-     "name": "find-and-update.company-information.service.gov.uk",
-     "url": "https://find-and-update.company-information.service.gov.uk/company/15026250/filing-history/MzQyNTYwMzc5NmFkaXF6a2N4/document?format=pdf&download=0",
-     "rank": "FILING"
-    }
-   ],
-   "conflated": false
-  },
-  {
-   "company_id": "1898b7c7-873c-4ab3-ac27-a330ff23cafd",
-   "name": "Phoebe Technology",
-   "website": "withcoral.com",
-   "country": "United Kingdom",
-   "stage": "PRE_SEED",
-   "amount": 4086854.81,
-   "currency": "GBP",
-   "date": "2025-08-20",
-   "lead_investors": [
-    {
-     "id": "c06adc97-e2d8-4590-a329-4462750ee4e6",
-     "name": "Cherry Ventures"
-    },
-    {
-     "id": "7727e24d-70f4-4240-8b84-1680b8552be1",
-     "name": "GV"
-    }
-   ],
-   "sources": [
-    {
-     "name": "find-and-update.company-information.service.gov.uk",
-     "url": "https://find-and-update.company-information.service.gov.uk/company/15331837/filing-history",
-     "rank": "FILING"
-    },
-    {
-     "name": "blog.phoebe.ai",
-     "url": "https://blog.phoebe.ai/phoebe-raises-17m-to-build-the-first-immune-system-for-software/",
-     "rank": "PRIMARY"
-    }
-   ],
-   "conflated": false
-  },
-  {
-   "company_id": "9d16303b-f854-41e9-b064-0b093fc9f6df",
-   "name": "Cerebral Adaptive Forecasting",
-   "website": "recurse.ml",
-   "country": "United Kingdom",
-   "stage": "PRE_SEED",
-   "amount": 2514926,
-   "currency": "GBP",
-   "date": "2024-07-10",
-   "lead_investors": [
-    {
-     "id": "097cd5c6-327f-4802-8108-6cde93fe2d5b",
-     "name": "Entrepreneur First"
-    },
-    {
-     "id": "5b52a635-9b65-4883-b12f-40eb401f1599",
-     "name": "Playfair Capital"
-    },
-    {
-     "id": "aa87dde8-7dc3-4fc0-957f-143da6ddc0b7",
-     "name": "Seedcamp"
-    }
-   ],
-   "sources": [
-    {
-     "name": "find-and-update.company-information.service.gov.uk",
-     "url": "https://find-and-update.company-information.service.gov.uk/company/15030175/filing-history/MzQzODEwNzEwN2FkaXF6a2N4/document?format=pdf&download=0",
-     "rank": "FILING"
-    },
-    {
-     "name": "find-and-update.company-information.service.gov.uk",
-     "url": "https://find-and-update.company-information.service.gov.uk/company/15030175/filing-history/MzQzODEwNTY5MmFkaXF6a2N4/document?format=pdf&download=0",
-     "rank": "FILING"
-    },
-    {
-     "name": "find-and-update.company-information.service.gov.uk",
-     "url": "https://find-and-update.company-information.service.gov.uk/company/15030175/filing-history/MzQzODExMDAyNWFkaXF6a2N4/document?format=pdf&download=0",
-     "rank": "FILING"
-    },
-    {
-     "name": "find-and-update.company-information.service.gov.uk",
-     "url": "https://find-and-update.company-information.service.gov.uk/company/15030175/filing-history/MzQzODExMTMwOWFkaXF6a2N4/document?format=pdf&download=0",
-     "rank": "FILING"
-    },
-    {
-     "name": "seedcamp.com",
-     "url": "https://seedcamp.com/views/recurse-ml-raises-2-5m-to-build-machine-learning-models-for-large-codebase-maintenance/",
-     "rank": "PRIMARY"
-    },
-    {
-     "name": "find-and-update.company-information.service.gov.uk",
-     "url": "https://find-and-update.company-information.service.gov.uk/company/15030175/filing-history/MzUzNzU2ODYyNGFkaXF6a2N4/document?format=pdf&download=0",
-     "rank": "FILING"
-    },
-    {
-     "name": "find-and-update.company-information.service.gov.uk",
-     "url": "https://find-and-update.company-information.service.gov.uk/company/15030175/filing-history/MzQzODM5NTQ1OWFkaXF6a2N4/document?format=pdf&download=0",
-     "rank": "FILING"
-    },
-    {
-     "name": "medium.com",
-     "url": "https://medium.com/playfair-capital-blog/why-we-invested-in-recurse-ml-f2634d41ae4f",
-     "rank": "PRIMARY"
-    }
-   ],
-   "conflated": false
-  },
-  {
-   "company_id": "3006840a-fea6-42d0-a5cc-c6c991f38e69",
-   "name": "Prewave GmbH",
-   "website": "prewave.com",
-   "country": "Austria",
-   "stage": "SERIES_B",
-   "amount": null,
-   "currency": null,
-   "date": "2025-04-02",
-   "lead_investors": [],
-   "sources": [
-    {
-     "name": "trendingtopics.eu",
-     "url": "https://www.trendingtopics.eu/prewave-volvo-rolex",
-     "rank": "PRESS"
+     "rank": "AGGREGATOR",
+     "date": "2025-10-01"
     }
    ],
    "conflated": false
@@ -584,28 +665,18 @@
  ],
  "top_missed_leads": [
   {
+   "id": "32e27d54-3922-407f-aa07-2747d94b210c",
+   "name": "Atomico",
+   "deals": 1
+  },
+  {
    "id": "c06adc97-e2d8-4590-a329-4462750ee4e6",
    "name": "Cherry Ventures",
-   "deals": 2
-  },
-  {
-   "id": "94e0ca6a-4e39-4181-bd84-11f264d0aa62",
-   "name": "Speedinvest",
-   "deals": 2
-  },
-  {
-   "id": "097cd5c6-327f-4802-8108-6cde93fe2d5b",
-   "name": "Entrepreneur First",
    "deals": 1
   },
   {
-   "id": "7727e24d-70f4-4240-8b84-1680b8552be1",
-   "name": "GV",
-   "deals": 1
-  },
-  {
-   "id": "16bdbb1a-6658-4fa2-9b04-0a48011841d2",
-   "name": "Lakestar",
+   "id": "61f378b9-5a27-40bb-bcfb-62d90f61dc8b",
+   "name": "Spark Capital",
    "deals": 1
   }
  ]

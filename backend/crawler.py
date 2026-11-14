@@ -7,7 +7,7 @@
   round         -> round_label, transaction_value (+currency), announcement_date,
                    participants with role and is_lead, sources
 
-All rounds are stored; the API applies the date window (2023+). Every Cala response
+All rounds are stored; the API applies the date window (since 2022). Every Cala response
 is cached (db.cache_*), so re-runs only fetch what is missing. Writes go to the
 normalized tables as soon as each entity is processed, so the API (WAL mode) can
 read while this runs.
@@ -34,7 +34,7 @@ from cala_client import Cala, PaymentRequired, sources_of, val  # noqa: E402
 from funds import FUNDS  # noqa: E402
 
 WORKERS = 4
-MIN_DATE = "2023-01-01"   # summary window; all rounds are stored
+MIN_DATE = "2022-01-01"   # summary window (market.PERIOD_FROM); all rounds are stored
 CONFLATION_THRESHOLDS = {"PRE_SEED": 5e6, "SEED": 10e6, "SERIES_A": 75e6, "SERIES_B": 250e6,
                          "SERIES_C": 600e6, "SERIES_D": 1.5e9, "SERIES_E": 2e9, "SERIES_F": 3e9}  # = audit.MAX_PLAUSIBLE_ROUND
 FUND_ENTITY_TYPES = ["Organization", "Company"]

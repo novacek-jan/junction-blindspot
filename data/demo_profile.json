@@ -3,102 +3,64 @@
   "id": "7de3d7d6-af8f-4e95-a949-2befc86938a0",
   "name": "Earlybird Venture Capital"
  },
- "investments_since_2022": 7,
+ "period": {
+  "from": "2022-01-01",
+  "to": "2026-11-14"
+ },
+ "scope": "Europe",
+ "investments_since_2022": 8,
+ "out_of_scope_deals": 0,
  "stages": [
   {
-   "label": "PRE_SEED",
-   "share": 0.3
-  },
-  {
    "label": "SERIES_A",
-   "share": 0.3
+   "share": 0.38
   },
   {
-   "label": "SERIES_B",
-   "share": 0.2
+   "label": "PRE_SEED",
+   "share": 0.25
   },
   {
    "label": "SEED",
-   "share": 0.1
+   "share": 0.12
+  },
+  {
+   "label": "SERIES_B",
+   "share": 0.12
   },
   {
    "label": "SERIES_D",
-   "share": 0.1
+   "share": 0.12
   }
  ],
  "countries": [
   {
    "name": "Germany",
-   "count": 50
-  },
-  {
-   "name": "United States",
-   "count": 21
-  },
-  {
-   "name": "Switzerland",
-   "count": 10
-  },
-  {
-   "name": "Türkiye",
-   "count": 8
-  },
-  {
-   "name": "United Kingdom",
-   "count": 8
-  },
-  {
-   "name": "France",
-   "count": 7
-  },
-  {
-   "name": "Spain",
-   "count": 3
-  },
-  {
-   "name": "Belgium",
-   "count": 2
+   "count": 4
   },
   {
    "name": "Finland",
    "count": 2
   },
   {
-   "name": "Ireland",
+   "name": "Switzerland",
    "count": 2
-  },
-  {
-   "name": "Italy",
-   "count": 2
-  },
-  {
-   "name": "Lithuania",
-   "count": 2
-  },
-  {
-   "name": "Bulgaria",
-   "count": 1
-  },
-  {
-   "name": "Denmark",
-   "count": 1
-  },
-  {
-   "name": "Liechtenstein",
-   "count": 1
-  },
-  {
-   "name": "Poland",
-   "count": 1
   }
  ],
  "industries": [
   {
    "name": "Software and services",
-   "count": 4
+   "count": 5
   },
   {
-   "name": "Biotechnology",
+   "name": "Hardware and equipment",
+   "count": 2
+  },
+  {
+   "name": "Renewable energy",
+   "count": 2
+  },
+  {
+   "name": "Utilities",
    "count": 2
   },
   {
@@ -106,11 +68,11 @@
    "count": 1
   },
   {
-   "name": "Fintech",
+   "name": "Biotechnology",
    "count": 1
   },
   {
-   "name": "Hardware and equipment",
+   "name": "Fintech",
    "count": 1
   },
   {
@@ -120,25 +82,73 @@
   {
    "name": "Pharmaceuticals",
    "count": 1
-  },
-  {
-   "name": "Renewable energy",
-   "count": 1
-  },
-  {
-   "name": "Utilities",
-   "count": 1
   }
  ],
+ "thesis": {
+  "stages": [
+   "PRE_SEED",
+   "SEED",
+   "SERIES_A"
+  ],
+  "countries": [
+   "Austria",
+   "Denmark",
+   "Finland",
+   "Germany",
+   "Iceland",
+   "Liechtenstein",
+   "Norway",
+   "Sweden",
+   "Switzerland"
+  ],
+  "industries": [
+   {
+    "code": "BANKING",
+    "name": "Banking"
+   },
+   {
+    "code": "BIOTECHNOLOGY",
+    "name": "Biotechnology"
+   },
+   {
+    "code": "FINTECH",
+    "name": "Fintech"
+   },
+   {
+    "code": "HARDWARE_AND_EQUIPMENT",
+    "name": "Hardware and equipment"
+   },
+   {
+    "code": "INTERNET_AND_WEB_SERVICES",
+    "name": "Internet and web services"
+   },
+   {
+    "code": "PHARMACEUTICALS",
+    "name": "Pharmaceuticals"
+   },
+   {
+    "code": "RENEWABLE_ENERGY",
+    "name": "Renewable energy"
+   },
+   {
+    "code": "SOFTWARE_AND_SERVICES",
+    "name": "Software and services"
+   },
+   {
+    "code": "UTILITIES",
+    "name": "Utilities"
+   }
+  ]
+ },
  "suggested_peers": [
   {
    "id": "94e0ca6a-4e39-4181-bd84-11f264d0aa62",
    "name": "Speedinvest",
    "co_investments": 4,
-   "score": 55.1,
+   "score": 58.2,
    "reasons": [
-    "Series B rounds: 29% of your deals, 28% of theirs",
-    "DACH focus: 80% of your deals, 56% of theirs",
+    "Series A rounds: 30% of your deals, 30% of theirs",
+    "DACH focus: 78% of your deals, 58% of theirs",
     "4 portfolio companies in common"
    ]
   },
@@ -146,54 +156,54 @@
    "id": "c06adc97-e2d8-4590-a329-4462750ee4e6",
    "name": "Cherry Ventures",
    "co_investments": 2,
-   "score": 51.2,
+   "score": 53.1,
    "reasons": [
-    "DACH focus: 80% of your deals, 80% of theirs",
-    "Pre-seed rounds: 43% of your deals, 56% of theirs",
-    "Renewable energy: 27% of your deals, 17% of theirs"
-   ]
-  },
-  {
-   "id": "8774eb35-b3d0-4d71-8135-a4fe1187a3b6",
-   "name": "HV Capital",
-   "co_investments": 2,
-   "score": 47.8,
-   "reasons": [
-    "DACH focus: 80% of your deals, 100% of theirs",
-    "Series B rounds: 29% of your deals, 50% of theirs",
-    "2 portfolio companies in common"
+    "DACH focus: 78% of your deals, 83% of theirs",
+    "Pre-seed rounds: 30% of your deals, 50% of theirs",
+    "Software and services: 16% of your deals, 77% of theirs"
    ]
   },
   {
    "id": "955ecf27-7599-4bd4-a2ff-f66265cc6108",
    "name": "La Famiglia",
    "co_investments": 2,
-   "score": 47.7,
+   "score": 49.2,
    "reasons": [
-    "DACH focus: 80% of your deals, 64% of theirs",
-    "Pre-seed rounds: 43% of your deals, 50% of theirs",
-    "2 portfolio companies in common"
+    "DACH focus: 78% of your deals, 64% of theirs",
+    "Pre-seed rounds: 30% of your deals, 50% of theirs",
+    "Software and services: 16% of your deals, 63% of theirs"
    ]
   },
   {
    "id": "aa87dde8-7dc3-4fc0-957f-143da6ddc0b7",
    "name": "Seedcamp",
    "co_investments": 4,
-   "score": 43.7,
+   "score": 47.4,
    "reasons": [
-    "Pre-seed rounds: 43% of your deals, 27% of theirs",
-    "4 portfolio companies in common",
-    "Renewable energy: 27% of your deals, 12% of theirs"
+    "Pre-seed rounds: 30% of your deals, 27% of theirs",
+    "Software and services: 16% of your deals, 55% of theirs",
+    "4 portfolio companies in common"
+   ]
+  },
+  {
+   "id": "8774eb35-b3d0-4d71-8135-a4fe1187a3b6",
+   "name": "HV Capital",
+   "co_investments": 2,
+   "score": 46.7,
+   "reasons": [
+    "DACH focus: 78% of your deals, 100% of theirs",
+    "Series A rounds: 30% of your deals, 67% of theirs",
+    "2 portfolio companies in common"
    ]
   },
   {
    "id": "10c75ca4-24d6-4a32-8f22-08d4b1dfffce",
    "name": "Northzone",
    "co_investments": 3,
-   "score": 43.4,
+   "score": 43.8,
    "reasons": [
-    "DACH focus: 80% of your deals, 36% of theirs",
-    "Series A rounds: 29% of your deals, 29% of theirs",
+    "DACH focus: 78% of your deals, 31% of theirs",
+    "Series A rounds: 30% of your deals, 25% of theirs",
     "3 portfolio companies in common"
    ]
   },
@@ -201,97 +211,107 @@
    "id": "32e27d54-3922-407f-aa07-2747d94b210c",
    "name": "Atomico",
    "co_investments": 1,
-   "score": 41.0,
+   "score": 42.0,
    "reasons": [
-    "DACH focus: 80% of your deals, 62% of theirs",
-    "Series B rounds: 29% of your deals, 18% of theirs",
-    "Software and services: 12% of your deals, 33% of theirs"
+    "Series B rounds: 20% of your deals, 20% of theirs",
+    "DACH focus: 78% of your deals, 47% of theirs",
+    "Software and services: 16% of your deals, 36% of theirs"
    ]
   },
   {
-   "id": "16bdbb1a-6658-4fa2-9b04-0a48011841d2",
-   "name": "Lakestar",
-   "co_investments": 4,
-   "score": 35.9,
+   "id": "492143ea-bc7f-42ed-9d92-3939e826ea33",
+   "name": "btov Partners",
+   "co_investments": 0,
+   "score": 40.7,
    "reasons": [
-    "Series B rounds: 29% of your deals, 25% of theirs",
-    "4 portfolio companies in common",
-    "North American focus: 13% of your deals, 43% of theirs"
+    "DACH focus: 78% of your deals, 100% of theirs",
+    "Series A rounds: 30% of your deals, 33% of theirs",
+    "Software and services: 16% of your deals, 50% of theirs"
    ]
   },
   {
    "id": "4a7ccd5d-1310-46b0-bd42-4ff8b409acc5",
    "name": "Index Ventures",
    "co_investments": 4,
-   "score": 35.7,
+   "score": 38.8,
    "reasons": [
-    "Series B rounds: 29% of your deals, 42% of theirs",
+    "Series A rounds: 30% of your deals, 29% of theirs",
     "4 portfolio companies in common",
-    "North American focus: 13% of your deals, 63% of theirs"
+    "Software and services: 16% of your deals, 54% of theirs"
    ]
   },
   {
-   "id": "c96fa533-91c0-5674-bcbe-0d0dc934b7fa",
-   "name": "Balderton Capital",
-   "co_investments": 1,
-   "score": 32.9,
+   "id": "16bdbb1a-6658-4fa2-9b04-0a48011841d2",
+   "name": "Lakestar",
+   "co_investments": 4,
+   "score": 37.8,
    "reasons": [
-    "Series A rounds: 29% of your deals, 22% of theirs",
-    "Renewable energy: 27% of your deals, 21% of theirs",
-    "DACH focus: 80% of your deals, 17% of theirs"
+    "Series A rounds: 30% of your deals, 30% of theirs",
+    "4 portfolio companies in common",
+    "Software and services: 16% of your deals, 19% of theirs"
    ]
   }
  ],
  "sources": [
   {
-   "name": "marvelfusion.com",
-   "url": "https://marvelfusion.com/newsroom/marvel-fusion-wins-second-us-department-of-energy-infuse-award",
-   "rank": "PRIMARY"
-  },
-  {
-   "name": "foerderportal.bund.de",
-   "url": "https://foerderportal.bund.de/foekat/jsp/SucheAction.do?actionMode=view&fkz=13F1052B",
-   "rank": "FILING"
-  },
-  {
-   "name": "marvelfusion.com",
-   "url": "https://marvelfusion.com/newsroom/german-federal-government-backs-laser-fusion",
-   "rank": "PRIMARY"
-  },
-  {
-   "name": "packgene.com",
-   "url": "https://www.packgene.com/frontier/070926-arpa-h-awards-43m/",
-   "rank": "PRESS"
-  },
-  {
-   "name": "inquirer.com",
-   "url": "https://inquirer.com/health/philadelphia-gene-therapy-research-federal-government-funding-rare-disease-treatment-20260710.html",
-   "rank": "PRESS"
-  },
-  {
-   "name": "prnewswire.com",
-   "url": "https://www.prnewswire.com/news-releases/gemmabio-awarded-arpa-h-funding-to-pursue-innovative-base-editing-strategy-for-rare-liver-diseases-302822136.html",
-   "rank": "PRIMARY"
-  },
-  {
-   "name": "whyy.org",
-   "url": "https://whyy.org/articles/philadelphia-labs-rare-disease-treatment-federal-funding/",
-   "rank": "PRESS"
-  },
-  {
    "name": "avrea.com",
    "url": "https://avrea.com/blog/launching-avrea",
-   "rank": "PRIMARY"
+   "rank": "PRIMARY",
+   "date": "2026-05-26"
   },
   {
    "name": "earlybird.com",
    "url": "https://earlybird.com/perspectives/the-ai-native-ci-cd-platform-why-were-backing-avrea",
-   "rank": "PRIMARY"
+   "rank": "PRIMARY",
+   "date": "2026-05-26"
   },
   {
    "name": "tech.eu",
    "url": "https://tech.eu/2026/05/26/avrea-emerges-from-stealth-with-47m-to-reinvent-cicd-for-the-ai-coding-era/",
-   "rank": "PRESS"
+   "rank": "PRESS",
+   "date": "2026-05-26"
+  },
+  {
+   "name": "thenextweb.com",
+   "url": "https://thenextweb.com/news/avrea-raises-47m-preseed-ai-cicd-helsinki",
+   "rank": "PRESS",
+   "date": "2026-05-26"
+  },
+  {
+   "name": "tech.eu",
+   "url": "https://tech.eu/2026/05/05/german-deeptech-eleqtron-lands-eur57m-series-a-funding",
+   "rank": "PRESS",
+   "date": "2026-05-05"
+  },
+  {
+   "name": "uni-siegen.de",
+   "url": "https://www.uni-siegen.de/en/news/millions-in-funding-for-university-spin-off",
+   "rank": "PRIMARY",
+   "date": "2026-05-05"
+  },
+  {
+   "name": "startupticker.ch",
+   "url": "https://www.startupticker.ch/en/news/porters-raises-2-7-million-to-build-ai-native-banking-operations",
+   "rank": "PRESS",
+   "date": "2026-02-11"
+  },
+  {
+   "name": "finextra.com",
+   "url": "https://www.finextra.com/newsarticle/47254/porters-raises-27m-to-build-ai-native-backoffice",
+   "rank": "PRESS",
+   "date": "2026-02-05"
+  },
+  {
+   "name": "seedcamp.com",
+   "url": "https://seedcamp.com/views/porters-raise-e2-7m-pre-seed-to-fill-the-e3bn-black-hole-in-financial-services/",
+   "rank": "PRIMARY",
+   "date": "2026-02-11"
+  },
+  {
+   "name": "sofinnovapartners.com",
+   "url": "https://sofinnovapartners.com/news/haya-therapeutics-raises-usd65-million-series-a-funding-deliver",
+   "rank": "PRIMARY",
+   "date": "2025-05-08"
   }
  ]
 }

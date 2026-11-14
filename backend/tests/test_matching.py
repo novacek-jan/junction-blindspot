@@ -7,7 +7,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import pytest  # noqa: E402
 
-from audit import PEER_VERBS, blind_spot_facts, parse_crm  # noqa: E402
+from audit import parse_crm  # noqa: E402
 from matching import CompanyIndex, classify, normalize_domain, normalize_name  # noqa: E402
 
 
@@ -101,18 +101,6 @@ def test_parse_crm_comments_and_simulated_flag():
     assert parse_crm("Company,Website,Status,Date\nA,a.com,invested,2024-01-01\n")[1] is False
 
 
-def test_blind_spot_facts_deterministic():
-    comps = {f"s{i}": {"country": "Sweden"} for i in range(4)} | {"d1": {"country": "Germany"}}
-    counted = {cid: {"label": "SEED"} for cid in comps}
-    status = {"s0": "never_seen", "s1": "never_seen", "s2": "never_seen", "s3": "passed", "d1": "never_seen"}
-    facts = blind_spot_facts(counted, status, comps, [{"id": "x", "name": "Creandum", "deals": 3}])
-    assert facts[0] == {"title": "Nordic seed",
-                        "detail": "You never saw 3 of 4 Nordic seed rounds your peers did since 2023.",
-                        "keep": ["Nordic", "seed"], "verbs": PEER_VERBS}
-    assert facts[1]["keep"] == ["Creandum"] and facts[1]["verbs"] == ["led"]
-    assert facts[1]["detail"] == "Creandum led 3 peer deals that never reached your pipeline."
-
-
 def test_implausible_round_sizes_count_as_conflated():
     from audit import is_conflated
     assert is_conflated({"label": "SERIES_B", "amount": 3e9, "conflated": 0})       # valuation stored as round
@@ -130,19 +118,8 @@ def test_sources_of_accepts_string_and_object_documents():
         {"name": "dup", "document": "https://tech.eu/a"},
         {"name": "empty", "document": {}}]}}}
     assert sources_of(ent, ["name"]) == [
-        {"name": "tech.eu", "url": "https://tech.eu/a", "rank": "PRESS"},
-        {"name": "GLEIF", "url": "https://api.gleif.org/x", "rank": None}]
-
-
-def test_blind_spots_fill_to_three_when_data_allows():
-    from audit import blind_spot_facts
-    comps = {"a": {"country": "Germany"}, "b": {"country": "France"}, "c": {"country": "France"}}
-    counted = {"a": {"label": "SEED"}, "b": {"label": "SERIES_A"}, "c": {"label": "SEED"}}
-    status = {"a": "never_seen", "b": "never_seen", "c": "passed"}
-    facts = blind_spot_facts(counted, status, comps, [])
-    assert len(facts) == 3
-    assert len({f["detail"] for f in facts}) == 3
-    assert blind_spot_facts(counted, {k: "passed" for k in status}, comps, []) == []   # nothing unseen
+        {"name": "tech.eu", "url": "https://tech.eu/a", "rank": "PRESS", "date": None},
+        {"name": "GLEIF", "url": "https://api.gleif.org/x", "rank": None, "date": None}]
 
 
 def test_brand_names():

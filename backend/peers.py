@@ -9,9 +9,9 @@ sum of min(share_a, share_b), 0 = nothing in common, 1 = identical mix). The pee
 
   geo_overlap  = 0.5 * country overlap + 0.5 * region overlap (DACH, Nordics, UK & Ireland, ...),
                  so Berlin and Vienna funds count as close even when their countries differ.
-  deals        = rounds of the fund's portfolio companies announced since THESIS_FROM, excluding
+  deals        = rounds of the fund's portfolio companies announced since THESIS_FROM (2022), excluding
                  conflated rounds. A company in several sectors splits its weight across them.
-  fallback     = a fund with fewer than MIN_DEALS deals since THESIS_FROM uses all its dated deals;
+  fallback     = a fund with fewer than MIN_DEALS deals since THESIS_FROM (2022) uses all its dated deals;
                  if those are still fewer than MIN_DEALS, its portfolio companies (one each) define
                  geography and sector. Funds with no data score at most the co-investment bonus.
 
@@ -27,7 +27,7 @@ W_STAGE = 0.25
 W_SECTOR = 0.25
 W_COINVEST = 0.15
 COINVEST_CAP = 5            # co-investments that earn the full bonus
-THESIS_FROM = "2023-01-01"
+THESIS_FROM = "2022-01-01"   # same period as the market (market.PERIOD_FROM)
 MIN_DEALS = 5
 MIN_PEER_SCORE = 25.0       # out of 100
 DEFAULT_PEER_COUNT = 10
@@ -56,7 +56,7 @@ def thesis(portfolio: set, comps: dict, rounds_by_company: dict, region_of, equi
         return [r for cid in portfolio for r in rounds_by_company.get(cid, [])
                 if r["date"] and (since is None or r["date"] >= since) and not is_conflated(r)]
 
-    ds, basis = deals(THESIS_FROM), "deals since 2023"
+    ds, basis = deals(THESIS_FROM), "deals since 2022"
     if len(ds) < MIN_DEALS:
         ds, basis = deals(None), "all dated deals"
     country, region, stage, sector = Counter(), Counter(), Counter(), Counter()

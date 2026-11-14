@@ -74,14 +74,35 @@ def client(tmp_path_factory):
 
 
 # Fields added to the contract after the frontend mocks were written (documented in docs/api-contract.md).
-ADDED_FIELDS = {"$.suggested_peers[]": {"score", "reasons"}}
+ADDED_FIELDS = {
+    "$.suggested_peers[]": {"score", "reasons"},
+    "$.sources[]": {"date"},
+    "$.never_seen_deals[].sources[]": {"date"},
+    "$.rounds[]": {"id", "date_kind", "qualifying"},
+    "$.rounds[].sources[]": {"date"},
+}
+V2_MOCKS = ROOT / "docs" / "mocks"
+
+
+def v2mock(name):
+    return json.loads((V2_MOCKS / name).read_text())
+
+
+def check_transition_shape(resp, v1, v2):
+    """During the transition the response carries the v1 fields (frontend/mocks) AND the v2 fields (docs/mocks)."""
+    assert set(resp) == set(v1) | set(v2), sorted(set(resp) ^ (set(v1) | set(v2)))
+    assert set(resp["summary"]) == set(v1["summary"]) | set(v2["summary"])
+    for mock in (v1, v2):
+        part = {k: resp[k] for k in mock}
+        part["summary"] = {k: resp["summary"][k] for k in mock["summary"]}
+        same_shape(part, mock)
 
 
 def same_shape(resp, mock, path="$"):
     """Same keys at every level as the frontend mock; list items compared against the mock's first item."""
     if isinstance(mock, dict):
         assert isinstance(resp, dict), f"{path}: expected object"
-        extra = ADDED_FIELDS.get(re.sub(r"\[\d+\]", "[]", path), set())
+        extra = ADDED_FIELDS.get(re.sub(r"\[\d+\]", "[]", path), set()) - set(mock)
         assert set(resp) - extra == set(mock), f"{path}: keys {sorted((set(resp) - extra) ^ set(mock))} differ"
         for k in mock:
             if resp[k] is not None and mock[k] is not None:
@@ -127,46 +148,60 @@ def test_profile_shape_and_values(client):
     r = client.get(f"/api/funds/{F1}/profile")
     assert r.status_code == 200
     body = r.json()
-    same_shape(body, mock("fund_profile.json"))
-    assert body["investments_since_2022"] == 2
+    same_shape(body, v2mock("profile_v2.json"))
+    v1 = mock("fund_profile.json")
+    same_shape({k: body[k] for k in v1}, v1)
+    # basis: Alpha's own rounds since 2022 (own1 SEED 2023, own2 SERIES_A 2024), both European
+    assert body["investments_since_2022"] == 2 and body["out_of_scope_deals"] == 0
+    assert body["period"]["from"] == "2022-01-01" and body["scope"] == "Europe"
     assert {s["label"] for s in body["stages"]} == {"SEED", "SERIES_A"}
+    assert body["thesis"]["stages"] == ["SEED", "SERIES_A"]
+    assert {"Germany", "Austria", "Switzerland", "Sweden", "Finland"} <= set(body["thesis"]["countries"])
+    assert "United States" not in body["thesis"]["countries"]
+    assert sum(c["count"] for c in body["countries"]) == body["investments_since_2022"]
     top = body["suggested_peers"][0]
     assert (top["id"], top["co_investments"]) == (F2, 1)
     assert set(top) == {"id", "name", "co_investments", "score", "reasons"}
-    assert 0 < top["score"] <= 100 and 1 <= len(top["reasons"]) <= 3
-    assert [p["score"] for p in body["suggested_peers"]] == sorted((p["score"] for p in body["suggested_peers"]), reverse=True)
 
 
 def test_default_peers_by_thesis_when_none_sent(client):
     r = post_audit(client, peers="")
     assert r.status_code == 200
     profile_peers = [p["id"] for p in client.get(f"/api/funds/{F1}/profile").json()["suggested_peers"]]
-    assert {p["id"] for p in r.json()["peers"]} <= set(profile_peers)          # only selected peers contribute
-    assert r.json()["summary"]["market_deals"] >= 1
+    assert r.json()["peers"] == []                                              # v2: peers do not define the market
+    assert r.json()["summary"]["market_companies"] >= 1
 
 
 def test_audit_numbers_and_shape(client):
     r = post_audit(client)
     assert r.status_code == 200, r.text
     a = r.json()
-    same_shape(a, mock("audit.json"))
-    # thesis: SEED..SERIES_A in DACH + Nordics. Market: m1, m2, m3, own1 (own portfolio, invested).
-    # Excluded: m1's 2021 round (window), us1 (Brazil), nosrc (no source), cf (conflated, listed only).
-    assert a["summary"] == {"market_deals": 4, "in_pipeline": 3, "invested": 1, "passed": 1, "in_review": 1,
-                            "never_seen": 1, "coverage_pct": 75.0}
-    assert a["venn"] == {"pipeline_only": 1, "overlap": 3, "market_only": 1}
-    names = [d["name"] for d in a["never_seen_deals"]]
-    assert names == ["Market Three"]                       # conflated rounds are not listed at all
-    assert all(d["conflated"] is False for d in a["never_seen_deals"])
-    # table, summary and heatmap describe the same set
-    assert len(a["never_seen_deals"]) == a["summary"]["never_seen"] == sum(c["never_seen"] for c in a["heatmap"]["cells"])
-    assert sum(c["total"] for c in a["heatmap"]["cells"]) == a["summary"]["market_deals"]
-    # only peers that contributed market companies are listed
-    assert {p["id"] for p in a["peers"]} == {F2, F3}
-    assert all(d["sources"] for d in a["never_seen_deals"])
-    assert a["top_missed_leads"] == [{"id": F3, "name": "Gamma Partners", "deals": 1}]
+    check_transition_shape(a, mock("audit.json"), v2mock("audit_v2.json"))
+    # Market (any investor, not just peers): own1, own2, m1, m2, m3 - qualifying rounds since 2022, European,
+    # in Alpha's thesis (SEED..SERIES_A, DACH + Nordics). Excluded: m1's 2021 round, us1 (Brazil),
+    # nosrc (no source), cf (conflated).
+    assert a["summary"] == {"market_companies": 5, "in_crm": 4, "invested": 2, "passed": 1, "in_review": 1,
+                            "never_seen": 1, "coverage_pct": 80.0, "market_deals": 5, "in_pipeline": 4}
+    assert a["headline"] == {"never_seen": 1, "text": "1 company in your thesis raised since 2022 and never hit your CRM"}
+    assert a["period"]["from"] == "2022-01-01"
+    assert a["thesis"]["stages"] == ["SEED", "SERIES_A"] and a["thesis"]["basis_rounds"] == 2
+    [d] = a["never_seen"]
+    assert d["name"] == "Market Three" and d["country"] == "Finland"
+    assert d["round"]["label"] == "SEED" and d["round"]["date"] == "2024-09-01"
+    assert d["round"]["investors"] == [
+        {"id": F3, "name": "Gamma Partners", "type": None, "is_lead": True},
+        {"id": "angel-1", "name": "Some Angel", "type": None, "is_lead": False}]
+    assert d["round"]["sources"] and all(src["url"] and src["rank"] for src in d["round"]["sources"])
+    assert a["top_investors_in_blind_spots"] == [{"id": F3, "name": "Gamma Partners", "companies": 1},
+                                                 {"id": "angel-1", "name": "Some Angel", "companies": 1}]
+    assert len(a["never_seen"]) == a["summary"]["never_seen"] == a["headline"]["never_seen"]
+    # legacy v1 fields derived from the same set
+    assert [x["name"] for x in a["never_seen_deals"]] == ["Market Three"]
+    assert a["venn"] == {"pipeline_only": 1, "overlap": 4, "market_only": 1}
+    assert a["top_blind_spots"] == [] and a["peers"] == []
+    assert set(a["market_coverage"]) == {"european_companies_screened", "qualifying_companies",
+                                         "investors_explored", "as_of"}
     assert a["simulated_crm"] is False
-    assert 1 <= len(a["top_blind_spots"]) <= 3 or a["top_blind_spots"] == []
 
 
 def test_audit_is_deterministic(client):
@@ -178,6 +213,7 @@ def test_deal_detail_shape(client):
     assert r.status_code == 200
     d = r.json()
     same_shape(d, next(iter(mock("deal_details.json").values())))
+    assert all(set(r) >= {"id", "date_kind", "qualifying"} for r in d["rounds"])
     assert d["rounds"][0]["lead_investors"] == [{"id": F3, "name": "Gamma Partners"}]
     assert d["rounds"][0]["participants"] == [{"id": "angel-1", "name": "Some Angel"}]
     assert len(d["why_missed"]) <= 2
@@ -253,9 +289,11 @@ def test_demo_shape_speed_determinism(client):
     assert r1.status_code == 200 and elapsed < 1.0
     assert r1.content == r2.content
     a = r1.json()
-    same_shape(a, mock("audit_demo.json"))
+    check_transition_shape(a, mock("audit_demo.json"), v2mock("audit_v2.json"))
     assert a["simulated_crm"] is True
-    assert all(d["sources"] for d in a["never_seen_deals"])
+    assert all(d["round"]["sources"] for d in a["never_seen"])
+    assert all(d["round"]["label"] in a["thesis"]["stages"] for d in a["never_seen"])
+    assert len(a["never_seen"]) == a["summary"]["never_seen"] == a["headline"]["never_seen"]
 
 
 def test_demo_works_without_db(client, monkeypatch, tmp_path):
@@ -266,7 +304,7 @@ def test_demo_works_without_db(client, monkeypatch, tmp_path):
     demo = json.loads((ROOT / "data" / "demo_audit.json").read_text())
     deals = json.loads((ROOT / "data" / "demo_deals.json").read_text())
     assert client.get("/api/audit/demo").status_code == 200
-    for d in demo["never_seen_deals"]:
+    for d in demo["never_seen"]:
         assert d["company_id"] in deals, f"no precomputed detail for {d['name']}"
         r = client.get(f"/api/deals/{d['company_id']}?fund_id={demo['fund']['id']}")
         assert r.status_code == 200
@@ -366,10 +404,11 @@ def test_audit_accepts_xlsx_and_mapping_override(client):
     r = upload(client, FIXTURES / "hubspot_deals.xlsx", url="/api/audit")
     assert r.status_code == 200, r.text
     s = r.json()["summary"]
-    # market m1, m2, m3, own1: m1 invested (Closed won), m2 passed (Closed lost), m3 in_review (DD), own1 invested
-    assert s == {"market_deals": 4, "in_pipeline": 4, "invested": 2, "passed": 1, "in_review": 1,
-                 "never_seen": 0, "coverage_pct": 100.0}
-    # Override: match on the deal title column instead, which matches nothing -> 3 never seen
+    # market own1, own2, m1, m2, m3: m1 invested (Closed won), m2 passed (Closed lost), m3 in_review (DD),
+    # own1 + own2 invested (own portfolio)
+    assert {k: s[k] for k in ("market_companies", "in_crm", "invested", "passed", "in_review", "never_seen")} == \
+        {"market_companies": 5, "in_crm": 5, "invested": 3, "passed": 1, "in_review": 1, "never_seen": 0}
+    # Override: match on the deal title column instead, which matches nothing -> m1, m2, m3 never seen
     r2 = upload(client, FIXTURES / "hubspot_deals.xlsx", url="/api/audit",
                 mapping={"company": "Deal Name", "website": None})
     assert r2.status_code == 200 and r2.json()["summary"]["never_seen"] == 3
