@@ -13,7 +13,7 @@ export function vcLine(investors: Investor[] = [], max = 2): string {
 
 const byRoundDateDesc = (a: BlindSpot, b: BlindSpot) => (b.round.date ?? "").localeCompare(a.round.date ?? "");
 
-/** "The {n}, newest first". A row (or Enter on it) opens the side panel. */
+/** "The {n}, newest first". A row (or Enter on it) opens the side panel; a chevron at the row end shows it is clickable. */
 export function DealsTable({ rows, onOpen, updated }: { rows: BlindSpot[]; onOpen: (row: BlindSpot) => void; updated?: Set<string> }) {
   const sorted = [...rows].sort(byRoundDateDesc);
   return (
@@ -22,7 +22,6 @@ export function DealsTable({ rows, onOpen, updated }: { rows: BlindSpot[]; onOpe
         <h2 id="table-title" className="m-0 font-display text-[26px] font-semibold tracking-[-0.02em] 2xl:text-[30px]">
           The {sorted.length.toLocaleString("en-US")}, newest first
         </h2>
-        <span className="text-sm text-muted 2xl:text-base">Open a company for every round and source</span>
       </div>
       {sorted.length ? (
         <div className="overflow-x-auto">
@@ -34,7 +33,8 @@ export function DealsTable({ rows, onOpen, updated }: { rows: BlindSpot[]; onOpe
                 <th className="px-3 py-2.5 text-right font-semibold">Amount</th>
                 <th className="px-3 py-2.5 font-semibold">VC investors</th>
                 <th className="px-3 py-2.5 font-semibold">Raised</th>
-                <th className="py-2.5 pl-3 pr-5 font-semibold sm:pr-7">Source</th>
+                <th className="px-3 py-2.5 font-semibold">Source</th>
+                <th className="w-12 py-2.5 pr-5 sm:pr-7" aria-hidden="true" />
               </tr>
             </thead>
             <tbody>
@@ -55,7 +55,7 @@ export function DealsTable({ rows, onOpen, updated }: { rows: BlindSpot[]; onOpe
                         onOpen(d);
                       }
                     }}
-                    className="cursor-pointer border-t border-line-soft outline-none transition-colors hover:bg-ice focus-visible:bg-ice"
+                    className="group cursor-pointer border-t border-line-soft outline-none transition-colors hover:bg-ice focus-visible:bg-ice"
                   >
                     <td className="px-5 py-3.5 sm:px-7">
                       <div className="flex items-center gap-3.5">
@@ -85,7 +85,7 @@ export function DealsTable({ rows, onOpen, updated }: { rows: BlindSpot[]; onOpe
                     </td>
                     <td className="px-3 py-3.5 leading-snug text-muted">{vcLine(r.investors)}</td>
                     <td className="tabular whitespace-nowrap px-3 py-3.5 text-muted">{formatDate(r.date)}</td>
-                    <td className="py-3.5 pl-3 pr-5 sm:pr-7">
+                    <td className="px-3 py-3.5">
                       {chip ? (
                         <span className="flex items-center gap-2 whitespace-nowrap">
                           <span className={`inline-flex h-6 items-center rounded-full px-2.5 text-xs font-semibold ${chip.cls}`}>{chip.label}</span>
@@ -108,6 +108,21 @@ export function DealsTable({ rows, onOpen, updated }: { rows: BlindSpot[]; onOpe
                       ) : (
                         "—"
                       )}
+                    </td>
+                    <td className="py-3.5 pr-5 text-right sm:pr-7" aria-hidden="true">
+                      <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="ml-auto text-faint transition-[color,transform] group-hover:translate-x-0.5 group-hover:text-ink group-focus-visible:translate-x-0.5 group-focus-visible:text-ink"
+                      >
+                        <path d="M9 6l6 6-6 6" />
+                      </svg>
                     </td>
                   </tr>
                 );

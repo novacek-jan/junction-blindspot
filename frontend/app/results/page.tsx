@@ -175,21 +175,13 @@ function ResultsView() {
   );
 }
 
-// "Rounds re-checked live with Cala · 35 companies · 4 s · 2 new rounds found", with a status dot.
+// "Rounds re-checked live with Cala · 2 new rounds found" (partial / offline variants), with a status dot.
 function LiveLine({ check }: { check: LiveCheck }) {
   const n = (x: number | null | undefined) => (typeof x === "number" && Number.isFinite(x) ? x : null);
-  const companies = n(check.companies);
-  const seconds = n(check.seconds);
   const updated = n(check.updated) ?? 0;
   const ok = check.status === "ok";
   const partial = check.status === "partial";
-  const parts = ok
-    ? [
-        "Rounds re-checked live with Cala",
-        companies != null ? `${companies.toLocaleString("en-US")} ${companies === 1 ? "company" : "companies"}` : null,
-        seconds != null ? (seconds < 1 ? "<1 s" : `${seconds < 10 ? Math.round(seconds * 10) / 10 : Math.round(seconds)} s`) : null,
-      ]
-    : [partial ? "Partly re-checked with Cala" : "Using stored Cala data"];
+  const parts = [ok ? "Rounds re-checked live with Cala" : partial ? "Partly re-checked with Cala" : "Using stored Cala data"];
   if (updated > 0) parts.push(`${updated.toLocaleString("en-US")} new ${updated === 1 ? "round" : "rounds"} found`);
   const dot = ok ? "bg-mint-dot" : partial ? "bg-agg-ink/60" : "bg-field";
   return (
