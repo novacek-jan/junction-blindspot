@@ -22,6 +22,7 @@ Status: **prepared, not deployed.** The image is defined in the root `Dockerfile
 | `ENABLE_DOCS` | No | variable | `0` (default). `1` exposes `/docs` and `/openapi.json`; keep `0` in production. |
 | `PORT` | No | variable | Defaults to `8000`, matching `EXPOSE 8000`. Only change it if you also change the port in Aiven. |
 | `AUDIT_RATE_LIMIT`, `AUDIT_RATE_WINDOW_S` | No | variable | Default 10 audits per 600 s per client IP. |
+| `PG_POOL_MAX` | No | variable | Default `4`: at most this many Postgres connections per server process (pooled, keepalives on, recycled after 60 s idle, 15 s statement timeout). |
 
 ## Steps in the Aiven console
 
@@ -54,7 +55,7 @@ The Aiven PostgreSQL service must allow connections from your machine (*check* *
 
 ### After the first deploy
 
-- `curl https://<app-url>/api/health` should return `{"ok":true,"live_data":true}` with Postgres attached (`false` means the API is serving only the precomputed demo).
+- `curl https://<app-url>/api/health` should return `"live_data": true` and `"db": {"backend": "postgres", ...}` with Postgres attached. If `live_data` is `false`, `db.error_type`/`db.error` say why (credentials and addresses are removed).
 - `curl https://<app-url>/api/audit/demo` should return in under ~3 s on the first load (live Cala check) and well under 1 s after that. Then open one deal via `/api/deals/<company_id>`.
 - **Cala check:** `curl https://<app-url>/api/health?cala=1`. Expected: `key_set: true`, `dns_resolves`,
   `tcp_connect`, `tls` and `reachable` all `true`, `http_status: 200`, `failed_step: null`. If not, `failed_step`

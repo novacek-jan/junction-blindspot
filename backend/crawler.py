@@ -28,6 +28,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 os.environ["BLINDSPOT_BACKEND"] = "sqlite"   # the crawler always writes the local SQLite store
 
 import db  # noqa: E402
+from market import CONFLATION_THRESHOLDS, conflation  # noqa: E402,F401 - re-exported for snowball.py
 import argparse  # noqa: E402
 
 from cala_client import Cala, PaymentRequired, sources_of, val  # noqa: E402
@@ -35,8 +36,6 @@ from funds import FUNDS  # noqa: E402
 
 WORKERS = 4
 MIN_DATE = "2022-01-01"   # summary window (market.PERIOD_FROM); all rounds are stored
-CONFLATION_THRESHOLDS = {"PRE_SEED": 5e6, "SEED": 10e6, "SERIES_A": 75e6, "SERIES_B": 250e6,
-                         "SERIES_C": 600e6, "SERIES_D": 1.5e9, "SERIES_E": 2e9, "SERIES_F": 3e9}  # = audit.MAX_PLAUSIBLE_ROUND
 FUND_ENTITY_TYPES = ["Organization", "Company"]
 
 # Argument lists are kept identical to the v1 crawler so its cached responses are reused.
@@ -50,17 +49,6 @@ ROUND_FIELDS_V1 = ["round_label", "transaction_value", "transaction_value_units"
 
 def log(msg: str) -> None:
     print(time.strftime("%H:%M:%S"), msg, flush=True)
-
-
-def conflation(label, amount, company_total, same_currency) -> str:
-    reasons = []
-    thr = CONFLATION_THRESHOLDS.get(label or "")
-    if thr and isinstance(amount, (int, float)) and amount > thr:
-        reasons.append(f"{label} above {thr / 1e6:.0f}M")  # noqa
-    if isinstance(amount, (int, float)) and isinstance(company_total, (int, float)) and same_currency \
-            and amount > company_total * 1.05:
-        reasons.append("round larger than company total_funding")
-    return "; ".join(reasons)
 
 
 class Crawler:

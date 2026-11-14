@@ -13,9 +13,11 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sqlite3
 import threading
 import time
+from contextlib import contextmanager
 from pathlib import Path
 from typing import Iterable, Optional
 
@@ -85,8 +87,25 @@ PG_DOUBLE_COLUMNS = [("cache", "fetched_at"), ("companies", "total_funding"), ("
                      ("rounds", "amount"), ("kv", "updated_at")]
 
 _local = threading.local()
-_pg_lock = threading.RLock()
-_pg = {"conn": None, "has_data": None, "checked": 0.0}
+
+# ---- Postgres connection pool (the deployed API)
+# A long-lived connection is silently dropped by the hosting network after some idle minutes; the old single shared
+# connection then failed every query and availability stuck at False. Now: a small bounded pool, TCP keepalives,
+# connections idle longer than PG_MAX_IDLE_S are replaced, a connection-level error discards that connection and
+# retries once on a fresh one, statement/lock timeouts so nothing waits forever, and a failed availability check is
+# remembered for only PG_FAIL_TTL_S.
+PG_POOL_MAX = int(os.environ.get("PG_POOL_MAX", "4"))
+PG_MAX_IDLE_S = 60.0
+PG_CONNECT_TIMEOUT_S = 5
+PG_ACQUIRE_TIMEOUT_S = 10.0
+PG_OK_TTL_S, PG_FAIL_TTL_S = 30.0, 5.0
+PG_OPTIONS = "-c statement_timeout=15000 -c lock_timeout=5000 -c idle_in_transaction_session_timeout=60000"
+PG_KEEPALIVES = {"keepalives": 1, "keepalives_idle": 30, "keepalives_interval": 10, "keepalives_count": 3}
+
+_pg_lock = threading.Lock()                       # guards _pg (never held during network I/O)
+_pg_sem = threading.BoundedSemaphore(PG_POOL_MAX)
+_pg = {"idle": [], "open": 0, "in_use": 0, "schema_ready": False, "has_data": None, "checked": 0.0,
+       "last_ok": None, "error": None}
 
 # The API sets this to False: on a server without the crawled DB it must not create an
 # empty one (the demo is then served from the precomputed JSON in data/).
@@ -97,7 +116,21 @@ class DBUnavailable(Exception):
     pass
 
 
+_pinned_backend: Optional[str] = None
+
+
+def pin_backend() -> str:
+    """The API calls this once at startup: from then on backend() ignores later changes to BLINDSPOT_BACKEND.
+    (An import of crawler.py used to set it to "sqlite" and switched the running API away from Postgres.)"""
+    global _pinned_backend
+    _pinned_backend = None
+    _pinned_backend = backend()
+    return _pinned_backend
+
+
 def backend() -> str:
+    if _pinned_backend:
+        return _pinned_backend
     load_env()
     forced = os.environ.get("BLINDSPOT_BACKEND", "").strip().lower()
     if forced in ("sqlite", "postgres"):
@@ -111,18 +144,67 @@ def db_path() -> Path:
 
 
 def available() -> bool:
-    """True when crawled data can be served (SQLite file exists / Postgres reachable and non-empty)."""
+    """True when crawled data can be served (SQLite file exists / Postgres reachable and non-empty).
+    Postgres: a success is remembered for 30 s, a failure for only 5 s (then checked again); the error is kept
+    for /api/health (status())."""
     if backend() == "sqlite":
         return db_path().exists()
     now = time.time()
-    if _pg["has_data"] is not None and now - _pg["checked"] < 30:
-        return _pg["has_data"]
+    with _pg_lock:
+        has, checked = _pg["has_data"], _pg["checked"]
+    if has is not None and now - checked < (PG_OK_TTL_S if has else PG_FAIL_TTL_S):
+        return has
     try:
-        _pg["has_data"] = bool(_rows("SELECT COUNT(*) AS n FROM funds")[0]["n"])
-    except Exception:
-        _pg["has_data"] = False
-    _pg["checked"] = now
-    return _pg["has_data"]
+        has = bool(_rows("SELECT EXISTS (SELECT 1 FROM funds) AS n")[0]["n"])
+        if not has:
+            _note_error(DBUnavailable("the funds table is empty"))
+    except Exception as e:  # noqa: BLE001 - any failure means "not available now"; the reason goes to status()
+        _note_error(e)
+        has = False
+    with _pg_lock:
+        _pg["has_data"], _pg["checked"] = has, time.time()
+    return has
+
+
+def _safe_error(e: BaseException) -> str:
+    """An error message without credentials or addresses (host, user, password, database, IPs, URLs)."""
+    from urllib.parse import urlparse
+    msg = " ".join(str(e).split())[:400]
+    url = os.environ.get("DATABASE_URL", "")
+    if url:
+        u = urlparse(url)
+        for part, label in ((u.password, "<password>"), (u.hostname, "<host>"), (u.username, "<user>"),
+                            ((u.path or "").lstrip("/"), "<db>")):
+            if part and len(part) > 2:
+                msg = msg.replace(part, label)
+    msg = re.sub(r"\b[a-z]+(?:ql)?://\S+", "<url>", msg)
+    msg = re.sub(r"\b\d{1,3}(?:\.\d{1,3}){3}\b", "<ip>", msg)
+    msg = re.sub(r"(?<![\w:])(?:[0-9a-fA-F]{0,4}:){3,7}[0-9a-fA-F]{0,4}(?![\w:])", "<ip>", msg)   # IPv6, not hh:mm:ss
+    msg = re.sub(r"\b[\w.-]+\.aivencloud\.com\b", "<host>", msg)
+    return msg[:300]
+
+
+def _note_error(e: BaseException) -> None:
+    with _pg_lock:
+        _pg["error"] = {"type": type(e).__name__, "message": _safe_error(e), "at": _iso(time.time())}
+
+
+def _iso(t: Optional[float]) -> Optional[str]:
+    return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(t)) if t else None
+
+
+def status() -> dict:
+    """For /api/health: backend, last error (sanitized) and pool counts. No query is made."""
+    b = backend()
+    if b == "sqlite":
+        return {"backend": "sqlite", "available": db_path().exists()}
+    with _pg_lock:
+        err = _pg["error"]
+        return {"backend": "postgres", "available": _pg["has_data"], "checked_at": _iso(_pg["checked"]),
+                "last_ok_at": _iso(_pg["last_ok"]),
+                "error_type": err and err["type"], "error": err and err["message"], "error_at": err and err["at"],
+                "pool": {"max": PG_POOL_MAX, "open": _pg["open"], "idle": len(_pg["idle"]),
+                         "in_use": _pg["in_use"]}}
 
 
 def _sqlite_conn(path: Optional[Path] = None) -> sqlite3.Connection:
@@ -145,7 +227,8 @@ def _sqlite_conn(path: Optional[Path] = None) -> sqlite3.Connection:
     return c
 
 
-def _pg_connect(url: Optional[str] = None):
+def _pg_open(url: Optional[str] = None, application_name: str = "blindspot-api"):
+    """A new autocommit connection with keepalives and statement/lock timeouts. Raises DBUnavailable (sanitized)."""
     import psycopg
     from psycopg.rows import dict_row
     load_env()
@@ -153,27 +236,113 @@ def _pg_connect(url: Optional[str] = None):
     if not url:
         raise DBUnavailable("DATABASE_URL is not set")
     try:
-        c = psycopg.connect(url, autocommit=True, row_factory=dict_row, connect_timeout=10,
-                            application_name="blindspot-api")
-    except psycopg.Error:
-        raise DBUnavailable("database is not reachable")
+        return psycopg.connect(url, autocommit=True, row_factory=dict_row, connect_timeout=PG_CONNECT_TIMEOUT_S,
+                               application_name=application_name, options=PG_OPTIONS, **PG_KEEPALIVES)
+    except psycopg.Error as e:
+        raise DBUnavailable(f"database is not reachable: {type(e).__name__}: {_safe_error(e)}") from e
+
+
+def _pg_schema(c, full: bool) -> None:
+    """Create/migrate the schema. full=False (the API): only when something is missing, so a running API never
+    takes the table locks that DDL needs (it would wait on the hourly sync)."""
+    if not full:
+        cols = {(r["table_name"], r["column_name"]): r["data_type"] for r in c.execute(
+            "SELECT table_name, column_name, data_type FROM information_schema.columns "
+            "WHERE table_schema = current_schema()").fetchall()}
+        tables = {t for t, _ in cols}
+        missing = (set(TABLES) - tables or any((t, col) not in cols for t, col, _ in MIGRATIONS)
+                   or any(cols.get((t, col)) == "real" for t, col in PG_DOUBLE_COLUMNS))
+        if not missing:
+            return
     c.execute(SCHEMA.replace(" REAL", " DOUBLE PRECISION"))   # Postgres REAL is only 4-byte float
     for table, col in PG_DOUBLE_COLUMNS:
         c.execute(f"ALTER TABLE {table} ALTER COLUMN {col} TYPE DOUBLE PRECISION")   # migrate old REAL columns
     for table, col, typ in MIGRATIONS:
         c.execute(f"ALTER TABLE {table} ADD COLUMN IF NOT EXISTS {col} {typ.replace('REAL', 'DOUBLE PRECISION')}")
+
+
+def _pg_connect(url: Optional[str] = None):
+    """A dedicated connection with the full schema (sync_postgres.py). The API uses the pool instead."""
+    c = _pg_open(url, application_name="blindspot-sync")
+    _pg_schema(c, full=True)
     return c
 
 
-def conn():
-    """SQLite: one connection per thread. Postgres: one shared autocommit connection (psycopg 3
-    connections are thread-safe; calls are serialized), reopened if it was closed."""
-    if backend() == "postgres":
+def _pg_close(c) -> None:
+    try:
+        c.close()
+    except Exception:  # noqa: BLE001
+        pass
+    with _pg_lock:
+        _pg["open"] -= 1
+
+
+@contextmanager
+def _pg_conn(fresh: bool = False):
+    """Borrow a pooled connection (at most PG_POOL_MAX open). Idle-too-long, closed or broken connections are
+    replaced; a connection whose use raised an error is closed instead of returned."""
+    if not _pg_sem.acquire(timeout=PG_ACQUIRE_TIMEOUT_S):
+        raise DBUnavailable("database pool exhausted")
+    c, ok = None, False
+    try:
+        now = time.time()
         with _pg_lock:
-            c = _pg["conn"]
-            if c is None or c.closed or c.broken:
-                c = _pg["conn"] = _pg_connect()
-            return c
+            stale = []
+            while _pg["idle"] and c is None:
+                cand, last_used = _pg["idle"].pop()
+                if fresh or cand.closed or cand.broken or now - last_used > PG_MAX_IDLE_S:
+                    stale.append(cand)
+                else:
+                    c = cand
+        for old in stale:
+            _pg_close(old)
+        if c is None:
+            c = _pg_open()
+            with _pg_lock:
+                _pg["open"] += 1
+            if not _pg["schema_ready"]:
+                _pg_schema(c, full=False)
+                _pg["schema_ready"] = True
+        with _pg_lock:
+            _pg["in_use"] += 1
+        try:
+            yield c
+            ok = True
+        finally:
+            with _pg_lock:
+                _pg["in_use"] -= 1
+    finally:
+        if c is not None:
+            if ok and not c.closed and not c.broken:
+                with _pg_lock:
+                    _pg["idle"].append((c, time.time()))
+                    _pg["last_ok"] = time.time()
+            else:
+                _pg_close(c)
+        _pg_sem.release()
+
+
+def _pg_run(fn):
+    """fn(connection) on a pooled connection; a connection-level error (dropped, broken, timed out) is retried once
+    on a fresh connection. Statements here are reads, idempotent upserts or deletes, so a retry is safe."""
+    import psycopg
+    for attempt in (0, 1):
+        try:
+            with _pg_conn(fresh=attempt == 1) as c:
+                return fn(c)
+        except (psycopg.OperationalError, psycopg.InterfaceError) as e:
+            _note_error(e)
+            if attempt:
+                raise DBUnavailable(f"database error: {type(e).__name__}: {_safe_error(e)}") from e
+        except DBUnavailable as e:
+            _note_error(e)
+            raise
+
+
+def conn():
+    """SQLite: one connection per thread. (Postgres goes through the pool: _pg_run.)"""
+    if backend() == "postgres":
+        raise RuntimeError("Postgres connections come from the pool (db._pg_run)")
     c = getattr(_local, "conn", None)
     if c is None:
         c = _local.conn = _sqlite_conn()
@@ -185,11 +354,11 @@ def _sql(sql: str) -> str:
 
 
 def _execute(sql: str, params: Iterable = ()):
-    c = conn()
+    select = sql.lstrip().upper().startswith("SELECT")
     if backend() == "postgres":
-        with _pg_lock:
-            return c.execute(_sql(sql), tuple(params)).fetchall() if sql.lstrip().upper().startswith("SELECT") \
-                else c.execute(_sql(sql), tuple(params))
+        q, p = _sql(sql), tuple(params)
+        return _pg_run(lambda c: c.execute(q, p).fetchall() if select else c.execute(q, p) and None)
+    c = conn()
     cur = c.execute(sql, tuple(params))
     return cur.fetchall() if sql.lstrip().upper().startswith("SELECT") else cur
 
@@ -224,11 +393,13 @@ def _upsert_sql(table: str, dialect: str) -> str:
 def _upsert(table: str, rows: list[tuple]) -> None:
     if not rows:
         return
-    c = conn()
     if backend() == "postgres":
-        with _pg_lock, c.cursor() as cur:
-            cur.executemany(_upsert_sql(table, "postgres"), rows)
+        def run(c):
+            with c.cursor() as cur:
+                cur.executemany(_upsert_sql(table, "postgres"), rows)
+        _pg_run(run)
     else:
+        c = conn()
         c.executemany(_upsert_sql(table, "sqlite"), rows)
         c.commit()
 
@@ -549,5 +720,6 @@ def sync_sqlite_to_postgres(sqlite_path: Optional[Path] = None, pg_url: Optional
     finally:
         src.close()
         dst.close()
-    _pg["has_data"] = None
+    with _pg_lock:
+        _pg["has_data"] = None
     return report

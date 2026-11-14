@@ -63,13 +63,12 @@ def _pause() -> None:
 
 
 def _round_record(rnd: dict, company: dict) -> dict:
-    from crawler import conflation
     label, amount, cur = val(rnd, "round_label"), val(rnd, "transaction_value"), val(rnd, "transaction_value_units")
     ann, ev = val(rnd, "announcement_date"), val(rnd, "event_date")
     parts = [{"entity_id": p["id"], "name": p.get("name"), "entity_type": p.get("entity_type"),
               "role": (p.get("properties") or {}).get("role"), "is_lead": (p.get("properties") or {}).get("is_lead")}
              for p in rnd["_rels"].get("incoming:PARTICIPATES_IN_FUNDING_ROUND", [])]
-    reason = conflation(label, amount, val(company, "total_funding"),
+    reason = market.conflation(label, amount, val(company, "total_funding"),
                         cur is not None and cur == val(company, "total_funding_units"))
     return {"id": rnd["id"], "label": label, "amount": amount, "currency": cur,
             "date": str(ann or ev)[:10] if (ann or ev) else None, "date_kind": "announcement" if ann else "event",

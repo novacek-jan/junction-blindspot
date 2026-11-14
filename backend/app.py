@@ -43,6 +43,7 @@ from settings import load_env  # noqa: E402
 
 load_env()
 db.ALLOW_CREATE = False          # never create an empty DB on a server
+db.pin_backend()                 # no later import (e.g. crawler.py) may switch the running API to another backend
 log = logging.getLogger("blindspot")
 
 DATA = db.ROOT / "data"
@@ -205,9 +206,10 @@ demo = Demo()
 
 @app.get("/api/health")
 def health(cala: int = 0):
-    """?cala=1 adds a Cala reachability diagnosis (cala_probe.py: DNS, TCP, TLS, one entity_search call; at most
+    """`db`: backend, last database error (sanitized: no credentials, hosts or IPs) and pool counts.
+    ?cala=1 adds a Cala reachability diagnosis (cala_probe.py: DNS, TCP, TLS, one entity_search call; at most
     once per 30 s; never the key)."""
-    out = {"ok": True, "live_data": db.available()}
+    out = {"ok": True, "live_data": db.available(), "db": db.status()}
     if cala:
         out["cala"] = cala_probe.probe()
         out["cala"]["live_check_paused"] = live_check.paused()

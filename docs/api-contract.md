@@ -39,7 +39,16 @@ Common types:
 - Stages use Cala codes: `PRE_SEED, SEED, SERIES_A, SERIES_B, SERIES_C, ...`
 
 ## GET /api/health
-`{"ok": true, "live_data": bool}`. With `?cala=1` it adds a Cala reachability diagnosis (at most one real run per
+`{"ok": true, "live_data": bool, "db": {...}}`. `db` explains `live_data` without making a query:
+```json
+"db": { "backend": "postgres", "available": true, "checked_at": "2026-11-14T19:45:07Z",
+        "last_ok_at": "2026-11-14T19:45:13Z", "error_type": null, "error": null, "error_at": null,
+        "pool": { "max": 4, "open": 1, "idle": 1, "in_use": 0 } }
+```
+`error_type`/`error`/`error_at`: the last database error (message without credentials, host names or IP
+addresses), kept after recovery for diagnosis. `available` is re-checked after 30 s when true and after 5 s when
+false. `pool`: Postgres connections of this server process (at most `max`). With SQLite only `backend` and
+`available` are present. With `?cala=1` it adds a Cala reachability diagnosis (at most one real run per
 30 s, `cached` says whether this is a reused result; every step capped at 3 s; never the key):
 ```json
 { "ok": true, "live_data": true,

@@ -72,3 +72,19 @@ def round_qualifies(rnd: dict, participants: Iterable[dict], is_conflated, is_vc
     if is_conflated(rnd):
         return False
     return any(p.get("role") != "ISSUER" and is_vc(p) for p in participants)
+
+
+CONFLATION_THRESHOLDS = {"PRE_SEED": 5e6, "SEED": 10e6, "SERIES_A": 75e6, "SERIES_B": 250e6,
+                         "SERIES_C": 600e6, "SERIES_D": 1.5e9, "SERIES_E": 2e9, "SERIES_F": 3e9}  # = audit.MAX_PLAUSIBLE_ROUND
+
+
+def conflation(label, amount, company_total, same_currency) -> str:
+    """Why a stored round looks merged or implausible ("" = fine). Used by the crawler and the live check."""
+    reasons = []
+    thr = CONFLATION_THRESHOLDS.get(label or "")
+    if thr and isinstance(amount, (int, float)) and amount > thr:
+        reasons.append(f"{label} above {thr / 1e6:.0f}M")  # noqa
+    if isinstance(amount, (int, float)) and isinstance(company_total, (int, float)) and same_currency \
+            and amount > company_total * 1.05:
+        reasons.append("round larger than company total_funding")
+    return "; ".join(reasons)
