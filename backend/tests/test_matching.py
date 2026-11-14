@@ -168,3 +168,29 @@ def test_reworded_insight_must_keep_the_verb(monkeypatch, tmp_path):
         monkeypatch.setattr(insights.db, "kv_put", lambda k, v: None)
         monkeypatch.setenv("ANTHROPIC_API_KEY", "x")
         assert insights.phrase([fact]) == [expected]
+
+
+@pytest.mark.parametrize("name,etype,role,expected", [
+    ("Lifeline Ventures", "Organization", "INVESTOR", ("vc", True)),
+    ("Seedcamp Limited", "Organization", "INVESTOR", ("vc", True)),
+    ("Kima Ventures", "Organization", "INVESTOR", ("vc", True)),
+    ("High-Tech Gründerfonds", "Organization", "INVESTOR", ("state_vc", True)),
+    ("Tesi", "Organization", "INVESTOR", ("state_vc", True)),
+    ("BMW i Ventures", "Company", "INVESTOR", ("cvc", True)),
+    ("Salesforce Ventures", "Company", "INVESTOR", ("cvc", True)),
+    ("Insight Partners", "Company", "INVESTOR", ("growth_pe", True)),
+    ("Jane Angel", "Person", "INVESTOR", ("angel", False)),
+    ("Business Finland", "Organization", "INVESTOR", ("grant_public", False)),
+    ("European Innovation Council", "Organization", "GRANTOR", ("grant_public", False)),
+    ("Bpifrance", "Organization", "INVESTOR", ("grant_public", False)),
+    ("Varma Mutual Pension Insurance Company", "Organization", "INVESTOR", ("bank_insurer_pension_am", False)),
+    ("Danske Bank A/S", "Organization", "LENDER", ("lender", False)),
+    ("Y Combinator", "Company", "INVESTOR", ("accelerator", False)),
+    ("University of Helsinki", "Organization", "INVESTOR", ("university_research", False)),
+    ("Tencent Holdings", "Organization", "INVESTOR", ("corporate", False)),
+    ("Eli Lilly and Company", "Company", "INVESTOR", ("corporate", False)),
+    ("Daniel Gross", "Organization", "INVESTOR", ("other", False)),
+])
+def test_vc_rule(name, etype, role, expected):
+    from vc import classify
+    assert classify(name, etype, role) == expected

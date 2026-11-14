@@ -2,9 +2,9 @@
 
 A company is in the market when
   1. its headquarters is in Europe (EUROPE_COUNTRIES), and
-  2. it has a *qualifying round*: closed since PERIOD_FROM (announcement date, else event date),
-     with at least one named non-issuer participant (any investor type), at least one Cala
-     source, and not flagged as merged/implausible (see audit.is_conflated).
+  2. it has a *qualifying (VC-backed) round*: closed since PERIOD_FROM (announcement date, else event
+     date), not a grant or loan, with at least one VC participant (vc.py), at least one Cala source,
+     and not flagged as merged/implausible (see audit.is_conflated).
 Crawler prefilter (cheap, before any round is fetched): Europe HQ and founded >= FOUNDED_FROM
 (or founding year unknown).
 """
@@ -56,12 +56,19 @@ def prefilter(country: Optional[str], founded: Optional[str]) -> str:
     return "pass"
 
 
-def round_qualifies(rnd: dict, participants: Iterable[dict], is_conflated) -> bool:
-    """rnd: a stored round row (date, sources, label, amount, conflated); participants: its rows."""
+NON_EQUITY_LABEL_WORDS = ("GRANT", "DEBT", "LOAN")   # grants and loans never qualify a company
+
+
+def round_qualifies(rnd: dict, participants: Iterable[dict], is_conflated, is_vc) -> bool:
+    """A VC-backed round: rnd is a stored round row (date, sources, label, amount, conflated), participants its
+    rows, is_vc the VC rule (vc.VCRule.is_vc). Closed since PERIOD_FROM, not a grant/loan, sourced, plausible,
+    and at least one VC participant (angel-only rounds do not qualify)."""
     if not rnd.get("date") or str(rnd["date"]) < PERIOD_FROM:
+        return False
+    if any(w in (rnd.get("label") or "") for w in NON_EQUITY_LABEL_WORDS):
         return False
     if not rnd.get("sources"):
         return False
     if is_conflated(rnd):
         return False
-    return any(p.get("role") != "ISSUER" for p in participants)
+    return any(p.get("role") != "ISSUER" and is_vc(p) for p in participants)

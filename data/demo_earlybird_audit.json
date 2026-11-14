@@ -1,5 +1,5 @@
 {
- "audit_id": "2cc0bad1c1a4",
+ "audit_id": "92f333ea3791",
  "fund": {
   "id": "7de3d7d6-af8f-4e95-a949-2befc86938a0",
   "name": "Earlybird Venture Capital"
@@ -67,19 +67,73 @@
   "basis_rounds": 8
  },
  "headline": {
-  "never_seen": 15,
-  "text": "15 companies in your thesis raised since 2022 and never hit your CRM"
+  "never_seen": 28,
+  "text": "28 VC-backed companies in your thesis raised since 2022 and never hit your CRM"
  },
  "summary": {
-  "market_companies": 30,
-  "in_crm": 15,
+  "market_companies": 51,
+  "in_crm": 23,
   "invested": 5,
-  "passed": 4,
+  "passed": 12,
   "in_review": 6,
-  "never_seen": 15,
-  "coverage_pct": 50.0
+  "never_seen": 28,
+  "coverage_pct": 45.1
  },
  "never_seen": [
+  {
+   "company_id": "a98a18cc-854a-4357-b049-91585d4afb40",
+   "name": "Pliant GmbH",
+   "website": "getpliant.com",
+   "country": "Germany",
+   "industries": [
+    "Fintech",
+    "Software and services"
+   ],
+   "round": {
+    "id": "b8fce2b2-fc3f-5a45-84dc-9f687b668a45",
+    "label": "SERIES_A",
+    "amount": 50000000,
+    "currency": "EUR",
+    "date": "2023-02-17",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "f36abff9-79ae-4fef-990f-9fedc1d51fb5",
+      "name": "ALSTIN Capital",
+      "type": "Organization",
+      "is_lead": false,
+      "is_vc": true
+     },
+     {
+      "id": "c36e36db-95bf-43cd-93aa-5a026dfd9a73",
+      "name": "Motive Ventures",
+      "type": "Organization",
+      "is_lead": false,
+      "is_vc": true
+     }
+    ],
+    "sources": [
+     {
+      "name": "newsroom.paypal-corp.com",
+      "url": "https://newsroom.paypal-corp.com/2024-04-17-PayPal-Ventures-Leads-Pliants-18-Million-Series-A-Extension-Financing",
+      "rank": "PRIMARY",
+      "date": "2024-04-17"
+     },
+     {
+      "name": "getpliant.com",
+      "url": "https://www.getpliant.com/en/press/pliant-concludes-a-successful-2023",
+      "rank": "PRIMARY",
+      "date": "2024-01-16"
+     },
+     {
+      "name": "getpliant.com",
+      "url": "https://www.getpliant.com/nl/pers/pliant-raises-28-million-in-series-a-funding-round",
+      "rank": "PRIMARY",
+      "date": "2023-02-17"
+     }
+    ]
+   }
+  },
   {
    "company_id": "e88701c0-59c2-44a1-acaf-ddcfa43b416b",
    "name": "LiveEO GmbH",
@@ -101,49 +155,57 @@
       "id": "cca7ef29-216d-46e3-8079-86b99d3d943e",
       "name": "MMC Ventures GP",
       "type": "Company",
-      "is_lead": true
+      "is_lead": true,
+      "is_vc": true
      },
      {
       "id": "4da240e1-b2a6-4e8a-9f9a-b6660f72c485",
       "name": "Crossventures",
       "type": "Company",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": false
      },
      {
       "id": "dab885b2-3e20-4fe6-9ee9-ce4d2e93211a",
       "name": "DvH Ventures",
       "type": "Company",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": true
      },
      {
       "id": "fecdf445-1580-4b2a-89cf-3070d14e3e87",
       "name": "Hannover Digital Investments GmbH",
       "type": "Organization",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": true
      },
      {
       "id": "fed214bf-3191-5d10-b280-a82d12407561",
       "name": "Helen Ventures",
       "type": "Organization",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": true
      },
      {
       "id": "c02e8f42-2cc0-41b8-8e6b-50141eebefe7",
       "name": "Matterwave Ventures Management GmbH",
       "type": "Company",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": true
      },
      {
       "id": "fadb6a00-1404-4388-b852-6dce951f40ed",
       "name": "Motu Ventures Management GmbH",
       "type": "Company",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": true
      },
      {
       "id": "846a28b9-46fd-4ab8-9572-d60260b3e5fe",
       "name": "Segenia Capital Management GmbH",
       "type": "Company",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": true
      }
     ],
     "sources": [
@@ -163,77 +225,69 @@
    }
   },
   {
-   "company_id": "d5f8974b-7765-44f7-afc6-6f1767b8bad0",
-   "name": "Photoncycle",
-   "website": "photoncycle.com",
-   "country": "Norway",
+   "company_id": "d2929f0c-d341-487c-a25c-52a1e0df01a2",
+   "name": "Synera",
+   "website": "synera.io",
+   "country": "Germany",
    "industries": [
-    "Hardware and equipment",
-    "Renewable energy"
+    "Software and services"
    ],
    "round": {
-    "id": "922d6772-8e37-5ce0-b473-dee51632c7a7",
+    "id": "d79083a7-94bd-5cee-87c4-2cd259053997",
     "label": "SERIES_A",
-    "amount": 15000000,
+    "amount": 14500000,
     "currency": "EUR",
-    "date": "2026-03-04",
+    "date": "2022-09-07",
     "date_kind": "announcement",
     "investors": [
      {
-      "id": "a46a1058-93a7-4b0f-bc1f-bc31238fb006",
-      "name": "Nordicninja VC",
-      "type": "Company",
-      "is_lead": true
-     },
-     {
-      "id": "8673db97-466e-4e7e-8417-a0ce1207bf9e",
-      "name": "Voima Ventures",
+      "id": "61f378b9-5a27-40bb-bcfb-62d90f61dc8b",
+      "name": "Spark Capital",
       "type": "Organization",
-      "is_lead": true
+      "is_lead": true,
+      "is_vc": true
      },
      {
-      "id": "8540e55a-1f3b-4969-bf08-6802f5344d24",
-      "name": "Eviny Ventures",
+      "id": "3ac66fe6-39ad-4a66-b995-b5da413d1bf3",
+      "name": "BMW i Ventures",
       "type": "Company",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": true
      },
      {
-      "id": "476a73ac-afa2-4713-9f73-188bc7ec0b95",
-      "name": "Lifeline Ventures",
+      "id": "c06adc97-e2d8-4590-a329-4462750ee4e6",
+      "name": "Cherry Ventures",
       "type": "Company",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": true
      },
      {
-      "id": "be67283b-4529-4a2d-834a-96edc4b36971",
-      "name": "Luminar Ventures",
+      "id": "cedda44c-1f23-4c8f-99db-2494c4ea8700",
+      "name": "UVC Partners",
       "type": "Company",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": true
      },
      {
-      "id": "1c4ea99e-d351-4abd-b230-420f1a194603",
-      "name": "Momentum Partners",
-      "type": "Organization",
-      "is_lead": false
+      "id": "c488efcf-c285-4138-bc36-05a64ccabe4f",
+      "name": "Venture Stars",
+      "type": "Company",
+      "is_lead": false,
+      "is_vc": true
      }
     ],
     "sources": [
      {
-      "name": "tech.eu",
-      "url": "https://tech.eu/2026/03/04/photoncycle-raises-eur15m-to-scale-seasonal-energy-storage-in-europe/",
-      "rank": "PRESS",
-      "date": "2026-03-04"
+      "name": "synera.ai",
+      "url": "https://www.synera.ai/news/series-a-funding",
+      "rank": "PRIMARY",
+      "date": "2022-09-07"
      },
      {
-      "name": "techfundingnews.com",
-      "url": "https://techfundingnews.com/photoncycle-raises-e15m-to-store-summer-solar-for-europes-winter-energy-gap/",
+      "name": "businesswire.com",
+      "url": "https://www.businesswire.com/news/home/20220907005348/en/ELISE-raises-14.8-million-Series-A-to-scale-connected-engineering",
       "rank": "PRESS",
-      "date": "2026-03-04"
-     },
-     {
-      "name": "eu-startups.com",
-      "url": "https://www.eu-startups.com/2026/03/oslos-photoncycle-raises-e15-million-to-enable-households-to-store-surplus-summer-solar-power-for-winter-use/",
-      "rank": "PRESS",
-      "date": "2026-03-04"
+      "date": "2022-09-07"
      }
     ]
    }
@@ -259,31 +313,36 @@
       "id": "598405b9-3745-4ea5-a86a-1e196915db74",
       "name": "Portage",
       "type": "Organization",
-      "is_lead": true
+      "is_lead": true,
+      "is_vc": false
      },
      {
       "id": "2f050db7-9d7a-4753-a8cc-373fc6d41aca",
       "name": "10x Founders GmbH",
       "type": "Company",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": true
      },
      {
       "id": "2c898c17-864c-4cee-85fd-13111e946b37",
       "name": "PI Labs Manager",
       "type": "Company",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": true
      },
      {
       "id": "cfc9ae96-2cef-531a-ae10-44c0bf639ec4",
       "name": "Redstone/VR Ventures",
       "type": "Organization",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": true
      },
      {
       "id": "420b2ebc-7589-420f-9f5b-ed2dea14a893",
       "name": "seed + speed Ventures",
       "type": "Organization",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": true
      }
     ],
     "sources": [
@@ -303,64 +362,128 @@
    }
   },
   {
-   "company_id": "7aee8784-e220-425c-bff9-56cf5ed5932b",
-   "name": "Gilion",
-   "website": "gilion.com",
-   "country": "Sweden",
+   "company_id": "cf3d6a47-052e-473c-a742-0030a764d51c",
+   "name": "Intergrid Oy",
+   "website": "intergridsystems.com",
+   "country": "Finland",
    "industries": [
-    "Fintech",
-    "Software and services",
-    "Venture capital"
+    "Renewable energy"
    ],
    "round": {
-    "id": "51db1bf1-d5c2-586d-98ab-f21c931b07ad",
+    "id": "a0f6d5cb-9dde-508a-9259-e3b6ac8e35ee",
     "label": "SEED",
     "amount": 10000000,
     "currency": "EUR",
-    "date": "2024-04-10",
+    "date": "2025-05-24",
     "date_kind": "announcement",
     "investors": [
      {
-      "id": "a04ff8af-9d8d-5acb-9feb-a773292b2711",
-      "name": "Andrew Konopelski",
-      "type": "Person",
-      "is_lead": false
-     },
-     {
-      "id": "606040f0-eff6-5342-80e5-8bb73af4e23d",
-      "name": "Annika Falkengren",
-      "type": "Person",
-      "is_lead": false
-     },
-     {
-      "id": "16a726bc-5fb2-5958-bd57-3502d1f59b17",
-      "name": "Goran Garvner",
-      "type": "Person",
-      "is_lead": false
-     },
-     {
-      "id": "cc12cc89-3440-598d-9ac4-87a23a90062b",
-      "name": "Henrik Garvner",
-      "type": "Person",
-      "is_lead": false
-     },
-     {
-      "id": "0a8fb60d-dcf3-5479-95a9-def3a4ed4c5b",
-      "name": "Oscar Werner",
-      "type": "Person",
-      "is_lead": false
+      "id": "476a73ac-afa2-4713-9f73-188bc7ec0b95",
+      "name": "Lifeline Ventures",
+      "type": "Company",
+      "is_lead": false,
+      "is_vc": true
      }
     ],
     "sources": [
      {
-      "name": "eu-startups.com",
-      "url": "https://www.eu-startups.com/2024/04/stockholm-based-gilion-secures-e10-million-equity-round-to-fuel-expansion-of-its-growth-platform/",
-      "rank": "PRESS",
-      "date": "2024-04-10"
+      "name": "mainsights.io",
+      "url": "https://www.mainsights.io/ma-news/finnish-startup-intergrid-secures-over-eur-10m-to-electrify-industrial-energy-use",
+      "rank": "AGGREGATOR",
+      "date": "2025-05-24"
+     }
+    ]
+   }
+  },
+  {
+   "company_id": "49a2e9fa-9824-4546-8b24-15eaf98e05b2",
+   "name": "Swarmia",
+   "website": "swarmia.com",
+   "country": "Finland",
+   "industries": [
+    "Software and services"
+   ],
+   "round": {
+    "id": "67e570d7-54bc-5ab5-ad49-fbcd37a077b1",
+    "label": "SERIES_A",
+    "amount": 10000000,
+    "currency": "EUR",
+    "date": "2025-06-18",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "1c10be1e-a148-40a9-a6ed-9f5c2e93af40",
+      "name": "Karma Ventures",
+      "type": "Company",
+      "is_lead": true,
+      "is_vc": true
      },
      {
-      "name": "seedtable.com",
-      "url": "https://seedtable.com/companies/gilion/funding-rounds",
+      "id": "43c394b1-48a7-419d-9f2a-b95a3fcdfe75",
+      "name": "Mettle Ventures",
+      "type": "Company",
+      "is_lead": true,
+      "is_vc": true
+     },
+     {
+      "id": "9960ed05-6d9d-5f3e-9a16-56b2fb26009e",
+      "name": "Alex Plugaru",
+      "type": "Person",
+      "is_lead": false,
+      "is_vc": false
+     },
+     {
+      "id": "373d84d7-06a8-426f-8244-5f8e5e3b23a9",
+      "name": "Alven Capital V",
+      "type": "Company",
+      "is_lead": false,
+      "is_vc": true
+     },
+     {
+      "id": "ee73ff4d-6994-509b-a54a-c113626f40bc",
+      "name": "Cal Henderson",
+      "type": "Organization",
+      "is_lead": false,
+      "is_vc": false
+     },
+     {
+      "id": "c6272ec2-edf2-5032-94b5-fa5e7760101a",
+      "name": "Co-founder",
+      "type": "Organization",
+      "is_lead": false,
+      "is_vc": false
+     },
+     {
+      "id": "476a73ac-afa2-4713-9f73-188bc7ec0b95",
+      "name": "Lifeline Ventures",
+      "type": "Organization",
+      "is_lead": false,
+      "is_vc": true
+     },
+     {
+      "id": "d70c1438-b539-5552-8933-cc4e4de1a4ed",
+      "name": "Romain Huët",
+      "type": "Person",
+      "is_lead": false,
+      "is_vc": false
+     }
+    ],
+    "sources": [
+     {
+      "name": "swarmia.com",
+      "url": "https://www.swarmia.com/blog/series-a-funding/",
+      "rank": "PRIMARY",
+      "date": "2025-06-18"
+     },
+     {
+      "name": "eu-startups.com",
+      "url": "https://www.eu-startups.com/2025/06/finnish-saas-startup-swarmia-secures-e10-million-to-power-engineering-productivity/",
+      "rank": "PRESS",
+      "date": "2025-06-18"
+     },
+     {
+      "name": "fundediq.co",
+      "url": "https://fundediq.co/swarmia-swarmia-com-funding/",
       "rank": "AGGREGATOR",
       "date": "2026-11-04"
      }
@@ -368,125 +491,143 @@
    }
   },
   {
-   "company_id": "25a97622-eed9-4289-bde6-2d191e44c06d",
-   "name": "Gosta Labs",
-   "website": "gostalabs.com",
+   "company_id": "4e91b640-41bb-45f7-b82c-711a94a2e0e5",
+   "name": "eBrands Global Oy",
+   "website": "ebrands.com",
    "country": "Finland",
    "industries": [
-    "Healthcare providers",
-    "Medical devices",
-    "Software and services"
+    "Internet and web services",
+    "Retail"
    ],
    "round": {
-    "id": "bb008301-518b-574a-8bd6-9f7151da4361",
-    "label": "SEED",
+    "id": "dfbfc74c-0d6b-54fc-898f-e700cdf3ee23",
+    "label": "SERIES_A",
     "amount": 7500000,
     "currency": "EUR",
-    "date": "2025-11-27",
+    "date": "2025-03-11",
     "date_kind": "announcement",
     "investors": [
      {
-      "id": "8673db97-466e-4e7e-8417-a0ce1207bf9e",
-      "name": "Voima Ventures",
+      "id": "519b4993-6256-48de-a01f-c4e9102aa7cf",
+      "name": "Varma Mutual Pension Insurance Company",
       "type": "Organization",
-      "is_lead": true
+      "is_lead": true,
+      "is_vc": false
      },
      {
-      "id": "3f9a41b4-1b21-4d8a-86f9-188109ff6179",
-      "name": "AHO Aps",
+      "id": "67a477ec-9758-439c-ad0d-386b91208c86",
+      "name": "Veikko Laine Oy",
       "type": "Company",
-      "is_lead": false
+      "is_lead": true,
+      "is_vc": false
      },
      {
-      "id": "81192996-e623-4961-9025-58afec3a68d3",
-      "name": "Cor Group Oy",
+      "id": "70fb3317-cd8c-4c52-aa86-66502789bce3",
+      "name": "Icebreaker.vc",
       "type": "Company",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": true
+     },
+     {
+      "id": "6739d1c3-5ce0-4e04-ab28-a54eaf75f7d1",
+      "name": "Rettig Group",
+      "type": "Company",
+      "is_lead": false,
+      "is_vc": false
      }
     ],
     "sources": [
      {
-      "name": "techfundingnews.com",
-      "url": "https://techfundingnews.com/gosta-labs-raises-7-5m-to-scale-ai-oncology-precision/",
-      "rank": "PRESS",
-      "date": "2025-11-27"
+      "name": "news.cision.com",
+      "url": "https://news.cision.com/san-francisco-oy/r/ebrands-raises--7-5m-to-help-consumer-brands-grow-internationally-with-ai,c4117793",
+      "rank": "PRIMARY",
+      "date": "2025-03-12"
      },
      {
-      "name": "eu-startups.com",
-      "url": "https://www.eu-startups.com/2025/11/as-cancer-cases-surge-toward-35-million-by-2050-finlands-gosta-labs-raises-e7-5-million-to-ease-oncology-workloads/",
+      "name": "castren.fi",
+      "url": "https://www.castren.fi/cases/ebrands-funding-round-2025/",
       "rank": "PRESS",
-      "date": "2025-11-27"
+      "date": "2025-03-11"
+     },
+     {
+      "name": "cbinsights.com",
+      "url": "https://www.cbinsights.com/company/ebrands/financials",
+      "rank": "AGGREGATOR",
+      "date": "2026-11-13"
      }
     ]
    }
   },
   {
-   "company_id": "5466f036-ebe0-4171-ae24-643c83cfef6b",
-   "name": "Skyfora",
-   "website": "skyfora.com",
-   "country": "Finland",
+   "company_id": "3ee757f1-15c6-4f26-aafd-eba7953589a9",
+   "name": "Pistachio",
+   "website": "pistachioapp.com",
+   "country": "Norway",
    "industries": [
-    "Renewable energy",
-    "Software and services",
-    "Telecommunications"
+    "Software and services"
    ],
    "round": {
-    "id": "31db35af-6604-5eeb-8164-e3e66904718c",
-    "label": "SEED",
-    "amount": 6500000,
-    "currency": "EUR",
-    "date": "2026-06-09",
+    "id": "0eb4b495-aaf6-5855-8efb-b594a7bc4b08",
+    "label": "SERIES_A",
+    "amount": 7000000,
+    "currency": "USD",
+    "date": "2025-04-29",
     "date_kind": "announcement",
     "investors": [
      {
-      "id": "34829e66-7e7e-412e-a0ea-c61014ced495",
-      "name": "Ugly Duckling Ventures Management ApS",
+      "id": "ecfb8157-f456-4b51-bbce-1ca99619b192",
+      "name": "Walter Ventures",
+      "type": "Organization",
+      "is_lead": true,
+      "is_vc": true
+     },
+     {
+      "id": "09125dc5-ebf7-4ce2-b901-92e7100c9d2e",
+      "name": "Angel Invest B.V.",
       "type": "Company",
-      "is_lead": true
+      "is_lead": false,
+      "is_vc": false
      },
      {
-      "id": "d5b41639-eb27-43df-a6ee-a4f03807fbca",
-      "name": "Business Finland",
-      "type": "Organization",
-      "is_lead": false
-     },
-     {
-      "id": "8b48d1a5-8b64-43a6-a1ee-aac5022bb54d",
-      "name": "European Innovation Council Fund",
-      "type": "Organization",
-      "is_lead": false
-     },
-     {
-      "id": "8540e55a-1f3b-4969-bf08-6802f5344d24",
-      "name": "Eviny Ventures",
+      "id": "d3e3c2e5-47ff-47d2-856c-94efbf7e5d90",
+      "name": "Idekapital",
       "type": "Company",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": true
      },
      {
-      "id": "b6102f0d-6696-4dc6-b0bf-1d3f79c94344",
-      "name": "LUMO Labs",
-      "type": "Organization",
-      "is_lead": false
+      "id": "8c6fed86-abdc-421c-836c-e1aab33097ef",
+      "name": "J12 Ventures",
+      "type": "Company",
+      "is_lead": false,
+      "is_vc": true
+     },
+     {
+      "id": "25979bd3-97fe-4124-b2ac-6d559636ea3e",
+      "name": "MP Pensjon PK",
+      "type": "Company",
+      "is_lead": false,
+      "is_vc": false
      }
     ],
     "sources": [
      {
-      "name": "skyfora.com",
-      "url": "https://www.skyfora.com/news/skyfora-raises-6-5m-to-turn-telecom-networks-into-real-time-weather-sensors-for-ai-forecasting",
-      "rank": "PRIMARY",
-      "date": "2026-06-09"
+      "name": "data.brreg.no",
+      "url": "https://data.brreg.no/regnskapsregisteret/regnskap/929575717",
+      "rank": "FILING",
+      "date": "2026-11-12"
      },
      {
-      "name": "raise.fusion-42.com",
-      "url": "https://raise.fusion-42.com/rounds/2186750a-f8fd-4d72-8dd3-a4200136fa0b",
-      "rank": "PRESS",
-      "date": "2026-11-04"
+      "name": "w2.brreg.no",
+      "url": "https://w2.brreg.no/kunngjoring/hent_en.jsp?kid=20250000232085&sokeverdi=929575717&spraak=nb",
+      "rank": "FILING",
+      "date": "2025-05-07"
      },
      {
-      "name": "eu-startups.com",
-      "url": "https://www.eu-startups.com/2026/06/finnish-skyfora-raises-e6-5-million-to-quicken-deployment-of-atmospheric-sensing-network/",
+      "name": "tech.eu",
+      "url": "https://tech.eu/2025/04/29/pistachio-raises-7m-series-a-for-cybersecurity-awareness-platform/",
       "rank": "PRESS",
-      "date": "2026-06-09"
+      "date": "2025-04-29"
      }
     ]
    }
@@ -511,13 +652,15 @@
       "id": "32e27d54-3922-407f-aa07-2747d94b210c",
       "name": "Atomico",
       "type": "Company",
-      "is_lead": true
+      "is_lead": true,
+      "is_vc": true
      },
      {
       "id": "c06adc97-e2d8-4590-a329-4462750ee4e6",
       "name": "Cherry Ventures",
       "type": "Company",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": true
      }
     ],
     "sources": [
@@ -532,6 +675,88 @@
       "url": "https://www.finsmes.com/2024/01/deeploi-closes-e6m-seed-funding-round.html",
       "rank": null,
       "date": "2024-01-24"
+     }
+    ]
+   }
+  },
+  {
+   "company_id": "dfc26dad-408b-4630-8a68-e490d2fbd786",
+   "name": "Comparables.ai",
+   "website": "comparables.ai",
+   "country": "Finland",
+   "industries": [
+    "Fintech",
+    "Software and services"
+   ],
+   "round": {
+    "id": "e9d584f4-c4a5-510e-bace-9df9717e86af",
+    "label": "SEED",
+    "amount": 6000000,
+    "currency": "USD",
+    "date": "2026-10-06",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "89086b9e-3468-4d6c-b6b3-1caeaa418d5c",
+      "name": "Araya Ventures",
+      "type": "Company",
+      "is_lead": true,
+      "is_vc": true
+     },
+     {
+      "id": "ea3118e1-9ffe-436c-affc-7d086d3be51e",
+      "name": "Pragmatech",
+      "type": "Organization",
+      "is_lead": true,
+      "is_vc": false
+     },
+     {
+      "id": "1f2979fb-423a-40ef-8c96-eb0d9fae7ea6",
+      "name": "Gorilla Capital",
+      "type": "Company",
+      "is_lead": false,
+      "is_vc": true
+     },
+     {
+      "id": "558f8f59-08b0-412a-9947-8878de485861",
+      "name": "Hi5 VC OÜ",
+      "type": "Company",
+      "is_lead": false,
+      "is_vc": true
+     },
+     {
+      "id": "a25ba634-4459-4bf3-8a4d-78155efe5558",
+      "name": "Purple Ventures s.r.o.",
+      "type": "Company",
+      "is_lead": false,
+      "is_vc": true
+     },
+     {
+      "id": "84e3e982-b3a0-4338-bfdf-ec4f4fa30a4a",
+      "name": "Somersault Ventures",
+      "type": "Organization",
+      "is_lead": false,
+      "is_vc": true
+     }
+    ],
+    "sources": [
+     {
+      "name": "tech.eu",
+      "url": "https://tech.eu/2026/10/06/comparablesai-secures-6m-seed-to-scale-its-ai-platform-for-dealmakers/",
+      "rank": "PRESS",
+      "date": "2026-10-06"
+     },
+     {
+      "name": "vestbee.com",
+      "url": "https://vestbee.com/insights/articles/comparables-ai-lands-6-m",
+      "rank": "PRESS",
+      "date": "2026-10-06"
+     },
+     {
+      "name": "thesaasnews.com",
+      "url": "https://www.thesaasnews.com/news/comparables-ai-raises-6m-seed/",
+      "rank": "PRESS",
+      "date": "2026-10-06"
      }
     ]
    }
@@ -559,61 +784,71 @@
       "id": "90e442ac-3623-48d1-ab34-ea4208d554cf",
       "name": "Partech",
       "type": "Company",
-      "is_lead": true
+      "is_lead": true,
+      "is_vc": false
      },
      {
       "id": "0c69b876-4dea-4f08-af7a-d7e3fd0b23b4",
       "name": "Acurio Ventures Partners",
       "type": "Organization",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": true
      },
      {
       "id": "c66ecdbc-5474-430c-af13-b4cce4b1d01b",
       "name": "Arc Investors LLC",
       "type": "Company",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": true
      },
      {
       "id": "2cca7004-6efc-4539-a8ca-ea73e4d3d888",
       "name": "Connect Ventures",
       "type": "Organization",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": true
      },
      {
       "id": "4e9350ec-f5cf-46f3-8fb9-4e1ed2eb15f6",
       "name": "FOV Ventures",
       "type": "Organization",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": true
      },
      {
       "id": "3796defa-a280-574d-ba3d-94e8a9fb5130",
       "name": "Gert Lanckriet",
       "type": "Person",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": false
      },
      {
       "id": "d4ad402b-f161-5ed0-a97f-5fd2c8729cc4",
       "name": "Hazel Savage",
       "type": "Person",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": false
      },
      {
       "id": "1ab39345-03b5-4dbd-845f-de4fd2e42683",
       "name": "Intuition",
       "type": "Company",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": false
      },
      {
       "id": "ae4028a2-df65-505a-9d4f-e9e1454625cc",
       "name": "Mehdi Ghissassi",
       "type": "Person",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": false
      },
      {
       "id": "e9cb3ea2-6d1e-5336-8fb5-799bf1aea5a9",
       "name": "Thomas Wolf",
       "type": "Person",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": false
      }
     ],
     "sources": [
@@ -653,25 +888,29 @@
       "id": "3fa5315d-8836-46f6-bc65-4f55b5a295bd",
       "name": "Daphni",
       "type": "Organization",
-      "is_lead": true
+      "is_lead": true,
+      "is_vc": true
      },
      {
       "id": "8b8c3098-8d09-4968-8a1b-4146f4c02613",
       "name": "Merantix Fund Management GmbH",
       "type": "Company",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": true
      },
      {
       "id": "13c27c2d-3764-4c91-9b93-a4eb604ffb35",
       "name": "Navec Investment Management",
       "type": "Organization",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": false
      },
      {
       "id": "963b881e-2dc9-418c-b900-abdb9c61f2ce",
       "name": "SquareOne",
       "type": "Organization",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": true
      }
     ],
     "sources": [
@@ -703,64 +942,6 @@
    }
   },
   {
-   "company_id": "c83207b7-2e55-44af-a4e8-26463e746626",
-   "name": "Forgent AI GmbH",
-   "website": "forgent.ai",
-   "country": "Germany",
-   "industries": [
-    "Government and public admin",
-    "Software and services"
-   ],
-   "round": {
-    "id": "89aecaa6-dc3c-585b-af1c-b163da6b74a8",
-    "label": "PRE_SEED",
-    "amount": 4300000,
-    "currency": "EUR",
-    "date": "2025-09-23",
-    "date_kind": "announcement",
-    "investors": [
-     {
-      "id": "c06adc97-e2d8-4590-a329-4462750ee4e6",
-      "name": "Cherry Ventures",
-      "type": "Company",
-      "is_lead": true
-     },
-     {
-      "id": "e811f1f6-6ecf-4f98-aa99-e3a9e2211458",
-      "name": "Charlie Songhurst",
-      "type": "Person",
-      "is_lead": false
-     },
-     {
-      "id": "3575b080-b535-420c-9284-b09481e8a793",
-      "name": "Katrin Suder",
-      "type": "Person",
-      "is_lead": false
-     },
-     {
-      "id": "abd3d254-3a98-4569-b867-2bc1e6e3e110",
-      "name": "Rethink Ventures",
-      "type": "Company",
-      "is_lead": false
-     }
-    ],
-    "sources": [
-     {
-      "name": "thesaasnews.com",
-      "url": "https://www.thesaasnews.com/news/forgent-ai-secures-4-3-million-pre-seed/",
-      "rank": "PRESS",
-      "date": "2025-09-22"
-     },
-     {
-      "name": "preqin.com",
-      "url": "https://www.preqin.com/data/profile/asset/forgent-ai-gmbh/769464",
-      "rank": "AGGREGATOR",
-      "date": "2025-10-01"
-     }
-    ]
-   }
-  },
-  {
    "company_id": "f1970456-a6e4-4b95-91a8-58c5a92d9bfe",
    "name": "Flow Computing",
    "website": "flow-computing.com",
@@ -781,37 +962,43 @@
       "id": "114c3c85-dcce-450a-8305-1bacb716aec1",
       "name": "Butterfly Ventures",
       "type": "Company",
-      "is_lead": true
+      "is_lead": true,
+      "is_vc": true
      },
      {
       "id": "d5b41639-eb27-43df-a6ee-a4f03807fbca",
       "name": "Business Finland",
       "type": "Organization",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": false
      },
      {
       "id": "4e9350ec-f5cf-46f3-8fb9-4e1ed2eb15f6",
       "name": "FOV Ventures",
       "type": "Organization",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": true
      },
      {
       "id": "597fb031-b820-4362-9311-3d6106e13c08",
       "name": "Sarsia Management",
       "type": "Company",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": false
      },
      {
       "id": "dc925386-409d-41f1-8fb2-3a7b61802366",
       "name": "Stephen Industries Inc Oy",
       "type": "Company",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": false
      },
      {
       "id": "8f18dee5-e41b-4eaa-86e2-f03f1a846edc",
       "name": "Superhero Capital",
       "type": "Company",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": true
      }
     ],
     "sources": [
@@ -826,6 +1013,210 @@
       "url": "https://siliconangle.com/2024/06/11/startup-flow-raises-4m-iterate-parallel-processing-tech-massively-accelerates-cpu/",
       "rank": "PRESS",
       "date": "2024-06-11"
+     }
+    ]
+   }
+  },
+  {
+   "company_id": "36fb528c-7795-4825-a9a4-a66ba327461b",
+   "name": "Cariqa",
+   "website": "cariqa.com",
+   "country": "Germany",
+   "industries": [
+    "Fintech",
+    "Renewable energy"
+   ],
+   "round": {
+    "id": "0e3f36da-8273-5f91-9868-66e03fc2f61d",
+    "label": "SEED",
+    "amount": 4000000,
+    "currency": "EUR",
+    "date": "2025-07-08",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "4985b453-12d1-4307-aa52-79ee031ba8e4",
+      "name": "Anthemis Group",
+      "type": "Company",
+      "is_lead": true,
+      "is_vc": true
+     },
+     {
+      "id": "3c7caf1d-2b92-493f-bed9-7e14f8e4cc78",
+      "name": "UAB Contrarian Ventures",
+      "type": "Company",
+      "is_lead": true,
+      "is_vc": true
+     },
+     {
+      "id": "684da1ca-282f-5288-9b0b-5cd0de1aa323",
+      "name": "Earth",
+      "type": "Organization",
+      "is_lead": false,
+      "is_vc": false
+     },
+     {
+      "id": "9feb906c-9d6c-4f3b-bac9-5660c69cbaa0",
+      "name": "Female Innovators Lab",
+      "type": "Company",
+      "is_lead": false,
+      "is_vc": false
+     },
+     {
+      "id": "f64a71c5-bcd7-4822-9580-60a1e3ab620d",
+      "name": "Golden Egg Check Capital",
+      "type": "Organization",
+      "is_lead": false,
+      "is_vc": true
+     },
+     {
+      "id": "ae7530e4-556e-4547-ba15-88a12fbcdcb1",
+      "name": "Techstars",
+      "type": "Organization",
+      "is_lead": false,
+      "is_vc": false
+     }
+    ],
+    "sources": [
+     {
+      "name": "electrive.net",
+      "url": "https://www.electrive.net/2025/07/12/cariqa-schliesst-seed-finanzierung-erfolgreich-ab/",
+      "rank": "PRESS",
+      "date": "2025-07-12"
+     },
+     {
+      "name": "siliconcanals.com",
+      "url": "https://siliconcanals.com/cariqa-lands-e4m/",
+      "rank": "PRESS",
+      "date": "2025-07-08"
+     },
+     {
+      "name": "tech.eu",
+      "url": "https://tech.eu/2025/07/08/cariqa-raises-eur4m-to-simplify-ev-charging-payments-and-pricing/",
+      "rank": "PRESS",
+      "date": "2025-07-08"
+     }
+    ]
+   }
+  },
+  {
+   "company_id": "2c7df7f0-ff58-49ce-a7e9-c1230be73838",
+   "name": "Finperks",
+   "website": "finperks.com",
+   "country": "Germany",
+   "industries": [
+    "Banking",
+    "Fintech"
+   ],
+   "round": {
+    "id": "44239a28-c237-59ef-9e42-d95272851eba",
+    "label": "PRE_SEED",
+    "amount": 4000000,
+    "currency": "USD",
+    "date": "2026-03-11",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "992428ad-ac06-419b-9179-b785fb43567e",
+      "name": "Motive Partners",
+      "type": "Company",
+      "is_lead": true,
+      "is_vc": true
+     },
+     {
+      "id": "420b2ebc-7589-420f-9f5b-ed2dea14a893",
+      "name": "seed + speed Ventures",
+      "type": "Organization",
+      "is_lead": true,
+      "is_vc": true
+     },
+     {
+      "id": "f5aebff5-60cc-4e16-8923-cf0893dbb2e8",
+      "name": "Carsten Maschmeyer",
+      "type": "Person",
+      "is_lead": false,
+      "is_vc": false
+     }
+    ],
+    "sources": [
+     {
+      "name": "thenextweb.com",
+      "url": "https://thenextweb.com/news/finperks-raises-4m-to-become-the-api-layer-for-prepaid-payments-in-europe",
+      "rank": "PRESS",
+      "date": "2026-03-11"
+     },
+     {
+      "name": "inforcapital.com",
+      "url": "https://inforcapital.com/news/finperks-raises-4-million-pre-seed-to-build-the-stripe-for-prepaid-payments/",
+      "rank": "AGGREGATOR",
+      "date": "2026-03-29"
+     }
+    ]
+   }
+  },
+  {
+   "company_id": "8502a550-46b3-4790-b869-c450eb925672",
+   "name": "Cytely",
+   "website": "cytely.io",
+   "country": "Sweden",
+   "industries": [
+    "Biotechnology",
+    "Medical devices",
+    "Software and services"
+   ],
+   "round": {
+    "id": "d93d4f0c-33b5-5f5f-b4f4-9c064e1ae180",
+    "label": "PRE_SEED",
+    "amount": 3000000,
+    "currency": "EUR",
+    "date": "2025-10-22",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "70fb3317-cd8c-4c52-aa86-66502789bce3",
+      "name": "Icebreaker.vc",
+      "type": "Company",
+      "is_lead": true,
+      "is_vc": true
+     },
+     {
+      "id": "34829e66-7e7e-412e-a0ea-c61014ced495",
+      "name": "Ugly Duckling Ventures Management ApS",
+      "type": "Company",
+      "is_lead": true,
+      "is_vc": true
+     }
+    ],
+    "sources": [
+     {
+      "name": "newsroom.notified.com",
+      "url": "https://newsroom.notified.com/news/382296/cytely-ab-raises-capital-to-accelerate-discov",
+      "rank": "PRIMARY",
+      "date": "2025-10-22"
+     },
+     {
+      "name": "cytely.io",
+      "url": "https://www.cytely.io/resources/news/cytely-accelerating-discovery-to-unlock-human-biology-and-cure-all-preventable-disease",
+      "rank": "PRIMARY",
+      "date": "2025-10-22"
+     },
+     {
+      "name": "eu-startups.com",
+      "url": "https://www.eu-startups.com/2025/10/swedens-cytely-raises-e3-million-as-labs-report-75-faster-analysis-using-its-smart-microscopy-platform/",
+      "rank": "PRESS",
+      "date": "2025-10-24"
+     },
+     {
+      "name": "oresundstartups.com",
+      "url": "https://oresundstartups.com/cytely-secures-e3m-to-revolutionize-biomedical-research-with-ai-powered-microscopy/",
+      "rank": "PRESS",
+      "date": "2025-10-23"
+     },
+     {
+      "name": "cbinsights.com",
+      "url": "https://www.cbinsights.com/company/cytely/financials",
+      "rank": "AGGREGATOR",
+      "date": "2026-11-13"
      }
     ]
    }
@@ -851,19 +1242,22 @@
       "id": "144aee1c-a102-46e3-8b21-caca2e9fe681",
       "name": "Corpus Ventures",
       "type": "Company",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": true
      },
      {
       "id": "5c5f67af-f2f1-5eab-951a-f6f6ccba096b",
       "name": "Gnosis VC",
       "type": "Organization",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": true
      },
      {
       "id": "e2f5eaee-2749-52e2-abb6-0ba2f548f969",
       "name": "Thomas Schmidt",
       "type": "Person",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": false
      }
     ],
     "sources": [
@@ -872,6 +1266,301 @@
       "url": "https://beel.com/en/blog/tokenize-it-raises-2-7m-eur-seed-round",
       "rank": "PRIMARY",
       "date": "2025-03-12"
+     }
+    ]
+   }
+  },
+  {
+   "company_id": "3254bcd3-da85-4b40-9ccc-7e9a9966d8a4",
+   "name": "Synergi",
+   "website": "synergi.fi",
+   "country": "Finland",
+   "industries": [
+    "Renewable energy",
+    "Software and services"
+   ],
+   "round": {
+    "id": "9932a8a7-5345-5789-8137-c2e14e20dfc9",
+    "label": "SEED",
+    "amount": 2000000,
+    "currency": "EUR",
+    "date": "2024-10-08",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "cef02fe0-0cf3-5914-8aa9-03673f91ef8e",
+      "name": "Greencode Ventures",
+      "type": "Organization",
+      "is_lead": true,
+      "is_vc": true
+     },
+     {
+      "id": "e7bedf66-78fe-4a25-8497-ccb5cb7ef938",
+      "name": "APX",
+      "type": "Company",
+      "is_lead": false,
+      "is_vc": false
+     },
+     {
+      "id": "476a73ac-afa2-4713-9f73-188bc7ec0b95",
+      "name": "Lifeline Ventures",
+      "type": "Organization",
+      "is_lead": false,
+      "is_vc": true
+     },
+     {
+      "id": "f8530c77-aa35-4d03-b689-0f89a75603bc",
+      "name": "Vaens Oy",
+      "type": "Company",
+      "is_lead": false,
+      "is_vc": false
+     },
+     {
+      "id": "c1ab0b56-e050-433b-8b3b-5c6526db70ef",
+      "name": "Wave Ventures",
+      "type": "Company",
+      "is_lead": false,
+      "is_vc": true
+     }
+    ],
+    "sources": [
+     {
+      "name": "eu-startups.com",
+      "url": "https://www.eu-startups.com/2024/10/helsinki-based-synergi-raises-e2-million-to-plug-european-homes-and-utilities-into-flexibility-markets/",
+      "rank": "PRESS",
+      "date": "2024-10-08"
+     }
+    ]
+   }
+  },
+  {
+   "company_id": "a862eba6-26a3-400a-ae63-ed9ee29123c8",
+   "name": "Maculaser Oy",
+   "website": "maculaser.com",
+   "country": "Finland",
+   "industries": [
+    "Biotechnology",
+    "Medical devices",
+    "Pharmaceuticals"
+   ],
+   "round": {
+    "id": "8c5702eb-c4ab-5390-8815-c2d1931cd57e",
+    "label": "SEED",
+    "amount": 1200000,
+    "currency": "EUR",
+    "date": "2026-05-28",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "6a966907-4006-4a4b-8d11-2330f76cb3cd",
+      "name": "Innovestor Oy",
+      "type": "Company",
+      "is_lead": true,
+      "is_vc": true
+     },
+     {
+      "id": "56bb1c59-054b-4d2c-a13d-2b568b3e1bde",
+      "name": "M2CARE",
+      "type": "Company",
+      "is_lead": true,
+      "is_vc": false
+     },
+     {
+      "id": "ea80b60a-f16e-4466-8f96-5a7afa934c51",
+      "name": "ZEISS Ventures",
+      "type": "Organization",
+      "is_lead": true,
+      "is_vc": true
+     },
+     {
+      "id": "eb73fd83-d705-5343-8c29-7476ea363f9f",
+      "name": "Jaakko Ollila",
+      "type": "Person",
+      "is_lead": false,
+      "is_vc": false
+     }
+    ],
+    "sources": [
+     {
+      "name": "avoindata.prh.fi",
+      "url": "https://avoindata.prh.fi/opendata-registerednotices-api/v3/3160009-2",
+      "rank": "FILING",
+      "date": "2026-11-13"
+     },
+     {
+      "name": "maculaser.com",
+      "url": "https://maculaser.com/zeiss-ventures-and-m2care-invest-in-maculaser-to-advance-temperature-controlled-retinal-laser-therapy/",
+      "rank": "PRIMARY",
+      "date": "2026-05-28"
+     },
+     {
+      "name": "m2.care",
+      "url": "https://www.m2.care/en/m2care-announces-investment-in-maculaser/",
+      "rank": "PRIMARY",
+      "date": "2026-05-28"
+     },
+     {
+      "name": "zeiss.com",
+      "url": "https://www.zeiss.com/corporate/en/about-zeiss/present/newsroom/press-releases/2026/maculaser-retinal-therapy.html",
+      "rank": "PRIMARY",
+      "date": "2026-05-28"
+     },
+     {
+      "name": "innovestorgroup.com",
+      "url": "https://innovestorgroup.com/innovestor-invests-maculaser/",
+      "rank": "PRIMARY",
+      "date": "2021-02-10"
+     }
+    ]
+   }
+  },
+  {
+   "company_id": "7028e46d-9ffe-4972-84ee-2cfae31983e5",
+   "name": "Huuva Oy",
+   "website": "huuva.io",
+   "country": "Finland",
+   "industries": [
+    "Internet and web services"
+   ],
+   "round": {
+    "id": "9aaaf41a-00dc-590e-bd5f-617c4bd1f4d3",
+    "label": "PRE_SEED",
+    "amount": 1050000,
+    "currency": "EUR",
+    "date": "2022-06-01",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "efbaf101-a009-4df7-9d98-b409b2350b15",
+      "name": "General Catalyst",
+      "type": "Organization",
+      "is_lead": true,
+      "is_vc": true
+     },
+     {
+      "id": "476a73ac-afa2-4713-9f73-188bc7ec0b95",
+      "name": "Lifeline Ventures",
+      "type": "Organization",
+      "is_lead": true,
+      "is_vc": true
+     },
+     {
+      "id": "03a8980f-379d-5962-9762-c50bb75c114d",
+      "name": "Ilkka Paananen",
+      "type": "Organization",
+      "is_lead": false,
+      "is_vc": false
+     },
+     {
+      "id": "8a0e087e-d381-53fa-b72b-aa562db01459",
+      "name": "Julian Lange",
+      "type": "Organization",
+      "is_lead": false,
+      "is_vc": false
+     },
+     {
+      "id": "21984134-bf54-5172-b767-3f97b5126a8b",
+      "name": "Laurel Bowden",
+      "type": "Organization",
+      "is_lead": false,
+      "is_vc": false
+     }
+    ],
+    "sources": [
+     {
+      "name": "invesdor.com",
+      "url": "https://www.invesdor.com/rounds/b5b32c41-f6f0-4595-8ef0-5cae1d535e42",
+      "rank": "PRIMARY",
+      "date": "2026-11-12"
+     },
+     {
+      "name": "arcticstartup.com",
+      "url": "https://arcticstartup.com/?p=91609",
+      "rank": "PRESS",
+      "date": "2026-11-12"
+     },
+     {
+      "name": "tech.eu",
+      "url": "https://tech.eu/2022/06/01/gourmet-lovers-rejoice-huuva-gobbles-eur49-million-from-general-catalyst-to-bring-delivery-food-outside-city-hot-spots/",
+      "rank": "PRESS",
+      "date": "2022-06-01"
+     },
+     {
+      "name": "finsmes.com",
+      "url": "https://www.finsmes.com/?p=229396",
+      "rank": "PRESS",
+      "date": "2022-06-01"
+     }
+    ]
+   }
+  },
+  {
+   "company_id": "09d7fa77-4315-4185-927b-af05e9fca8c3",
+   "name": "SisuSemi",
+   "website": "sisusemi.com",
+   "country": "Finland",
+   "industries": [
+    "Hardware and equipment",
+    "Manufacturing automotive",
+    "Software and services"
+   ],
+   "round": {
+    "id": "60519751-a8da-550d-a515-5d8ab2d4b6e1",
+    "label": "PRE_SEED",
+    "amount": 1000000,
+    "currency": "EUR",
+    "date": "2025-03-14",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "fb0f0dfe-f07a-483c-a501-01c39526970a",
+      "name": "Butterfly Venture Fund IV Ky",
+      "type": "Company",
+      "is_lead": false,
+      "is_vc": true
+     },
+     {
+      "id": "d442e8e0-1cd1-4b65-b32f-9d1536073a0e",
+      "name": "BVF Venture Fund IV AB",
+      "type": "Company",
+      "is_lead": false,
+      "is_vc": true
+     },
+     {
+      "id": "4b4ee6ab-0588-4802-8e4b-428fad1c2ee9",
+      "name": "European Investment Fund",
+      "type": "Organization",
+      "is_lead": false,
+      "is_vc": false
+     },
+     {
+      "id": "a2a9913e-f55f-5096-867d-f20658665f96",
+      "name": "Monttu Ventures",
+      "type": "Organization",
+      "is_lead": false,
+      "is_vc": true
+     },
+     {
+      "id": "38ef0c95-9886-55df-8bce-cd7d757922fb",
+      "name": "NSI Nordic Science I",
+      "type": "Organization",
+      "is_lead": false,
+      "is_vc": false
+     },
+     {
+      "id": "b587cc1c-d880-50d1-bda8-ed730b7cfae1",
+      "name": "PSV Hafnium Fund I",
+      "type": "Organization",
+      "is_lead": false,
+      "is_vc": true
+     }
+    ],
+    "sources": [
+     {
+      "name": "sisusemi.com",
+      "url": "https://www.sisusemi.com/news/sisusemi-oy-secures-over-1-million-in-seed-funding/",
+      "rank": "PRIMARY",
+      "date": "2026-11-04"
      }
     ]
    }
@@ -899,7 +1588,8 @@
       "id": "ff384c66-6015-4a9a-862e-fc54c1f72cd9",
       "name": "Tilia Impact Ventures",
       "type": "Company",
-      "is_lead": true
+      "is_lead": true,
+      "is_vc": true
      }
     ],
     "sources": [
@@ -913,101 +1603,263 @@
    }
   },
   {
-   "company_id": "25fdb5d1-8de7-42ff-9123-0682fc9e3b0a",
-   "name": "Btry",
-   "website": "btry.ch",
-   "country": "Switzerland",
+   "company_id": "fe84d24e-c2d7-44dc-970c-6ff7b6fbdc95",
+   "name": "Noux Digital",
+   "website": "nouxdigital.com",
+   "country": "Finland",
    "industries": [
-    "Hardware and equipment",
-    "Renewable energy"
+    "Internet and web services",
+    "Software and services"
    ],
    "round": {
-    "id": "0407ccf6-bd4d-5b45-bf12-81f875c37c6a",
-    "label": "PRE_SEED",
-    "amount": 900000,
-    "currency": "CHF",
-    "date": "2025-01-01",
+    "id": "d52d724e-f765-51d4-809a-5b5276369b4f",
+    "label": "SEED",
+    "amount": 360000,
+    "currency": "EUR",
+    "date": "2024-11-05",
     "date_kind": "announcement",
     "investors": [
      {
-      "id": "63a2fb1b-119c-4c3d-84af-40a49dc0ea64",
-      "name": "High-Tech Gründerfonds",
+      "id": "1ae80d12-c52b-5678-ba08-de88fccaff67",
+      "name": "Innovestor Angel CoFund",
       "type": "Organization",
-      "is_lead": true
+      "is_lead": true,
+      "is_vc": false
      },
      {
-      "id": "912bd56f-f2b3-4833-888d-5e137039eeaf",
-      "name": "Redstone Venture Managers",
+      "id": "b0e1e002-ee40-4d59-b5d1-230931f902ab",
+      "name": "Freeride Invest Oy",
       "type": "Company",
-      "is_lead": true
+      "is_lead": false,
+      "is_vc": true
      },
      {
-      "id": "91410e78-9bb3-5ec3-8e8d-d30f3d933a20",
-      "name": "Bloomhaus Ventures",
+      "id": "60cdbd3e-a93b-541f-ae6e-10bc2b73ca1d",
+      "name": "Palmgren Angels",
       "type": "Organization",
-      "is_lead": false
-     },
-     {
-      "id": "15a97e48-123c-599f-b540-ff7c2c6dd079",
-      "name": "Kick Foundation",
-      "type": "Organization",
-      "is_lead": false
-     },
-     {
-      "id": "465144ce-8468-4801-9255-7f1c736de553",
-      "name": "Kickfund",
-      "type": "Company",
-      "is_lead": false
-     },
-     {
-      "id": "82f49f8a-1159-5ffb-9c96-1467968c79a2",
-      "name": "Leopold König",
-      "type": "Person",
-      "is_lead": false
-     },
-     {
-      "id": "4867e915-facb-403b-81b5-8e8eaa8698b6",
-      "name": "Linear Capital",
-      "type": "Organization",
-      "is_lead": false
-     },
-     {
-      "id": "f8241959-0604-556e-8f88-3890c7a179e3",
-      "name": "Torge Thönnessen",
-      "type": "Person",
-      "is_lead": false
-     },
-     {
-      "id": "7ae7566d-9b77-49fd-8a14-11e6933c003a",
-      "name": "Zürcher Kantonalbank",
-      "type": "Company",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": false
      }
     ],
     "sources": [
      {
-      "name": "zefix.admin.ch",
-      "url": "https://www.zefix.admin.ch/ZefixREST/api/v1/firm/1585579.json",
-      "rank": "FILING",
-      "date": "2024-01-10"
-     },
-     {
-      "name": "btry.ch",
-      "url": "https://btry.ch/blog/",
+      "name": "nouxdigital.com",
+      "url": "https://nouxdigital.com/blog/noux-digital-raises-360k-seed-round",
       "rank": "PRIMARY",
-      "date": "2026-11-04"
+      "date": "2024-11-05"
      },
      {
-      "name": "htgf.de",
-      "url": "https://www.htgf.de/en/htgf-pre-seed-btry/",
-      "rank": "PRIMARY",
-      "date": "2024-01-18"
-     },
-     {
-      "name": "startbase.de",
-      "url": "https://www.startbase.de/news/btry-erhaelt-chf-46-millionen-fuer-ultraduenne-festkoerperbatterien/",
+      "name": "barchart.com",
+      "url": "https://www.barchart.com/story/news/29825849/noux-digital-secures-eur360k-in-seed-round-to-drive-growth-and-revolutionize-b2b-sales",
       "rank": "PRESS",
-      "date": "2026-11-09"
+      "date": "2024-11-29"
+     }
+    ]
+   }
+  },
+  {
+   "company_id": "dd64c2b7-b551-4322-ac10-57fa4eead37e",
+   "name": "IPRally",
+   "website": "iprally.com",
+   "country": "Finland",
+   "industries": [
+    "Software and services"
+   ],
+   "round": {
+    "id": "3c993de3-7fd6-5cc7-bc17-ff79d6501591",
+    "label": "PRE_SEED",
+    "amount": 150000,
+    "currency": "EUR",
+    "date": "2023-03-21",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "41cbd5c4-9fbb-4a53-ad26-d58f86003f9d",
+      "name": "Endeit Capital",
+      "type": "Organization",
+      "is_lead": true,
+      "is_vc": true
+     },
+     {
+      "id": "c00c3ba1-d236-4e49-ad35-c5ee8b5b5708",
+      "name": "Join Capital GmbH",
+      "type": "Company",
+      "is_lead": true,
+      "is_vc": true
+     },
+     {
+      "id": "4b9d59a7-331d-4664-a491-a0b2e7d37c03",
+      "name": "Spintop Ventures",
+      "type": "Company",
+      "is_lead": true,
+      "is_vc": true
+     },
+     {
+      "id": "fca117fd-52c3-4977-b2bc-1e09a7594168",
+      "name": "ActivumSG",
+      "type": "Organization",
+      "is_lead": false,
+      "is_vc": false
+     },
+     {
+      "id": "70fb3317-cd8c-4c52-aa86-66502789bce3",
+      "name": "Icebreaker.vc",
+      "type": "Company",
+      "is_lead": false,
+      "is_vc": true
+     }
+    ],
+    "sources": [
+     {
+      "name": "iprally.com",
+      "url": "https://www.iprally.com/news/patent-search--will-iprallys-technology-leap-make-boolean-history",
+      "rank": "PRIMARY",
+      "date": "2024-06-26"
+     },
+     {
+      "name": "iprally.com",
+      "url": "https://www.iprally.com/news/press-release-iprally-raises-eu10m-to-accelerate-patent-intelligence-ai",
+      "rank": "PRIMARY",
+      "date": "2023-03-21"
+     },
+     {
+      "name": "techcrunch.com",
+      "url": "https://techcrunch.com/2023/03/21/iprally-a-patent-search-engine-powered-by-explainable-ai-raises-10-8m/",
+      "rank": "PRESS",
+      "date": "2023-03-21"
+     },
+     {
+      "name": "startupintros.com",
+      "url": "https://startupintros.com/news/2018-04-01-iprally-seed",
+      "rank": "AGGREGATOR",
+      "date": "2026-11-12"
+     }
+    ]
+   }
+  },
+  {
+   "company_id": "53e80375-1967-4c14-b4e5-ac33b016e110",
+   "name": "Soihtu DTx",
+   "website": "soihtudtx.com",
+   "country": "Finland",
+   "industries": [
+    "Biotechnology",
+    "Healthcare providers",
+    "Pharmaceuticals",
+    "Software and services"
+   ],
+   "round": {
+    "id": "eab319a8-76db-5747-a229-b15f438ef148",
+    "label": "PRE_SEED",
+    "amount": null,
+    "currency": null,
+    "date": "2024-09-22",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "6a966907-4006-4a4b-8d11-2330f76cb3cd",
+      "name": "Innovestor Oy",
+      "type": "Company",
+      "is_lead": true,
+      "is_vc": true
+     },
+     {
+      "id": "d3ae0dbf-6282-5e0f-ba10-c4a370f672fb",
+      "name": "NewFund HEKA",
+      "type": "Organization",
+      "is_lead": false,
+      "is_vc": false
+     }
+    ],
+    "sources": [
+     {
+      "name": "bebeez.eu",
+      "url": "https://bebeez.eu/2024/09/24/innovestor-backs-finnish-spinouts-addressing-neurological-disorders-with-e10m-investment/",
+      "rank": "PRESS",
+      "date": "2024-09-24"
+     },
+     {
+      "name": "startupsmagazine.co.uk",
+      "url": "https://startupsmagazine.co.uk/article-innovestor-backs-finnish-spinouts-pioneering-neurological-treatments",
+      "rank": "PRESS",
+      "date": "2024-09-22"
+     }
+    ]
+   }
+  },
+  {
+   "company_id": "b488fe95-8f45-40be-ab57-f8f96da242fe",
+   "name": "Adeu AI",
+   "website": "adeu.ai",
+   "country": "Finland",
+   "industries": [
+    "Legal",
+    "Software and services"
+   ],
+   "round": {
+    "id": "f2d35147-3db3-541b-98c9-eb9519458f93",
+    "label": "PRE_SEED",
+    "amount": null,
+    "currency": null,
+    "date": "2025-03-28",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "6a966907-4006-4a4b-8d11-2330f76cb3cd",
+      "name": "Innovestor Oy",
+      "type": "Company",
+      "is_lead": false,
+      "is_vc": true
+     }
+    ],
+    "sources": [
+     {
+      "name": "nordic9.com",
+      "url": "https://nordic9.com/news/adeu-ai-raised-money-in-a-pre-seed-round-with-innovestor-angel-fund/",
+      "rank": "AGGREGATOR",
+      "date": "2025-03-28"
+     }
+    ]
+   }
+  },
+  {
+   "company_id": "1cec901d-20d1-4e4b-adb5-611141810031",
+   "name": "Quicksave Interactive",
+   "website": "playables.ai",
+   "country": "Finland",
+   "industries": [
+    "Advertising and marketing",
+    "Entertainment",
+    "Software and services"
+   ],
+   "round": {
+    "id": "4f24a3d3-645e-53e8-ba3c-5048c525827e",
+    "label": "SERIES_A",
+    "amount": null,
+    "currency": null,
+    "date": "2026-03-16",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "95c2a414-2e9a-5af5-b7a5-1ae84704eed9",
+      "name": "HyperScope Ventures",
+      "type": "Organization",
+      "is_lead": true,
+      "is_vc": true
+     }
+    ],
+    "sources": [
+     {
+      "name": "pocketgamer.biz",
+      "url": "https://www.pocketgamer.biz/quicksave-interactive-secures-hyperscope-ventures-investment-for-playablesai",
+      "rank": "PRESS",
+      "date": "2026-03-16"
+     },
+     {
+      "name": "raptorgroup.com",
+      "url": "https://www.raptorgroup.com/news/quicksave-interactive-secures-hyperscope-ventures-investment-for-playables-ai/",
+      "rank": "PRESS",
+      "date": "2026-03-16"
      }
     ]
    }
@@ -1033,25 +1885,29 @@
       "id": "476a73ac-afa2-4713-9f73-188bc7ec0b95",
       "name": "Lifeline Ventures",
       "type": "Company",
-      "is_lead": true
+      "is_lead": true,
+      "is_vc": true
      },
      {
       "id": "20003112-87a9-4ac0-be1a-bc97efecf19e",
       "name": "byFounders",
       "type": "Organization",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": true
      },
      {
       "id": "cd63d5a6-ff71-4c0f-a149-f6bae0487b36",
       "name": "Tesi",
       "type": "Company",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": true
      },
      {
       "id": "519b4993-6256-48de-a01f-c4e9102aa7cf",
       "name": "Varma Mutual Pension Insurance Company",
       "type": "Organization",
-      "is_lead": false
+      "is_lead": false,
+      "is_vc": false
      }
     ],
     "sources": [
@@ -1079,18 +1935,23 @@
  ],
  "top_investors_in_blind_spots": [
   {
-   "id": "d5b41639-eb27-43df-a6ee-a4f03807fbca",
-   "name": "Business Finland",
-   "companies": 2
+   "id": "476a73ac-afa2-4713-9f73-188bc7ec0b95",
+   "name": "Lifeline Ventures",
+   "companies": 5
+  },
+  {
+   "id": "70fb3317-cd8c-4c52-aa86-66502789bce3",
+   "name": "Icebreaker.vc",
+   "companies": 3
+  },
+  {
+   "id": "6a966907-4006-4a4b-8d11-2330f76cb3cd",
+   "name": "Innovestor Oy",
+   "companies": 3
   },
   {
    "id": "c06adc97-e2d8-4590-a329-4462750ee4e6",
    "name": "Cherry Ventures",
-   "companies": 2
-  },
-  {
-   "id": "8540e55a-1f3b-4969-bf08-6802f5344d24",
-   "name": "Eviny Ventures",
    "companies": 2
   },
   {
@@ -1099,13 +1960,8 @@
    "companies": 2
   },
   {
-   "id": "476a73ac-afa2-4713-9f73-188bc7ec0b95",
-   "name": "Lifeline Ventures",
-   "companies": 2
-  },
-  {
-   "id": "8673db97-466e-4e7e-8417-a0ce1207bf9e",
-   "name": "Voima Ventures",
+   "id": "420b2ebc-7589-420f-9f5b-ed2dea14a893",
+   "name": "seed + speed Ventures",
    "companies": 2
   },
   {
@@ -1119,20 +1975,204 @@
    "companies": 1
   },
   {
-   "id": "3f9a41b4-1b21-4d8a-86f9-188109ff6179",
-   "name": "AHO Aps",
+   "id": "f36abff9-79ae-4fef-990f-9fedc1d51fb5",
+   "name": "ALSTIN Capital",
    "companies": 1
   },
   {
-   "id": "a04ff8af-9d8d-5acb-9feb-a773292b2711",
-   "name": "Andrew Konopelski",
+   "id": "373d84d7-06a8-426f-8244-5f8e5e3b23a9",
+   "name": "Alven Capital V",
    "companies": 1
   }
  ],
+ "breakdown": [
+  {
+   "country": "Austria",
+   "stage": "PRE_SEED",
+   "market": 1,
+   "never_seen": 1
+  },
+  {
+   "country": "Austria",
+   "stage": "SEED",
+   "market": 1,
+   "never_seen": 1
+  },
+  {
+   "country": "Austria",
+   "stage": "SERIES_A",
+   "market": 1,
+   "never_seen": 0
+  },
+  {
+   "country": "Denmark",
+   "stage": "PRE_SEED",
+   "market": 0,
+   "never_seen": 0
+  },
+  {
+   "country": "Denmark",
+   "stage": "SEED",
+   "market": 1,
+   "never_seen": 0
+  },
+  {
+   "country": "Denmark",
+   "stage": "SERIES_A",
+   "market": 0,
+   "never_seen": 0
+  },
+  {
+   "country": "Finland",
+   "stage": "PRE_SEED",
+   "market": 7,
+   "never_seen": 6
+  },
+  {
+   "country": "Finland",
+   "stage": "SEED",
+   "market": 9,
+   "never_seen": 5
+  },
+  {
+   "country": "Finland",
+   "stage": "SERIES_A",
+   "market": 6,
+   "never_seen": 4
+  },
+  {
+   "country": "Germany",
+   "stage": "PRE_SEED",
+   "market": 2,
+   "never_seen": 1
+  },
+  {
+   "country": "Germany",
+   "stage": "SEED",
+   "market": 5,
+   "never_seen": 4
+  },
+  {
+   "country": "Germany",
+   "stage": "SERIES_A",
+   "market": 6,
+   "never_seen": 4
+  },
+  {
+   "country": "Iceland",
+   "stage": "PRE_SEED",
+   "market": 0,
+   "never_seen": 0
+  },
+  {
+   "country": "Iceland",
+   "stage": "SEED",
+   "market": 0,
+   "never_seen": 0
+  },
+  {
+   "country": "Iceland",
+   "stage": "SERIES_A",
+   "market": 0,
+   "never_seen": 0
+  },
+  {
+   "country": "Liechtenstein",
+   "stage": "PRE_SEED",
+   "market": 0,
+   "never_seen": 0
+  },
+  {
+   "country": "Liechtenstein",
+   "stage": "SEED",
+   "market": 0,
+   "never_seen": 0
+  },
+  {
+   "country": "Liechtenstein",
+   "stage": "SERIES_A",
+   "market": 0,
+   "never_seen": 0
+  },
+  {
+   "country": "Norway",
+   "stage": "PRE_SEED",
+   "market": 0,
+   "never_seen": 0
+  },
+  {
+   "country": "Norway",
+   "stage": "SEED",
+   "market": 1,
+   "never_seen": 0
+  },
+  {
+   "country": "Norway",
+   "stage": "SERIES_A",
+   "market": 2,
+   "never_seen": 1
+  },
+  {
+   "country": "Sweden",
+   "stage": "PRE_SEED",
+   "market": 1,
+   "never_seen": 1
+  },
+  {
+   "country": "Sweden",
+   "stage": "SEED",
+   "market": 3,
+   "never_seen": 0
+  },
+  {
+   "country": "Sweden",
+   "stage": "SERIES_A",
+   "market": 1,
+   "never_seen": 0
+  },
+  {
+   "country": "Switzerland",
+   "stage": "PRE_SEED",
+   "market": 2,
+   "never_seen": 0
+  },
+  {
+   "country": "Switzerland",
+   "stage": "SEED",
+   "market": 1,
+   "never_seen": 0
+  },
+  {
+   "country": "Switzerland",
+   "stage": "SERIES_A",
+   "market": 1,
+   "never_seen": 0
+  }
+ ],
+ "patterns": [
+  {
+   "kind": "top_vc",
+   "text": "Lifeline Ventures backed 5 of the 28",
+   "value": 5,
+   "total": 28
+  },
+  {
+   "kind": "country",
+   "text": "15 of the 28 are in Finland",
+   "value": 15,
+   "total": 28
+  },
+  {
+   "kind": "stage",
+   "text": "10 of the 28 raised a seed round",
+   "value": 10,
+   "total": 28
+  }
+ ],
  "market_coverage": {
-  "european_companies_screened": 1042,
-  "qualifying_companies": 79,
-  "investors_explored": 158,
+  "european_companies_screened": 1569,
+  "qualifying_companies": 94,
+  "investors_explored": 379,
   "as_of": "2026-11-14",
   "region": "nordics",
   "region_countries": [
@@ -1142,8 +2182,8 @@
    "Norway",
    "Sweden"
   ],
-  "region_qualifying_companies": 17,
+  "region_qualifying_companies": 36,
   "priority_country": "Finland",
-  "priority_country_qualifying_companies": 11
+  "priority_country_qualifying_companies": 24
  }
 }

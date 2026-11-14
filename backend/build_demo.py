@@ -26,9 +26,11 @@ os.environ.setdefault("BLINDSPOT_BACKEND", "sqlite")   # built from the local cr
 import audit  # noqa: E402
 import db  # noqa: E402
 
-# Demos: (slug, fund name). The first is the main demo, also written to the legacy file names
-# (data/demo_audit.json, demo_profile.json, demo_deals.json, demo_pipeline.csv).
+# Demos: (slug, fund name). The default demo is Lifeline Ventures once its thesis rests on at least
+# LIFELINE_MIN_BASIS de-duplicated basis rounds since 2022, otherwise Earlybird. The default is also written
+# to the legacy file names (data/demo_audit.json, demo_profile.json, demo_deals.json, demo_pipeline.csv).
 DEMOS = [("lifeline", "Lifeline Ventures"), ("earlybird", "Earlybird Venture Capital")]
+LIFELINE_MIN_BASIS = 10
 DATA = db.ROOT / "data"
 INDEX_PATH = DATA / "demos.json"
 SEED = 2026
@@ -63,7 +65,9 @@ def build_csv(fund: dict, csv_path: Path) -> None:
         if r["date"] and r["date"] >= audit.MARKET_FROM and not audit.is_conflated(r):
             latest[r["company_id"]] = max(latest.get(r["company_id"], ""), r["date"])
     for cid, d in sorted(latest.items()):
-        c = comps[cid]
+        c = comps.get(cid)
+        if not c:                  # own round stored before its issuer was screened: no name yet, skip
+            continue
         seen = date.fromisoformat(d) - timedelta(days=rng.randint(30, 150))
         rows.append((c["name"], audit.normalize_domain(c["website"]) or "", "invested", seen.isoformat()))
     n_own = len(rows)
@@ -114,19 +118,21 @@ def build_demo(slug: str, fund_name: str, regen_csv: bool, news: bool) -> dict:
         p[key].write_text(json.dumps(data, indent=1, ensure_ascii=False))
     print(f"[{slug}] {fund_name}: {json.dumps(result['summary'])} | {len(details)} deals, "
           f"{sum(1 for v in details.values() if v['recent_news'])} with news")
-    return {"slug": slug, "fund": fund, "summary": result["summary"]}
+    return {"slug": slug, "fund": fund, "summary": result["summary"], "basis_rounds": result["thesis"]["basis_rounds"]}
 
 
 def main() -> None:
     regen, news = "--regen-csv" in sys.argv, "--no-news" not in sys.argv
     built = [build_demo(slug, name, regen, news) for slug, name in DEMOS]
-    main_slug = DEMOS[0][0]
+    lifeline_basis = next(b["basis_rounds"] for b in built if b["slug"] == "lifeline")
+    main_slug = "lifeline" if lifeline_basis >= LIFELINE_MIN_BASIS else "earlybird"
     for key, legacy in (("audit", "demo_audit.json"), ("profile", "demo_profile.json"),
                         ("deals", "demo_deals.json"), ("pipeline", "demo_pipeline.csv")):
         shutil.copyfile(paths(main_slug)[key], DATA / legacy)
     INDEX_PATH.write_text(json.dumps([{"slug": b["slug"], "fund": b["fund"], "default": b["slug"] == main_slug}
                                       for b in built], indent=1, ensure_ascii=False))
-    print(f"wrote {INDEX_PATH} (main demo: {main_slug})")
+    print(f"wrote {INDEX_PATH} (default demo: {main_slug}; Lifeline basis rounds {lifeline_basis}, "
+          f"threshold {LIFELINE_MIN_BASIS})")
 
 
 if __name__ == "__main__":

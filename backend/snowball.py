@@ -38,6 +38,7 @@ from cala_client import Cala, PaymentRequired, sources_of, val  # noqa: E402
 from crawler import ROUND_FIELDS, ROUND_FIELDS_V1, conflation  # noqa: E402
 from funds import FUNDS  # noqa: E402
 from nordic_seeds import NORDIC_CRAWLED_FUNDS, NORDIC_SEED_FUNDS  # noqa: E402
+from vc import VCRule  # noqa: E402
 
 COMPANY_FIELDS = ["name", "website", "founding_date", "funding_stage", "total_funding", "total_funding_units"]
 COMPANY_OUT = ["HAS_HEADQUARTERS_IN", "PARTICIPATES_IN_FUNDING_ROUND", "OPERATES_IN_INDUSTRY"]
@@ -88,6 +89,7 @@ class Snowball:
         self.lock = threading.Lock()
         self.stats = Counter()
         self.entity_fund = {eid: spec["id"] for spec in FUNDS.values() for eid in spec["entities"]}
+        self.vc = VCRule(self.entity_fund)
 
     # ---------------------------------------------------------------- one-time backfill (no Cala calls)
 
@@ -120,7 +122,7 @@ class Snowball:
         n_q = 0
         for c in comps:
             pf = market.prefilter(c["country"], c["founded"])
-            q = pf == "pass" and any(market.round_qualifies(r, parts.get(r["id"], []), is_conflated)
+            q = pf == "pass" and any(market.round_qualifies(r, parts.get(r["id"], []), is_conflated, self.vc.is_vc)
                                      for r in by_company.get(c["id"], []))
             n_q += q
             db.upsert_company_fields(c["id"], prefilter=pf, qualifies=int(q),
@@ -171,7 +173,10 @@ class Snowball:
     # ---------------------------------------------------------------- task handlers
 
     def _queue_investors(self, company_id: str, investors: list[dict], source: str, country: str = None) -> None:
-        ids = sorted({i["id"] for i in investors if i.get("id")})
+        """Only VCs are expanded (vc.py): angels, banks, grant bodies, corporates etc. are not queued."""
+        ids = sorted({i["id"] for i in investors if i.get("id") and self.vc.is_vc(
+            {"entity_id": i["id"], "name": i.get("name"), "entity_type": i.get("entity_type"),
+             "role": i.get("role") or "INVESTOR"})})
         bump = (BUMP_PRIORITY_COUNTRY if country == market.PRIORITY_COUNTRY else
                 BUMP_REGION if country in market.REGION_COUNTRIES else 1.0)
         with self.lock:
@@ -222,15 +227,23 @@ class Snowball:
             for r in stored:
                 r["sources"] = json.loads(r["sources"]) if isinstance(r["sources"], str) else r["sources"]
                 parts = db.participants([r["id"]]).get(r["id"], [])
-                if market.round_qualifies(r, parts, is_conflated):
+                if market.round_qualifies(r, parts, is_conflated, self.vc.is_vc):
                     qualifies = True
-                    round_investors += [{"id": p["entity_id"]} for p in parts if p["role"] != "ISSUER"]
+                    round_investors += [{"id": p["entity_id"], "name": p["name"], "entity_type": p["entity_type"],
+                                         "role": p["role"]} for p in parts if p["role"] != "ISSUER"]
         if qualifies:
             db.upsert_company_fields(cid, qualifies=1)
             with self.lock:
                 self.stats["qualifying"] += 1
             self._queue_investors(cid, investors + round_investors, "company", country)
         return "qualifies" if qualifies else "no qualifying round"
+
+    def store_fetched_round(self, rnd: dict, cid: str) -> None:
+        """Store an already retrieved round (a crawled fund's own round), whatever its issuer's region."""
+        comp = db.companies([cid]).get(cid) or {}
+        company = {"properties": {"total_funding": {"value": comp.get("total_funding")},
+                                  "total_funding_units": {"value": comp.get("total_funding_currency")}}}
+        self._store_round(rnd, cid, company)
 
     def fetch_round(self, rid: str, cid: str, company: dict) -> list[dict]:
         rnd = self.cala.retrieve(rid, ROUND_FIELDS, inc=["PARTICIPATES_IN_FUNDING_ROUND"])
@@ -240,6 +253,11 @@ class Snowball:
             return []
         with self.lock:
             self.stats["rounds_fetched"] += 1
+        self._store_round(rnd, cid, company)
+        return db._rows("SELECT * FROM rounds WHERE id=?", [rid])
+
+    def _store_round(self, rnd: dict, cid: str, company: dict) -> None:
+        rid = rnd["id"]
         label, amount, cur = val(rnd, "round_label"), val(rnd, "transaction_value"), val(rnd, "transaction_value_units")
         ann, ev = val(rnd, "announcement_date"), val(rnd, "event_date")
         parts = []
@@ -255,12 +273,15 @@ class Snowball:
                "sources": json.dumps(sources_of(rnd, ["transaction_value", "round_label", "announcement_date",
                                                       "event_date"]))}
         db.upsert_round(row, parts)
-        return db._rows("SELECT * FROM rounds WHERE id=?", [rid])
 
     def explore_investor(self, iid: str, priority: float) -> str:
         fund_id = self.entity_fund.get(iid)
         if fund_id:
             return self.explore_fund_entity(iid, fund_id, priority)
+        name = db.investor_name(iid)
+        if name is not None and not self.vc.is_vc({"entity_id": iid, "name": name, "role": "INVESTOR",
+                                                   "entity_type": self._entity_type(iid)}):
+            return "skipped: not a VC (no call)"
         e = self.cala.retrieve(iid, ["name"], out=["INVESTED_IN"])
         if not e.get("_ok"):
             return "not retrievable"
@@ -292,9 +313,12 @@ class Snowball:
                 issuers.add(stored[0]["company_id"])
                 continue
             rnd = self.cala.retrieve(it["id"], ROUND_FIELDS, inc=["PARTICIPATES_IN_FUNDING_ROUND"])
-            for p in rnd["_rels"].get("incoming:PARTICIPATES_IN_FUNDING_ROUND", []) if rnd.get("_ok") else []:
-                if (p.get("properties") or {}).get("role") == "ISSUER":
-                    issuers.add(p["id"])
+            issuer = next((p["id"] for p in (rnd["_rels"].get("incoming:PARTICIPATES_IN_FUNDING_ROUND", [])
+                                             if rnd.get("_ok") else [])
+                           if (p.get("properties") or {}).get("role") == "ISSUER"), None)
+            if issuer:
+                issuers.add(issuer)
+                self.store_fetched_round(rnd, issuer)    # the fund's own round counts for its thesis
         links += [(c, "ROUND", None) for c in sorted(issuers)]
         db.add_portfolio(fund_id, sorted(set(links), key=lambda l: (l[0], l[1], l[2] or "")))
         screened = {r["id"] for r in db._rows("SELECT id FROM companies WHERE screened_at IS NOT NULL")}
@@ -307,6 +331,11 @@ class Snowball:
                                    if c not in screened])
             # already screened companies with new own rounds: re-screen their rounds via a refresh task
         return f"fund {fund_id}: {len(targets)} portfolio, {len(issuers)} own rounds since 2022, {added} queued"
+
+    def _entity_type(self, iid: str):
+        r = db._rows("SELECT entity_type FROM round_participants WHERE entity_id=? LIMIT 1", [iid]) or \
+            db._rows("SELECT entity_type FROM company_investors WHERE investor_id=? LIMIT 1", [iid])
+        return r[0]["entity_type"] if r else None
 
     def expand_seed(self, cid: str) -> str:
         e = self.cala.retrieve(cid, ["name"], inc=["INVESTED_IN"])
@@ -424,6 +453,8 @@ def main() -> None:
     ap.add_argument("--max-calls", type=int, default=3000, help="stop after this many Cala calls (incl. retries)")
     ap.add_argument("--resume", action="store_true", help="continue the existing queue (skip backfill and seeding)")
     ap.add_argument("--queries", type=int, default=40, help="knowledge_search seed queries (first run)")
+    ap.add_argument("--backfill-only", action="store_true",
+                    help="recompute dated sources, prefilter and qualifies (VC rule) from the DB; no Cala calls")
     ap.add_argument("--seed-region", action="store_true",
                     help=f"(re)seed the {market.MARKET_REGION} focus: region funds and region queries first")
     args = ap.parse_args()
@@ -433,6 +464,9 @@ def main() -> None:
         s.seed(args.queries)
     if args.seed_region:
         s.seed_region()
+    if args.backfill_only:
+        s.backfill()
+        sys.exit(0)
     sys.exit(s.run())
 
 

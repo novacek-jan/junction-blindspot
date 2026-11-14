@@ -75,6 +75,8 @@ def client(tmp_path_factory):
 
 # Fields added to the contract after the frontend mocks were written (documented in docs/api-contract.md).
 ADDED_FIELDS = {
+    "$": {"breakdown", "patterns"},
+    "$.never_seen[].round.investors[]": {"is_vc"},
     "$.market_coverage": {"region", "region_countries", "region_qualifying_companies", "priority_country",
                           "priority_country_qualifying_companies"},
     "$[]": {"basis_rounds"},
@@ -144,9 +146,8 @@ def test_funds_search(client):
     same_shape(r.json(), v2mock("funds_search_v2.json"))
     same_shape(r.json(), mock("funds_search.json"))
     everyone = client.get("/api/funds/search?q=").json()
-    angel = [f for f in everyone if f["id"] == "angel-1"]      # a non-crawled investor with >= 3 rounds
-    assert angel and angel[0]["basis_rounds"] >= 3
-    assert client.get("/api/funds/angel-1/profile").status_code == 200
+    assert not [f for f in everyone if f["id"] == "angel-1"]    # an angel (not a VC) is never returned
+    assert {f["id"] for f in everyone} >= {F1, F2, F3}
 
 
 def test_profile_shape_and_values(client):
@@ -187,18 +188,24 @@ def test_audit_numbers_and_shape(client):
     # nosrc (no source), cf (conflated).
     assert a["summary"] == {"market_companies": 5, "in_crm": 4, "invested": 2, "passed": 1, "in_review": 1,
                             "never_seen": 1, "coverage_pct": 80.0}
-    assert a["headline"] == {"never_seen": 1, "text": "1 company in your thesis raised since 2022 and never hit your CRM"}
+    assert a["headline"] == {"never_seen": 1,
+                             "text": "1 VC-backed company in your thesis raised since 2022 and never hit your CRM"}
     assert a["period"]["from"] == "2022-01-01"
     assert a["thesis"]["stages"] == ["SEED", "SERIES_A"] and a["thesis"]["basis_rounds"] == 2
     [d] = a["never_seen"]
     assert d["name"] == "Market Three" and d["country"] == "Finland"
     assert d["round"]["label"] == "SEED" and d["round"]["date"] == "2024-09-01"
     assert d["round"]["investors"] == [
-        {"id": F3, "name": "Gamma Partners", "type": None, "is_lead": True},
-        {"id": "angel-1", "name": "Some Angel", "type": None, "is_lead": False}]
+        {"id": F3, "name": "Gamma Partners", "type": None, "is_lead": True, "is_vc": True},
+        {"id": "angel-1", "name": "Some Angel", "type": None, "is_lead": False, "is_vc": False}]
     assert d["round"]["sources"] and all(src["url"] and src["rank"] for src in d["round"]["sources"])
-    assert a["top_investors_in_blind_spots"] == [{"id": F3, "name": "Gamma Partners", "companies": 1},
-                                                 {"id": "angel-1", "name": "Some Angel", "companies": 1}]
+    assert a["top_investors_in_blind_spots"] == [{"id": F3, "name": "Gamma Partners", "companies": 1}]  # VCs only
+    # breakdown: every thesis country x stage; sums match the summary
+    assert sum(b["market"] for b in a["breakdown"]) == a["summary"]["market_companies"]
+    assert sum(b["never_seen"] for b in a["breakdown"]) == a["summary"]["never_seen"]
+    assert {(b["country"], b["stage"]) for b in a["breakdown"] if b["never_seen"]} == {("Finland", "SEED")}
+    assert len(a["breakdown"]) == len(a["thesis"]["countries"]) * len(a["thesis"]["stages"])
+    assert a["patterns"] == []                                   # one blind spot: no pattern reaches 2
     assert len(a["never_seen"]) == a["summary"]["never_seen"] == a["headline"]["never_seen"]
     for legacy in ("peers", "venn", "heatmap", "top_blind_spots", "never_seen_deals", "top_missed_leads"):
         assert legacy not in a
@@ -423,3 +430,32 @@ def test_upload_errors(client, tmp_path):
     r = upload(client, FIXTURES / "attio_list.csv", mapping={"company": "Nope"})
     assert r.status_code == 422 and r.json()["error"] == "invalid_mapping"
     assert upload(client, FIXTURES / "attio_list.csv", code=None).status_code == 401
+
+
+def test_vc_rule_market_and_patterns(client):
+    """Angel-only, grant and loan rounds do not qualify; patterns appear from value 2."""
+    import db as dbm
+    dbm.ALLOW_CREATE = True
+    for cid, name, label, parts in [
+        ("angel-only", "Angel Only Oy", "SEED", [("p1", "Jane Angel", "Person", "INVESTOR")]),
+        ("grant-only", "Grant Only Oy", "GRANT", [("g1", "Business Finland", "Organization", "GRANTOR")]),
+        ("vc-a", "VC Backed A Oy", "SEED", [(F3, "Gamma Partners", "Organization", "INVESTOR")]),
+        ("vc-b", "VC Backed B Oy", "SEED", [(F3, "Gamma Partners", "Organization", "INVESTOR"),
+                                            ("u1", "University of Helsinki", "Organization", "INVESTOR")]),
+    ]:
+        dbm.upsert_company({"id": cid, "name": name, "website": f"https://{cid}.fi", "description": "", "country": "Finland",
+                            "founded": "2020", "funding_stage": label, "total_funding": 1e6, "total_funding_currency": "EUR",
+                            "industries": json.dumps(["SOFTWARE_AND_SERVICES"]), "sources": json.dumps(SRC), "fetched_at": 0})
+        dbm.upsert_round({"id": f"r-{cid}", "company_id": cid, "label": label, "amount": 1e6, "currency": "EUR",
+                          "date": "2025-01-01", "conflated": 0, "conflation_reason": "", "sources": json.dumps(SRC)},
+                         [{"entity_id": cid, "name": name, "role": "ISSUER"}] +
+                         [{"entity_id": e, "name": n, "entity_type": t, "role": r} for e, n, t, r in parts])
+    dbm.ALLOW_CREATE = False
+    a = post_audit(client).json()
+    names = {d["name"] for d in a["never_seen"]}
+    assert {"VC Backed A Oy", "VC Backed B Oy"} <= names
+    assert not names & {"Angel Only Oy", "Grant Only Oy"}
+    kinds = {p["kind"]: p for p in a["patterns"]}
+    assert kinds["top_vc"]["text"].startswith("Gamma Partners backed 3 of the")
+    assert kinds["country"]["text"] == f"{kinds['country']['value']} of the {a['summary']['never_seen']} are in Finland"
+    assert all(p["value"] >= 2 for p in a["patterns"]) and len(a["patterns"]) <= 3

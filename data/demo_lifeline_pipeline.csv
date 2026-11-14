@@ -1,22 +1,57 @@
 # SIMULATED CRM export for the Blind Spot demo. Not real pipeline data of Lifeline Ventures.
 # invested = real portfolio companies from Cala; passed/in_review rows and noise rows are simulated.
 company,website,status,date
-Aiven,aiven.io,invested,2021-12-29
-Lumora Analytics,lumora-analytics.io,in_review,2022-02-15
-Orchard Ledger,orchardledger.com,passed,2022-05-28
-Tidewell Health,tidewell.health,in_review,2022-10-17
-Mosaic Grid,mosaicgrid.energy,passed,2022-12-27
-Velora Pay,velorapay.eu,passed,2023-07-26
-Halvard Security,halvard.no,passed,2023-10-24
-Strata Forms,strataforms.app,in_review,2024-02-07
-Patchbay Audio,patchbay.fm,passed,2024-04-25
-Quillnest,quillnest.ai,passed,2024-06-17
-Nimbus Kitchen,nimbuskitchen.fr,in_review,2024-09-08
-In Parallel,in-parallel.com,invested,2024-10-10
-Kvarn Logistics,kvarn.se,passed,2024-12-09
-Pinecrest Labs,pinecrestlabs.co.uk,passed,2024-12-24
-Fernwerk Robotics,fernwerk.de,passed,2024-12-28
-Brisa Mobility,brisa-mobility.es,in_review,2025-03-18
-Arclight Bio,arclightbio.ch,passed,2025-05-08
-Carbo Culture Oy,carboculture.com,invested,2026-01-18
-Verda,verda.com,invested,2026-06-11
+Token Terminal,tokenterminal.com,invested,2021-12-20
+Huuva Oy,huuva.io,invested,2022-03-01
+Aiven,aiven.io,invested,2022-03-24
+Nimbus Kitchen,nimbuskitchen.fr,passed,2022-07-06
+Tidewell Health,tidewell.health,passed,2022-08-08
+Halvard Security,halvard.no,in_review,2022-09-08
+Pinecrest Labs,pinecrestlabs.co.uk,passed,2022-12-12
+Metroc,metroc.ai,invested,2023-04-05
+Solu,solu.bio,invested,2023-04-09
+Patchbay Audio,patchbay.fm,passed,2023-05-06
+Strata Forms,strataforms.app,passed,2023-05-08
+Aiba AI,aiba.ai,passed,2023-06-11
+Clouder,cloudersolutions.com,invested,2023-07-06
+Kuva Space,,in_review,2023-08-23
+HyCom Core,hycomcore.com,invested,2023-09-26
+Kvarn Logistics,kvarn.se,in_review,2023-10-27
+DealGuru,dealguru.se,in_review,2024-01-10
+Flow Computing,flow-computing.com,in_review,2024-02-18
+Nextinox,nextinox.com,invested,2024-04-12
+Orchard Ledger,orchardledger.com,in_review,2024-04-23
+Fernwerk Robotics,fernwerk.de,passed,2024-05-01
+Synergi,synergi.fi,invested,2024-05-28
+ReceiptHero,getreceipthero.com,invested,2024-06-08
+In Parallel,in-parallel.com,invested,2024-08-06
+Arclight Bio,arclightbio.ch,passed,2024-10-22
+Brisa Mobility,brisa-mobility.es,in_review,2024-11-06
+Velora Pay,velorapay.eu,passed,2024-12-10
+Lumora Analytics,lumora-analytics.io,in_review,2024-12-29
+Mosaic Grid,mosaicgrid.energy,passed,2024-12-30
+Bought,bought.app,invested,2025-01-03
+Adeu AI,adeu.ai,in_review,2025-01-07
+Inven,inven.ai,invested,2025-02-17
+Swarmia,swarmia.com,invested,2025-02-19
+Quillnest,quillnest.ai,passed,2025-04-03
+Thor Dynamics,thordynamics.com,invested,2025-04-14
+Intergrid Oy,intergridsystems.com,invested,2025-04-16
+Acembee,,in_review,2025-07-19
+ILLUTHERM,illutherm.com,invested,2025-11-05
+Elva,withelva.com,invested,2025-11-11
+Carbo Culture Oy,carboculture.com,invested,2025-11-19
+Realm,withrealm.com,invested,2025-12-08
+Quicksave Interactive,playables.ai,passed,2025-12-09
+Photoncycle,photoncycle.com,invested,2026-01-11
+Elea & Lili Ltd,elealili.com,invested,2026-02-07
+Skyfora,skyfora.com,passed,2026-02-10
+Reduciner Oy,reduciner.com,invested,2026-02-17
+CRACI,craci.com,invested,2026-02-26
+ConfidentialMind,confidentialmind.com,invested,2026-03-02
+S-Transistors,vttresearch.com,invested,2026-04-10
+Hyperion Robotics,hyperionrobotics.com,invested,2026-04-21
+Ambio,ambiomaterials.com,invested,2026-05-25
+Kova Labs,kovahq.com,invested,2026-07-17
+Vensum,vensum.com,invested,2026-07-26
+Verda,verda.com,invested,2026-08-21

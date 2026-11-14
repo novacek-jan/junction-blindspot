@@ -388,6 +388,10 @@ def get_fund(fund_id: str) -> Optional[dict]:
     return r[0] if r else None
 
 
+def all_fund_entity_ids() -> list[str]:
+    return [r["entity_id"] for r in _rows("SELECT entity_id FROM fund_entities")]
+
+
 def fund_entity_ids(fund_id: str) -> list[str]:
     return [r["entity_id"] for r in _rows("SELECT entity_id FROM fund_entities WHERE fund_id=?", [fund_id])]
 

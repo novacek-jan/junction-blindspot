@@ -19,6 +19,7 @@ import db
 import crm_import
 import market
 import peers as peerscore
+from vc import VCRule
 from matching import CompanyIndex, classify, normalize_domain
 from names import display
 
@@ -166,11 +167,13 @@ def _all_investors() -> list[dict]:
     comps = db.companies({r["company_id"] for r in rows})
     parts = db.participants([r["id"] for r in rows])
     count, grants, names, types = Counter(), Counter(), {}, {}
+    rule = vc_rule()
     for r in rows:
         c = comps.get(r["company_id"])
         if not c or c["country"] not in market.EUROPE_COUNTRIES or is_conflated(r):
             continue
-        for p in {p["entity_id"]: p for p in parts.get(r["id"], []) if p["role"] != "ISSUER"}.values():
+        for p in {p["entity_id"]: p for p in parts.get(r["id"], [])
+                  if p["role"] == "INVESTOR" and rule.is_vc(p)}.values():
             key = ent2fund.get(p["entity_id"], p["entity_id"])
             count[key] += 1
             grants[key] += r["label"] == "GRANT"
@@ -342,6 +345,10 @@ def rank_sources(sources: list[dict]) -> list[dict]:
                                           "".join(chr(255 - ord(ch)) for ch in x["date"]), x.get("url") or ""))
 
 
+def vc_rule() -> VCRule:
+    return VCRule(db.all_fund_entity_ids())
+
+
 def in_thesis(company: dict, rnd: dict, prof: dict) -> bool:
     """Hard filter: stage of the round, company country, and industry (no industry in Cala = no exclusion)."""
     if rnd["label"] not in prof["_thesis_stages"]:
@@ -352,9 +359,10 @@ def in_thesis(company: dict, rnd: dict, prof: dict) -> bool:
     return not inds or not prof["_thesis_industries"] or bool(inds & prof["_thesis_industries"])
 
 
-def market_companies(prof: dict) -> tuple[dict, dict, dict, int]:
+def market_companies(prof: dict, rule: Optional[VCRule] = None) -> tuple[dict, dict, dict, int]:
     """(company id -> its latest qualifying in-thesis round, companies, participants by round, n_qualifying).
-    Deterministic: the latest round by (date, amount, id)."""
+    Deterministic: the latest round by (date, amount, id). rule=None: the VC rule."""
+    rule = rule or vc_rule()
     rows = db.market_rounds(market.PERIOD_FROM)
     comps = db.companies({r["company_id"] for r in rows})
     parts = db.participants([r["id"] for r in rows])
@@ -363,7 +371,7 @@ def market_companies(prof: dict) -> tuple[dict, dict, dict, int]:
         c = comps.get(r["company_id"])
         if not c or market.prefilter(c["country"], c["founded"]) != "pass":
             continue
-        if not market.round_qualifies(r, parts.get(r["id"], []), is_conflated):
+        if not market.round_qualifies(r, parts.get(r["id"], []), is_conflated, rule.is_vc):
             continue
         qualifying.add(c["id"])
         if not in_thesis(c, r, prof):
@@ -400,7 +408,8 @@ def run_audit_rows(fund_id: str, peer_ids: list[str], crm_rows: list[dict], simu
     Status "seen" (no status recorded) counts as in_review. peer_ids is ignored (v2)."""
     prof = _profile(fund_id)
     funds, ent2fund, known = _fund_names()
-    chosen, comps, parts, n_qualifying = market_companies(prof)
+    rule = vc_rule()
+    chosen, comps, parts, n_qualifying = market_companies(prof, rule)
 
     index = CompanyIndex(comps[c] for c in chosen)
     status, crm_only = classify(chosen, crm_rows, index, known_invested=prof["_portfolio"])
@@ -420,7 +429,8 @@ def run_audit_rows(fund_id: str, peer_ids: list[str], crm_rows: list[dict], simu
             if inv["id"] in seen:
                 continue
             seen.add(inv["id"])
-            out.append({"id": inv["id"], "name": inv["name"], "type": p.get("entity_type"), "is_lead": bool(p["is_lead"])})
+            out.append({"id": inv["id"], "name": inv["name"], "type": p.get("entity_type"), "is_lead": bool(p["is_lead"]),
+                        "is_vc": rule.is_vc(p)})
         return sorted(out, key=lambda i: (not i["is_lead"], i["name"].casefold()))
 
     never = []
@@ -442,14 +452,14 @@ def run_audit_rows(fund_id: str, peer_ids: list[str], crm_rows: list[dict], simu
     inv_count, inv_name = Counter(), {}
     for d in never:
         for i in d["round"]["investors"]:
-            if i["id"] != fund_id:
+            if i["id"] != fund_id and i["is_vc"]:
                 inv_count[i["id"]] += 1
                 inv_name[i["id"]] = i["name"]
     top_investors = [{"id": k, "name": inv_name[k], "companies": n}
                      for k, n in sorted(inv_count.items(), key=lambda kv: (-kv[1], inv_name[kv[0]].casefold()))
                      [:MAX_TOP_INVESTORS]]
     n_never = summary["never_seen"]
-    noun = "company" if n_never == 1 else "companies"
+    noun = "VC-backed company" if n_never == 1 else "VC-backed companies"
     v2 = {
         "audit_id": hashlib.sha1("|".join([fund_id, "v2", fingerprint]).encode()).hexdigest()[:12],
         "fund": prof["fund"],
@@ -464,9 +474,40 @@ def run_audit_rows(fund_id: str, peer_ids: list[str], crm_rows: list[dict], simu
         "summary": summary,
         "never_seen": never,
         "top_investors_in_blind_spots": top_investors,
+        "breakdown": breakdown(prof, chosen, comps, status),
+        "patterns": patterns(never, top_investors, n_never),
         "market_coverage": db.market_coverage(n_qualifying),
     }
     return v2
+
+
+def breakdown(prof: dict, chosen: dict, comps: dict, status: dict) -> list[dict]:
+    """Every thesis country x thesis stage, with market companies and never-seen companies (zeros included)."""
+    cells = Counter()
+    for cid, r in chosen.items():
+        cells[(comps[cid]["country"], r["label"], "market")] += 1
+        cells[(comps[cid]["country"], r["label"], "never")] += status[cid] == "never_seen"
+    stages = sorted(prof["_thesis_stages"], key=STAGE_RANK.get)
+    return [{"country": c, "stage": st, "market": cells[(c, st, "market")], "never_seen": cells[(c, st, "never")]}
+            for c in sorted(prof["_thesis_countries"]) for st in stages]
+
+
+def patterns(never: list[dict], top_investors: list[dict], total: int) -> list[dict]:
+    """Up to 3 deterministic findings (top VC, country, stage), each only when value >= 2. Ties: alphabetical."""
+    out = []
+    if top_investors and top_investors[0]["companies"] >= 2:
+        t = top_investors[0]
+        out.append({"kind": "top_vc", "text": f"{t['name']} backed {t['companies']} of the {total}",
+                    "value": t["companies"], "total": total})
+    for kind, key, fmt in (("country", lambda d: d["country"], "{v} of the {t} are in {k}"),
+                           ("stage", lambda d: d["round"]["label"], "{v} of the {t} raised a {k} round")):
+        counts = Counter(key(d) for d in never if key(d))
+        if counts:
+            k, v = sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))[0]
+            if v >= 2:
+                label = stage_human(k) if kind == "stage" else k
+                out.append({"kind": kind, "text": fmt.format(v=v, t=total, k=label), "value": v, "total": total})
+    return out[:3]
 
 
 # ---------------------------------------------------------------- deal detail
@@ -546,9 +587,10 @@ def deal_detail(company_id: str, fund_id: Optional[str], cala=None, news_wait: f
     rounds.sort(key=lambda r: (r["date"] or "", r["amount"] or 0), reverse=True)
     lp = _leads_and_participants([r["id"] for r in rounds], funds, ent2fund, known)
     parts = db.participants([r["id"] for r in rounds])
+    rule = vc_rule()
     out_rounds = [{"id": r["id"], "label": r["label"], "amount": _amount(r["amount"]), "currency": r["currency"],
                    "date": r["date"], "date_kind": r.get("date_kind") or ("announcement" if r["date"] else None),
-                   "qualifying": market.round_qualifies(r, parts.get(r["id"], []), is_conflated),
+                   "qualifying": market.round_qualifies(r, parts.get(r["id"], []), is_conflated, rule.is_vc),
                    "lead_investors": lp.get(r["id"], {}).get("leads", []),
                    "participants": lp.get(r["id"], {}).get("participants", []),
                    "sources": r["sources"], "conflated": is_conflated(r)} for r in rounds]
