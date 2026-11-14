@@ -324,6 +324,9 @@
   "live_check": {
     "companies": 3,
     "updated": 1,
+    "updated_company_ids": [
+      "0b6f4c1e-1111-4a0b-9c1d-000000000001"
+    ],
     "seconds": 4.2,
     "checked_at": "2026-11-14T20:45:03Z",
     "status": "ok"

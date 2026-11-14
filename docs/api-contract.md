@@ -184,8 +184,8 @@ Same upload, header, limits and optional `mapping` as `POST /api/audit` (`fund_i
                        "region": "nordics", "region_countries": ["Denmark", "Finland", "Iceland", "Norway", "Sweden"],
                        "region_qualifying_companies": 120,
                        "priority_country": "Finland", "priority_country_qualifying_companies": 45 },
-  "live_check": { "companies": 19, "updated": 1, "seconds": 4.2, "checked_at": "2026-11-14T20:45:03Z",
-                  "status": "ok" }
+  "live_check": { "companies": 19, "updated": 1, "updated_company_ids": ["uuid"], "seconds": 4.2,
+                  "checked_at": "2026-11-14T20:45:03Z", "status": "ok" }
 }
 ```
 Semantics:
@@ -261,7 +261,9 @@ Semantics:
   - Each company's fresh result is cached for **10 minutes** (shared by demos and uploads), so repeated loads are
     fast; `seconds` is then near 0 and `checked_at` is the time of the oldest check used.
   - `companies`: never-seen companies checked successfully (fresh or from that 10-minute cache); `updated`: of
-    those, companies with at least one new qualifying round; `seconds`: time this request spent on the check;
+    those, companies with at least one new qualifying round (any stage; only a thesis-stage one replaces the row's
+    `round`); `updated_company_ids`: exactly those companies (`updated == len(updated_company_ids)`), in
+    `never_seen` order; `seconds`: time this request spent on the check;
     `checked_at`: ISO UTC timestamp.
   - `status`: `"ok"` every never-seen company was checked (also when there are none: `companies: 0`);
     `"partial"` only some were (timeout, HTTP 429, a failed call); `"offline"` none were (no Cala key, HTTP
