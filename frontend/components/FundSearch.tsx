@@ -6,13 +6,15 @@ import type { FundSearchResult } from "@/lib/types";
 import { Icon } from "./Icon";
 
 export function FundSearch({
+  id,
   selected,
   onSelect,
-  placeholder = "Search your fund, e.g. Point Nine…",
+  placeholder = "Search your fund, e.g. Lifeline Ventures",
   excludeIds = [],
   compact = false,
   autoFocus = false,
 }: {
+  id?: string;
   selected?: FundSearchResult | null;
   onSelect: (fund: FundSearchResult) => void;
   placeholder?: string;
@@ -78,8 +80,9 @@ export function FundSearch({
   return (
     <div ref={boxRef} className="relative">
       <div className="group relative flex items-center">
-        <Icon name="search" className="pointer-events-none absolute left-3.5 size-[18px] text-slate-400 group-focus-within:text-ink" />
+        <Icon name="search" className="pointer-events-none absolute left-[18px] size-[18px] text-muted group-focus-within:text-ink" />
         <input
+          id={id}
           role="combobox"
           aria-expanded={open && shown.length > 0}
           aria-controls={listId}
@@ -105,15 +108,15 @@ export function FundSearch({
               choose(shown[active]);
             } else if (e.key === "Escape") setOpen(false);
           }}
-          className={`w-full rounded-lg border border-slate-200 bg-white pl-10 pr-10 font-medium text-ink outline-none transition-all placeholder:font-normal placeholder:text-slate-400 focus:border-ink focus:shadow-[0_0_0_2px_rgba(2,132,199,0.15)] ${
-            compact ? "h-9 text-xs" : "h-12 text-sm"
-          }`}
+          className={`w-full rounded-[14px] border-[1.5px] bg-white pl-12 pr-11 font-semibold text-ink outline-none transition-colors placeholder:font-normal placeholder:text-faint focus:border-ink focus:shadow-[0_0_0_3px_rgba(90,174,234,0.25)] ${
+            compact ? "h-10 text-sm" : "h-14 text-lg"
+          } ${isSelected ? "border-ink" : "border-field"}`}
         />
-        <span className="pointer-events-none absolute right-3 flex items-center">
+        <span className="pointer-events-none absolute right-4 flex items-center">
           {loading && searchable ? (
-            <Icon name="spinner" className="size-4 animate-spin text-slate-400" />
+            <Icon name="spinner" className="size-4 animate-spin text-faint" />
           ) : isSelected ? (
-            <Icon name="checkCircle" className="size-[18px] text-green-600" />
+            <Icon name="checkCircle" className="size-5 text-mint-ink" />
           ) : null}
         </span>
       </div>
@@ -121,7 +124,7 @@ export function FundSearch({
         <ul
           id={listId}
           role="listbox"
-          className="absolute z-30 mt-1.5 max-h-72 w-full overflow-auto rounded-lg border border-slate-200 bg-white p-1 shadow-[var(--shadow-overlay)]"
+          className="absolute z-30 mt-2 max-h-80 w-full overflow-auto rounded-[14px] border border-line bg-white p-1.5 shadow-[var(--shadow-overlay)]"
         >
           {shown.map((f, i) => (
             <li
@@ -133,14 +136,14 @@ export function FundSearch({
                 choose(f);
               }}
               onMouseEnter={() => setActive(i)}
-              className={`flex cursor-pointer items-center justify-between rounded-md px-3 py-2 text-sm ${
-                i === active ? "bg-slate-100 text-ink" : "text-zinc-700"
+              className={`flex cursor-pointer items-center justify-between gap-3 rounded-[10px] px-3.5 py-2.5 text-base ${
+                i === active ? "bg-ice text-ink" : "text-ink"
               }`}
             >
-              <span className="font-medium">{f.name}</span>
-              <span className="flex shrink-0 items-center gap-2 text-xs text-zinc-500">
+              <span className="font-semibold">{f.name}</span>
+              <span className="flex shrink-0 items-center gap-2 text-sm text-muted">
                 {f.basis_rounds != null ? <span className="tabular">based on {f.basis_rounds} rounds</span> : null}
-                <Icon name="arrowRight" className={`size-3.5 text-zinc-400 ${i === active ? "" : "invisible"}`} />
+                <Icon name="arrowRight" className={`size-4 text-faint ${i === active ? "" : "invisible"}`} />
               </span>
             </li>
           ))}

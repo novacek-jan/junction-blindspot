@@ -19,19 +19,18 @@ export function stageLabel(code: string): string {
     .split("_")
     .map((w) => (w.length === 1 ? w.toUpperCase() : w[0].toUpperCase() + w.slice(1)))
     .join(" ")
-    .replace("Pre Seed", "Pre-Seed");
+    .replace("Pre Seed", "Pre-seed");
 }
 
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+/** "Nov 2023" (or "14 Nov 2023" with the day). Null dates exist for some grant rounds. */
 export function formatDate(iso: string | null, withDay = false): string {
   if (!iso) return "Date unknown";
   const d = new Date(iso + (iso.length === 10 ? "T00:00:00Z" : ""));
   if (Number.isNaN(d.getTime())) return iso;
-  return d.toLocaleDateString("en-GB", {
-    month: "short",
-    year: "numeric",
-    ...(withDay ? { day: "numeric" } : {}),
-    timeZone: "UTC",
-  });
+  const my = `${MONTHS[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
+  return withDay ? `${d.getUTCDate()} ${my}` : my;
 }
 
 export function pct(share: number) {

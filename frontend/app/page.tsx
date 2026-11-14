@@ -4,10 +4,11 @@ import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AppShell } from "@/components/AppShell";
 import { FundSearch } from "@/components/FundSearch";
-import { ProfileCard } from "@/components/ProfileCard";
+import { Chip } from "@/components/Chip";
 import { Icon } from "@/components/Icon";
 import { ApiError, DEMO_FALLBACK, ERROR_MESSAGES, getDemoAudit, getFundProfile, previewCrm, runAudit, withTimeout } from "@/lib/api";
 import { saveAudit } from "@/lib/auditStore";
+import { regionLabel, sectorLabel, stageRange } from "@/lib/present";
 import type { CrmField, CrmMapping, CrmPreview, FundProfile, FundSearchResult } from "@/lib/types";
 
 const MAX_FILE_BYTES = 2 * 1024 * 1024;
@@ -53,8 +54,7 @@ export default function StartPage() {
     setError(null);
     setProfileLoading(true);
     try {
-      const p = await getFundProfile(f.id);
-      setProfile(p);
+      setProfile(await getFundProfile(f.id));
     } catch (e) {
       setError(e);
     } finally {
@@ -100,7 +100,7 @@ export default function StartPage() {
     void loadPreview(csv, { ...preview.mapping, [field]: column || null });
   }
 
-  // Loads the demo here (15 s timeout) and only then opens Results, so a hang shows an error with Retry.
+  // Loads the default demo here (15 s timeout) and only then opens Results, so a hang shows an error with Retry.
   async function startDemo() {
     const seq = ++demoSeq.current;
     setDemoLoading(true);
@@ -112,7 +112,7 @@ export default function StartPage() {
       router.push("/results");
     } catch (e) {
       if (seq !== demoSeq.current) return;
-      setDemoError(e instanceof ApiError && e.kind === "timeout" ? "Demo didn't load: no response after 15 seconds." : "Demo didn't load: backend unavailable.");
+      setDemoError(e instanceof ApiError && e.kind === "timeout" ? "The sample didn't load: no response after 15 seconds." : "The sample didn't load: backend unavailable.");
       setDemoLoading(false);
     }
   }
@@ -134,73 +134,49 @@ export default function StartPage() {
   const canRun = !!fund && !!csv && !!preview && !previewing && !auditLoading;
 
   return (
-    <AppShell crumb="New audit">
-      <div className="mx-auto flex w-full max-w-2xl flex-col gap-9 px-4 py-12 sm:px-6 sm:py-14">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex flex-col gap-1">
-            <h1 className="text-2xl font-semibold tracking-tight">New audit</h1>
-            <p className="text-sm text-zinc-600">Find the companies in your thesis that raised money and never hit your CRM.</p>
+    <AppShell active="new">
+      <div className="mx-auto flex w-full max-w-[1240px] flex-wrap items-start gap-10 px-5 pb-16 pt-4 sm:gap-14 sm:px-10 sm:pb-[72px] sm:pt-8 2xl:max-w-[1480px]">
+        {/* Left: pitch */}
+        <div className="flex min-w-0 flex-[1_1_420px] flex-col gap-7 pt-2 sm:pt-6">
+          <h1 className="font-display text-[44px] font-bold leading-[1.02] tracking-[-0.04em] sm:text-[64px] 2xl:text-[72px]">
+            See the deals your CRM <span className="marker">never saw.</span>
+          </h1>
+          <p className="max-w-[500px] text-lg leading-relaxed text-muted sm:text-[19px] 2xl:max-w-[560px] 2xl:text-xl">
+            We rebuild your thesis from your own rounds, map every VC-backed company in it that raised since 2022, and show the ones that never reached your pipeline.
+          </p>
+          <DotGrid />
+          <div className="flex gap-5 text-sm text-muted">
+            <span className="inline-flex items-center gap-2">
+              <span className="size-3 rounded-full bg-mint-mid" />
+              In your CRM
+            </span>
+            <span className="inline-flex items-center gap-2">
+              <span className="size-3 rounded-full bg-sky-dot" />
+              Never seen
+            </span>
           </div>
-          <button
-            type="button"
-            onClick={startDemo}
-            disabled={demoLoading}
-            className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-lg border border-sky-200 bg-sky-100 px-4 text-sm font-semibold text-sky-700 shadow-sm transition-colors hover:border-sky-300 hover:bg-sky-200/70 disabled:opacity-60"
-          >
-            {demoLoading ? <Icon name="spinner" className="size-4 animate-spin" /> : <Icon name="sparkle" className="size-4" />}
-            Try the demo
-          </button>
         </div>
 
-        {demoError ? (
-          <div role="alert" className="flex items-center justify-between gap-3 rounded-lg border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-800">
-            {demoError}
-            <button
-              type="button"
-              onClick={startDemo}
-              disabled={demoLoading}
-              className="h-8 rounded-lg border border-red-300 bg-white px-3 text-xs font-semibold text-red-800 hover:bg-red-100 disabled:opacity-60"
-            >
-              Retry
-            </button>
-          </div>
-        ) : null}
+        {/* Right: the audit form */}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (canRun) void runRealAudit();
+          }}
+          className="flex min-w-0 flex-[1_1_460px] flex-col gap-7 rounded-3xl border border-line bg-white p-6 shadow-card sm:p-8"
+        >
+          <section className="flex flex-col gap-3.5">
+            <Step n="01">
+              <label htmlFor="fund-search">Your fund</label>
+            </Step>
+            <FundSearch id="fund-search" selected={fund} onSelect={selectFund} autoFocus />
+            {profileLoading ? <ThesisSkeleton /> : profile ? <ThesisSummary profile={profile} /> : null}
+          </section>
 
-        {/* 1. Fund */}
-        <div className="flex flex-col gap-2">
-          <Label>Fund</Label>
-          <FundSearch selected={fund} onSelect={selectFund} autoFocus />
-        </div>
-
-        {profileLoading ? <ProfileSkeleton /> : profile ? <ProfileCard profile={profile} /> : null}
-
-        {/* Access code: only part of the real-audit flow, never the demo */}
-        {profile ? (
-          <div className="animate-fade-in flex flex-col gap-2">
-            <label htmlFor="access-code" className="flex items-center justify-between">
-              <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Access code</span>
-            </label>
-            <input
-              id="access-code"
-              ref={accessRef}
-              type="password"
-              autoComplete="off"
-              spellCheck={false}
-              value={accessCode}
-              onChange={(e) => setAccessCode(e.target.value)}
-              onBlur={() => {
-                // Retry reading the file once a code is entered after a 401.
-                if (csv && codeRejected.current && !previewing && accessCode.trim()) void loadPreview(csv, null);
-              }}
-              className="h-10 w-full max-w-xs rounded-lg border border-slate-200 bg-white px-3 text-sm text-ink outline-none transition-all placeholder:text-slate-400 focus:border-ink focus:shadow-[0_0_0_2px_rgba(2,132,199,0.15)]"
-            />
-          </div>
-        ) : null}
-
-        {/* 3. CSV */}
-        {profile ? (
-          <div className="animate-fade-in flex flex-col gap-2">
-            <Label>CRM export</Label>
+          <section className="flex flex-col gap-3.5">
+            <Step n="02">
+              <h2>Your CRM export</h2>
+            </Step>
             <button
               type="button"
               onClick={() => fileRef.current?.click()}
@@ -214,31 +190,27 @@ export default function StartPage() {
                 setDragOver(false);
                 acceptFile(e.dataTransfer.files?.[0]);
               }}
-              className={`group flex flex-col items-center justify-center gap-2 rounded-lg border border-dashed px-6 py-9 text-center transition-all ${
-                dragOver ? "border-sky-500 bg-sky-50" : csv ? "border-green-300 bg-green-50/50" : "border-slate-300 bg-white hover:border-ink hover:bg-slate-50"
+              className={`flex flex-col items-center gap-2.5 rounded-2xl border-[1.5px] border-dashed px-5 py-8 text-center transition-colors ${
+                dragOver ? "border-sky-dot bg-sky-wash" : csv ? "border-mint-mid bg-mint-wash/50" : "border-[#A9C7DF] bg-[#FBFDFF] hover:border-sky-dot hover:bg-ice"
               }`}
             >
-              <span
-                className={`flex size-9 items-center justify-center rounded-full transition-colors ${
-                  csv ? "bg-green-100 text-green-700" : "bg-slate-50 text-ink group-hover:bg-sky-100"
-                }`}
-              >
-                <Icon name={csv ? "check" : "upload"} className="size-[18px]" />
+              <span className={`flex size-[52px] items-center justify-center rounded-full ${csv ? "bg-mint-wash text-mint-ink" : "bg-sky-wash text-link"}`}>
+                {csv ? <Icon name="check" className="size-6" /> : <UploadIcon />}
               </span>
               {csv ? (
-                <span className="flex flex-col gap-0.5">
-                  <span className="text-sm font-medium text-ink">{csv.name}</span>
-                  <span className="text-xs text-zinc-500">
-                    {(csv.size / 1024).toFixed(1)} KB · <span className="text-sky-600 underline underline-offset-2">replace</span>
+                <>
+                  <span className="text-[17px] font-semibold text-ink">{csv.name}</span>
+                  <span className="text-sm text-muted">
+                    {(csv.size / 1024).toFixed(1)} KB · <span className="text-link underline">replace</span>
                   </span>
-                </span>
+                </>
               ) : (
-                <span className="flex flex-col gap-0.5">
-                  <span className="text-sm font-medium text-ink">
-                    Drop a .csv or .xlsx, or <span className="text-sky-600 underline underline-offset-2">browse</span>
+                <>
+                  <span className="text-[17px] font-semibold text-ink">
+                    Drop a .csv or .xlsx, or <span className="text-link underline">browse</span>
                   </span>
-                  <span className="text-xs text-zinc-500">Max 2 MB</span>
-                </span>
+                  <span className="text-sm text-muted">Affinity, HubSpot, Pipedrive, Attio or any sheet with company names · max 2 MB</span>
+                </>
               )}
             </button>
             <input
@@ -252,82 +224,159 @@ export default function StartPage() {
               }}
             />
             {previewing && !preview ? (
-              <p className="flex items-center gap-2 text-xs text-zinc-500">
-                <Icon name="spinner" className="size-3.5 animate-spin" /> Reading file…
+              <p className="flex items-center gap-2 text-sm text-muted">
+                <Icon name="spinner" className="size-4 animate-spin" /> Reading file…
               </p>
             ) : null}
             {preview ? <PreviewLine preview={preview} busy={previewing} onChange={changeMapping} /> : null}
-          </div>
-        ) : null}
 
-        {error ? (
-          <div role="alert" className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-800">
-            <span className="flex items-start gap-2">
-              <Icon name="warning" className="mt-0.5 size-4 shrink-0" />
-              {error.message}
-            </span>
-            {error.offerDemo ? (
-              <button
-                type="button"
-                onClick={startDemo}
-                className="inline-flex h-8 items-center gap-1.5 rounded-lg border border-sky-200 bg-sky-100 px-3 text-xs font-semibold text-sky-700 hover:bg-sky-200/70"
-              >
-                <Icon name="sparkle" className="size-3.5" />
-                Run the demo
-              </button>
-            ) : null}
-          </div>
-        ) : null}
+            <div className="flex flex-col gap-1.5">
+              <label htmlFor="access-code" className="text-sm font-semibold text-muted">
+                Access code
+              </label>
+              <input
+                id="access-code"
+                ref={accessRef}
+                type="password"
+                autoComplete="off"
+                spellCheck={false}
+                placeholder="From the Blindspot team"
+                value={accessCode}
+                onChange={(e) => setAccessCode(e.target.value)}
+                onBlur={() => {
+                  // Retry reading the file once a code is entered after a 401.
+                  if (csv && codeRejected.current && !previewing && accessCode.trim()) void loadPreview(csv, null);
+                }}
+                className="h-[50px] rounded-xl border border-field bg-white px-4 text-base text-ink outline-none transition-colors placeholder:text-faint focus:border-ink focus:shadow-[0_0_0_3px_rgba(90,174,234,0.25)]"
+              />
+            </div>
+          </section>
 
-        {profile ? (
-          <div className="flex flex-col gap-2">
+          {error ? (
+            <div role="alert" className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-[15px] text-red-800">
+              <span className="flex items-start gap-2">
+                <Icon name="warning" className="mt-0.5 size-4 shrink-0" />
+                {error.message}
+              </span>
+              {error.offerDemo ? (
+                <button type="button" onClick={startDemo} className="h-9 rounded-full bg-white px-4 text-sm font-semibold text-ink hover:bg-chip">
+                  See a sample audit
+                </button>
+              ) : null}
+            </div>
+          ) : null}
+
+          <div className="flex flex-col gap-3.5">
             <button
-              type="button"
+              type="submit"
               disabled={!canRun}
-              onClick={runRealAudit}
-              className="flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-ink px-6 text-sm font-medium text-white shadow-sm transition-all hover:bg-ink-hover active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-zinc-300"
+              className="flex h-14 items-center justify-center gap-2.5 rounded-[14px] bg-ink font-display text-lg font-semibold text-white transition-colors hover:bg-ink-hover disabled:cursor-not-allowed disabled:opacity-35"
             >
               {auditLoading ? (
                 <>
-                  <Icon name="spinner" className="size-4 animate-spin" /> Running audit…
+                  <Icon name="spinner" className="size-5 animate-spin" /> Running audit…
                 </>
               ) : (
                 <>
-                  Run audit <Icon name="arrowRight" className="size-4" />
+                  Run audit <ArrowIcon />
                 </>
               )}
             </button>
+            <p className="flex items-center justify-center gap-2 text-center text-sm text-muted">
+              <LockIcon />
+              Matched on our server, never sent to an AI model
+            </p>
+            <p className="text-center text-[15px] text-muted">
+              No export at hand?{" "}
+              <button type="button" onClick={startDemo} disabled={demoLoading} className="font-semibold text-link hover:text-sky-ink disabled:opacity-60">
+                {demoLoading ? (
+                  <span className="inline-flex items-center gap-1.5">
+                    <Icon name="spinner" className="size-3.5 animate-spin" /> Loading sample…
+                  </span>
+                ) : (
+                  "See a sample audit"
+                )}
+              </button>
+            </p>
+            {demoError ? (
+              <div role="alert" className="flex items-center justify-between gap-3 rounded-xl border border-red-200 bg-red-50 px-4 py-2.5 text-sm text-red-800">
+                {demoError}
+                <button
+                  type="button"
+                  onClick={startDemo}
+                  disabled={demoLoading}
+                  className="h-8 rounded-full border border-red-300 bg-white px-3 text-xs font-semibold text-red-800 hover:bg-red-100 disabled:opacity-60"
+                >
+                  Retry
+                </button>
+              </div>
+            ) : null}
           </div>
-        ) : null}
+        </form>
       </div>
     </AppShell>
   );
 }
 
-function PreviewLine({
-  preview,
-  busy,
-  onChange,
-}: {
-  preview: CrmPreview;
-  busy: boolean;
-  onChange: (field: CrmField, column: string) => void;
-}) {
+function Step({ n, children }: { n: string; children: React.ReactNode }) {
+  return (
+    <div className="flex items-baseline gap-2.5 font-display">
+      <span className="text-[15px] font-bold text-sky-num">{n}</span>
+      <span className="text-[22px] font-semibold tracking-[-0.02em] [&>*]:m-0 [&>*]:text-inherit [&>*]:font-inherit">{children}</span>
+    </div>
+  );
+}
+
+// "Thesis from 12 own rounds since 2022" + stage range, region and sector chips, from the fund profile.
+function ThesisSummary({ profile }: { profile: FundProfile }) {
+  const t = profile.thesis;
+  const stages = stageRange(t?.stages ?? profile.stages.map((s) => s.label));
+  const region = regionLabel(t?.countries ?? profile.countries.map((c) => c.name));
+  const weight = new Map(profile.industries.map((i) => [i.name, i.count]));
+  const sectors = sectorLabel(t?.industries ?? profile.industries.map((i) => ({ code: "", name: i.name })), 3, weight);
+  return (
+    <div className="animate-fade-in flex flex-col gap-2.5 rounded-[14px] bg-ice px-[18px] py-4">
+      <span className="text-sm text-muted">
+        Thesis from <strong className="font-semibold text-ink">{profile.investments_since_2022} own rounds</strong> since 2022
+      </span>
+      <div className="flex flex-wrap gap-1.5">
+        {stages ? <Chip tone="sky">{stages}</Chip> : null}
+        {region ? <Chip tone="mint">{region}</Chip> : null}
+        {sectors ? <Chip tone="plain">{sectors}</Chip> : null}
+      </div>
+    </div>
+  );
+}
+
+function ThesisSkeleton() {
+  return (
+    <div className="flex animate-pulse flex-col gap-2.5 rounded-[14px] bg-ice px-[18px] py-4" aria-label="Loading fund thesis">
+      <div className="h-3.5 w-48 rounded bg-line" />
+      <div className="flex gap-1.5">
+        <div className="h-[30px] w-36 rounded-full bg-line" />
+        <div className="h-[30px] w-20 rounded-full bg-line" />
+        <div className="h-[30px] w-44 rounded-full bg-line" />
+      </div>
+    </div>
+  );
+}
+
+function PreviewLine({ preview, busy, onChange }: { preview: CrmPreview; busy: boolean; onChange: (field: CrmField, column: string) => void }) {
   return (
     <div className="flex flex-col gap-2" aria-busy={busy}>
-      <p className="text-sm text-ink" role="status">
+      <p className="text-[15px] text-ink" role="status">
         We read {preview.row_count.toLocaleString("en-US")} companies
         {preview.matched_rows != null ? `, ${preview.matched_rows.toLocaleString("en-US")} matched in Cala` : ""}.
       </p>
       <div className="flex flex-wrap gap-2">
         {CRM_FIELDS.map(({ key, label }) => (
-          <label key={key} className="flex items-center gap-1.5 text-[11px] text-zinc-500">
+          <label key={key} className="flex items-center gap-1.5 text-xs font-medium text-muted">
             {label}
             <select
               value={preview.mapping[key] ?? ""}
               disabled={busy}
               onChange={(e) => onChange(key, e.target.value)}
-              className="h-7 max-w-[11rem] rounded-md border border-slate-200 bg-white px-1.5 text-xs text-ink outline-none focus:border-ink disabled:opacity-60"
+              className="h-8 max-w-[11rem] rounded-lg border border-field bg-white px-2 text-sm text-ink outline-none focus:border-ink disabled:opacity-60"
             >
               <option value="">—</option>
               {preview.columns.map((c) => (
@@ -343,22 +392,40 @@ function PreviewLine({
   );
 }
 
-function Label({ children }: { children: React.ReactNode }) {
-  return <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500">{children}</span>;
+// Decorative: 36 dots, 14 of them "never seen". Not data.
+const BLIND_DOTS = new Set([2, 5, 7, 11, 14, 15, 19, 22, 24, 27, 28, 31, 33, 34]);
+function DotGrid() {
+  return (
+    <div aria-hidden="true" className="grid w-fit grid-cols-[repeat(12,16px)] gap-2 pt-2 sm:grid-cols-[repeat(12,22px)] sm:gap-2.5">
+      {Array.from({ length: 36 }, (_, i) => (
+        <span key={i} className={`aspect-square rounded-full ${BLIND_DOTS.has(i) ? "bg-sky-dot" : "bg-mint-mid"}`} />
+      ))}
+    </div>
+  );
 }
 
-function ProfileSkeleton() {
+function UploadIcon() {
   return (
-    <div className="flex animate-pulse flex-col gap-3 rounded-lg border border-slate-200 bg-slate-50 p-4" aria-label="Loading fund profile">
-      <div className="h-3 w-56 rounded bg-slate-200" />
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-        {Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className="flex flex-col gap-1.5">
-            <div className="h-2.5 w-20 rounded bg-slate-200" />
-            <div className="h-3.5 w-24 rounded bg-slate-200" />
-          </div>
-        ))}
-      </div>
-    </div>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M12 16V5M7 10l5-5 5 5" />
+      <path d="M5 19h14" />
+    </svg>
+  );
+}
+
+function ArrowIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
+      <path d="M5 12h14M13 6l6 6-6 6" />
+    </svg>
+  );
+}
+
+function LockIcon() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1F6B3B" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+      <rect x="5" y="11" width="14" height="9" rx="2" />
+      <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+    </svg>
   );
 }

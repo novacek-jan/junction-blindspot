@@ -71,14 +71,21 @@ export type Audit = {
     priority_country?: string;
     priority_country_qualifying_companies?: number;
   };
-  // Newer fields: the page renders without them.
-  breakdown?: BreakdownCell[];
-  patterns?: Pattern[];
+  // "Why they slipped through": null, or missing on older responses.
+  briefing?: Briefing | null;
 };
 
-/** One thesis country × thesis stage: `market` companies, of which `never_seen`. */
-export type BreakdownCell = { country: string; stage: Stage; market: number; never_seen: number };
-export type Pattern = { kind: string; text: string; value: number; total: number };
+/** Up to 3 insights (sourcing, theme, momentum). Numbers are computed in code; title/line are Claude's wording. */
+export type Insight = {
+  kind: "sourcing" | "theme" | "momentum" | string;
+  value: number;
+  total: number;
+  title: string;
+  line: string;
+  company_ids: string[];
+  investor_names: string[];
+};
+export type Briefing = { insights: Insight[]; model: string; generated_at?: string };
 
 export type DemoEntry = { fund: OrgRef; default: boolean };
 

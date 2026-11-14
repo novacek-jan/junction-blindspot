@@ -10,8 +10,9 @@ npm run dev                  # http://localhost:3000
 
 Set `NEXT_PUBLIC_USE_MOCKS=false` to call the backend at `NEXT_PUBLIC_API_URL`. No API keys live in the frontend.
 
-- `/` start: fund search → Cala profile → access code → CRM export → run audit (or **Try the demo** → `GET /api/audit/demo`)
-- `/results` (layout from `design/stitch/results_blindspot`): sidebar shell with "Data from Cala" and Simulated CRM badges; fund name, thesis chips, "Thesis based on N rounds since 2022"; hero "{blind %} blind / You never saw X of the Y VC-backed companies…"; three stat cards plus the In CRM vs Never seen bar; country × stage matrix (`breakdown`) and Key patterns (`patterns`) when the audit has them; the never-seen table (row click opens `GET /api/deals/{id}?fund_id=` in a side panel with every round and its sources); market footer from `market_coverage`. Demo audits show a switch over `GET /api/audit/demos`. A response without the v2 fields shows "Backend unavailable".
+- Design: `design/claude/` (Main = `/`, Results = `/results`, DealPanel = side panel). Space Grotesk for headings and numbers, Inter for text. Blue = never seen, green = in your CRM.
+- `/` start: fund search with the thesis summary from the profile, CRM upload (preview + column mapping), access code, Run audit; "See a sample audit" loads `GET /api/audit/demo`.
+- `/results`: hero headline and thesis chips, dot field (one dot per market company), "Why they slipped through" from `audit.briefing` (hidden when null), the never-seen table newest first, side panel from `GET /api/deals/{id}?fund_id=`, market sentence from `market_coverage`. `?demo=earlybird` picks another demo from `GET /api/audit/demos` by fund name.
 - `lib/api.ts` is the only API client; `lib/types.ts` mirrors the contract.
 
 ## CRM upload, access code and errors

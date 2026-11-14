@@ -1,71 +1,48 @@
 import Link from "next/link";
-import { Icon } from "./Icon";
 
-/** Layout from design/stitch/results_blindspot: fixed left sidebar (logo + Audits), sticky breadcrumb header. */
-export function AppShell({
-  crumb,
-  right,
-  children,
-}: {
-  crumb: string;
-  right?: React.ReactNode;
-  children: React.ReactNode;
-}) {
+/** Top bar from design/claude: logo left, two pill links right. No sidebar. */
+export function AppShell({ active, children }: { active: "new" | "audits"; children: React.ReactNode }) {
   return (
-    <div className="min-h-screen">
-      <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col gap-6 border-r border-slate-200/80 bg-white px-4 py-6 lg:flex">
-        <Link href="/" className="flex items-center gap-3 px-3">
+    <div className="flex min-h-screen flex-col bg-page">
+      <header className="mx-auto flex w-full max-w-[1240px] items-center justify-between gap-4 px-5 py-5 sm:px-10 sm:py-7 2xl:max-w-[1480px]">
+        <Link href="/" className="flex items-center gap-2.5 text-ink no-underline">
           <Logo />
-          <span className="text-lg font-bold tracking-tight text-ink">Blindspot</span>
+          <span className="font-display text-[21px] font-bold tracking-[-0.02em]">blindspot</span>
         </Link>
-        <nav className="flex flex-col gap-1">
-          <Link href="/" aria-current="page" className="flex items-center gap-3 rounded-lg bg-ink px-3.5 py-2.5 text-base font-medium text-white shadow-sm hover:bg-black">
-            <Icon name="checkCircle" className="size-5" />
+        <nav aria-label="Main" className="flex gap-1 sm:gap-2">
+          <Pill href="/" on={active === "new"}>
+            New audit
+          </Pill>
+          <Pill href="/results" on={active === "audits"}>
             Audits
-          </Link>
+          </Pill>
         </nav>
-      </aside>
-      <div className="flex min-h-screen flex-col lg:pl-64">
-        <header className="sticky top-0 z-30 flex h-16 items-center justify-between gap-4 border-b border-slate-200/80 bg-white/90 px-4 backdrop-blur-md sm:px-10">
-          <nav aria-label="Breadcrumb" className="flex min-w-0 items-center gap-2 text-base text-zinc-600">
-            <Link href="/" className="flex items-center gap-2 hover:text-ink">
-              <span className="lg:hidden">
-                <Logo />
-              </span>
-              Audits
-            </Link>
-            <Icon name="chevronRight" className="size-4 shrink-0 text-zinc-400" />
-            <span className="truncate font-semibold text-ink">{crumb}</span>
-          </nav>
-          <div className="flex shrink-0 items-center gap-2">{right}</div>
-        </header>
-        <main className="flex-1">{children}</main>
-      </div>
+      </header>
+      <main className="flex-1">{children}</main>
     </div>
   );
 }
 
-function Logo() {
-  return <span className="flex size-8 items-center justify-center rounded-lg bg-ink text-base font-bold text-white">B</span>;
-}
-
-export function CalaBadge() {
+function Pill({ href, on, children }: { href: string; on: boolean; children: React.ReactNode }) {
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-full border border-green-200 bg-green-100 px-3 py-1 text-sm font-semibold text-green-700">
-      <span className="size-2 rounded-full bg-green-400" />
-      Data from Cala
-    </span>
+    <Link
+      href={href}
+      aria-current={on ? "page" : undefined}
+      className={`inline-flex h-11 items-center rounded-full px-4 text-[15px] no-underline transition-colors ${
+        on ? "bg-ink font-semibold text-white hover:bg-ink-hover" : "font-medium text-muted hover:bg-chip hover:text-ink"
+      }`}
+    >
+      {children}
+    </Link>
   );
 }
 
-export function SimulatedCrmBadge() {
+export function Logo({ size = 30 }: { size?: number }) {
   return (
-    <span
-      title="Pipeline from a demo CRM export, not a real CRM."
-      className="inline-flex items-center gap-1.5 rounded-full border border-amber-300 bg-amber-50 px-3 py-1 text-sm font-semibold text-amber-900"
-    >
-      <span className="size-2 rounded-full bg-amber-500" />
-      Simulated CRM
-    </span>
+    <svg width={size} height={size} viewBox="0 0 30 30" aria-hidden="true">
+      <circle cx="15" cy="15" r="13" fill="#E3F7EA" />
+      <path d="M15 2a13 13 0 0 1 0 26z" fill="#A9D6F7" />
+      <circle cx="15" cy="15" r="4" fill="#0B1F33" />
+    </svg>
   );
 }

@@ -1,48 +1,48 @@
-import type { BlindSpot, Investor, Source } from "@/lib/types";
+import type { BlindSpot, Investor } from "@/lib/types";
 import { formatAmount, formatDate, safeUrl, stageLabel } from "@/lib/format";
+import { monogram, sourceChip } from "@/lib/present";
 
-export const RANK_LABEL: Record<string, string> = { FILING: "Filing", PRESS: "Press", PRIMARY: "Primary", AGGREGATOR: "Aggregator" };
-
-export function sourceLabel(s: Source): string {
-  return [(s.rank && RANK_LABEL[s.rank]) || "Source", s.date ? formatDate(s.date, true) : null].filter(Boolean).join(" · ");
-}
-
-// VCs first (is_vc from the backend's VC rule; older responses: organisations), leads first within them.
-function vcInvestors(investors: Investor[] = []): { names: string; angelsOnly: boolean } {
-  const vcs = investors.filter((i) => (i.is_vc ?? i.type !== "Person"));
+/** VCs (is_vc; older responses: organisations), leads first: "A, B +3". Angels only when a round names no VC. */
+export function vcLine(investors: Investor[] = [], max = 2): string {
+  const vcs = investors.filter((i) => i.is_vc ?? i.type !== "Person");
   const list = vcs.length ? vcs : investors;
-  const sorted = [...list.filter((i) => i.is_lead), ...list.filter((i) => !i.is_lead)];
-  return { names: sorted.map((i) => i.name).join(", "), angelsOnly: !vcs.length && investors.length > 0 };
+  const names = [...list.filter((i) => i.is_lead), ...list.filter((i) => !i.is_lead)].map((i) => i.name);
+  if (!names.length) return "—";
+  return names.length > max ? `${names.slice(0, max).join(", ")} +${names.length - max}` : names.join(", ");
 }
 
-/** "Companies you never saw". Rows keep the backend's order (round amount, then date); a click opens the side panel. */
+const byRoundDateDesc = (a: BlindSpot, b: BlindSpot) => (b.round.date ?? "").localeCompare(a.round.date ?? "");
+
+/** "The {n}, newest first". A row (or Enter on it) opens the side panel. */
 export function DealsTable({ rows, onOpen }: { rows: BlindSpot[]; onOpen: (row: BlindSpot) => void }) {
+  const sorted = [...rows].sort(byRoundDateDesc);
   return (
-    <section className="flex flex-col overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-card">
-      <div className="flex items-center gap-3 border-b border-slate-200/80 px-6 py-5">
-        <h2 className="text-lg font-bold tracking-tight text-ink 2xl:text-xl">Companies you never saw</h2>
-        <span className="tabular rounded-md border border-sky-200 bg-sky-50 px-2 py-0.5 text-sm font-semibold text-sky-700">{rows.length}</span>
+    <section className="flex min-w-0 flex-col overflow-hidden rounded-3xl border border-line bg-white" aria-labelledby="table-title">
+      <div className="flex flex-wrap items-end justify-between gap-3 px-5 pb-5 pt-7 sm:px-7">
+        <h2 id="table-title" className="m-0 font-display text-[26px] font-semibold tracking-[-0.02em] 2xl:text-[30px]">
+          The {sorted.length.toLocaleString("en-US")}, newest first
+        </h2>
+        <span className="text-sm text-muted 2xl:text-base">Open a company for every round and source</span>
       </div>
-      {rows.length ? (
+      {sorted.length ? (
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[980px] border-collapse text-left text-base text-ink 2xl:text-lg">
-            <thead className="border-b border-slate-200/80 bg-slate-50/80 text-sm font-semibold uppercase tracking-wider text-zinc-600">
-              <tr>
-                <th className="px-6 py-3">Company</th>
-                <th className="px-4 py-3">Country</th>
-                <th className="px-4 py-3">Stage</th>
-                <th className="px-4 py-3 text-right">Amount</th>
-                <th className="px-4 py-3">VC investors</th>
-                <th className="px-4 py-3">Date</th>
-                <th className="px-6 py-3">Source</th>
+          <table className="w-full min-w-[1000px] border-collapse text-[15px] 2xl:text-base">
+            <thead>
+              <tr className="text-left text-[13px] text-faint 2xl:text-sm">
+                <th className="px-5 py-2.5 font-semibold sm:px-7">Company</th>
+                <th className="px-3 py-2.5 font-semibold">Round</th>
+                <th className="px-3 py-2.5 text-right font-semibold">Amount</th>
+                <th className="px-3 py-2.5 font-semibold">VC investors</th>
+                <th className="px-3 py-2.5 font-semibold">Raised</th>
+                <th className="py-2.5 pl-3 pr-5 font-semibold sm:pr-7">Source</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
-              {rows.map((d) => {
+            <tbody>
+              {sorted.map((d) => {
                 const r = d.round;
                 const src = r.sources?.[0];
+                const chip = src ? sourceChip(src) : null;
                 const href = safeUrl(src?.url);
-                const inv = vcInvestors(r.investors);
                 return (
                   <tr
                     key={d.company_id}
@@ -55,46 +55,49 @@ export function DealsTable({ rows, onOpen }: { rows: BlindSpot[]; onOpen: (row: 
                         onOpen(d);
                       }
                     }}
-                    className="cursor-pointer align-top outline-none transition-colors hover:bg-slate-50 focus-visible:bg-sky-50"
+                    className="cursor-pointer border-t border-line-soft outline-none transition-colors hover:bg-ice focus-visible:bg-ice"
                   >
-                    <td className="px-6 py-3.5">
-                      <div className="flex flex-col items-start gap-1">
-                        <span className="font-semibold">{d.name}</span>
-                        <span className="whitespace-nowrap rounded border border-sky-200 bg-sky-50 px-1.5 py-0.5 text-xs font-semibold tracking-wide text-sky-700">
-                          NOT IN CRM
+                    <td className="px-5 py-3.5 sm:px-7">
+                      <div className="flex items-center gap-3.5">
+                        <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-sky-wash font-display text-[17px] font-bold text-sky-ink">{monogram(d.name)}</span>
+                        <span className="flex min-w-0 flex-col gap-0.5">
+                          <span className="text-base font-semibold text-ink 2xl:text-[17px]">{d.name}</span>
+                          <span className="text-[13px] text-faint 2xl:text-sm">{[d.country, d.website?.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")].filter(Boolean).join(" · ") || "—"}</span>
                         </span>
                       </div>
                     </td>
-                    <td className="whitespace-nowrap px-4 py-3.5 text-zinc-700">{d.country || "—"}</td>
-                    <td className="whitespace-nowrap px-4 py-3.5">
-                      {r.label ? <span className="rounded border border-slate-200 bg-slate-100 px-2 py-0.5 text-sm font-medium text-slate-700">{stageLabel(r.label)}</span> : "—"}
-                    </td>
-                    <td className="tabular whitespace-nowrap px-4 py-3.5 text-right font-semibold">{formatAmount(r.amount, r.currency ?? "")}</td>
-                    <td className="px-4 py-3.5">
-                      {inv.names ? (
-                        <span className={inv.angelsOnly ? "text-zinc-500" : ""} title={inv.angelsOnly ? "Angel investors only" : undefined}>
-                          {inv.names}
-                        </span>
+                    <td className="px-3 py-3.5">
+                      {r.label ? (
+                        <span className="inline-flex h-7 items-center whitespace-nowrap rounded-full bg-chip px-3 text-[13px] font-semibold text-ink">{stageLabel(r.label)}</span>
                       ) : (
                         "—"
                       )}
                     </td>
-                    <td className="tabular whitespace-nowrap px-4 py-3.5 text-zinc-700">{formatDate(r.date)}</td>
-                    <td className="whitespace-nowrap px-6 py-3.5">
-                      {src && href ? (
-                        <a
-                          href={href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          title={src.name}
-                          onClick={(e) => e.stopPropagation()}
-                          onKeyDown={(e) => e.stopPropagation()}
-                          className="font-semibold text-sky-800 underline underline-offset-2 hover:text-sky-950"
-                        >
-                          {sourceLabel(src)}
-                        </a>
-                      ) : src ? (
-                        sourceLabel(src)
+                    <td className={`tabular whitespace-nowrap px-3 py-3.5 text-right font-display text-[17px] font-semibold 2xl:text-lg ${r.amount == null ? "text-[#9AA9B8]" : "text-ink"}`}>
+                      {r.amount == null ? "Undisclosed" : formatAmount(r.amount, r.currency ?? "")}
+                    </td>
+                    <td className="px-3 py-3.5 leading-snug text-muted">{vcLine(r.investors)}</td>
+                    <td className="tabular whitespace-nowrap px-3 py-3.5 text-muted">{formatDate(r.date)}</td>
+                    <td className="py-3.5 pl-3 pr-5 sm:pr-7">
+                      {chip ? (
+                        <span className="flex items-center gap-2 whitespace-nowrap">
+                          <span className={`inline-flex h-6 items-center rounded-full px-2.5 text-xs font-semibold ${chip.cls}`}>{chip.label}</span>
+                          {href ? (
+                            <a
+                              href={href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              title={src!.name}
+                              onClick={(e) => e.stopPropagation()}
+                              onKeyDown={(e) => e.stopPropagation()}
+                              className="text-[13px] text-link underline hover:text-sky-ink 2xl:text-sm"
+                            >
+                              {chip.domain}
+                            </a>
+                          ) : (
+                            <span className="text-[13px] text-muted">{chip.domain}</span>
+                          )}
+                        </span>
                       ) : (
                         "—"
                       )}
@@ -106,7 +109,7 @@ export function DealsTable({ rows, onOpen }: { rows: BlindSpot[]; onOpen: (row: 
           </table>
         </div>
       ) : (
-        <p className="px-6 py-8 text-base text-zinc-600">Every company in this thesis market is already in your CRM.</p>
+        <p className="px-7 pb-8 text-base text-muted">Every company in this thesis market is already in your CRM.</p>
       )}
     </section>
   );

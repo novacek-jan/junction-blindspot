@@ -1,15 +1,44 @@
 @import "tailwindcss";
 
-/* Tokens from design/stitch DESIGN.md files (Blindspot / Venture Intelligence).
-   Tailwind's sky/green/slate/zinc scales already match the spec hex values. */
+/* Tokens from design/claude (Main / Results / DealPanel mockups).
+   Blue always means "never seen", green always means "in your CRM". */
 @theme inline {
-  --color-ink: #09090b;
-  --color-ink-hover: #18181b;
-  --color-canvas: #fafafa;
+  --color-ink: #0b1f33;
+  --color-ink-hover: #16324f;
+  --color-muted: #4a5d70;
+  --color-faint: #6b7c8d;
+  --color-body: #33475b;
+  --color-line: #e4ecf3;
+  --color-line-soft: #eef3f8;
+  --color-field: #d5e1ec;
+  --color-page: #f7fafc;
+  --color-ice: #f2f8fd;
+  --color-chip: #f2f6fa;
+  --color-link: #1d6fb8;
+
+  /* never seen */
+  --color-sky-dot: #5aaeea;
+  --color-sky-mid: #a9d6f7;
+  --color-sky-wash: #e4f2fd;
+  --color-sky-ink: #0b4a7a;
+  --color-sky-num: #2f86cc;
+  --color-sky-deep: #06263d;
+
+  /* in your CRM */
+  --color-mint-dot: #6fcf8e;
+  --color-mint-mid: #a8e5bc;
+  --color-mint-soft: #d3f2de;
+  --color-mint-wash: #e3f7ea;
+  --color-mint-ink: #1f6b3b;
+
+  --color-agg-wash: #fff4db;
+  --color-agg-ink: #8a5a00;
+
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-mono-face), ui-monospace, SFMono-Regular, monospace;
-  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.03);
-  --shadow-overlay: 0 12px 32px -4px rgba(9, 9, 11, 0.08), 0 0 0 1px rgba(9, 9, 11, 0.06);
+  --font-display: var(--font-grotesk), var(--font-inter), ui-sans-serif, sans-serif;
+  --shadow-card: 0 24px 48px -24px rgba(11, 31, 51, 0.18);
+  --shadow-panel: -24px 0 48px -16px rgba(11, 31, 51, 0.18);
+  --shadow-overlay: 0 12px 32px -4px rgba(11, 31, 51, 0.1), 0 0 0 1px rgba(11, 31, 51, 0.06);
 }
 
 html {
@@ -17,14 +46,22 @@ html {
 }
 
 body {
-  background: var(--color-canvas);
+  background: var(--color-page);
   color: var(--color-ink);
   font-family: var(--font-sans);
-  font-feature-settings: "cv11", "ss01";
+  -webkit-font-smoothing: antialiased;
 }
 
 .tabular {
   font-variant-numeric: tabular-nums;
+}
+
+/* Baby-blue highlighter under a phrase ("never saw.", "16 companies"). */
+.marker {
+  background: linear-gradient(transparent 57%, var(--color-sky-mid) 57%);
+  padding: 0 4px;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 @keyframes slide-in {
@@ -37,3 +74,7 @@ body {
 }
 .animate-slide-in { animation: slide-in 220ms cubic-bezier(0.2, 0.8, 0.2, 1); }
 .animate-fade-in { animation: fade-in 180ms ease-out; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-slide-in, .animate-fade-in { animation: none; }
+}
