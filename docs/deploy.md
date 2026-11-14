@@ -64,6 +64,13 @@ The Aiven PostgreSQL service must allow connections from your machine (*check* *
   - The same request with `-H "Origin: https://evil.example"` must show nothing.
 - **Healthcheck:** the image defines a Docker `HEALTHCHECK`. *Check* whether Aiven Runtime uses it. Its docs don't mention health checks, so you may need to configure one on `/api/health` in the console.
 
+### Fresh data without redeploying
+
+With `DATABASE_URL` attached, the API reads everything from Postgres, **including the demos and the fund search
+list**: `backend/refresh.py` (run hourly on the crawl machine) rebuilds the demos, stores them in the `kv` table
+and syncs to Postgres. The deployed API picks them up within 5 minutes, so no redeploy is needed for new data.
+The demo JSON files baked into the image are only the fallback when no database is attached.
+
 ### Redeploying
 
 Pushes do **not** deploy automatically. Open the application, then **Overview → Actions → Deploy latest commit**. Redeploy after every demo rebuild (`backend/build_demo.py` updates `data/demo_*.json`).

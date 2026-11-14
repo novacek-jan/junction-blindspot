@@ -11,6 +11,7 @@
  },
  "thesis": {
   "stages": [
+   "SEED",
    "SERIES_A",
    "SERIES_B"
   ],
@@ -23,28 +24,36 @@
   ],
   "industries": [
    {
+    "code": "HARDWARE_AND_EQUIPMENT",
+    "name": "Hardware and equipment"
+   },
+   {
     "code": "INTERNET_AND_WEB_SERVICES",
     "name": "Internet and web services"
+   },
+   {
+    "code": "RENEWABLE_ENERGY",
+    "name": "Renewable energy"
    },
    {
     "code": "SOFTWARE_AND_SERVICES",
     "name": "Software and services"
    }
   ],
-  "basis_rounds": 3
+  "basis_rounds": 4
  },
  "headline": {
-  "never_seen": 1,
-  "text": "1 company in your thesis raised since 2022 and never hit your CRM"
+  "never_seen": 5,
+  "text": "5 companies in your thesis raised since 2022 and never hit your CRM"
  },
  "summary": {
-  "market_companies": 2,
-  "in_crm": 1,
-  "invested": 1,
+  "market_companies": 7,
+  "in_crm": 2,
+  "invested": 2,
   "passed": 0,
   "in_review": 0,
-  "never_seen": 1,
-  "coverage_pct": 50.0
+  "never_seen": 5,
+  "coverage_pct": 28.6
  },
  "never_seen": [
   {
@@ -105,12 +114,307 @@
      }
     ]
    }
+  },
+  {
+   "company_id": "7aee8784-e220-425c-bff9-56cf5ed5932b",
+   "name": "Gilion",
+   "website": "gilion.com",
+   "country": "Sweden",
+   "industries": [
+    "Fintech",
+    "Software and services",
+    "Venture capital"
+   ],
+   "round": {
+    "id": "51db1bf1-d5c2-586d-98ab-f21c931b07ad",
+    "label": "SEED",
+    "amount": 10000000,
+    "currency": "EUR",
+    "date": "2024-04-10",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "a04ff8af-9d8d-5acb-9feb-a773292b2711",
+      "name": "Andrew Konopelski",
+      "type": "Person",
+      "is_lead": false
+     },
+     {
+      "id": "606040f0-eff6-5342-80e5-8bb73af4e23d",
+      "name": "Annika Falkengren",
+      "type": "Person",
+      "is_lead": false
+     },
+     {
+      "id": "16a726bc-5fb2-5958-bd57-3502d1f59b17",
+      "name": "Goran Garvner",
+      "type": "Person",
+      "is_lead": false
+     },
+     {
+      "id": "cc12cc89-3440-598d-9ac4-87a23a90062b",
+      "name": "Henrik Garvner",
+      "type": "Person",
+      "is_lead": false
+     },
+     {
+      "id": "0a8fb60d-dcf3-5479-95a9-def3a4ed4c5b",
+      "name": "Oscar Werner",
+      "type": "Person",
+      "is_lead": false
+     }
+    ],
+    "sources": [
+     {
+      "name": "eu-startups.com",
+      "url": "https://www.eu-startups.com/2024/04/stockholm-based-gilion-secures-e10-million-equity-round-to-fuel-expansion-of-its-growth-platform/",
+      "rank": "PRESS",
+      "date": "2024-04-10"
+     },
+     {
+      "name": "seedtable.com",
+      "url": "https://seedtable.com/companies/gilion/funding-rounds",
+      "rank": "AGGREGATOR",
+      "date": "2026-11-04"
+     }
+    ]
+   }
+  },
+  {
+   "company_id": "25a97622-eed9-4289-bde6-2d191e44c06d",
+   "name": "Gosta Labs",
+   "website": "gostalabs.com",
+   "country": "Finland",
+   "industries": [
+    "Healthcare providers",
+    "Medical devices",
+    "Software and services"
+   ],
+   "round": {
+    "id": "bb008301-518b-574a-8bd6-9f7151da4361",
+    "label": "SEED",
+    "amount": 7500000,
+    "currency": "EUR",
+    "date": "2025-11-27",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "8673db97-466e-4e7e-8417-a0ce1207bf9e",
+      "name": "Voima Ventures",
+      "type": "Organization",
+      "is_lead": true
+     },
+     {
+      "id": "3f9a41b4-1b21-4d8a-86f9-188109ff6179",
+      "name": "AHO Aps",
+      "type": "Company",
+      "is_lead": false
+     },
+     {
+      "id": "81192996-e623-4961-9025-58afec3a68d3",
+      "name": "Cor Group Oy",
+      "type": "Company",
+      "is_lead": false
+     }
+    ],
+    "sources": [
+     {
+      "name": "techfundingnews.com",
+      "url": "https://techfundingnews.com/gosta-labs-raises-7-5m-to-scale-ai-oncology-precision/",
+      "rank": "PRESS",
+      "date": "2025-11-27"
+     },
+     {
+      "name": "eu-startups.com",
+      "url": "https://www.eu-startups.com/2025/11/as-cancer-cases-surge-toward-35-million-by-2050-finlands-gosta-labs-raises-e7-5-million-to-ease-oncology-workloads/",
+      "rank": "PRESS",
+      "date": "2025-11-27"
+     }
+    ]
+   }
+  },
+  {
+   "company_id": "5466f036-ebe0-4171-ae24-643c83cfef6b",
+   "name": "Skyfora",
+   "website": "skyfora.com",
+   "country": "Finland",
+   "industries": [
+    "Renewable energy",
+    "Software and services",
+    "Telecommunications"
+   ],
+   "round": {
+    "id": "31db35af-6604-5eeb-8164-e3e66904718c",
+    "label": "SEED",
+    "amount": 6500000,
+    "currency": "EUR",
+    "date": "2026-06-09",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "34829e66-7e7e-412e-a0ea-c61014ced495",
+      "name": "Ugly Duckling Ventures Management ApS",
+      "type": "Company",
+      "is_lead": true
+     },
+     {
+      "id": "d5b41639-eb27-43df-a6ee-a4f03807fbca",
+      "name": "Business Finland",
+      "type": "Organization",
+      "is_lead": false
+     },
+     {
+      "id": "8b48d1a5-8b64-43a6-a1ee-aac5022bb54d",
+      "name": "European Innovation Council Fund",
+      "type": "Organization",
+      "is_lead": false
+     },
+     {
+      "id": "8540e55a-1f3b-4969-bf08-6802f5344d24",
+      "name": "Eviny Ventures",
+      "type": "Company",
+      "is_lead": false
+     },
+     {
+      "id": "b6102f0d-6696-4dc6-b0bf-1d3f79c94344",
+      "name": "LUMO Labs",
+      "type": "Organization",
+      "is_lead": false
+     }
+    ],
+    "sources": [
+     {
+      "name": "skyfora.com",
+      "url": "https://www.skyfora.com/news/skyfora-raises-6-5m-to-turn-telecom-networks-into-real-time-weather-sensors-for-ai-forecasting",
+      "rank": "PRIMARY",
+      "date": "2026-06-09"
+     },
+     {
+      "name": "raise.fusion-42.com",
+      "url": "https://raise.fusion-42.com/rounds/2186750a-f8fd-4d72-8dd3-a4200136fa0b",
+      "rank": "PRESS",
+      "date": "2026-11-04"
+     },
+     {
+      "name": "eu-startups.com",
+      "url": "https://www.eu-startups.com/2026/06/finnish-skyfora-raises-e6-5-million-to-quicken-deployment-of-atmospheric-sensing-network/",
+      "rank": "PRESS",
+      "date": "2026-06-09"
+     }
+    ]
+   }
+  },
+  {
+   "company_id": "dfc26dad-408b-4630-8a68-e490d2fbd786",
+   "name": "Comparables.ai",
+   "website": "comparables.ai",
+   "country": "Finland",
+   "industries": [
+    "Fintech",
+    "Software and services"
+   ],
+   "round": {
+    "id": "e9d584f4-c4a5-510e-bace-9df9717e86af",
+    "label": "SEED",
+    "amount": 6000000,
+    "currency": "USD",
+    "date": "2026-10-06",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "89086b9e-3468-4d6c-b6b3-1caeaa418d5c",
+      "name": "Araya Ventures",
+      "type": "Company",
+      "is_lead": true
+     },
+     {
+      "id": "ea3118e1-9ffe-436c-affc-7d086d3be51e",
+      "name": "Pragmatech",
+      "type": "Organization",
+      "is_lead": true
+     },
+     {
+      "id": "1f2979fb-423a-40ef-8c96-eb0d9fae7ea6",
+      "name": "Gorilla Capital",
+      "type": "Company",
+      "is_lead": false
+     },
+     {
+      "id": "558f8f59-08b0-412a-9947-8878de485861",
+      "name": "Hi5 VC OÜ",
+      "type": "Company",
+      "is_lead": false
+     },
+     {
+      "id": "a25ba634-4459-4bf3-8a4d-78155efe5558",
+      "name": "Purple Ventures s.r.o.",
+      "type": "Company",
+      "is_lead": false
+     },
+     {
+      "id": "84e3e982-b3a0-4338-bfdf-ec4f4fa30a4a",
+      "name": "Somersault Ventures",
+      "type": "Organization",
+      "is_lead": false
+     }
+    ],
+    "sources": [
+     {
+      "name": "tech.eu",
+      "url": "https://tech.eu/2026/10/06/comparablesai-secures-6m-seed-to-scale-its-ai-platform-for-dealmakers/",
+      "rank": "PRESS",
+      "date": "2026-10-06"
+     },
+     {
+      "name": "vestbee.com",
+      "url": "https://vestbee.com/insights/articles/comparables-ai-lands-6-m",
+      "rank": "PRESS",
+      "date": "2026-10-06"
+     },
+     {
+      "name": "thesaasnews.com",
+      "url": "https://www.thesaasnews.com/news/comparables-ai-raises-6m-seed/",
+      "rank": "PRESS",
+      "date": "2026-10-06"
+     }
+    ]
+   }
   }
  ],
  "top_investors_in_blind_spots": [
   {
    "id": "d5b41639-eb27-43df-a6ee-a4f03807fbca",
    "name": "Business Finland",
+   "companies": 2
+  },
+  {
+   "id": "8673db97-466e-4e7e-8417-a0ce1207bf9e",
+   "name": "Voima Ventures",
+   "companies": 2
+  },
+  {
+   "id": "3f9a41b4-1b21-4d8a-86f9-188109ff6179",
+   "name": "AHO Aps",
+   "companies": 1
+  },
+  {
+   "id": "a04ff8af-9d8d-5acb-9feb-a773292b2711",
+   "name": "Andrew Konopelski",
+   "companies": 1
+  },
+  {
+   "id": "606040f0-eff6-5342-80e5-8bb73af4e23d",
+   "name": "Annika Falkengren",
+   "companies": 1
+  },
+  {
+   "id": "89086b9e-3468-4d6c-b6b3-1caeaa418d5c",
+   "name": "Araya Ventures",
+   "companies": 1
+  },
+  {
+   "id": "81192996-e623-4961-9025-58afec3a68d3",
+   "name": "Cor Group Oy",
    "companies": 1
   },
   {
@@ -119,19 +423,19 @@
    "companies": 1
   },
   {
-   "id": "697961ad-78c5-4549-8520-561b1982f8a6",
-   "name": "Nordic FoodTech VC",
+   "id": "8b48d1a5-8b64-43a6-a1ee-aac5022bb54d",
+   "name": "European Innovation Council Fund",
    "companies": 1
   },
   {
-   "id": "8673db97-466e-4e7e-8417-a0ce1207bf9e",
-   "name": "Voima Ventures",
+   "id": "8540e55a-1f3b-4969-bf08-6802f5344d24",
+   "name": "Eviny Ventures",
    "companies": 1
   }
  ],
  "market_coverage": {
-  "european_companies_screened": 1018,
-  "qualifying_companies": 78,
+  "european_companies_screened": 1042,
+  "qualifying_companies": 79,
   "investors_explored": 158,
   "as_of": "2026-11-14",
   "region": "nordics",
@@ -142,7 +446,7 @@
    "Norway",
    "Sweden"
   ],
-  "region_qualifying_companies": 16,
+  "region_qualifying_companies": 17,
   "priority_country": "Finland",
   "priority_country_qualifying_companies": 11
  }

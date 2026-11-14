@@ -130,9 +130,6 @@
   ],
   "why_missed": [
    {
-    "reason": "Lead investor Voima Ventures has never co-invested with you"
-   },
-   {
     "reason": "Series C is outside your usual stages"
    }
   ],
@@ -179,6 +176,808 @@
     "url": "https://kuvaspace.com/en/resources/kuva-space-names-new-chairman",
     "rank": "PRIMARY",
     "date": "2026-04-09"
+   }
+  ]
+ },
+ "7aee8784-e220-425c-bff9-56cf5ed5932b": {
+  "id": "7aee8784-e220-425c-bff9-56cf5ed5932b",
+  "name": "Gilion",
+  "website": "gilion.com",
+  "description": "Swedish fintech, software, and venture‑capital firm founded in 2021.",
+  "country": "Sweden",
+  "founded": "2021",
+  "rounds": [
+   {
+    "id": "51db1bf1-d5c2-586d-98ab-f21c931b07ad",
+    "label": "SEED",
+    "amount": 10000000,
+    "currency": "EUR",
+    "date": "2024-04-10",
+    "date_kind": "announcement",
+    "qualifying": true,
+    "lead_investors": [],
+    "participants": [
+     {
+      "id": "a04ff8af-9d8d-5acb-9feb-a773292b2711",
+      "name": "Andrew Konopelski"
+     },
+     {
+      "id": "606040f0-eff6-5342-80e5-8bb73af4e23d",
+      "name": "Annika Falkengren"
+     },
+     {
+      "id": "16a726bc-5fb2-5958-bd57-3502d1f59b17",
+      "name": "Goran Garvner"
+     },
+     {
+      "id": "cc12cc89-3440-598d-9ac4-87a23a90062b",
+      "name": "Henrik Garvner"
+     },
+     {
+      "id": "0a8fb60d-dcf3-5479-95a9-def3a4ed4c5b",
+      "name": "Oscar Werner"
+     }
+    ],
+    "sources": [
+     {
+      "name": "eu-startups.com",
+      "url": "https://www.eu-startups.com/2024/04/stockholm-based-gilion-secures-e10-million-equity-round-to-fuel-expansion-of-its-growth-platform/",
+      "rank": "PRESS",
+      "date": "2024-04-10"
+     },
+     {
+      "name": "seedtable.com",
+      "url": "https://seedtable.com/companies/gilion/funding-rounds",
+      "rank": "AGGREGATOR",
+      "date": "2026-11-04"
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "id": "ac2481cf-ca81-5401-b23a-ffc664627661",
+    "label": "SEED",
+    "amount": 15000000,
+    "currency": "EUR",
+    "date": "2022-09-05",
+    "date_kind": "announcement",
+    "qualifying": false,
+    "lead_investors": [
+     {
+      "id": "606040f0-eff6-5342-80e5-8bb73af4e23d",
+      "name": "Annika Falkengren"
+     }
+    ],
+    "participants": [
+     {
+      "id": "6ba00a20-2cb4-4559-8fe2-f39484a9e5f6",
+      "name": "Creandum"
+     },
+     {
+      "id": "c5377720-0284-41e7-8498-6be6335fc0ed",
+      "name": "Hjalmar Winbladh"
+     },
+     {
+      "id": "d2f1e43b-32a1-5104-8a71-83dd98fb2172",
+      "name": "Ilkka Paananen"
+     },
+     {
+      "id": "f90762ed-ed40-5e14-95fc-12fcef6a8975",
+      "name": "Jacob de Geer"
+     },
+     {
+      "id": "1516c337-36cb-4357-ba0c-03b9c6c0d0e0",
+      "name": "LocalGlobe"
+     },
+     {
+      "id": "b9e52c77-2d0c-4392-86cd-688ac043e8dc",
+      "name": "Patrick Söderlund"
+     },
+     {
+      "id": "b0bec62d-ff71-5048-a127-70cacd434907",
+      "name": "Timo Soininen"
+     }
+    ],
+    "sources": [
+     {
+      "name": "gilion.com",
+      "url": "https://gilion.com/news/acceleration-round",
+      "rank": "PRIMARY",
+      "date": "2022-09-05"
+     },
+     {
+      "name": "privateequitywire.co.uk",
+      "url": "https://www.privateequitywire.co.uk/ark-kapital-raises-eu15m-acceleration-round-led-annika-falkengren/",
+      "rank": "PRESS",
+      "date": "2022-09-05"
+     }
+    ],
+    "conflated": true
+   },
+   {
+    "id": "29353e60-4094-5f9e-84f5-10a8852a2469",
+    "label": "DEBT_FINANCING",
+    "amount": 150000000,
+    "currency": "EUR",
+    "date": "2022-03-29",
+    "date_kind": "announcement",
+    "qualifying": true,
+    "lead_investors": [],
+    "participants": [
+     {
+      "id": "ecd1ec57-0a2b-448c-a719-d7baecd9ef4e",
+      "name": "Pollen Street Capital"
+     }
+    ],
+    "sources": [
+     {
+      "name": "tech.eu",
+      "url": "https://tech.eu/2022/03/29/ark-kapital-raises-eur165-million-to-offer-long-term-alternative-financing-options",
+      "rank": "PRESS",
+      "date": "2022-03-29"
+     },
+     {
+      "name": "tech.eu",
+      "url": "https://tech.eu/2022/07/08/ark-kapital-brings-another-eur150-million-aboard-now-offering-eur300-million-in-revenue-based-financing",
+      "rank": "PRESS",
+      "date": "2022-07-08"
+     },
+     {
+      "name": "siliconcanals.com",
+      "url": "https://siliconcanals.com/ark-kapital-secures-145-1m/",
+      "rank": "PRESS",
+      "date": "2022-04-19"
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "id": "b01d26ba-853f-5053-bb1a-e4d1d745f2d8",
+    "label": "SEED",
+    "amount": 15000000,
+    "currency": "EUR",
+    "date": "2022-03-29",
+    "date_kind": "announcement",
+    "qualifying": false,
+    "lead_investors": [
+     {
+      "id": "1516c337-36cb-4357-ba0c-03b9c6c0d0e0",
+      "name": "LocalGlobe"
+     }
+    ],
+    "participants": [
+     {
+      "id": "fe7bb20e-534d-5e11-affa-9d28beb76a8b",
+      "name": "Christer Holloman"
+     },
+     {
+      "id": "6ba00a20-2cb4-4559-8fe2-f39484a9e5f6",
+      "name": "Creandum"
+     },
+     {
+      "id": "c5377720-0284-41e7-8498-6be6335fc0ed",
+      "name": "Hjalmar Winbladh"
+     },
+     {
+      "id": "d2f1e43b-32a1-5104-8a71-83dd98fb2172",
+      "name": "Ilkka Paananen"
+     },
+     {
+      "id": "f90762ed-ed40-5e14-95fc-12fcef6a8975",
+      "name": "Jacob de Geer"
+     },
+     {
+      "id": "b9e52c77-2d0c-4392-86cd-688ac043e8dc",
+      "name": "Patrick Söderlund"
+     },
+     {
+      "id": "aab05097-23c4-51ac-a09a-d490694118b1",
+      "name": "Sebastian Knutsson"
+     }
+    ],
+    "sources": [
+     {
+      "name": "tech.eu",
+      "url": "https://tech.eu/2022/03/29/ark-kapital-raises-eur165-million-to-offer-long-term-alternative-financing-options",
+      "rank": "PRESS",
+      "date": "2022-03-29"
+     },
+     {
+      "name": "tech.eu",
+      "url": "https://tech.eu/2022/07/08/ark-kapital-brings-another-eur150-million-aboard-now-offering-eur300-million-in-revenue-based-financing",
+      "rank": "PRESS",
+      "date": "2022-07-08"
+     },
+     {
+      "name": "siliconcanals.com",
+      "url": "https://siliconcanals.com/ark-kapital-secures-145-1m/",
+      "rank": "PRESS",
+      "date": "2022-04-19"
+     }
+    ],
+    "conflated": true
+   }
+  ],
+  "why_missed": [
+   {
+    "reason": "Sweden is outside your top countries (Finland, Norway)"
+   }
+  ],
+  "recent_news": [],
+  "sources": [
+   {
+    "name": "tracxn.com",
+    "url": "https://tracxn.com/d/venture-capital/upfin/__iJJ8WD9mZyHeT3tutM9TNO6e_mGmfC_aOMUby4GNBNw",
+    "rank": null,
+    "date": null
+   },
+   {
+    "name": "Upfin.vc: The Early Stage Founder's Guide",
+    "url": "https://superscout.co/investor/upfin-vc",
+    "rank": null,
+    "date": null
+   },
+   {
+    "name": "Gilion – Intelligent Funding With AI Precision",
+    "url": "https://www.gilion.com",
+    "rank": null,
+    "date": null
+   },
+   {
+    "name": "eu-startups.com",
+    "url": "https://www.eu-startups.com/2024/04/stockholm-based-gilion-secures-e10-million-equity-round-to-fuel-expansion-of-its-growth-platform/",
+    "rank": "PRESS",
+    "date": null
+   },
+   {
+    "name": "gilion.com",
+    "url": "https://gilion.com/",
+    "rank": "PRIMARY",
+    "date": null
+   },
+   {
+    "name": "dns.google",
+    "url": "https://dns.google/query?name=gilion.com&type=A",
+    "rank": "PRIMARY",
+    "date": null
+   },
+   {
+    "name": "seedtable.com",
+    "url": "https://seedtable.com/companies/gilion/funding-rounds",
+    "rank": "AGGREGATOR",
+    "date": null
+   },
+   {
+    "name": "tech.eu",
+    "url": "https://tech.eu/2022/03/29/ark-kapital-raises-eur165-million-to-offer-long-term-alternative-financing-options",
+    "rank": "PRESS",
+    "date": null
+   },
+   {
+    "name": "tech.eu",
+    "url": "https://tech.eu/2022/07/08/ark-kapital-brings-another-eur150-million-aboard-now-offering-eur300-million-in-revenue-based-financing",
+    "rank": "PRESS",
+    "date": null
+   },
+   {
+    "name": "siliconcanals.com",
+    "url": "https://siliconcanals.com/ark-kapital-secures-145-1m/",
+    "rank": "PRESS",
+    "date": null
+   },
+   {
+    "name": "gilion.com",
+    "url": "https://gilion.com/news/acceleration-round",
+    "rank": "PRIMARY",
+    "date": null
+   },
+   {
+    "name": "privateequitywire.co.uk",
+    "url": "https://www.privateequitywire.co.uk/ark-kapital-raises-eu15m-acceleration-round-led-annika-falkengren/",
+    "rank": "PRESS",
+    "date": null
+   }
+  ]
+ },
+ "25a97622-eed9-4289-bde6-2d191e44c06d": {
+  "id": "25a97622-eed9-4289-bde6-2d191e44c06d",
+  "name": "Gosta Labs",
+  "website": "gostalabs.com",
+  "description": "Gosta turns fragmented clinical data, documentation, and care workflows into structured, actionable support - so healthcare providers can reduce administrative burden, improve coordination, and mak...",
+  "country": "Finland",
+  "founded": "2023",
+  "rounds": [
+   {
+    "id": "bb008301-518b-574a-8bd6-9f7151da4361",
+    "label": "SEED",
+    "amount": 7500000,
+    "currency": "EUR",
+    "date": "2025-11-27",
+    "date_kind": "announcement",
+    "qualifying": true,
+    "lead_investors": [
+     {
+      "id": "8673db97-466e-4e7e-8417-a0ce1207bf9e",
+      "name": "Voima Ventures"
+     }
+    ],
+    "participants": [
+     {
+      "id": "3f9a41b4-1b21-4d8a-86f9-188109ff6179",
+      "name": "AHO Aps"
+     },
+     {
+      "id": "81192996-e623-4961-9025-58afec3a68d3",
+      "name": "Cor Group Oy"
+     }
+    ],
+    "sources": [
+     {
+      "name": "eu-startups.com",
+      "url": "https://www.eu-startups.com/2025/11/as-cancer-cases-surge-toward-35-million-by-2050-finlands-gosta-labs-raises-e7-5-million-to-ease-oncology-workloads/",
+      "rank": "PRESS",
+      "date": "2025-11-27"
+     },
+     {
+      "name": "techfundingnews.com",
+      "url": "https://techfundingnews.com/gosta-labs-raises-7-5m-to-scale-ai-oncology-precision/",
+      "rank": "PRESS",
+      "date": "2025-11-27"
+     }
+    ],
+    "conflated": false
+   }
+  ],
+  "why_missed": [],
+  "recent_news": [],
+  "sources": [
+   {
+    "name": "Reaktor Ventures",
+    "url": "https://www.cbinsights.com/investor/reaktor-polte",
+    "rank": null,
+    "date": "2022-02-15"
+   },
+   {
+    "name": "Gosta Labs News: Gosta Labs and Reaktor join forces to bring Finnish health innovations to more healthcare professionals in Europe",
+    "url": "https://www.gostalabs.com/news/gosta-labs-and-reaktor-join-forces-to-bring-finnish-health-innovations-to-more-healthcare-professionals-in-europe",
+    "rank": null,
+    "date": "2024-01-01"
+   },
+   {
+    "name": "eu-startups.com",
+    "url": "https://www.eu-startups.com/2025/11/as-cancer-cases-surge-toward-35-million-by-2050-finlands-gosta-labs-raises-e7-5-million-to-ease-oncology-workloads/",
+    "rank": "PRESS",
+    "date": "2025-11-01"
+   },
+   {
+    "name": "gostalabs.com",
+    "url": "https://gostalabs.com/",
+    "rank": "PRIMARY",
+    "date": "2026-10-29"
+   },
+   {
+    "name": "dns.google",
+    "url": "https://dns.google/query?name=gostalabs.com&type=A",
+    "rank": "PRIMARY",
+    "date": "2026-10-29"
+   }
+  ]
+ },
+ "5466f036-ebe0-4171-ae24-643c83cfef6b": {
+  "id": "5466f036-ebe0-4171-ae24-643c83cfef6b",
+  "name": "Skyfora",
+  "website": "skyfora.com",
+  "description": "Skyfora delivers sub-kilometer insights and nowcasts so your teams can plan with confidence, no matter the weather.",
+  "country": "Finland",
+  "founded": "2019",
+  "rounds": [
+   {
+    "id": "9e049ab2-c64a-515a-8bef-0fdbdb40f8a4",
+    "label": "GRANT",
+    "amount": 2496462.5,
+    "currency": "EUR",
+    "date": "2026-09-23",
+    "date_kind": "event",
+    "qualifying": true,
+    "lead_investors": [
+     {
+      "id": "b7143bb3-c9a2-421e-ae61-d2c33088f953",
+      "name": "European Innovation Council"
+     }
+    ],
+    "participants": [],
+    "sources": [
+     {
+      "name": "cordis.europa.eu",
+      "url": "https://cordis.europa.eu/project/id/101331305",
+      "rank": "FILING",
+      "date": "2026-10-30"
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "id": "31db35af-6604-5eeb-8164-e3e66904718c",
+    "label": "SEED",
+    "amount": 6500000,
+    "currency": "EUR",
+    "date": "2026-06-09",
+    "date_kind": "announcement",
+    "qualifying": true,
+    "lead_investors": [
+     {
+      "id": "34829e66-7e7e-412e-a0ea-c61014ced495",
+      "name": "Ugly Duckling Ventures Management ApS"
+     }
+    ],
+    "participants": [
+     {
+      "id": "d5b41639-eb27-43df-a6ee-a4f03807fbca",
+      "name": "Business Finland"
+     },
+     {
+      "id": "8b48d1a5-8b64-43a6-a1ee-aac5022bb54d",
+      "name": "European Innovation Council Fund"
+     },
+     {
+      "id": "8540e55a-1f3b-4969-bf08-6802f5344d24",
+      "name": "Eviny Ventures"
+     },
+     {
+      "id": "b6102f0d-6696-4dc6-b0bf-1d3f79c94344",
+      "name": "LUMO Labs"
+     }
+    ],
+    "sources": [
+     {
+      "name": "eu-startups.com",
+      "url": "https://www.eu-startups.com/2026/06/finnish-skyfora-raises-e6-5-million-to-quicken-deployment-of-atmospheric-sensing-network/",
+      "rank": "PRESS",
+      "date": "2026-06-09"
+     },
+     {
+      "name": "skyfora.com",
+      "url": "https://www.skyfora.com/news/skyfora-raises-6-5m-to-turn-telecom-networks-into-real-time-weather-sensors-for-ai-forecasting",
+      "rank": "PRIMARY",
+      "date": "2026-06-09"
+     },
+     {
+      "name": "raise.fusion-42.com",
+      "url": "https://raise.fusion-42.com/rounds/2186750a-f8fd-4d72-8dd3-a4200136fa0b",
+      "rank": "PRESS",
+      "date": "2026-11-04"
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "id": "1b785a0f-da18-597b-be8e-ca6dd328aa6f",
+    "label": "PRE_SEED",
+    "amount": 4000000,
+    "currency": "EUR",
+    "date": "2025-03-03",
+    "date_kind": "announcement",
+    "qualifying": true,
+    "lead_investors": [
+     {
+      "id": "b6102f0d-6696-4dc6-b0bf-1d3f79c94344",
+      "name": "LUMO Labs"
+     },
+     {
+      "id": "34829e66-7e7e-412e-a0ea-c61014ced495",
+      "name": "Ugly Duckling Ventures Management ApS"
+     }
+    ],
+    "participants": [
+     {
+      "id": "8b48d1a5-8b64-43a6-a1ee-aac5022bb54d",
+      "name": "European Innovation Council Fund"
+     },
+     {
+      "id": "1f973216-f1e5-4466-8409-da6608460c02",
+      "name": "Voima Ventures Oy"
+     }
+    ],
+    "sources": [
+     {
+      "name": "eu-startups.com",
+      "url": "https://www.eu-startups.com/2025/03/skyfora-secures-e4-million-to-supercharge-ai-weather-forecasts-using-telecom-gnss-meteorology/",
+      "rank": "PRESS",
+      "date": "2025-03-03"
+     },
+     {
+      "name": "skyfora.com",
+      "url": "https://www.skyfora.com/news/skyfora-secures-4-million-to-supercharge-ai-weather-forecasts-using-telecom-gnss-meteorology",
+      "rank": "PRIMARY",
+      "date": "2025-03-03"
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "id": "d117bc4b-d19d-5450-b89b-33c9b000a78f",
+    "label": "GRANT",
+    "amount": 2498561.63,
+    "currency": "EUR",
+    "date": "2022-12-19",
+    "date_kind": "announcement",
+    "qualifying": true,
+    "lead_investors": [
+     {
+      "id": "b7143bb3-c9a2-421e-ae61-d2c33088f953",
+      "name": "European Innovation Council"
+     }
+    ],
+    "participants": [],
+    "sources": [
+     {
+      "name": "cordis.europa.eu",
+      "url": "https://cordis.europa.eu/project/id/190191982",
+      "rank": "FILING",
+      "date": "2026-10-30"
+     },
+     {
+      "name": "skyfora.com",
+      "url": "https://www.skyfora.com/news/skyfora-has-been-awarded-a-2-5-million-eic-accelerator-grant",
+      "rank": "PRIMARY",
+      "date": "2022-12-19"
+     }
+    ],
+    "conflated": false
+   }
+  ],
+  "why_missed": [
+   {
+    "reason": "Grant is outside your usual stages"
+   }
+  ],
+  "recent_news": [],
+  "sources": [
+   {
+    "name": "skyfora.com",
+    "url": "https://skyfora.com/",
+    "rank": "PRIMARY",
+    "date": "2026-10-29"
+   },
+   {
+    "name": "eu-startups.com",
+    "url": "https://www.eu-startups.com/2025/03/skyfora-secures-e4-million-to-supercharge-ai-weather-forecasts-using-telecom-gnss-meteorology/",
+    "rank": "PRESS",
+    "date": "2025-03-01"
+   },
+   {
+    "name": "dns.google",
+    "url": "https://dns.google/query?name=skyfora.com&type=A",
+    "rank": "PRIMARY",
+    "date": "2026-10-29"
+   },
+   {
+    "name": "cordis.europa.eu",
+    "url": "https://cordis.europa.eu/project/id/190191982",
+    "rank": "FILING",
+    "date": "2026-10-30"
+   },
+   {
+    "name": "cordis.europa.eu",
+    "url": "https://cordis.europa.eu/project/id/101331305",
+    "rank": "FILING",
+    "date": "2026-10-30"
+   },
+   {
+    "name": "eu-startups.com",
+    "url": "https://www.eu-startups.com/2026/06/finnish-skyfora-raises-e6-5-million-to-quicken-deployment-of-atmospheric-sensing-network/",
+    "rank": "PRESS",
+    "date": "2026-06-09"
+   },
+   {
+    "name": "skyfora.com",
+    "url": "https://www.skyfora.com/news/skyfora-raises-6-5m-to-turn-telecom-networks-into-real-time-weather-sensors-for-ai-forecasting",
+    "rank": "PRIMARY",
+    "date": "2026-06-09"
+   },
+   {
+    "name": "skyfora.com",
+    "url": "https://www.skyfora.com/news/skyfora-secures-4-million-to-supercharge-ai-weather-forecasts-using-telecom-gnss-meteorology",
+    "rank": "PRIMARY",
+    "date": "2025-03-03"
+   }
+  ]
+ },
+ "dfc26dad-408b-4630-8a68-e490d2fbd786": {
+  "id": "dfc26dad-408b-4630-8a68-e490d2fbd786",
+  "name": "Comparables.ai",
+  "website": "comparables.ai",
+  "description": "The leading M&A and valuation intelligence platform. Find +110% more relevant companies 10.5x faster. Access comprehensive financials, transaction data, and AI analysis on 370M+ companies worldwide.",
+  "country": "Finland",
+  "founded": "2021",
+  "rounds": [
+   {
+    "id": "e9d584f4-c4a5-510e-bace-9df9717e86af",
+    "label": "SEED",
+    "amount": 6000000,
+    "currency": "USD",
+    "date": "2026-10-06",
+    "date_kind": "announcement",
+    "qualifying": true,
+    "lead_investors": [
+     {
+      "id": "89086b9e-3468-4d6c-b6b3-1caeaa418d5c",
+      "name": "Araya Ventures"
+     },
+     {
+      "id": "ea3118e1-9ffe-436c-affc-7d086d3be51e",
+      "name": "Pragmatech"
+     }
+    ],
+    "participants": [
+     {
+      "id": "1f2979fb-423a-40ef-8c96-eb0d9fae7ea6",
+      "name": "Gorilla Capital"
+     },
+     {
+      "id": "558f8f59-08b0-412a-9947-8878de485861",
+      "name": "Hi5 VC OÜ"
+     },
+     {
+      "id": "a25ba634-4459-4bf3-8a4d-78155efe5558",
+      "name": "Purple Ventures s.r.o."
+     },
+     {
+      "id": "84e3e982-b3a0-4338-bfdf-ec4f4fa30a4a",
+      "name": "Somersault Ventures"
+     }
+    ],
+    "sources": [
+     {
+      "name": "thesaasnews.com",
+      "url": "https://www.thesaasnews.com/news/comparables-ai-raises-6m-seed/",
+      "rank": "PRESS",
+      "date": "2026-10-06"
+     },
+     {
+      "name": "tech.eu",
+      "url": "https://tech.eu/2026/10/06/comparablesai-secures-6m-seed-to-scale-its-ai-platform-for-dealmakers/",
+      "rank": "PRESS",
+      "date": "2026-10-06"
+     },
+     {
+      "name": "vestbee.com",
+      "url": "https://vestbee.com/insights/articles/comparables-ai-lands-6-m",
+      "rank": "PRESS",
+      "date": "2026-10-06"
+     }
+    ],
+    "conflated": false
+   },
+   {
+    "id": "d39c2301-ad09-533b-acb3-e598d29b13ff",
+    "label": "PRE_SEED",
+    "amount": 700000,
+    "currency": "USD",
+    "date": "2022-05-25",
+    "date_kind": "announcement",
+    "qualifying": true,
+    "lead_investors": [
+     {
+      "id": "d5b41639-eb27-43df-a6ee-a4f03807fbca",
+      "name": "Business Finland"
+     }
+    ],
+    "participants": [
+     {
+      "id": "406a5daa-b347-5423-a80a-6eebccd7a8d8",
+      "name": "Hannu Kytölä"
+     },
+     {
+      "id": "8d592b96-6b98-5132-bf94-4907824df712",
+      "name": "Kari Stadigh"
+     },
+     {
+      "id": "6c370362-a57d-4abd-aa07-daf59dbc3132",
+      "name": "Nidoco AB"
+     },
+     {
+      "id": "f8ff6ced-c413-54bb-b9cf-970eee8921df",
+      "name": "Peter Seligson"
+     },
+     {
+      "id": "c6f9f157-8b9e-4e9a-b12b-d11ba40f3c3e",
+      "name": "TK Ventures"
+     },
+     {
+      "id": "ee648694-cf55-57c6-88c2-f1f0358a7753",
+      "name": "Tomas von Rettig"
+     }
+    ],
+    "sources": [
+     {
+      "name": "comparables.ai",
+      "url": "https://www.comparables.ai/articles/pre-seed",
+      "rank": "PRIMARY",
+      "date": "2022-01-26"
+     },
+     {
+      "name": "comparables.ai",
+      "url": "https://www.comparables.ai/articles/business-finland-financing",
+      "rank": "PRIMARY",
+      "date": "2022-05-25"
+     }
+    ],
+    "conflated": false
+   }
+  ],
+  "why_missed": [
+   {
+    "reason": "Lead investor Araya Ventures has never co-invested with you"
+   }
+  ],
+  "recent_news": [],
+  "sources": [
+   {
+    "name": "Pragmatech Ventures",
+    "url": "https://pragma.tech",
+    "rank": null,
+    "date": "2026-01-01"
+   },
+   {
+    "name": "arcticstartup.com",
+    "url": "https://arcticstartup.com/comparablesai-raised-700k-pre-seed-round",
+    "rank": null,
+    "date": "2026-08-24"
+   },
+   {
+    "name": "comparables.ai",
+    "url": "https://comparables.ai/",
+    "rank": "PRIMARY",
+    "date": "2026-11-02"
+   },
+   {
+    "name": "linkedin.com",
+    "url": "https://www.linkedin.com/company/comparables-ai/",
+    "rank": "AGGREGATOR",
+    "date": "2026-11-02"
+   },
+   {
+    "name": "dns.google",
+    "url": "https://dns.google/query?name=comparables.ai&type=A",
+    "rank": "PRIMARY",
+    "date": "2026-11-02"
+   },
+   {
+    "name": "comparables.ai",
+    "url": "https://www.comparables.ai/articles/first-milestones",
+    "rank": "PRIMARY",
+    "date": "2026-11-13"
+   },
+   {
+    "name": "tech.eu",
+    "url": "https://tech.eu/2026/10/06/comparablesai-secures-6m-seed-to-scale-its-ai-platform-for-dealmakers/",
+    "rank": "PRESS",
+    "date": "2026-10-06"
+   },
+   {
+    "name": "thesaasnews.com",
+    "url": "https://www.thesaasnews.com/news/comparables-ai-raises-6m-seed/",
+    "rank": "PRESS",
+    "date": "2026-10-06"
+   },
+   {
+    "name": "vestbee.com",
+    "url": "https://vestbee.com/insights/articles/comparables-ai-lands-6-m",
+    "rank": "PRESS",
+    "date": "2026-10-06"
+   },
+   {
+    "name": "comparables.ai",
+    "url": "https://www.comparables.ai/articles/pre-seed",
+    "rank": "PRIMARY",
+    "date": "2022-01-26"
+   },
+   {
+    "name": "comparables.ai",
+    "url": "https://www.comparables.ai/articles/business-finland-financing",
+    "rank": "PRIMARY",
+    "date": "2022-05-25"
    }
   ]
  }

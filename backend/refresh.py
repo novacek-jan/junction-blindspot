@@ -35,6 +35,15 @@ def main() -> None:
     import db
     import market
     data = HERE.parent / "data"
+    # Store the demos in kv as well, so a deployed API with Postgres serves fresh demos without a redeploy.
+    index = json.loads((data / "demos.json").read_text())
+    db.kv_put("demo:index", index)
+    for d in index:
+        for kind in ("audit", "profile", "deals"):
+            db.kv_put(f"demo:{kind}:{d['fund']['id']}", json.loads((data / f"demo_{d['slug']}_{kind}.json").read_text()))
+    import audit
+    db.kv_put("search:all", audit._all_investors())           # fund search list, served from kv (fast)
+    sync = run([str(HERE / "sync_postgres.py")])            # push the demo and search kv rows too
     demos = {d["slug"]: json.loads((data / f"demo_{d['slug']}_audit.json").read_text())
              for d in json.loads((data / "demos.json").read_text())}
     reg = sorted(market.REGION_COUNTRIES)

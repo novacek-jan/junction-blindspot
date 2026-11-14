@@ -150,7 +150,8 @@ def search_funds(q: str) -> list[dict]:
     The full list is cached for SEARCH_TTL_S seconds; the query only filters it."""
     ql = (q or "").strip().casefold()
     if _search_cache["items"] is None or time.time() - _search_cache["at"] > SEARCH_TTL_S:
-        _search_cache["items"], _search_cache["at"] = _all_investors(), time.time()
+        # Precomputed by backend/refresh.py (hourly) when available; computed here otherwise.
+        _search_cache["items"], _search_cache["at"] = (db.kv_get("search:all") or _all_investors()), time.time()
     out = list(_search_cache["items"])
     if ql:
         out = [f for f in out if ql in f["name"].casefold()]

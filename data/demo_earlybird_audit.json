@@ -67,17 +67,17 @@
   "basis_rounds": 8
  },
  "headline": {
-  "never_seen": 14,
-  "text": "14 companies in your thesis raised since 2022 and never hit your CRM"
+  "never_seen": 15,
+  "text": "15 companies in your thesis raised since 2022 and never hit your CRM"
  },
  "summary": {
-  "market_companies": 29,
+  "market_companies": 30,
   "in_crm": 15,
   "invested": 5,
   "passed": 4,
   "in_review": 6,
-  "never_seen": 14,
-  "coverage_pct": 51.7
+  "never_seen": 15,
+  "coverage_pct": 50.0
  },
  "never_seen": [
   {
@@ -158,6 +158,82 @@
       "url": "https://www.eu-startups.com/2022/08/berlins-liveeo-lands-e19-million-to-fuel-its-mission-to-bring-space-data-insights-to-industry/",
       "rank": "PRESS",
       "date": "2022-08-05"
+     }
+    ]
+   }
+  },
+  {
+   "company_id": "d5f8974b-7765-44f7-afc6-6f1767b8bad0",
+   "name": "Photoncycle",
+   "website": "photoncycle.com",
+   "country": "Norway",
+   "industries": [
+    "Hardware and equipment",
+    "Renewable energy"
+   ],
+   "round": {
+    "id": "922d6772-8e37-5ce0-b473-dee51632c7a7",
+    "label": "SERIES_A",
+    "amount": 15000000,
+    "currency": "EUR",
+    "date": "2026-03-04",
+    "date_kind": "announcement",
+    "investors": [
+     {
+      "id": "a46a1058-93a7-4b0f-bc1f-bc31238fb006",
+      "name": "Nordicninja VC",
+      "type": "Company",
+      "is_lead": true
+     },
+     {
+      "id": "8673db97-466e-4e7e-8417-a0ce1207bf9e",
+      "name": "Voima Ventures",
+      "type": "Organization",
+      "is_lead": true
+     },
+     {
+      "id": "8540e55a-1f3b-4969-bf08-6802f5344d24",
+      "name": "Eviny Ventures",
+      "type": "Company",
+      "is_lead": false
+     },
+     {
+      "id": "476a73ac-afa2-4713-9f73-188bc7ec0b95",
+      "name": "Lifeline Ventures",
+      "type": "Company",
+      "is_lead": false
+     },
+     {
+      "id": "be67283b-4529-4a2d-834a-96edc4b36971",
+      "name": "Luminar Ventures",
+      "type": "Company",
+      "is_lead": false
+     },
+     {
+      "id": "1c4ea99e-d351-4abd-b230-420f1a194603",
+      "name": "Momentum Partners",
+      "type": "Organization",
+      "is_lead": false
+     }
+    ],
+    "sources": [
+     {
+      "name": "tech.eu",
+      "url": "https://tech.eu/2026/03/04/photoncycle-raises-eur15m-to-scale-seasonal-energy-storage-in-europe/",
+      "rank": "PRESS",
+      "date": "2026-03-04"
+     },
+     {
+      "name": "techfundingnews.com",
+      "url": "https://techfundingnews.com/photoncycle-raises-e15m-to-store-summer-solar-for-europes-winter-energy-gap/",
+      "rank": "PRESS",
+      "date": "2026-03-04"
+     },
+     {
+      "name": "eu-startups.com",
+      "url": "https://www.eu-startups.com/2026/03/oslos-photoncycle-raises-e15-million-to-enable-households-to-store-surplus-summer-solar-power-for-winter-use/",
+      "rank": "PRESS",
+      "date": "2026-03-04"
      }
     ]
    }
@@ -1013,8 +1089,23 @@
    "companies": 2
   },
   {
+   "id": "8540e55a-1f3b-4969-bf08-6802f5344d24",
+   "name": "Eviny Ventures",
+   "companies": 2
+  },
+  {
    "id": "4e9350ec-f5cf-46f3-8fb9-4e1ed2eb15f6",
    "name": "FOV Ventures",
+   "companies": 2
+  },
+  {
+   "id": "476a73ac-afa2-4713-9f73-188bc7ec0b95",
+   "name": "Lifeline Ventures",
+   "companies": 2
+  },
+  {
+   "id": "8673db97-466e-4e7e-8417-a0ce1207bf9e",
+   "name": "Voima Ventures",
    "companies": 2
   },
   {
@@ -1036,26 +1127,11 @@
    "id": "a04ff8af-9d8d-5acb-9feb-a773292b2711",
    "name": "Andrew Konopelski",
    "companies": 1
-  },
-  {
-   "id": "606040f0-eff6-5342-80e5-8bb73af4e23d",
-   "name": "Annika Falkengren",
-   "companies": 1
-  },
-  {
-   "id": "c66ecdbc-5474-430c-af13-b4cce4b1d01b",
-   "name": "Arc Investors LLC",
-   "companies": 1
-  },
-  {
-   "id": "32e27d54-3922-407f-aa07-2747d94b210c",
-   "name": "Atomico",
-   "companies": 1
   }
  ],
  "market_coverage": {
-  "european_companies_screened": 1018,
-  "qualifying_companies": 78,
+  "european_companies_screened": 1042,
+  "qualifying_companies": 79,
   "investors_explored": 158,
   "as_of": "2026-11-14",
   "region": "nordics",
@@ -1066,7 +1142,7 @@
    "Norway",
    "Sweden"
   ],
-  "region_qualifying_companies": 16,
+  "region_qualifying_companies": 17,
   "priority_country": "Finland",
   "priority_country_qualifying_companies": 11
  }

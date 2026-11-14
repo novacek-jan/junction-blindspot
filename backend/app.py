@@ -122,9 +122,16 @@ class Demo:
         self.profiles: dict = {}    # fund id -> profile
         self.deals: dict = {}       # fund id -> {company id -> deal detail}
         self.default_id: Optional[str] = None
+        self._loaded_at = 0.0
+
+    REFRESH_S = 300
 
     def load(self) -> None:
         with self._lock:
+            if self._loaded and time.time() - self._loaded_at < self.REFRESH_S:
+                return
+            if self._load_from_db():
+                return
             if self._loaded:
                 return
             index_path = DATA / "demos.json"
@@ -144,9 +151,35 @@ class Demo:
                     self.profiles[fid] = json.loads(files["profile"].read_text())
                 if files["deals"].exists():
                     self.deals[fid] = json.loads(files["deals"].read_text())
-            default = next((d for d in self.index if d.get("default")), self.index[0] if self.index else None)
-            self.default_id = default["fund"]["id"] if default else None
-            self._loaded = True
+            self._finish()
+
+    def _finish(self) -> None:
+        default = next((d for d in self.index if d.get("default")), self.index[0] if self.index else None)
+        self.default_id = default["fund"]["id"] if default else None
+        self._loaded, self._loaded_at = True, time.time()
+
+    def _load_from_db(self) -> bool:
+        """Demos stored in kv by backend/refresh.py (hourly) are fresher than the files baked into the image."""
+        try:
+            if not db.available():
+                return False
+            index = db.kv_get("demo:index")
+            if not index:
+                return False
+            audits, profiles, deals = {}, {}, {}
+            for d in index:
+                fid = d["fund"]["id"]
+                a = db.kv_get(f"demo:audit:{fid}")
+                if a is None:
+                    return False
+                audits[fid] = json.dumps(a, ensure_ascii=False).encode()
+                profiles[fid] = db.kv_get(f"demo:profile:{fid}") or {}
+                deals[fid] = db.kv_get(f"demo:deals:{fid}") or {}
+        except Exception:
+            return False
+        self.index, self.audits, self.profiles, self.deals = index, audits, profiles, deals
+        self._finish()
+        return True
 
     def funds(self) -> list[dict]:
         self.load()

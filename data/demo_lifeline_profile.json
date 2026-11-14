@@ -8,36 +8,53 @@
   "to": "2026-11-14"
  },
  "scope": "Europe",
- "investments_since_2022": 3,
+ "investments_since_2022": 4,
  "out_of_scope_deals": 1,
  "stages": [
   {
    "label": "SERIES_A",
-   "share": 0.67
+   "share": 0.5
+  },
+  {
+   "label": "SEED",
+   "share": 0.25
   },
   {
    "label": "SERIES_B",
-   "share": 0.33
+   "share": 0.25
   }
  ],
  "countries": [
   {
    "name": "Finland",
-   "count": 3
+   "count": 2
+  },
+  {
+   "name": "Norway",
+   "count": 2
   }
  ],
  "industries": [
   {
+   "name": "Hardware and equipment",
+   "count": 2
+  },
+  {
    "name": "Internet and web services",
-   "count": 3
+   "count": 2
+  },
+  {
+   "name": "Renewable energy",
+   "count": 2
   },
   {
    "name": "Software and services",
-   "count": 3
+   "count": 2
   }
  ],
  "thesis": {
   "stages": [
+   "SEED",
    "SERIES_A",
    "SERIES_B"
   ],
@@ -50,8 +67,16 @@
   ],
   "industries": [
    {
+    "code": "HARDWARE_AND_EQUIPMENT",
+    "name": "Hardware and equipment"
+   },
+   {
     "code": "INTERNET_AND_WEB_SERVICES",
     "name": "Internet and web services"
+   },
+   {
+    "code": "RENEWABLE_ENERGY",
+    "name": "Renewable energy"
    },
    {
     "code": "SOFTWARE_AND_SERVICES",
@@ -64,107 +89,107 @@
    "id": "14114b32-b79d-4dba-8f6f-356113a4c696",
    "name": "Project A Ventures",
    "co_investments": 0,
-   "score": 38.8,
+   "score": 38.5,
    "reasons": [
     "Series A rounds: 50% of your deals, 33% of theirs",
     "Nordic focus: 100% of your deals, 71% of theirs",
-    "Software and services: 46% of your deals, 38% of theirs"
-   ]
-  },
-  {
-   "id": "9642f867-0904-4954-9dea-aada36b650b9",
-   "name": "Credo Ventures",
-   "co_investments": 0,
-   "score": 35.7,
-   "reasons": [
-    "Software and services: 46% of your deals, 47% of theirs",
-    "Series A rounds: 50% of your deals, 20% of theirs"
-   ]
-  },
-  {
-   "id": "6ba00a20-2cb4-4559-8fe2-f39484a9e5f6",
-   "name": "Creandum",
-   "co_investments": 0,
-   "score": 35.1,
-   "reasons": [
-    "Series A rounds: 50% of your deals, 27% of theirs",
-    "Software and services: 46% of your deals, 36% of theirs",
-    "Nordic focus: 100% of your deals, 44% of theirs"
-   ]
-  },
-  {
-   "id": "94e0ca6a-4e39-4181-bd84-11f264d0aa62",
-   "name": "Speedinvest",
-   "co_investments": 0,
-   "score": 32.8,
-   "reasons": [
-    "Software and services: 46% of your deals, 45% of theirs",
-    "Series A rounds: 50% of your deals, 30% of theirs"
-   ]
-  },
-  {
-   "id": "bbfc25cc-fc30-4d3c-b3f0-1e1f862fc5f8",
-   "name": "Notion Capital",
-   "co_investments": 1,
-   "score": 32.2,
-   "reasons": [
-    "Series A rounds: 50% of your deals, 38% of theirs",
-    "Software and services: 46% of your deals, 92% of theirs",
-    "1 portfolio company in common"
+    "Software and services: 33% of your deals, 38% of theirs"
    ]
   },
   {
    "id": "7de3d7d6-af8f-4e95-a949-2befc86938a0",
    "name": "Earlybird Venture Capital",
    "co_investments": 1,
-   "score": 32.0,
+   "score": 34.8,
    "reasons": [
     "Series A rounds: 50% of your deals, 30% of theirs",
-    "Software and services: 46% of your deals, 16% of theirs",
+    "Renewable energy: 25% of your deals, 25% of theirs",
     "Nordic focus: 100% of your deals, 11% of theirs"
+   ]
+  },
+  {
+   "id": "6ba00a20-2cb4-4559-8fe2-f39484a9e5f6",
+   "name": "Creandum",
+   "co_investments": 0,
+   "score": 33.8,
+   "reasons": [
+    "Series A rounds: 50% of your deals, 27% of theirs",
+    "Software and services: 33% of your deals, 36% of theirs",
+    "Nordic focus: 100% of your deals, 44% of theirs"
    ]
   },
   {
    "id": "c96fa533-91c0-5674-bcbe-0d0dc934b7fa",
    "name": "Balderton Capital",
    "co_investments": 1,
-   "score": 31.8,
+   "score": 32.4,
    "reasons": [
     "Series A rounds: 50% of your deals, 25% of theirs",
-    "Software and services: 46% of your deals, 24% of theirs",
+    "Software and services: 33% of your deals, 24% of theirs",
     "Nordic focus: 100% of your deals, 33% of theirs"
+   ]
+  },
+  {
+   "id": "9642f867-0904-4954-9dea-aada36b650b9",
+   "name": "Credo Ventures",
+   "co_investments": 0,
+   "score": 31.2,
+   "reasons": [
+    "Series A rounds: 50% of your deals, 20% of theirs",
+    "Software and services: 33% of your deals, 47% of theirs"
    ]
   },
   {
    "id": "32e27d54-3922-407f-aa07-2747d94b210c",
    "name": "Atomico",
    "co_investments": 1,
-   "score": 31.6,
+   "score": 30.8,
    "reasons": [
-    "Series B rounds: 17% of your deals, 20% of theirs",
-    "Software and services: 46% of your deals, 36% of theirs",
+    "Seed rounds: 25% of your deals, 20% of theirs",
+    "Software and services: 33% of your deals, 36% of theirs",
     "1 portfolio company in common"
    ]
   },
   {
-   "id": "8774eb35-b3d0-4d71-8135-a4fe1187a3b6",
-   "name": "HV Capital",
-   "co_investments": 0,
-   "score": 28.2,
-   "reasons": [
-    "Series A rounds: 50% of your deals, 67% of theirs",
-    "Software and services: 46% of your deals, 50% of theirs"
-   ]
-  },
-  {
-   "id": "c06adc97-e2d8-4590-a329-4462750ee4e6",
-   "name": "Cherry Ventures",
+   "id": "bbfc25cc-fc30-4d3c-b3f0-1e1f862fc5f8",
+   "name": "Notion Capital",
    "co_investments": 1,
-   "score": 27.6,
+   "score": 30.3,
    "reasons": [
-    "Software and services: 46% of your deals, 77% of theirs",
-    "Seed rounds: 17% of your deals, 30% of theirs",
+    "Series A rounds: 50% of your deals, 38% of theirs",
+    "Software and services: 33% of your deals, 92% of theirs",
     "1 portfolio company in common"
+   ]
+  },
+  {
+   "id": "1516c337-36cb-4357-ba0c-03b9c6c0d0e0",
+   "name": "LocalGlobe",
+   "co_investments": 0,
+   "score": 29.7,
+   "reasons": [
+    "Seed rounds: 25% of your deals, 50% of theirs",
+    "Renewable energy: 25% of your deals, 36% of theirs",
+    "Nordic focus: 100% of your deals, 29% of theirs"
+   ]
+  },
+  {
+   "id": "94e0ca6a-4e39-4181-bd84-11f264d0aa62",
+   "name": "Speedinvest",
+   "co_investments": 0,
+   "score": 29.7,
+   "reasons": [
+    "Series A rounds: 50% of your deals, 30% of theirs",
+    "Software and services: 33% of your deals, 45% of theirs"
+   ]
+  },
+  {
+   "id": "c934f7e3-6ee3-4983-b0e1-f7827df567f9",
+   "name": "Point Nine",
+   "co_investments": 0,
+   "score": 27.7,
+   "reasons": [
+    "Software and services: 33% of your deals, 55% of theirs",
+    "Seed rounds: 25% of your deals, 30% of theirs"
    ]
   }
  ],
@@ -210,6 +235,24 @@
    "url": "https://pulse2.com/verda-117-million-raised-to-scale-ai-cloud-infrastructure-across-europe-the-us-and-asia/",
    "rank": "PRESS",
    "date": "2026-04-24"
+  },
+  {
+   "name": "eu-startups.com",
+   "url": "https://www.eu-startups.com/2026/03/oslos-photoncycle-raises-e15-million-to-enable-households-to-store-surplus-summer-solar-power-for-winter-use/",
+   "rank": "PRESS",
+   "date": "2026-03-04"
+  },
+  {
+   "name": "tech.eu",
+   "url": "https://tech.eu/2026/03/04/photoncycle-raises-eur15m-to-scale-seasonal-energy-storage-in-europe/",
+   "rank": "PRESS",
+   "date": "2026-03-04"
+  },
+  {
+   "name": "techfundingnews.com",
+   "url": "https://techfundingnews.com/photoncycle-raises-e15m-to-store-summer-solar-for-europes-winter-energy-gap/",
+   "rank": "PRESS",
+   "date": "2026-03-04"
   }
  ]
 }
