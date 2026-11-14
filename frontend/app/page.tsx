@@ -258,7 +258,7 @@ export default function StartPage() {
             </button>
             <p className="flex items-center justify-center gap-2 text-center text-sm text-muted">
               <LockIcon />
-              Matched on our server, never sent to an AI model
+              Your CRM rows never reach an AI model.
             </p>
           </div>
         </form>

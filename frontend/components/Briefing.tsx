@@ -26,7 +26,7 @@ export function Briefing({ briefing, rows, onOpen }: { briefing: BriefingT; rows
         </h2>
         <span className="inline-flex items-center gap-2 text-[15px] text-muted">
           <SparkIcon />
-          {byClaude ? "Analysis by Claude, from public Cala data only" : "From public Cala data only"}
+          {byClaude ? "Written by Claude from public Cala data and anonymous counts." : "From public Cala data and anonymous counts."}
         </span>
       </div>
       <div className={`grid grid-cols-1 gap-5 ${insights.length === 3 ? "lg:grid-cols-3" : insights.length === 2 ? "lg:grid-cols-2" : ""}`}>
