@@ -29,7 +29,8 @@ Both calls send the optional access code as the `X-Access-Code` header. It lives
 | 422 `invalid_mapping` | Those columns don't match this file. Pick them again. |
 | 429 | Too many requests, try again in a minute. |
 | 503 | Live audits are temporarily unavailable. Try the demo instead. (+ Run the demo button) |
-| other 5xx, network error, no response in 15 s | Backend unavailable. Try the demo instead. (+ Run the demo button) |
+| other 5xx, network error | Backend unavailable. Try the demo instead. (+ Run the demo button) |
+| no response in 15 s | No response after 15 seconds. Try the demo instead. (+ Run the demo button) |
 
 In mock mode, add `?mockError=401` (or `413`, `415`, `422`, `invalid_mapping`, `429`, `503`, `500`, `network`) to the start page URL to simulate these when a file is uploaded.
 

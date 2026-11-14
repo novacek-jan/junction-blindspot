@@ -59,7 +59,11 @@ export type Audit = {
   top_blind_spots: { title: string; detail: string }[];
   never_seen_deals: NeverSeenDeal[];
   top_missed_leads: (OrgRef & { deals: number })[];
+  // Optional: not in the contract yet. Filled from the fund profile on a real audit; the demo falls back to heatmap axes.
+  thesis?: Thesis;
 };
+
+export type Thesis = { stages?: Stage[]; countries?: string[]; sectors?: string[] };
 
 export type Round = {
   label: Stage;

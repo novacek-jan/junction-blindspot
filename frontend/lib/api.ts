@@ -16,6 +16,7 @@ export type ApiErrorKind =
   | "rate_limited"
   | "live_off"
   | "unavailable"
+  | "timeout"
   | "not_found"
   | "other";
 
@@ -29,12 +30,13 @@ export const ERROR_MESSAGES: Record<ApiErrorKind, string> = {
   rate_limited: "Too many requests, try again in a minute.",
   live_off: "Live audits are temporarily unavailable. Try the demo instead.",
   unavailable: "Backend unavailable. Try the demo instead.",
+  timeout: "No response after 15 seconds. Try the demo instead.",
   not_found: "Not found.",
   other: "Something went wrong. Please try again.",
 };
 
 /** Errors after which "Run the demo" is offered. */
-export const DEMO_FALLBACK: ReadonlySet<ApiErrorKind> = new Set(["live_off", "unavailable"]);
+export const DEMO_FALLBACK: ReadonlySet<ApiErrorKind> = new Set(["live_off", "unavailable", "timeout"]);
 
 export class ApiError extends Error {
   constructor(public kind: ApiErrorKind, public status?: number) {
@@ -62,8 +64,8 @@ async function http<T>(path: string, init?: RequestInit): Promise<T> {
   try {
     res = await fetch(`${API_URL}${path}`, { ...init, signal: controller.signal });
   } catch {
-    // Network error, CORS failure or no response within REQUEST_TIMEOUT_MS.
-    throw new ApiError("unavailable");
+    // No response within REQUEST_TIMEOUT_MS, or a network/CORS failure.
+    throw new ApiError(controller.signal.aborted ? "timeout" : "unavailable");
   } finally {
     clearTimeout(timer);
   }
@@ -184,4 +186,21 @@ export async function getDeal(companyId: string, fundId: string): Promise<DealDe
     return delay(detail, 300);
   }
   return http(`/api/deals/${encodeURIComponent(companyId)}?fund_id=${encodeURIComponent(fundId)}`);
+}
+
+/** Rejects with a timeout error if `p` takes longer than REQUEST_TIMEOUT_MS (also covers mock mode and navigation). */
+export function withTimeout<T>(p: Promise<T>, ms = REQUEST_TIMEOUT_MS): Promise<T> {
+  return new Promise<T>((resolve, reject) => {
+    const t = setTimeout(() => reject(new ApiError("timeout")), ms);
+    p.then(
+      (v) => {
+        clearTimeout(t);
+        resolve(v);
+      },
+      (e) => {
+        clearTimeout(t);
+        reject(e);
+      },
+    );
+  });
 }

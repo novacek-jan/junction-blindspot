@@ -6,11 +6,9 @@ import { AppShell } from "@/components/AppShell";
 import { FundSearch } from "@/components/FundSearch";
 import { ProfileCard } from "@/components/ProfileCard";
 import { Icon } from "@/components/Icon";
-import { ApiError, DEMO_FALLBACK, ERROR_MESSAGES, getFundProfile, previewCrm, runAudit } from "@/lib/api";
-import { clearAudit, saveAudit } from "@/lib/auditStore";
-import type { CrmField, CrmMapping, CrmPreview, FundProfile, FundSearchResult, OrgRef } from "@/lib/types";
-
-type Peer = OrgRef & { co_investments?: number };
+import { ApiError, DEMO_FALLBACK, ERROR_MESSAGES, getDemoAudit, getFundProfile, previewCrm, runAudit, withTimeout } from "@/lib/api";
+import { saveAudit } from "@/lib/auditStore";
+import type { CrmField, CrmMapping, CrmPreview, FundProfile, FundSearchResult, Thesis } from "@/lib/types";
 
 const MAX_FILE_BYTES = 2 * 1024 * 1024;
 const CRM_FIELDS: { key: CrmField; label: string }[] = [
@@ -25,16 +23,17 @@ export default function StartPage() {
   const [fund, setFund] = useState<FundSearchResult | null>(null);
   const [profile, setProfile] = useState<FundProfile | null>(null);
   const [profileLoading, setProfileLoading] = useState(false);
-  const [peers, setPeers] = useState<Peer[]>([]);
-  const [removed, setRemoved] = useState<Peer[]>([]);
-  const [addingPeer, setAddingPeer] = useState(false);
   const [csv, setCsv] = useState<File | null>(null);
   const [preview, setPreview] = useState<CrmPreview | null>(null);
   const [previewing, setPreviewing] = useState(false);
   const previewSeq = useRef(0);
   const codeRejected = useRef(false); // last preview failed with 401: retry once a new code is entered
   const [dragOver, setDragOver] = useState(false);
-  const [running, setRunning] = useState<"audit" | "demo" | null>(null);
+  // Demo and audit load independently: neither blocks the other's button.
+  const [demoLoading, setDemoLoading] = useState(false);
+  const [demoError, setDemoError] = useState<string | null>(null);
+  const demoSeq = useRef(0);
+  const [auditLoading, setAuditLoading] = useState(false);
   const [error, setErrorState] = useState<{ message: string; offerDemo: boolean } | null>(null);
   // Access code for a real audit: React state only (never localStorage, sessionStorage or the URL).
   const [accessCode, setAccessCode] = useState("");
@@ -51,28 +50,16 @@ export default function StartPage() {
   async function selectFund(f: FundSearchResult) {
     setFund(f);
     setProfile(null);
-    setPeers([]);
-    setRemoved([]);
     setError(null);
     setProfileLoading(true);
     try {
       const p = await getFundProfile(f.id);
       setProfile(p);
-      setPeers(p.suggested_peers);
     } catch (e) {
       setError(e);
     } finally {
       setProfileLoading(false);
     }
-  }
-
-  function removePeer(p: Peer) {
-    setPeers((ps) => ps.filter((x) => x.id !== p.id));
-    if (p.co_investments != null) setRemoved((r) => [...r, p]);
-  }
-  function addPeer(p: Peer) {
-    setPeers((ps) => (ps.some((x) => x.id === p.id) ? ps : [...ps, p]));
-    setRemoved((r) => r.filter((x) => x.id !== p.id));
   }
 
   function acceptFile(f: File | undefined) {
@@ -113,131 +100,85 @@ export default function StartPage() {
     void loadPreview(csv, { ...preview.mapping, [field]: column || null });
   }
 
-  function startDemo() {
-    // One click: go straight to Results, which loads the demo audit behind a skeleton.
-    setRunning("demo");
-    clearAudit();
-    router.push("/results");
-  }
-
-  async function runRealAudit() {
-    setRunning("audit");
-    setError(null);
+  // Loads the demo here (15 s timeout) and only then opens Results, so a hang shows an error with Retry.
+  async function startDemo() {
+    const seq = ++demoSeq.current;
+    setDemoLoading(true);
+    setDemoError(null);
     try {
-      const audit = await runAudit({ fundId: fund!.id, peerIds: peers.map((p) => p.id), crmFile: csv!, mapping: preview?.mapping, accessCode });
+      const audit = await withTimeout(getDemoAudit());
+      if (seq !== demoSeq.current) return;
       saveAudit(audit);
       router.push("/results");
     } catch (e) {
+      if (seq !== demoSeq.current) return;
+      setDemoError(e instanceof ApiError && e.kind === "timeout" ? "Demo didn't load: no response after 15 seconds." : "Demo didn't load: backend unavailable.");
+      setDemoLoading(false);
+    }
+  }
+
+  async function runRealAudit() {
+    setAuditLoading(true);
+    setError(null);
+    try {
+      const audit = await runAudit({ fundId: fund!.id, peerIds: [], crmFile: csv!, mapping: preview?.mapping, accessCode });
+      saveAudit({ ...audit, thesis: audit.thesis ?? thesisOf(profile) });
+      router.push("/results");
+    } catch (e) {
       setError(e);
-      setRunning(null);
+      setAuditLoading(false);
       if (e instanceof ApiError && e.kind === "auth") accessRef.current?.focus();
     }
   }
 
-  const canRun = !!fund && !!csv && !!preview && !previewing && peers.length > 0 && !running;
+  const canRun = !!fund && !!csv && !!preview && !previewing && !auditLoading;
 
   return (
     <AppShell crumb="New audit">
       <div className="mx-auto flex w-full max-w-2xl flex-col gap-9 px-4 py-12 sm:px-6 sm:py-14">
-        <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-          <div className="flex flex-col gap-1.5">
-            <h1 className="text-2xl font-semibold tracking-tight">New blind spot audit</h1>
-            <p className="text-sm text-zinc-500">
-              See the deals your peers closed that never reached your pipeline.
-            </p>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-col gap-1">
+            <h1 className="text-2xl font-semibold tracking-tight">New audit</h1>
+            <p className="text-sm text-zinc-600">Find the companies in your thesis that raised money and never hit your CRM.</p>
           </div>
           <button
             type="button"
             onClick={startDemo}
-            disabled={!!running}
+            disabled={demoLoading}
             className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-lg border border-sky-200 bg-sky-100 px-4 text-sm font-semibold text-sky-700 shadow-sm transition-colors hover:border-sky-300 hover:bg-sky-200/70 disabled:opacity-60"
           >
-            {running === "demo" ? <Icon name="spinner" className="size-4 animate-spin" /> : <Icon name="sparkle" className="size-4" />}
+            {demoLoading ? <Icon name="spinner" className="size-4 animate-spin" /> : <Icon name="sparkle" className="size-4" />}
             Try the demo
           </button>
         </div>
 
+        {demoError ? (
+          <div role="alert" className="flex items-center justify-between gap-3 rounded-lg border border-red-200 bg-red-50 px-3 py-2.5 text-sm text-red-800">
+            {demoError}
+            <button
+              type="button"
+              onClick={startDemo}
+              disabled={demoLoading}
+              className="h-8 rounded-lg border border-red-300 bg-white px-3 text-xs font-semibold text-red-800 hover:bg-red-100 disabled:opacity-60"
+            >
+              Retry
+            </button>
+          </div>
+        ) : null}
+
         {/* 1. Fund */}
         <div className="flex flex-col gap-2">
-          <Label>Which fund are you?</Label>
+          <Label>Fund</Label>
           <FundSearch selected={fund} onSelect={selectFund} autoFocus />
         </div>
 
         {profileLoading ? <ProfileSkeleton /> : profile ? <ProfileCard profile={profile} /> : null}
-
-        {/* 2. Peers */}
-        {profile ? (
-          <div className="animate-fade-in flex flex-col gap-2.5">
-            <div className="flex items-center justify-between">
-              <Label>Peer funds to benchmark against</Label>
-              <span className="text-[11px] text-slate-400">Suggested from co-investments</span>
-            </div>
-            <div className="flex flex-wrap items-center gap-1.5">
-              {peers.map((p) => (
-                <span
-                  key={p.id}
-                  className="inline-flex items-center gap-1.5 rounded border border-slate-200 bg-white py-1 pl-2.5 pr-1.5 text-xs font-medium text-zinc-900 transition-colors hover:border-slate-300"
-                >
-                  {p.name}
-                  {p.co_investments != null ? (
-                    <span className="tabular text-[10px] text-zinc-400" title={`${p.co_investments} co-investments`}>
-                      ×{p.co_investments}
-                    </span>
-                  ) : null}
-                  <button
-                    type="button"
-                    aria-label={`Remove ${p.name}`}
-                    onClick={() => removePeer(p)}
-                    className="flex items-center rounded text-slate-400 transition-colors hover:text-ink"
-                  >
-                    <Icon name="close" className="size-3.5" />
-                  </button>
-                </span>
-              ))}
-              {removed.map((p) => (
-                <button
-                  key={p.id}
-                  type="button"
-                  onClick={() => addPeer(p)}
-                  className="inline-flex items-center gap-1 rounded border border-dashed border-slate-200 px-2.5 py-1 text-xs text-zinc-400 transition-colors hover:border-slate-400 hover:text-ink"
-                >
-                  <Icon name="add" className="size-3" />
-                  {p.name}
-                </button>
-              ))}
-              {addingPeer ? (
-                <div className="w-56">
-                  <FundSearch
-                    compact
-                    autoFocus
-                    placeholder="Add a peer fund…"
-                    excludeIds={[fund!.id, ...peers.map((p) => p.id)]}
-                    onSelect={(f) => {
-                      addPeer(f);
-                      setAddingPeer(false);
-                    }}
-                  />
-                </div>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => setAddingPeer(true)}
-                  className="inline-flex items-center gap-1 rounded border border-dashed border-slate-300 px-2.5 py-1 text-xs font-medium text-zinc-500 transition-all hover:border-ink hover:text-ink"
-                >
-                  <Icon name="add" className="size-3.5" />
-                  Add peer
-                </button>
-              )}
-            </div>
-          </div>
-        ) : null}
 
         {/* Access code: only part of the real-audit flow, never the demo */}
         {profile ? (
           <div className="animate-fade-in flex flex-col gap-2">
             <label htmlFor="access-code" className="flex items-center justify-between">
               <span className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Access code</span>
-              <span className="text-[11px] text-slate-400">Optional · required for real audits on the live backend</span>
             </label>
             <input
               id="access-code"
@@ -251,7 +192,6 @@ export default function StartPage() {
                 // Retry reading the file once a code is entered after a 401.
                 if (csv && codeRejected.current && !previewing && accessCode.trim()) void loadPreview(csv, null);
               }}
-              placeholder="Enter the code you were given"
               className="h-10 w-full max-w-xs rounded-lg border border-slate-200 bg-white px-3 text-sm text-ink outline-none transition-all placeholder:text-slate-400 focus:border-ink focus:shadow-[0_0_0_2px_rgba(2,132,199,0.15)]"
             />
           </div>
@@ -260,7 +200,7 @@ export default function StartPage() {
         {/* 3. CSV */}
         {profile ? (
           <div className="animate-fade-in flex flex-col gap-2">
-            <Label>Your pipeline (CRM export)</Label>
+            <Label>CRM export</Label>
             <button
               type="button"
               onClick={() => fileRef.current?.click()}
@@ -295,9 +235,9 @@ export default function StartPage() {
               ) : (
                 <span className="flex flex-col gap-0.5">
                   <span className="text-sm font-medium text-ink">
-                    Drop your CRM export or <span className="text-sky-600 underline underline-offset-2">browse files</span>
+                    Drop a .csv or .xlsx, or <span className="text-sky-600 underline underline-offset-2">browse</span>
                   </span>
-                  <span className="text-xs text-slate-400">.csv or .xlsx · max 2 MB</span>
+                  <span className="text-xs text-zinc-500">Max 2 MB</span>
                 </span>
               )}
             </button>
@@ -347,31 +287,30 @@ export default function StartPage() {
               onClick={runRealAudit}
               className="flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-ink px-6 text-sm font-medium text-white shadow-sm transition-all hover:bg-ink-hover active:scale-[0.99] disabled:cursor-not-allowed disabled:bg-zinc-300"
             >
-              {running === "audit" ? (
+              {auditLoading ? (
                 <>
                   <Icon name="spinner" className="size-4 animate-spin" /> Running audit…
                 </>
               ) : (
                 <>
-                  Run audit &amp; find blind spots <Icon name="arrowRight" className="size-4" />
+                  Run audit <Icon name="arrowRight" className="size-4" />
                 </>
               )}
             </button>
-            {!canRun && !running ? (
-              <p className="text-center text-xs text-zinc-400">
-                {!csv ? "Add your CRM export to run the audit." : !preview ? (previewing ? "" : "Upload the file again.") : "Pick at least one peer fund."}
-              </p>
-            ) : null}
           </div>
-        ) : (
-          <p className="rounded-lg border border-slate-200 bg-white px-4 py-3 text-xs text-zinc-500">
-            No fund handy? <strong className="font-semibold text-ink">Try the demo.</strong> A precomputed audit of a real fund with a
-            simulated CRM.
-          </p>
-        )}
+        ) : null}
       </div>
     </AppShell>
   );
+}
+
+function thesisOf(profile: FundProfile | null): Thesis | undefined {
+  if (!profile) return undefined;
+  return {
+    stages: [...profile.stages].sort((a, b) => b.share - a.share).slice(0, 3).map((x) => x.label),
+    countries: [...profile.countries].sort((a, b) => b.count - a.count).slice(0, 3).map((x) => x.name),
+    sectors: [...profile.industries].sort((a, b) => b.count - a.count).slice(0, 3).map((x) => x.name),
+  };
 }
 
 function PreviewLine({

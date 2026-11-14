@@ -9,15 +9,7 @@ export function ProfileCard({ profile }: { profile: FundProfile }) {
 
   return (
     <section className="animate-fade-in flex flex-col gap-4 rounded-lg border border-slate-200 bg-slate-50 p-4">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <div className="flex items-center gap-2">
-          <span className="size-1.5 rounded-full bg-green-600" />
-          <span className="text-xs font-semibold tracking-tight text-ink">Here&apos;s what we know about you, from Cala</span>
-        </div>
-        <span className="text-[11px] font-medium text-zinc-500">Inferred from real investments · no input needed</span>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4 border-t border-slate-200/70 pt-3 sm:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         <Stat label="Investments since 2022">
           <span className="tabular">{profile.investments_since_2022}</span> deals
         </Stat>
