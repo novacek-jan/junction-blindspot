@@ -38,6 +38,21 @@ Common types:
 - Amounts are numbers in the original currency plus a `currency` code. Dates are ISO `YYYY-MM-DD`.
 - Stages use Cala codes: `PRE_SEED, SEED, SERIES_A, SERIES_B, SERIES_C, ...`
 
+## GET /api/health
+`{"ok": true, "live_data": bool}`. With `?cala=1` it adds a Cala reachability diagnosis (at most one real run per
+30 s, `cached` says whether this is a reused result; every step capped at 3 s; never the key):
+```json
+{ "ok": true, "live_data": true,
+  "cala": { "key_set": true, "host": "api.cala.ai", "dns_resolves": true, "dns_ms": 156, "ipv4": 3, "ipv6": 0,
+            "tcp_connect": true, "tcp_ms": 40, "tls": true, "tls_ms": 35,
+            "reachable": true, "http_status": 200, "ms": 535, "error_type": null, "failed_step": null,
+            "cached": false, "live_check_paused": false } }
+```
+Steps: DNS → TCP connect to 443 → TLS handshake → one `entity_search` call. `failed_step` (`dns`, `tcp`, `tls`,
+`http`) is the first step that failed, `error_type` its exception class (`timeout`, `gaierror`, `HTTPError`, ...).
+`reachable` is true for any HTTP answer, also 401/402/403/429 (`http_status`). `live_check_paused`: the live check
+is in its 60 s pause after a refusal or an offline result.
+
 ## GET /api/funds/search?q=lifeline
 ```json
 [{ "id": "uuid", "name": "Lifeline Ventures", "basis_rounds": 12 }]
@@ -252,7 +267,8 @@ Semantics:
   "Butterfly Ventures"; hand-editable aliases in `backend/vc_lists.py`).
 - `live_check` (**live Cala check, every audit**): during `POST /api/audit` and `GET /api/audit/demo` the backend
   re-fetches the funding rounds of every `never_seen` company from Cala (`entity_retrieval`,
-  `PARTICIPATES_IN_FUNDING_ROUND`, bypassing the crawl cache), at most 6 in parallel, overall budget 10 s.
+  `PARTICIPATES_IN_FUNDING_ROUND`, bypassing the crawl cache), at most 6 in parallel, overall budget **3 s** (3 s
+  per HTTP request).
   - Merge: a round not in the stored data that qualifies (VC rule, since 2022, sourced, plausible), has a thesis
     stage and is newer than the row's `round` replaces that `round` (same shape, investors and sources included).
     `never_seen` is then re-sorted and `top_investors_in_blind_spots`, `patterns` and `breakdown` are recomputed.
@@ -267,7 +283,8 @@ Semantics:
     `checked_at`: ISO UTC timestamp.
   - `status`: `"ok"` every never-seen company was checked (also when there are none: `companies: 0`);
     `"partial"` only some were (timeout, HTTP 429, a failed call); `"offline"` none were (no Cala key, HTTP
-    401/402/403, everything failed or timed out). After a 401/402/403 no further calls are made. The audit never
+    401/402/403, everything failed or timed out). After a 401/402/403, or after an `"offline"` result (e.g. every
+    call timed out), no calls are made for **60 s**: those audits return at once with `"offline"`. The audit never
     fails because of Cala: stored data is used.
 - `market_coverage`: how much of Cala the crawler has explored, for an honest "market as known today" note.
   `region` is the crawl focus (`nordics`); `region_qualifying_companies` / `priority_country_qualifying_companies`
@@ -289,7 +306,8 @@ Returns a precomputed audit (same shape as POST /api/audit) for a demo fund and 
 (`simulated_crm: true`). Without `fund_id`: the default demo; `fund_id` of another demo returns that one; any
 other `fund_id` is 404. The default is **Lifeline Ventures** once it has at least 10 de-duplicated basis rounds
 since 2022, otherwise **Earlybird Venture Capital** (decided automatically at every hourly refresh). Includes the live Cala check (`live_check`): under 1 second
-while every company's check is cached (10 minutes), otherwise up to about 10 seconds.
+while every company's check is cached (10 minutes) or Cala is paused, otherwise at most about 3 s (under 4 s
+even when Cala is unreachable).
 Mock: `docs/mocks/audit_v2.json`. The simulated CRM holds the fund's real Cala investments as `invested`, about
 40% of its market as `passed`/`in_review`, and fictional out-of-market rows.
 

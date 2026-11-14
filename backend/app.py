@@ -34,6 +34,7 @@ from starlette.formparsers import MultiPartParser  # noqa: E402
 import audit  # noqa: E402
 import crm_import  # noqa: E402
 import db  # noqa: E402
+import cala_probe  # noqa: E402
 import live_check  # noqa: E402
 from cala_client import Cala  # noqa: E402
 from matching import CompanyIndex  # noqa: E402
@@ -65,7 +66,8 @@ app = FastAPI(title="Blind Spot API", version="1",
               redoc_url=None, openapi_url="/openapi.json" if os.environ.get("ENABLE_DOCS") == "1" else None)
 app.add_middleware(CORSMiddleware, allow_origins=allowed_origins(), allow_methods=["GET", "POST"],
                    allow_headers=["Content-Type", "X-Access-Code"], allow_credentials=False)
-_cala = Cala()
+# Deal news (knowledge_search): one attempt, 5 s HTTP timeout, so a stuck Cala never ties up the news workers.
+_cala = Cala(max_attempts=1, http_timeout=5)
 
 
 # ------------------------------------------------------------------ errors: clean JSON, no internals
@@ -202,8 +204,14 @@ demo = Demo()
 
 
 @app.get("/api/health")
-def health():
-    return {"ok": True, "live_data": db.available()}
+def health(cala: int = 0):
+    """?cala=1 adds a Cala reachability diagnosis (cala_probe.py: DNS, TCP, TLS, one entity_search call; at most
+    once per 30 s; never the key)."""
+    out = {"ok": True, "live_data": db.available()}
+    if cala:
+        out["cala"] = cala_probe.probe()
+        out["cala"]["live_check_paused"] = live_check.paused()
+    return out
 
 
 @app.get("/api/funds/search")
@@ -285,7 +293,8 @@ def deal(company_id: str, fund_id: Optional[str] = None):
             return hit
         raise ApiError(404, "not_found", "deal not found")
     try:
-        return audit.deal_detail(company_id, fund_id, _cala)
+        # While Cala is refusing or unreachable (live check paused), news comes from the cache only.
+        return audit.deal_detail(company_id, fund_id, _cala, news_cache_only=live_check.paused())
     except audit.NotFound:
         hit = demo.deal(company_id, fund_id)
         if hit is not None:

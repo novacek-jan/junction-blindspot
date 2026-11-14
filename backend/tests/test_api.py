@@ -795,3 +795,117 @@ def test_deal_news_capped_and_empty_on_failure():
     assert audit.recent_news(Slow(), "Slow Co", None, wait=0.1) == []
     assert time.perf_counter() - t0 < 0.5
     assert audit.recent_news(Broken(), "Broken Co", None) == []
+
+
+def test_live_check_offline_pauses_for_a_minute(client, fake_cala, monkeypatch):
+    """Cala hangs: the first audit stops at the budget (offline); the next ones skip the check for 60 s."""
+    import live_check
+    monkeypatch.setattr(live_check, "BUDGET_S", 0.2)
+    fake_cala.delay = 0.5
+    a = post_audit(client).json()
+    assert a["live_check"]["status"] == "offline" and live_check.paused()
+    n = len(fake_cala.calls)
+    t0 = time.perf_counter()
+    a = post_audit(client).json()
+    assert time.perf_counter() - t0 < 0.5 and len(fake_cala.calls) == n          # no calls while paused
+    assert a["live_check"]["status"] == "offline" and a["live_check"]["seconds"] < 0.1
+    live_check._paused_until = 0.0                                               # a minute later
+    fake_cala.delay = 0.0
+    assert post_audit(client).json()["live_check"]["status"] == "ok"
+
+
+def test_demo_fast_when_cala_hangs(client, fake_cala):
+    """Default budget (3 s): the demo answers in under 4 s even when every Cala call hangs."""
+    if not (ROOT / "data" / "demo_audit.json").exists():
+        pytest.skip("demo not built")
+    import live_check
+    assert live_check.BUDGET_S == 3.0 and live_check.HTTP_TIMEOUT_S == 3.0
+    fake_cala.delay = 4.0
+    t0 = time.perf_counter()
+    r = client.get("/api/audit/demo")
+    assert r.status_code == 200 and time.perf_counter() - t0 < 4.0
+    assert r.json()["live_check"]["status"] == "offline"
+    t0 = time.perf_counter()
+    client.get("/api/audit/demo")
+    assert time.perf_counter() - t0 < 0.5                                       # paused: no wait at all
+
+
+# ---------------------------------------------------------------- GET /api/health?cala=1
+
+@pytest.fixture
+def probe_env(monkeypatch):
+    import cala_probe
+    monkeypatch.setattr(cala_probe, "_last", (0.0, None))
+    monkeypatch.setenv("CALA_API_KEY", "secret-key-123")
+    return cala_probe
+
+
+def test_health_without_cala_param_makes_no_call(client, probe_env, monkeypatch):
+    monkeypatch.setattr(probe_env, "run", lambda: pytest.fail("probe must not run"))
+    assert "cala" not in client.get("/api/health").json()
+
+
+def test_health_cala_dns_failure(client, probe_env, monkeypatch):
+    import socket
+
+    def no_dns(*a, **k):
+        raise socket.gaierror("Name or service not known")
+    monkeypatch.setattr(probe_env.socket, "getaddrinfo", no_dns)
+    r = client.get("/api/health?cala=1")
+    c = r.json()["cala"]
+    assert c["key_set"] is True and c["dns_resolves"] is False and c["failed_step"] == "dns"
+    assert c["error_type"] == "gaierror" and c["reachable"] is False
+    assert "secret-key-123" not in r.text
+
+
+def test_health_cala_tcp_timeout(client, probe_env, monkeypatch):
+    import socket
+    monkeypatch.setattr(probe_env.socket, "getaddrinfo",
+                        lambda *a, **k: [(socket.AF_INET, socket.SOCK_STREAM, 6, "", ("16.170.186.71", 443))])
+
+    def hang(*a, **k):
+        raise socket.timeout("timed out")
+    monkeypatch.setattr(probe_env.socket, "create_connection", hang)
+    c = client.get("/api/health?cala=1").json()["cala"]
+    assert c["dns_resolves"] and c["ipv4"] == 1 and not c["tcp_connect"]
+    assert (c["failed_step"], c["error_type"]) == ("tcp", "timeout")
+
+
+def test_health_cala_http_answer_counts_as_reachable(client, probe_env, monkeypatch):
+    import io
+    import socket
+    import urllib.error
+
+    class Sock:
+        def close(self):
+            pass
+
+    class Tls:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+
+        def settimeout(self, t):
+            pass
+
+    class Ctx:
+        def wrap_socket(self, s, server_hostname=None):
+            return Tls()
+    seen = {}
+
+    def answer(req, timeout=None):
+        seen["timeout"] = timeout
+        raise urllib.error.HTTPError(req.full_url, 403, "Forbidden", {}, io.BytesIO(b""))
+    monkeypatch.setattr(probe_env.socket, "getaddrinfo",
+                        lambda *a, **k: [(socket.AF_INET, socket.SOCK_STREAM, 6, "", ("16.170.186.71", 443))])
+    monkeypatch.setattr(probe_env.socket, "create_connection", lambda *a, **k: Sock())
+    monkeypatch.setattr(probe_env.ssl, "create_default_context", lambda: Ctx())
+    monkeypatch.setattr(probe_env.urllib.request, "urlopen", answer)
+    r = client.get("/api/health?cala=1")
+    c = r.json()["cala"]
+    assert c["tcp_connect"] and c["tls"] and c["reachable"] and c["http_status"] == 403
+    assert seen["timeout"] == 3.0 and c["cached"] is False
+    assert client.get("/api/health?cala=1").json()["cala"]["cached"] is True     # at most once per 30 s
+    assert "secret-key-123" not in r.text

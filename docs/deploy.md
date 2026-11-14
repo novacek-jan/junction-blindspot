@@ -14,7 +14,7 @@ Status: **prepared, not deployed.** The image is defined in the root `Dockerfile
 | Variable | Required | Kind | Value |
 |---|---|---|---|
 | `DATABASE_URL` | Yes, for live data | **secret** | The Aiven for PostgreSQL service URI (`postgres://avnadmin:…@…aivencloud.com:PORT/defaultdb?sslmode=require`). Aiven Runtime can also inject it through a service integration (see step 6). Keep `sslmode=require`. |
-| `CALA_API_KEY` | Yes, for live news on deal pages | **secret** | Your Cala key. Without it, deal pages show only the cached/precomputed news. |
+| `CALA_API_KEY` | Yes, for the live check and live news | **secret** | Your Cala key. Without it every audit's `live_check` is `"offline"` (stored data) and deal pages show only cached/precomputed news. |
 | `ANTHROPIC_API_KEY` | No | **secret** | Enables Claude Haiku wording for the blind-spot insights. Without it a template is used. The demo JSON is precomputed either way. |
 | `AUDIT_ACCESS_CODE` | Yes, to enable `POST /api/audit` | **secret** | A long random string, e.g. `python3 -c "import secrets; print(secrets.token_urlsafe(24))"`. If unset, audits are disabled (503). |
 | `ALLOWED_ORIGINS` | Yes | variable | `https://<your-app>.vercel.app` plus any preview or custom domains, comma-separated. Add `http://localhost:3000` only if you need local frontend dev against this server. `*` is ignored. |
@@ -55,7 +55,13 @@ The Aiven PostgreSQL service must allow connections from your machine (*check* *
 ### After the first deploy
 
 - `curl https://<app-url>/api/health` should return `{"ok":true,"live_data":true}` with Postgres attached (`false` means the API is serving only the precomputed demo).
-- `curl https://<app-url>/api/audit/demo` should return in well under 1 s. Then open one deal via `/api/deals/<company_id>`.
+- `curl https://<app-url>/api/audit/demo` should return in under ~3 s on the first load (live Cala check) and well under 1 s after that. Then open one deal via `/api/deals/<company_id>`.
+- **Cala check:** `curl https://<app-url>/api/health?cala=1`. Expected: `key_set: true`, `dns_resolves`,
+  `tcp_connect`, `tls` and `reachable` all `true`, `http_status: 200`, `failed_step: null`. If not, `failed_step`
+  names the step that fails (`dns`, `tcp`, `tls`, `http`) and `error_type` how (`timeout` = packets silently
+  dropped). Aiven Runtime documents only blocked outbound ports 23, 25, 119, 135, 137-139, 179, 445, 465 and 631
+  ([ports](https://aiven.io/docs/products/runtime/ports)); 443 is not among them and no egress setting is
+  documented. While Cala is unreachable the live check is paused for 60 s at a time and audits use stored data.
 - **`TRUSTED_PROXY_HOPS` check:** open the application logs and look at the client address in the uvicorn access log lines.
   - If every request shows the same private address (10.x, 172.16–31.x, 192.168.x), there is a proxy in front: set `TRUSTED_PROXY_HOPS=1` and redeploy.
   - If you see real public client IPs, keep `0`.

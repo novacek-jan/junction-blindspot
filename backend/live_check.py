@@ -1,10 +1,11 @@
 """Live Cala check for every audit (docs/api-contract.md, audit.live_check).
 
 During POST /api/audit and GET /api/audit/demo the funding rounds of every never_seen company are re-fetched from
-Cala (entity_retrieval, PARTICIPATES_IN_FUNDING_ROUND, no crawl cache), at most 6 in parallel, overall budget 10 s.
+Cala (entity_retrieval, PARTICIPATES_IN_FUNDING_ROUND, no crawl cache), at most 6 in parallel, overall budget 3 s (3 s per HTTP request).
 A new qualifying round with a thesis stage that is newer than the row's round replaces it. Companies are never added
 or dropped; a failed call keeps the stored row. Each company's result is cached in memory for 10 minutes.
-The audit never fails because of Cala: any error ends in status "partial" or "offline".
+The audit never fails because of Cala: any error ends in status "partial" or "offline". After a refusal
+(401/402/403) or an offline result (e.g. every call timed out), no calls are made for 60 s.
 """
 from __future__ import annotations
 
@@ -17,12 +18,12 @@ from typing import Callable, Optional
 import market
 from cala_client import Cala, PaymentRequired, sources_of, val
 
-BUDGET_S = 10.0
+BUDGET_S = 3.0
 WORKERS = 6
 TTL_S = 600
-HTTP_TIMEOUT_S = 8.0
+HTTP_TIMEOUT_S = 3.0
 MIN_INTERVAL_S = 0.05                 # own throttle (the crawler's client is not shared)
-REFUSED_PAUSE_S = 60                  # after 401/402/403: no calls for a minute (stay fast while Cala refuses)
+PAUSE_S = 60                          # after 401/402/403 or an offline result: no calls for a minute
 ROUND_FIELDS = ["round_label", "transaction_value", "transaction_value_units", "announcement_date", "event_date"]
 ROUND_FIELDS_V1 = ["round_label", "transaction_value", "transaction_value_units", "announcement_date"]
 COMPANY_FIELDS = ["total_funding", "total_funding_units"]
@@ -30,7 +31,7 @@ COMPANY_FIELDS = ["total_funding", "total_funding_units"]
 _cache: dict[str, tuple[float, list[dict]]] = {}     # company id -> (checked at, its rounds as Cala lists them now)
 _lock = threading.Lock()
 _client: Optional[Cala] = None
-_refused_until = 0.0
+_paused_until = 0.0
 
 
 def client() -> Cala:
@@ -42,12 +43,23 @@ def client() -> Cala:
 
 
 def reset() -> None:
-    """Tests: forget cached results and the refusal pause."""
-    global _refused_until, _client
+    """Tests: forget cached results and the pause."""
+    global _paused_until, _client
     with _lock:
         _cache.clear()
-        _refused_until = 0.0
+        _paused_until = 0.0
         _client = None
+
+
+def paused() -> bool:
+    """True while Cala refused or was unreachable within the last PAUSE_S seconds (also used by deal news)."""
+    return time.time() < _paused_until
+
+
+def _pause() -> None:
+    global _paused_until
+    with _lock:
+        _paused_until = time.time() + PAUSE_S
 
 
 def _round_record(rnd: dict, company: dict) -> dict:
@@ -101,19 +113,17 @@ def check(company_ids: list[str], known_round_ids: dict, budget: Optional[float]
                 todo.append(cid)
     cala = client()
     refused = threading.Event()
-    if todo and (not cala.has_key or now < _refused_until):
+    if todo and (not cala.has_key or paused()):
         refused.set()
 
     def one(cid: str) -> None:
-        global _refused_until
         if refused.is_set() or time.time() - started > budget:
             return
         try:
             rounds = fetch_company(cala, cid, known_round_ids.get(cid, set()))
         except PaymentRequired:
             refused.set()
-            with _lock:
-                _refused_until = time.time() + REFUSED_PAUSE_S
+            _pause()
             return
         except Exception:
             return
@@ -130,6 +140,8 @@ def check(company_ids: list[str], known_round_ids: dict, budget: Optional[float]
     done = {cid: results[cid] for cid in company_ids if cid in results}     # snapshot: late threads may still write
     n = len(done)
     status = "ok" if n == len(company_ids) else ("offline" if n == 0 else "partial")
+    if status == "offline" and todo and cala.has_key and not paused():
+        _pause()                    # unreachable or timing out: treat like a refusal, skip checks for a minute
     oldest = min((checked_at[c] for c in done), default=time.time())
     return done, {"companies": n, "updated": 0, "updated_company_ids": [], "seconds": round(time.time() - started, 2),
                   "checked_at": datetime.fromtimestamp(oldest, timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
