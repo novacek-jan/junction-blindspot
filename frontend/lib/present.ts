@@ -75,21 +75,13 @@ const SECTOR_SHORT: Record<string, string> = {
 };
 
 /**
- * "Software, internet, hardware, energy +2". `weight` (industry name -> count) puts the biggest sectors first;
- * without it the backend's order is kept.
+ * "Software, internet, hardware +2", in the API's order (the backend sorts the thesis industries by how often
+ * they occur in the fund's own rounds); never re-sorted here.
  */
-export function sectorLabel(industries: Industry[], max = 4, weight?: Map<string, number>): string | null {
-  const ordered = weight ? [...industries].sort((a, b) => (weight.get(b.name) ?? 0) - (weight.get(a.name) ?? 0)) : industries;
-  const names = [...new Set(ordered.map((i) => SECTOR_SHORT[i.code] ?? i.name.split(/\s+and\s+/i)[0].toLowerCase()))];
+export function sectorLabel(industries: Industry[], max = 3): string | null {
+  const names = [...new Set(industries.map((i) => SECTOR_SHORT[i.code] ?? i.name.split(/\s+and\s+/i)[0].toLowerCase()))];
   const label = withMore(names, max);
   return label ? label[0].toUpperCase() + label.slice(1) : null;
-}
-
-/** Industry name -> how often it appears in `lists` (e.g. the never-seen companies' industries). */
-export function industryWeights(lists: (string[] | undefined)[]): Map<string, number> {
-  const m = new Map<string, number>();
-  for (const l of lists) for (const name of l ?? []) m.set(name, (m.get(name) ?? 0) + 1);
-  return m;
 }
 
 function withMore(items: string[], max: number): string | null {

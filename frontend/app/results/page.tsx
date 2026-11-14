@@ -9,13 +9,16 @@ import { DealPanel } from "@/components/DealPanel";
 import { DealsTable } from "@/components/DealsTable";
 import { DotField } from "@/components/DotField";
 import { ApiError, ERROR_MESSAGES, getDemoAudit, getDemos, withTimeout } from "@/lib/api";
-import { loadAudit, saveAudit } from "@/lib/auditStore";
-import { industryWeights, longDate, regionLabel, sectorLabel, stageRange } from "@/lib/present";
+import { dropIfDifferent, loadUploadedAudit, takeDemo } from "@/lib/auditStore";
+import { longDate, regionLabel, sectorLabel, stageRange } from "@/lib/present";
 import type { Audit, BlindSpot } from "@/lib/types";
 
 /**
- * /results shows the audit handed over from "/" (session storage) or, on a direct visit, the default demo.
- * ?demo=earlybird picks another precomputed demo by fund name (there is no visible switch).
+ * /results shows, in this order:
+ * - ?demo=earlybird: that precomputed demo, picked by fund name and always fetched fresh (no visible switch);
+ * - the audit of a real upload made in this tab (session storage, flagged `fromUpload`);
+ * - the demo "/" just fetched (in-memory hand-off, consumed once), else the default demo fetched fresh.
+ * A fetched demo is never stored, and it drops a stored upload whose audit_id differs.
  */
 async function loadForUrl(): Promise<Audit> {
   const wanted = new URLSearchParams(window.location.search).get("demo");
@@ -23,9 +26,17 @@ async function loadForUrl(): Promise<Audit> {
     const key = slug(wanted);
     const demos = key ? await withTimeout(getDemos()).catch(() => []) : [];
     const match = demos.find((d) => slug(d.fund.name).startsWith(key)) ?? demos.find((d) => slug(d.fund.name).includes(key));
-    return withTimeout(getDemoAudit(match?.fund.id));
+    return fresh(withTimeout(getDemoAudit(match?.fund.id)));
   }
-  return loadAudit() ?? withTimeout(getDemoAudit());
+  const handedDemo = takeDemo();
+  if (handedDemo) return handedDemo;
+  return loadUploadedAudit() ?? fresh(withTimeout(getDemoAudit()));
+}
+
+async function fresh(p: Promise<Audit>): Promise<Audit> {
+  const audit = await p;
+  dropIfDifferent(audit.audit_id);
+  return audit;
 }
 
 const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
@@ -41,9 +52,7 @@ export default function ResultsPage() {
     let cancelled = false;
     loadForUrl()
       .then((a) => {
-        if (cancelled) return;
-        saveAudit(a);
-        setAudit(a);
+        if (!cancelled) setAudit(a);
       })
       .catch((e) => !cancelled && setError(loadError(e)));
     return () => {
@@ -90,7 +99,7 @@ export default function ResultsPage() {
   const t = audit.thesis;
   const stages = stageRange(t.stages);
   const region = regionLabel(t.countries);
-  const sectors = sectorLabel(t.industries, 4, industryWeights(audit.never_seen.map((r) => r.industries)));
+  const sectors = sectorLabel(t.industries, 3);
   const insights = audit.briefing?.insights ?? [];
 
   return (

@@ -7,7 +7,7 @@ import { FundSearch } from "@/components/FundSearch";
 import { Chip } from "@/components/Chip";
 import { Icon } from "@/components/Icon";
 import { ApiError, DEMO_FALLBACK, ERROR_MESSAGES, getDemoAudit, getFundProfile, previewCrm, runAudit, withTimeout } from "@/lib/api";
-import { saveAudit } from "@/lib/auditStore";
+import { handOffDemo, saveUploadedAudit } from "@/lib/auditStore";
 import { regionLabel, sectorLabel, stageRange } from "@/lib/present";
 import type { CrmField, CrmMapping, CrmPreview, FundProfile, FundSearchResult } from "@/lib/types";
 
@@ -108,7 +108,7 @@ export default function StartPage() {
     try {
       const audit = await withTimeout(getDemoAudit());
       if (seq !== demoSeq.current) return;
-      saveAudit(audit);
+      handOffDemo(audit);
       router.push("/results");
     } catch (e) {
       if (seq !== demoSeq.current) return;
@@ -122,7 +122,7 @@ export default function StartPage() {
     setError(null);
     try {
       const audit = await runAudit({ fundId: fund!.id, crmFile: csv!, mapping: preview?.mapping, accessCode });
-      saveAudit(audit);
+      saveUploadedAudit(audit);
       router.push("/results");
     } catch (e) {
       setError(e);
@@ -332,8 +332,7 @@ function ThesisSummary({ profile }: { profile: FundProfile }) {
   const t = profile.thesis;
   const stages = stageRange(t?.stages ?? profile.stages.map((s) => s.label));
   const region = regionLabel(t?.countries ?? profile.countries.map((c) => c.name));
-  const weight = new Map(profile.industries.map((i) => [i.name, i.count]));
-  const sectors = sectorLabel(t?.industries ?? profile.industries.map((i) => ({ code: "", name: i.name })), 3, weight);
+  const sectors = sectorLabel(t?.industries ?? profile.industries.map((i) => ({ code: "", name: i.name })), 3);
   return (
     <div className="animate-fade-in flex flex-col gap-2.5 rounded-[14px] bg-ice px-[18px] py-4">
       <span className="text-sm text-muted">
