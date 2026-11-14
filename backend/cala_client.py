@@ -24,7 +24,8 @@ MAX_ATTEMPTS = 8
 
 
 class PaymentRequired(Exception):
-    """Cala returned HTTP 402 (insufficient balance). Retrying cannot help: callers must stop."""
+    """Cala refused service: HTTP 402 (insufficient balance), 403 (forbidden / blocked) or 401 (bad key).
+    Retrying cannot help: callers must stop (the crawler stops cleanly; --resume continues later)."""
 
 
 class Cala:
@@ -79,9 +80,11 @@ class Cala:
                 with urllib.request.urlopen(req, timeout=120) as resp:
                     raw = resp.read().decode()
             except urllib.error.HTTPError as e:
-                if e.code == 402:
-                    self._err(f"{tool} {what}: HTTP 402 Payment Required")
-                    raise PaymentRequired("Cala returned 402 Payment Required (insufficient balance)")
+                if e.code in (401, 402, 403):
+                    reason = {401: "Unauthorized (API key)", 402: "Payment Required (insufficient balance)",
+                              403: "Forbidden (access blocked or plan limit)"}[e.code]
+                    self._err(f"{tool} {what}: HTTP {e.code} {reason}")
+                    raise PaymentRequired(f"Cala returned {e.code} {reason}")
                 if e.code in (429, 500, 502, 503, 504):
                     self._backoff(attempt)
                     continue

@@ -51,6 +51,9 @@ BUMP_PRIORITY_COUNTRY, BUMP_REGION = 3.0, 2.0      # investor bump per qualifyin
 REPRIORITISE_OLD_QUEUE = -50.0                      # pending items from the Europe-wide crawl go last
 STAGE_WORDS = {"PRE_SEED": "pre-seed startup", "SEED": "seed round", "SERIES_A": "Series A"}
 REGION_YEARS = ["2022", "2023", "2024", "2025", "2026"]
+SECTOR_WORDS = ["fintech", "healthtech", "climate tech", "SaaS", "deep tech", "AI", "gaming", "food tech",
+                "robotics", "biotech"]
+SECTOR_YEARS = ["2024", "2025"]
 WORKERS = 4
 
 QUERY_COUNTRIES = ["Germany", "France", "United Kingdom", "Sweden", "Finland", "Denmark", "Norway", "Netherlands",
@@ -68,6 +71,12 @@ def region_queries() -> list[tuple[str, str]]:
     """(query, country): every region country x (pre-seed, seed, Series A) x 2022..2026, priority country first."""
     countries = sorted(market.REGION_COUNTRIES, key=lambda c: (c != market.PRIORITY_COUNTRY, c))
     return [(f"{STAGE_WORDS[st]} {c} raised {y}", c) for c in countries for st in STAGE_WORDS for y in REGION_YEARS]
+
+
+def sector_queries() -> list[tuple[str, str]]:
+    """(query, country): region country x sector x year, e.g. 'fintech startup Finland raised funding 2025'."""
+    countries = sorted(market.REGION_COUNTRIES, key=lambda c: (c != market.PRIORITY_COUNTRY, c))
+    return [(f"{sec} startup {c} raised funding {y}", c) for c in countries for sec in SECTOR_WORDS for y in SECTOR_YEARS]
 
 
 def queries(n: int) -> list[str]:
@@ -90,6 +99,24 @@ class Snowball:
         self.stats = Counter()
         self.entity_fund = {eid: spec["id"] for spec in FUNDS.values() for eid in spec["entities"]}
         self.vc = VCRule(self.entity_fund)
+        self.region_active = self._region_active_investors()
+
+    def _region_active_investors(self) -> set:
+        """Investors with at least one qualifying company in MARKET_REGION (round participants and known
+        investors), plus the region's seed and crawled funds. Only these are explored, so the budget is not
+        spent screening the (mostly non-European) portfolios of large international VCs."""
+        reg = sorted(market.REGION_COUNTRIES)
+        ph = ",".join("?" * len(reg))
+        ids = {r["entity_id"] for r in db._rows(
+            f"SELECT DISTINCT p.entity_id FROM round_participants p JOIN rounds r ON r.id = p.round_id "
+            f"JOIN companies c ON c.id = r.company_id WHERE c.qualifies = 1 AND c.country IN ({ph}) "
+            f"AND p.role != 'ISSUER'", reg)}
+        ids |= {r["investor_id"] for r in db._rows(
+            f"SELECT DISTINCT ci.investor_id FROM company_investors ci JOIN companies c ON c.id = ci.company_id "
+            f"WHERE c.qualifies = 1 AND c.country IN ({ph})", reg)}
+        ids |= {e for _, eids in NORDIC_SEED_FUNDS.values() for e in eids}
+        ids |= {e for name in NORDIC_CRAWLED_FUNDS for e in FUNDS[name]["entities"]}
+        return ids
 
     # ---------------------------------------------------------------- one-time backfill (no Cala calls)
 
@@ -170,6 +197,22 @@ class Snowball:
         log(f"[seed:{market.MARKET_REGION}] {len(NORDIC_CRAWLED_FUNDS)} crawled funds + {len(NORDIC_SEED_FUNDS)} seed "
             f"funds, {len(region_queries())} queries; {added} new queue items; older pending items deprioritised")
 
+    def seed_region_more(self) -> None:
+        """When the VC network of the region is nearly exhausted: unexplored region-active VCs and
+        sector x country discovery queries (entity IDs only)."""
+        status = {r["entity_id"]: r["status"] for r in db._rows("SELECT entity_id, status FROM crawl_queue")}
+        invs = [i for i in sorted(self.region_active) if status.get(i) != "done" and self.vc.is_vc(
+            {"entity_id": i, "name": db.investor_name(i), "role": "INVESTOR", "entity_type": self._entity_type(i)})]
+        items = [(i, "investor", P_FUND_REGION, "region_active") for i in invs]
+        items += [("q:" + q, "query", (P_QUERY_PRIORITY_COUNTRY if c == market.PRIORITY_COUNTRY else P_QUERY_REGION)
+                   - n * 0.001, "knowledge_search") for n, (q, c) in enumerate(sector_queries())]
+        for i in invs:
+            if status.get(i) and status[i] != "done":
+                db.queue_set(i, "pending")
+        added = db.queue_add(items)
+        log(f"[seed:{market.MARKET_REGION}-more] {len(invs)} unexplored region-active VCs, "
+            f"{len(sector_queries())} sector queries; {added} new queue items")
+
     # ---------------------------------------------------------------- task handlers
 
     def _queue_investors(self, company_id: str, investors: list[dict], source: str, country: str = None) -> None:
@@ -177,6 +220,10 @@ class Snowball:
         ids = sorted({i["id"] for i in investors if i.get("id") and self.vc.is_vc(
             {"entity_id": i["id"], "name": i.get("name"), "entity_type": i.get("entity_type"),
              "role": i.get("role") or "INVESTOR"})})
+        if country not in market.REGION_COUNTRIES:
+            return                              # only companies in the region make their investors worth exploring
+        with self.lock:
+            self.region_active |= set(ids)
         bump = (BUMP_PRIORITY_COUNTRY if country == market.PRIORITY_COUNTRY else
                 BUMP_REGION if country in market.REGION_COUNTRIES else 1.0)
         with self.lock:
@@ -189,6 +236,8 @@ class Snowball:
             return "already screened"
         c = self.cala.retrieve(cid, COMPANY_FIELDS, out=COMPANY_OUT, inc=COMPANY_IN)
         if not c.get("_ok"):
+            if self.cala.errors and "HTTP 5" in self.cala.errors[-1]:
+                raise RuntimeError(self.cala.errors[-1])   # a server error is retried on --resume, not "done"
             return "not retrievable"
         rels = c["_rels"]
         hqs = rels.get("outgoing:HAS_HEADQUARTERS_IN", [])
@@ -282,6 +331,8 @@ class Snowball:
         if name is not None and not self.vc.is_vc({"entity_id": iid, "name": name, "role": "INVESTOR",
                                                    "entity_type": self._entity_type(iid)}):
             return "skipped: not a VC (no call)"
+        if iid not in self.region_active:
+            return f"skipped: no {market.MARKET_REGION} deals (no call)"
         e = self.cala.retrieve(iid, ["name"], out=["INVESTED_IN"])
         if not e.get("_ok"):
             return "not retrievable"
@@ -346,13 +397,19 @@ class Snowball:
         return f"{len(investors)} investors"
 
     def run_query(self, text: str) -> str:
-        res = self.cala.knowledge_search(text) or {}
+        res = self.cala.knowledge_search(text)
+        if res is None:
+            raise RuntimeError("knowledge_search failed (no response)")   # task -> error, not a silent "done"
         ents = res.get("entities") or []
         companies = [e["id"] for e in ents if e.get("entity_type") == "Company" and e.get("id")]
         orgs = [e["id"] for e in ents if e.get("entity_type") == "Organization" and e.get("id")]
         with self.lock:
             self.stats["queries"] += 1
             self.stats["query_companies"] += len(companies)
+            # VC organisations named in a region query count as active in the region
+            self.region_active |= {o for o in orgs if self.vc.is_vc(
+                {"entity_id": o, "name": next((e.get("name") for e in ents if e.get("id") == o), None),
+                 "entity_type": "Organization", "role": "INVESTOR"})}
             added = db.queue_add([(c, "company", P_QUERY_COMPANY, "knowledge_search") for c in companies])
             added += db.queue_add([(o, "investor", P_QUERY_ORG, "knowledge_search") for o in orgs])
         return f"{len(companies)} companies, {len(orgs)} orgs, {added} new"
@@ -360,7 +417,10 @@ class Snowball:
     def process(self, task: dict) -> tuple[str, str]:
         kind, eid = task["kind"], task["entity_id"]
         if kind == "company":
-            return "done", self.screen_company(eid, task["discovered_from"] or "queue")
+            src = task["discovered_from"] or ""
+            if src.startswith("investor:") and src.split(":", 1)[1] not in self.region_active:
+                return "done", f"skipped: surfaced by an investor without {market.MARKET_REGION} deals (no call)"
+            return "done", self.screen_company(eid, src or "queue")
         if kind == "investor":
             return "done", self.explore_investor(eid, task["priority"])
         if kind == "expand":
@@ -453,6 +513,8 @@ def main() -> None:
     ap.add_argument("--max-calls", type=int, default=3000, help="stop after this many Cala calls (incl. retries)")
     ap.add_argument("--resume", action="store_true", help="continue the existing queue (skip backfill and seeding)")
     ap.add_argument("--queries", type=int, default=40, help="knowledge_search seed queries (first run)")
+    ap.add_argument("--seed-region-more", action="store_true",
+                    help="queue unexplored region-active VCs and sector x country discovery queries")
     ap.add_argument("--backfill-only", action="store_true",
                     help="recompute dated sources, prefilter and qualifies (VC rule) from the DB; no Cala calls")
     ap.add_argument("--seed-region", action="store_true",
@@ -464,6 +526,8 @@ def main() -> None:
         s.seed(args.queries)
     if args.seed_region:
         s.seed_region()
+    if args.seed_region_more:
+        s.seed_region_more()
     if args.backfill_only:
         s.backfill()
         sys.exit(0)
