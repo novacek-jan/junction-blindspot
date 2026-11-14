@@ -8,30 +8,30 @@
   "to": "2026-11-14"
  },
  "scope": "Europe",
- "investments_since_2022": 11,
- "out_of_scope_deals": 29,
+ "investments_since_2022": 12,
+ "out_of_scope_deals": 28,
  "stages": [
   {
    "label": "SEED",
-   "share": 0.45
-  },
-  {
-   "label": "SERIES_A",
-   "share": 0.27
+   "share": 0.42
   },
   {
    "label": "PRE_SEED",
-   "share": 0.18
+   "share": 0.25
+  },
+  {
+   "label": "SERIES_A",
+   "share": 0.25
   },
   {
    "label": "SERIES_B",
-   "share": 0.09
+   "share": 0.08
   }
  ],
  "countries": [
   {
    "name": "Finland",
-   "count": 9
+   "count": 10
   },
   {
    "name": "Norway",
@@ -41,7 +41,7 @@
  "industries": [
   {
    "name": "Software and services",
-   "count": 6
+   "count": 7
   },
   {
    "name": "Renewable energy",
@@ -109,10 +109,10 @@
    "id": "1516c337-36cb-4357-ba0c-03b9c6c0d0e0",
    "name": "LocalGlobe",
    "co_investments": 1,
-   "score": 41.7,
+   "score": 41.0,
    "reasons": [
-    "Seed rounds: 45% of your deals, 50% of theirs",
-    "Renewable energy: 26% of your deals, 36% of theirs",
+    "Seed rounds: 44% of your deals, 50% of theirs",
+    "Renewable energy: 25% of your deals, 36% of theirs",
     "Nordic focus: 96% of your deals, 29% of theirs"
    ]
   },
@@ -120,10 +120,10 @@
    "id": "aa87dde8-7dc3-4fc0-957f-143da6ddc0b7",
    "name": "Seedcamp",
    "co_investments": 0,
-   "score": 39.4,
+   "score": 39.2,
    "reasons": [
-    "Seed rounds: 45% of your deals, 47% of theirs",
-    "Software and services: 27% of your deals, 55% of theirs",
+    "Seed rounds: 44% of your deals, 47% of theirs",
+    "Software and services: 28% of your deals, 55% of theirs",
     "North American focus: 4% of your deals, 21% of theirs"
    ]
   },
@@ -131,10 +131,10 @@
    "id": "c96fa533-91c0-5674-bcbe-0d0dc934b7fa",
    "name": "Balderton Capital",
    "co_investments": 1,
-   "score": 38.3,
+   "score": 38.5,
    "reasons": [
-    "Series A rounds: 25% of your deals, 25% of theirs",
-    "Software and services: 27% of your deals, 24% of theirs",
+    "Series A rounds: 26% of your deals, 25% of theirs",
+    "Software and services: 28% of your deals, 24% of theirs",
     "Nordic focus: 96% of your deals, 33% of theirs"
    ]
   },
@@ -142,10 +142,10 @@
    "id": "7de3d7d6-af8f-4e95-a949-2befc86938a0",
    "name": "Earlybird Venture Capital",
    "co_investments": 1,
-   "score": 37.8,
+   "score": 37.9,
    "reasons": [
-    "Series A rounds: 25% of your deals, 30% of theirs",
-    "Renewable energy: 26% of your deals, 25% of theirs",
+    "Series A rounds: 26% of your deals, 30% of theirs",
+    "Renewable energy: 25% of your deals, 25% of theirs",
     "Nordic focus: 96% of your deals, 11% of theirs"
    ]
   },
@@ -153,21 +153,21 @@
    "id": "14114b32-b79d-4dba-8f6f-356113a4c696",
    "name": "Project A Ventures",
    "co_investments": 0,
-   "score": 37.0,
+   "score": 37.5,
    "reasons": [
-    "Seed rounds: 45% of your deals, 33% of theirs",
+    "Seed rounds: 44% of your deals, 33% of theirs",
     "Nordic focus: 96% of your deals, 71% of theirs",
-    "Software and services: 27% of your deals, 38% of theirs"
+    "Software and services: 28% of your deals, 38% of theirs"
    ]
   },
   {
    "id": "32e27d54-3922-407f-aa07-2747d94b210c",
    "name": "Atomico",
    "co_investments": 2,
-   "score": 35.4,
+   "score": 35.5,
    "reasons": [
-    "Software and services: 27% of your deals, 36% of theirs",
-    "Seed rounds: 45% of your deals, 20% of theirs",
+    "Software and services: 28% of your deals, 36% of theirs",
+    "Seed rounds: 44% of your deals, 20% of theirs",
     "2 portfolio companies in common"
    ]
   },
@@ -175,43 +175,43 @@
    "id": "6ba00a20-2cb4-4559-8fe2-f39484a9e5f6",
    "name": "Creandum",
    "co_investments": 0,
-   "score": 34.0,
+   "score": 34.6,
    "reasons": [
-    "Series A rounds: 25% of your deals, 27% of theirs",
-    "Software and services: 27% of your deals, 36% of theirs",
+    "Series A rounds: 26% of your deals, 27% of theirs",
+    "Software and services: 28% of your deals, 36% of theirs",
     "Nordic focus: 96% of your deals, 44% of theirs"
-   ]
-  },
-  {
-   "id": "955ecf27-7599-4bd4-a2ff-f66265cc6108",
-   "name": "La Famiglia",
-   "co_investments": 0,
-   "score": 33.7,
-   "reasons": [
-    "Seed rounds: 45% of your deals, 50% of theirs",
-    "Software and services: 27% of your deals, 63% of theirs",
-    "Nordic focus: 96% of your deals, 14% of theirs"
    ]
   },
   {
    "id": "c06adc97-e2d8-4590-a329-4462750ee4e6",
    "name": "Cherry Ventures",
    "co_investments": 2,
-   "score": 33.6,
+   "score": 34.2,
    "reasons": [
-    "Seed rounds: 45% of your deals, 30% of theirs",
-    "Software and services: 27% of your deals, 77% of theirs",
+    "Seed rounds: 44% of your deals, 30% of theirs",
+    "Software and services: 28% of your deals, 77% of theirs",
     "2 portfolio companies in common"
+   ]
+  },
+  {
+   "id": "955ecf27-7599-4bd4-a2ff-f66265cc6108",
+   "name": "La Famiglia",
+   "co_investments": 0,
+   "score": 33.9,
+   "reasons": [
+    "Seed rounds: 44% of your deals, 50% of theirs",
+    "Software and services: 28% of your deals, 63% of theirs",
+    "Nordic focus: 96% of your deals, 14% of theirs"
    ]
   },
   {
    "id": "94e0ca6a-4e39-4181-bd84-11f264d0aa62",
    "name": "Speedinvest",
    "co_investments": 0,
-   "score": 33.4,
+   "score": 33.8,
    "reasons": [
-    "Series A rounds: 25% of your deals, 30% of theirs",
-    "Software and services: 27% of your deals, 45% of theirs",
+    "Series A rounds: 26% of your deals, 30% of theirs",
+    "Software and services: 28% of your deals, 45% of theirs",
     "North American focus: 4% of your deals, 5% of theirs"
    ]
   }
