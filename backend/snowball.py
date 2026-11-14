@@ -222,7 +222,8 @@ class Snowball:
         new = [p for p in port if p not in screened]
         with self.lock:
             self.stats["investors_explored"] += 1
-            added = db.queue_add([(p, "company", priority, f"investor:{iid}") for p in new])
+            # +0.5: an investor's portfolio is screened before other investors of equal priority are explored
+            added = db.queue_add([(p, "company", priority + 0.5, f"investor:{iid}") for p in new])
         return f"{len(port)} portfolio, {added} queued"
 
     def expand_seed(self, cid: str) -> str:
