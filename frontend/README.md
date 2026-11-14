@@ -16,6 +16,7 @@ Set `NEXT_PUBLIC_USE_MOCKS=false` to call the backend at `NEXT_PUBLIC_API_URL`. 
 - Live check: under the thesis chips, a status line from `audit.live_check` (ok: "Rounds re-checked live with Cala · N companies · S s", partial: "Partly re-checked with Cala", offline: "Using stored Cala data", plus "· N new rounds found" when `updated > 0`); rows whose round the live check updated get a "New" chip. Hidden when `live_check` is missing.
 - Loading: `components/ResultsSkeleton` (hero, dot card, briefing cards, table) on /results while an audit or demo loads, and on / in place of the form while a real audit runs (form state kept; errors bring the form back).
 - Side panel: "Latest news from Cala" under the rounds timeline, up to 5 items from `recent_news` (skeleton while loading, hidden when empty).
+- Activity (cacheComponents): Next hides pages instead of unmounting them, so `/` and `/results` remount their content under a new key whenever they are hidden. Every visit to `/` (logo, "New audit" pill or hero button, browser back) starts with an empty form; only the access code is kept for the tab. `/results` re-reads the tab's latest audit on every visit.
 - `/` is always the New audit page (never redirects, even with an audit stored in the tab); there are no redirects or rewrites in `next.config.ts` and no `vercel.json`.
 - Backup URL (unlinked): `/results?demo=lifeline` or `?demo=earlybird` fetches that precomputed demo fresh from `GET /api/audit/demo` (never stored).
 - `lib/api.ts` is the only API client; `lib/types.ts` mirrors the contract.

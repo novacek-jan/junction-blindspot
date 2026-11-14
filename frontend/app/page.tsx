@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AppShell } from "@/components/AppShell";
 import { FundSearch } from "@/components/FundSearch";
@@ -20,8 +20,30 @@ const CRM_FIELDS: { key: CrmField; label: string }[] = [
   { key: "date", label: "Date" },
 ];
 
+/**
+ * "/" (New audit). With cacheComponents, Next hides pages with React <Activity> instead of unmounting them, so
+ * all state would survive a visit to /results (a finished audit left the page stuck on its loading state).
+ * Every time "/" is hidden the form is remounted under a new key, so each visit (logo, "New audit" pill, browser
+ * back) starts with an empty form. Only the access code lives here and is kept for the tab.
+ */
 export default function StartPage() {
+  // Access code for a real audit: React state only (never localStorage, sessionStorage or the URL).
+  const [accessCode, setAccessCode] = useState("");
+  const [visit, setVisit] = useState(0);
+  useLayoutEffect(() => () => setVisit((v) => v + 1), []); // runs when the page is hidden (or unmounted)
+  return <StartForm key={visit} accessCode={accessCode} setAccessCode={setAccessCode} />;
+}
+
+function StartForm({ accessCode, setAccessCode }: { accessCode: string; setAccessCode: (code: string) => void }) {
   const router = useRouter();
+  // False once this form instance is hidden/replaced: a late response must not navigate or touch the new form.
+  const alive = useRef(true);
+  useLayoutEffect(() => {
+    alive.current = true;
+    return () => {
+      alive.current = false;
+    };
+  }, []);
   const [fund, setFund] = useState<FundSearchResult | null>(null);
   const [profile, setProfile] = useState<FundProfile | null>(null);
   const [profileLoading, setProfileLoading] = useState(false);
@@ -33,8 +55,6 @@ export default function StartPage() {
   const [dragOver, setDragOver] = useState(false);
   const [auditLoading, setAuditLoading] = useState(false);
   const [error, setErrorState] = useState<{ message: string } | null>(null);
-  // Access code for a real audit: React state only (never localStorage, sessionStorage or the URL).
-  const [accessCode, setAccessCode] = useState("");
   const fileRef = useRef<HTMLInputElement>(null);
   const accessRef = useRef<HTMLInputElement>(null);
 
@@ -104,8 +124,9 @@ export default function StartPage() {
     try {
       const audit = await runAudit({ fundId: fund!.id, crmFile: csv!, mapping: preview?.mapping, accessCode });
       saveUploadedAudit(audit);
-      router.push("/results");
+      if (alive.current) router.push("/results");
     } catch (e) {
+      if (!alive.current) return;
       setError(e);
       setAuditLoading(false);
       if (e instanceof ApiError && e.kind === "auth") requestAnimationFrame(() => accessRef.current?.focus()); // the form remounts after the skeleton

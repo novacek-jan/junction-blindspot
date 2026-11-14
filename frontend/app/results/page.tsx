@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import Link from "next/link";
 import { AppShell } from "@/components/AppShell";
 import { Briefing } from "@/components/Briefing";
@@ -32,7 +32,17 @@ async function loadForUrl(): Promise<Audit | null> {
 
 const slug = (s: string) => s.toLowerCase().replace(/[^a-z0-9]/g, "");
 
+/**
+ * Next hides pages with React <Activity> (cacheComponents), so the view is remounted under a new key whenever
+ * /results is hidden: each visit reads the tab's latest audit again (skeleton first, never the previous audit).
+ */
 export default function ResultsPage() {
+  const [visit, setVisit] = useState(0);
+  useLayoutEffect(() => () => setVisit((v) => v + 1), []);
+  return <ResultsView key={visit} />;
+}
+
+function ResultsView() {
   const [audit, setAudit] = useState<Audit | null>(null);
   const [empty, setEmpty] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -109,9 +119,20 @@ export default function ResultsPage() {
       <div className="mx-auto flex w-full max-w-[1240px] flex-col gap-12 px-5 pb-[72px] pt-4 sm:px-10 sm:pt-6 2xl:max-w-[1480px] 2xl:gap-14">
         <section className="flex flex-wrap items-center gap-10 sm:gap-12">
           <div className="flex min-w-0 flex-[1_1_520px] flex-col gap-6">
-            <span className="text-[15px] font-semibold text-muted 2xl:text-base">
-              {audit.fund.name} · audit of {longDate(audit.period?.to ?? audit.market_coverage.as_of)}
-            </span>
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <span className="text-[15px] font-semibold text-muted 2xl:text-base">
+                {audit.fund.name} · audit of {longDate(audit.period?.to ?? audit.market_coverage.as_of)}
+              </span>
+              <Link
+                href="/"
+                className="inline-flex h-10 items-center gap-2 rounded-full border border-line bg-white px-4 text-[15px] font-semibold text-ink no-underline transition-colors hover:bg-chip"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+                New audit
+              </Link>
+            </div>
             <h1 className="m-0 font-display text-[38px] font-bold leading-[1.04] tracking-[-0.04em] sm:text-[58px] 2xl:text-[66px]">
               <span className="marker">
                 {n.toLocaleString("en-US")} {n === 1 ? "company" : "companies"}
