@@ -1,5 +1,5 @@
 // Display helpers shared by the start page, results and side panel (design/claude).
-import type { Industry, Source, Stage } from "./types";
+import type { Audit, Industry, Source, Stage } from "./types";
 import { formatDate, hostOf, stageLabel } from "./format";
 
 const STAGE_ORDER = ["PRE_SEED", "SEED", "SERIES_A", "SERIES_B", "SERIES_C", "SERIES_D", "SERIES_E", "SERIES_F", "GROWTH"];
@@ -110,4 +110,14 @@ export function longDate(iso: string | null | undefined): string | null {
 
 export function monogram(name: string): string {
   return (name.match(/[A-Za-z0-9]/)?.[0] ?? "?").toUpperCase();
+}
+
+/** Company ids whose round the live check updated (live_check.updated_company_ids, or a per-row flag). */
+export function liveUpdatedIds(audit: Audit): Set<string> {
+  const ids = new Set(audit.live_check?.updated_company_ids ?? []);
+  for (const r of audit.never_seen) {
+    const flags = r as unknown as { live_updated?: boolean; round?: { live_updated?: boolean; updated?: boolean } };
+    if (flags.live_updated || flags.round?.live_updated || flags.round?.updated) ids.add(r.company_id);
+  }
+  return ids;
 }

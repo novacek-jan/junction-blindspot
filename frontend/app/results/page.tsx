@@ -10,8 +10,8 @@ import { DealsTable } from "@/components/DealsTable";
 import { DotField } from "@/components/DotField";
 import { ApiError, ERROR_MESSAGES, getDemoAudit, getDemos, withTimeout } from "@/lib/api";
 import { loadUploadedAudit } from "@/lib/auditStore";
-import { longDate, regionLabel, sectorLabel, stageRange } from "@/lib/present";
-import type { Audit, BlindSpot } from "@/lib/types";
+import { liveUpdatedIds, longDate, regionLabel, sectorLabel, stageRange } from "@/lib/present";
+import type { Audit, BlindSpot, LiveCheck } from "@/lib/types";
 
 /**
  * /results ("Audits") shows the audit run in this tab (session storage, flagged `fromUpload`), else an empty state.
@@ -137,18 +137,47 @@ export default function ResultsPage() {
                 </Chip>
               ) : null}
             </div>
+            {audit.live_check ? <LiveLine check={audit.live_check} /> : null}
           </div>
           <DotField summary={audit.summary} />
         </section>
 
         {audit.briefing && insights.length ? <Briefing briefing={audit.briefing} rows={audit.never_seen} onOpen={setOpen} /> : null}
 
-        <DealsTable rows={audit.never_seen} onOpen={setOpen} />
+        <DealsTable rows={audit.never_seen} onOpen={setOpen} updated={liveUpdatedIds(audit)} />
 
         <p className="m-0 text-center text-sm text-faint 2xl:text-base">{marketSentence(audit)}</p>
       </div>
       {open ? <DealPanel key={open.company_id} row={open} fundId={audit.fund.id} onClose={closePanel} /> : null}
     </AppShell>
+  );
+}
+
+// "Rounds re-checked live with Cala · 35 companies · 4 s · 2 new rounds found", with a status dot.
+function LiveLine({ check }: { check: LiveCheck }) {
+  const n = (x: number | null | undefined) => (typeof x === "number" && Number.isFinite(x) ? x : null);
+  const companies = n(check.companies);
+  const seconds = n(check.seconds);
+  const updated = n(check.updated) ?? 0;
+  const ok = check.status === "ok";
+  const partial = check.status === "partial";
+  const parts = ok
+    ? [
+        "Rounds re-checked live with Cala",
+        companies != null ? `${companies.toLocaleString("en-US")} ${companies === 1 ? "company" : "companies"}` : null,
+        seconds != null ? `${seconds < 10 ? Math.round(seconds * 10) / 10 : Math.round(seconds)} s` : null,
+      ]
+    : [partial ? "Partly re-checked with Cala" : "Using stored Cala data"];
+  if (updated > 0) parts.push(`${updated.toLocaleString("en-US")} new ${updated === 1 ? "round" : "rounds"} found`);
+  const dot = ok ? "bg-mint-dot" : partial ? "bg-agg-ink/60" : "bg-field";
+  return (
+    <p className="m-0 flex items-center gap-2 text-sm text-muted 2xl:text-[15px]" role="status">
+      <span className="relative flex size-2.5 shrink-0" aria-hidden="true">
+        {ok ? <span className="absolute inset-0 animate-ping rounded-full bg-mint-dot opacity-60 motion-reduce:hidden" /> : null}
+        <span className={`relative size-2.5 rounded-full ${dot}`} />
+      </span>
+      {parts.filter(Boolean).join(" · ")}
+    </p>
   );
 }
 

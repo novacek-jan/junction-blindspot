@@ -3,13 +3,17 @@
 import { useEffect, useState } from "react";
 import { ApiError, getDeal } from "@/lib/api";
 import type { BlindSpot, DealDetail, DealRound, OrgRef } from "@/lib/types";
-import { formatAmount, formatDate, safeUrl, stageLabel, websiteUrl } from "@/lib/format";
+import { formatAmount, formatDate, hostOf, safeUrl, stageLabel, websiteUrl } from "@/lib/format";
 import { monogram, sourceChip } from "@/lib/present";
 
 const SINCE = "2022-01-01";
 const NOT_EQUITY = new Set(["GRANT", "DEBT_FINANCING", "VENTURE_DEBT", "LOAN"]);
+const MAX_NEWS = 5;
 
-/** Side panel (design/claude/DealPanel): why it fits, rounds since 2022 as a timeline, sources per round. */
+/**
+ * Side panel (design/claude/DealPanel): why it fits, rounds since 2022 as a timeline, sources per round,
+ * then "Latest news from Cala" (up to 5 items from recent_news; skeleton while loading, hidden when empty).
+ */
 export function DealPanel({ row, fundId, onClose }: { row: BlindSpot; fundId: string; onClose: () => void }) {
   const [detail, setDetail] = useState<DealDetail | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -109,6 +113,7 @@ export function DealPanel({ row, fundId, onClose }: { row: BlindSpot; fundId: st
               ))}
             </div>
           )}
+          {error ? null : <News items={detail ? detail.recent_news : undefined} />}
         </div>
       </aside>
     </div>
@@ -197,5 +202,55 @@ function RoundItem({ round: r, thesis, last }: { round: DealRound; thesis: boole
         ) : null}
       </div>
     </li>
+  );
+}
+
+type NewsItem = NonNullable<DealDetail["recent_news"]>[number];
+
+// "Latest news from Cala": undefined = still loading (skeleton), [] = hidden.
+function News({ items }: { items: NewsItem[] | null | undefined }) {
+  if (items === undefined) {
+    return (
+      <section className="mt-8 flex flex-col gap-3" aria-busy="true" aria-label="Loading news">
+        <div className="h-5 w-48 animate-pulse rounded bg-chip" />
+        {[0, 1].map((i) => (
+          <div key={i} className="h-16 animate-pulse rounded-2xl bg-chip" />
+        ))}
+      </section>
+    );
+  }
+  const news = (items ?? []).filter((n) => n?.title).slice(0, MAX_NEWS);
+  if (!news.length) return null;
+  return (
+    <section className="mt-8 flex flex-col gap-3" aria-labelledby="news-title">
+      <h3 id="news-title" className="m-0 font-display text-xl font-semibold">
+        Latest news from Cala
+      </h3>
+      <ul className="m-0 flex list-none flex-col gap-2 p-0">
+        {news.map((n, i) => {
+          const href = safeUrl(n.url);
+          const source = n.source || (n.url ? hostOf(n.url) : null);
+          const meta = [source, n.date ? formatDate(n.date, true) : null].filter(Boolean).join(" · ");
+          const body = (
+            <>
+              <span className="text-[15px] font-semibold leading-snug text-ink 2xl:text-base">{n.title}</span>
+              {meta ? <span className="tabular text-[13px] text-faint">{meta}</span> : null}
+            </>
+          );
+          const cls = "flex flex-col gap-1 rounded-2xl border border-line-soft bg-page px-4 py-3 no-underline";
+          return (
+            <li key={`${n.url}-${i}`}>
+              {href ? (
+                <a href={href} target="_blank" rel="noopener noreferrer" className={`${cls} transition-colors hover:border-sky-mid hover:bg-sky-wash`}>
+                  {body}
+                </a>
+              ) : (
+                <div className={cls}>{body}</div>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </section>
   );
 }

@@ -14,7 +14,7 @@ export function vcLine(investors: Investor[] = [], max = 2): string {
 const byRoundDateDesc = (a: BlindSpot, b: BlindSpot) => (b.round.date ?? "").localeCompare(a.round.date ?? "");
 
 /** "The {n}, newest first". A row (or Enter on it) opens the side panel. */
-export function DealsTable({ rows, onOpen }: { rows: BlindSpot[]; onOpen: (row: BlindSpot) => void }) {
+export function DealsTable({ rows, onOpen, updated }: { rows: BlindSpot[]; onOpen: (row: BlindSpot) => void; updated?: Set<string> }) {
   const sorted = [...rows].sort(byRoundDateDesc);
   return (
     <section className="flex min-w-0 flex-col overflow-hidden rounded-3xl border border-line bg-white" aria-labelledby="table-title">
@@ -61,7 +61,14 @@ export function DealsTable({ rows, onOpen }: { rows: BlindSpot[]; onOpen: (row: 
                       <div className="flex items-center gap-3.5">
                         <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-sky-wash font-display text-[17px] font-bold text-sky-ink">{monogram(d.name)}</span>
                         <span className="flex min-w-0 flex-col gap-0.5">
-                          <span className="text-base font-semibold text-ink 2xl:text-[17px]">{d.name}</span>
+                          <span className="flex items-center gap-2 text-base font-semibold text-ink 2xl:text-[17px]">
+                            {d.name}
+                            {updated?.has(d.company_id) ? (
+                              <span title="Round found by the live check with Cala" className="inline-flex h-5 items-center rounded-full bg-mint-soft px-2 text-[11px] font-bold uppercase tracking-wide text-mint-ink">
+                                New
+                              </span>
+                            ) : null}
+                          </span>
                           <span className="text-[13px] text-faint 2xl:text-sm">{[d.country, d.website?.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")].filter(Boolean).join(" · ") || "—"}</span>
                         </span>
                       </div>

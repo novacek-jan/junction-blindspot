@@ -73,6 +73,16 @@ export type Audit = {
   };
   // "Why they slipped through": null, or missing on older responses.
   briefing?: Briefing | null;
+  live_check?: LiveCheck | null;
+};
+
+/** Live re-check of the never-seen rounds against Cala during the audit (stored data when offline). */
+export type LiveCheck = {
+  status: "ok" | "partial" | "offline" | string;
+  companies?: number | null;
+  seconds?: number | null;
+  updated?: number | null;
+  updated_company_ids?: string[] | null;
 };
 
 /** Up to 3 insights (coverage, next_round, sourcing). Numbers are computed in code; title/line are Claude's wording. */
