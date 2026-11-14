@@ -183,7 +183,9 @@ Same upload, header, limits and optional `mapping` as `POST /api/audit` (`fund_i
                        "investors_explored": 410, "as_of": "2026-11-14",
                        "region": "nordics", "region_countries": ["Denmark", "Finland", "Iceland", "Norway", "Sweden"],
                        "region_qualifying_companies": 120,
-                       "priority_country": "Finland", "priority_country_qualifying_companies": 45 }
+                       "priority_country": "Finland", "priority_country_qualifying_companies": 45 },
+  "live_check": { "companies": 19, "updated": 1, "seconds": 4.2, "checked_at": "2026-11-14T20:45:03Z",
+                  "status": "ok" }
 }
 ```
 Semantics:
@@ -248,6 +250,23 @@ Semantics:
   ...), a trailing "Management" and fund-vehicle tails ("Fund IV", "II") are removed, and vehicles of the same
   fund are merged under one name (e.g. "Butterfly Venture Fund IV Ky" and "BVF Venture Fund IV AB" →
   "Butterfly Ventures"; hand-editable aliases in `backend/vc_lists.py`).
+- `live_check` (**live Cala check, every audit**): during `POST /api/audit` and `GET /api/audit/demo` the backend
+  re-fetches the funding rounds of every `never_seen` company from Cala (`entity_retrieval`,
+  `PARTICIPATES_IN_FUNDING_ROUND`, bypassing the crawl cache), at most 6 in parallel, overall budget 10 s.
+  - Merge: a round not in the stored data that qualifies (VC rule, since 2022, sourced, plausible), has a thesis
+    stage and is newer than the row's `round` replaces that `round` (same shape, investors and sources included).
+    `never_seen` is then re-sorted and `top_investors_in_blind_spots`, `patterns` and `breakdown` are recomputed.
+    Companies are never added or dropped by the live check, so `summary` and `headline` do not change; a failed
+    call keeps the stored row. `briefing` is computed from the stored data.
+  - Each company's fresh result is cached for **10 minutes** (shared by demos and uploads), so repeated loads are
+    fast; `seconds` is then near 0 and `checked_at` is the time of the oldest check used.
+  - `companies`: never-seen companies checked successfully (fresh or from that 10-minute cache); `updated`: of
+    those, companies with at least one new qualifying round; `seconds`: time this request spent on the check;
+    `checked_at`: ISO UTC timestamp.
+  - `status`: `"ok"` every never-seen company was checked (also when there are none: `companies: 0`);
+    `"partial"` only some were (timeout, HTTP 429, a failed call); `"offline"` none were (no Cala key, HTTP
+    401/402/403, everything failed or timed out). After a 401/402/403 no further calls are made. The audit never
+    fails because of Cala: stored data is used.
 - `market_coverage`: how much of Cala the crawler has explored, for an honest "market as known today" note.
   `region` is the crawl focus (`nordics`); `region_qualifying_companies` / `priority_country_qualifying_companies`
   count qualifying companies headquartered there (Finland is crawled first).
@@ -267,7 +286,8 @@ The precomputed demos. Mock: `docs/mocks/demos_v2.json`.
 Returns a precomputed audit (same shape as POST /api/audit) for a demo fund and its **simulated** CRM
 (`simulated_crm: true`). Without `fund_id`: the default demo; `fund_id` of another demo returns that one; any
 other `fund_id` is 404. The default is **Lifeline Ventures** once it has at least 10 de-duplicated basis rounds
-since 2022, otherwise **Earlybird Venture Capital** (decided automatically at every hourly refresh). Must respond in under 1 second.
+since 2022, otherwise **Earlybird Venture Capital** (decided automatically at every hourly refresh). Includes the live Cala check (`live_check`): under 1 second
+while every company's check is cached (10 minutes), otherwise up to about 10 seconds.
 Mock: `docs/mocks/audit_v2.json`. The simulated CRM holds the fund's real Cala investments as `invested`, about
 40% of its market as `passed`/`in_review`, and fictional out-of-market rows.
 
@@ -292,4 +312,5 @@ Mock: `docs/mocks/audit_v2.json`. The simulated CRM holds the fund's real Cala i
 `rounds[].date` is **nullable** (e.g. EU grants without a date); `rounds[]` is sorted newest first with undated rounds last. `rounds[].amount` and `rounds[].currency` can also be `null`.
 Mock: `docs/mocks/deal_v2.json`. `rounds[].sources` use the v2 `Source` (with `date`). `rounds[].qualifying` marks rounds that count for the market (since 2022-01-01, named investor, sourced, not merged).
 `why_missed` is computed by rules (lead never co-invested with the fund, country outside the fund's top countries, stage outside its stages), max 2 items.
-`recent_news` comes from Cala `knowledge_search`, cached.
+`recent_news` comes from Cala `knowledge_search`, cached. The request waits at most **6 s** for it; on a timeout
+or any Cala failure it is `[]` (a slow fetch keeps running and is cached for the next request).
