@@ -85,10 +85,10 @@ export type Insight = {
   company_ids: string[];
   investor_names: string[];
   /** coverage: worst- and best-covered thesis industry and their CRM coverage (shown as chips instead of companies). */
-  worst_industry?: string;
-  worst_pct?: number;
-  best_industry?: string;
-  best_pct?: number;
+  worst_industry?: string | null;
+  worst_pct?: number | null;
+  best_industry?: string | null;
+  best_pct?: number | null;
 };
 export type Briefing = { insights: Insight[]; model: string; generated_at?: string };
 
